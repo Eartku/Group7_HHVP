@@ -95,6 +95,21 @@ a {
       .custom-navbar .custom-navbar-cta li:first-child {
         margin-right: 20px; }
 
+  .menu-category {
+      background: #63ad1d;         /* màu xanh lá */
+      color: #fff;                 /* chữ trắng */
+      padding: 12px 20px;          /* khoảng cách trong nút */
+      display: flex;               /* để icon và chữ nằm ngang */
+      align-items: center;         /* căn giữa theo chiều dọc */
+      font-weight: bold;           
+      font-size: 16px;
+      cursor: pointer;
+      width: fit-content;          /* vừa nội dung */
+    }
+  .menu-category i {
+      margin-right: 10px;          /* khoảng cách giữa icon và chữ */
+      font-size: 18px;
+    }
 .hero {
   background: #3b5d50;
   padding: calc(4rem - 30px) 0 0rem 0; }
@@ -195,8 +210,10 @@ a {
       color: #ffffff; }
 
 .section-title {
-  color: #2f2f2f; }
-
+  color: #3d5b50;
+  font-size: 30px;
+  margin-top: 150px;
+}
 .product-section {
   padding: 7rem 0; }
   .product-section .product-item {
