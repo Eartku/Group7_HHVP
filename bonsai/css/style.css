@@ -1038,3 +1038,33 @@ legend {
   max-width: 100%; /* Giới hạn kích thước ảnh chính */
   height: auto; /* Duy trì tỷ lệ khung hình */
 }
+.search{
+  --padding: 12px;
+ width: 500px;
+ display: flex;
+ align-items: center;
+ padding: var(--padding);
+  border-radius: 28px ;
+  background: #718772;
+}
+.search-input{
+  font-size: 16px;
+  font-family: 'lexend',sans-serif;
+  color: #333;
+  margin-left: var(--padding);
+}
+.search-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  padding: 4px;
+}
+
+.search-btn:hover {
+  color: #000;
+  transform: scale(1.05);
+}
