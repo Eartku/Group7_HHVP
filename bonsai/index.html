@@ -21,6 +21,8 @@
 
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
+
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
@@ -38,7 +40,6 @@
     >
       <div class="container">
         <a class="navbar-brand" href="index.html">Bonsai<span>🌱</span></a>
-
         <button
           class="navbar-toggler"
           type="button"
@@ -54,12 +55,10 @@
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
             <li class="nav-item active">
-                <li><a href="#">TRANG CHỦ</a></li>
-                <li><a href="#">GIỚI THIỆU</a></li>
-                <li><a href="shop.html">MUA HÀNG</a></li>
-                <li><a href="#">TIN TỨC</a></li>
-                <li class="dropdown"><a href="#">CÁCH CHĂM SÓC</a></li>
-                <li><a href="#">LIÊN HỆ</a></li>
+                <li><a href="index.html">TRANG CHỦ</a></li>
+                <li><a href="shop1.html">CÂY ĐỂ PHÒNG</a></li>
+                <li><a href="shop2.html">CÂY ĐỂ BÀN</a></li>
+                <li ><a href="shop3.html">DÂY LEO</a></li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
@@ -79,7 +78,15 @@
 
     <!-- Start Hero Section -->
     <div class="hero">
-      <div class="container">
+      <form class="flex-grow-1" action="#" method="get">
+                   <div class="search d-flex align-items-center">
+                     <button type="submit" class="search-btn">
+                       <span class="material-symbols-outlined">search</span>
+                     </button>
+                     <input class="search-input form-control" type="search" placeholder="Search">
+                   </div>
+                 </form>
+      <!-- <div class="container">
         <div class="row justify-content-between">
           <div class="col-lg-5">
             <div class="intro-excerpt">
@@ -99,7 +106,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <!-- End Hero Section -->
 
@@ -441,9 +448,7 @@
             <div class="row links-wrap">
               <div class="col-12 text-center">
                 <ul class="list-inline">
-                  <li class="list-inline-item me-4">
-                    <a href="#">Giới thiệu</a>
-                  </li>
+                  
                   <li class="list-inline-item me-4">
                     <a href="shop.html">Mua sắm</a>
                   </li>

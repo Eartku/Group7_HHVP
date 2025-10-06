@@ -40,8 +40,7 @@
       arial-label="Furni navigation bar"
     >
       <div class="container">
-        <a class="navbar-brand" href="index.html">Furni<span>.</span></a>
-
+        <a class="navbar-brand" href="index.html">Bonsai<span>🌱</span></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -56,14 +55,12 @@
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li><a class="nav-link" href="shop.html">Shop</a></li>
-            <li><a class="nav-link" href="about.html">About us</a></li>
-            <li><a class="nav-link" href="services.html">Services</a></li>
-            <li><a class="nav-link" href="blog.html">Blog</a></li>
-            <li><a class="nav-link" href="contact.html">Contact us</a></li>
+            <li class="nav-item active">
+                <li><a href="#">TRANG CHỦ</a></li>
+                <li><a href="shop1.html">CÂY ĐỂ PHÒNG</a></li>
+                <li><a href="shop2.html">CÂY ĐỂ BÀN</a></li>
+                <li class="dropdown"><a href="#">CÁCH CHĂM SÓC</a></li>
+                <li><a href="#">LIÊN HỆ</a></li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
@@ -83,16 +80,35 @@
 
     <!-- Start Hero Section -->
     <div class="hero">
-      <div class="container">
+      <form class="flex-grow-1" action="#" method="get">
+                   <div class="search d-flex align-items-center">
+                     <button type="submit" class="search-btn">
+                       <span class="material-symbols-outlined">search</span>
+                     </button>
+                     <input class="search-input form-control" type="search" placeholder="Search">
+                   </div>
+                 </form>
+      <!-- <div class="container">
         <div class="row justify-content-between">
           <div class="col-lg-5">
             <div class="intro-excerpt">
-              <h1>Cart</h1>
+              <h1>Góc xanh cho ngôi nhà của ban</h1>
+              <p class="mb-4">
+                “Trong mỗi bước đi cùng thiên nhiên, ta nhận được nhiều hơn
+                những gì mình tìm kiếm.” -John Muir
+              </p>
+              <p>
+                <a href="shop.html" class="btn btn-secondary me-2">Mua sắm</a>
+              </p>
             </div>
           </div>
-          <div class="col-lg-7"></div>
+          <div class="col-lg-7">
+            <div class="hero-img-wrap">
+              <img src="images/test2.png" class="img-fluid" />
+            </div>
+          </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <!-- End Hero Section -->
 
@@ -124,8 +140,8 @@
               Đơn hàng của bạn đã được hoàn tất thành công.
             </p>
             <p>
-              <a href="shop.html" class="btn btn-sm btn-outline-black"
-                >Quay về cửa hàng</a
+              <a href="index.html" class="btn btn-sm btn-outline-black"
+                >Quay về trang chủ</a
               >
             </p>
           </div>
