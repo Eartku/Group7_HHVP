@@ -40,8 +40,7 @@
       arial-label="Furni navigation bar"
     >
       <div class="container">
-        <a class="navbar-brand" href="index.html">Furni<span>.</span></a>
-
+        <a class="navbar-brand" href="index.html">Bonsai<span>🌱</span></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -56,14 +55,11 @@
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li><a class="nav-link" href="shop.html">Shop</a></li>
-            <li><a class="nav-link" href="about.html">About us</a></li>
-            <li><a class="nav-link" href="services.html">Services</a></li>
-            <li><a class="nav-link" href="blog.html">Blog</a></li>
-            <li><a class="nav-link" href="contact.html">Contact us</a></li>
+            <li class="nav-item active"></li>
+            <li><a href="index.html">TRANG CHỦ</a></li>
+            <li><a href="shop1.html">CÂY ĐỂ PHÒNG</a></li>
+            <li><a href="shop2.html">CÂY ĐỂ BÀN</a></li>
+            <li><a href="shop3.html">DÂY LEO</a></li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
@@ -87,7 +83,7 @@
         <div class="row justify-content-between">
           <div class="col-lg-5">
             <div class="intro-excerpt">
-              <h1>Cart</h1>
+              <h1>Thanh Toán</h1>
             </div>
           </div>
           <div class="col-lg-7"></div>
@@ -208,6 +204,48 @@
                   </tr>
                 </tbody>
               </table>
+
+              <script>
+                // Duyệt qua từng nhóm tăng/giảm
+                document
+                  .querySelectorAll(".quantity-container")
+                  .forEach((container) => {
+                    const input = container.querySelector(".quantity-amount");
+                    const btnIncrease = container.querySelector(".increase");
+                    const btnDecrease = container.querySelector(".decrease");
+
+                    btnIncrease.addEventListener("click", () => {
+                      let value = parseInt(input.value) || 0;
+                      input.value = value + 1;
+                      updateRowTotal(container);
+                    });
+
+                    btnDecrease.addEventListener("click", () => {
+                      let value = parseInt(input.value) || 0;
+                      if (value > 1) input.value = value - 1;
+                      updateRowTotal(container);
+                    });
+                  });
+
+                // Hàm cập nhật tổng tiền cho từng hàng
+                function updateRowTotal(container) {
+                  const row = container.closest("tr"); // Lấy dòng hiện tại
+                  const priceText =
+                    row.querySelector("td:nth-child(3)").innerText; // Lấy cột giá
+                  const totalCell = row.querySelector("td:nth-child(5)"); // Cột tổng cộng
+                  const input = container.querySelector(".quantity-amount");
+
+                  // Chuyển "50.000đ" → 50000
+                  const price = parseFloat(priceText.replace(/[^\d]/g, ""));
+                  const quantity = parseInt(input.value);
+
+                  // Tính tổng = giá × số lượng
+                  const total = price * quantity;
+
+                  // Định dạng lại có dấu chấm ngăn cách và thêm "đ"
+                  totalCell.innerText = total.toLocaleString("vi-VN") + "đ";
+                }
+              </script>
             </div>
           </form>
         </div>

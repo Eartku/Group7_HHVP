@@ -146,7 +146,7 @@ a.more {
 }
 @media (min-width: 992px) {
   .hero {
-    padding: calc(8rem - 30px) 0 8rem 0;
+    padding: calc(4rem - 30px) 0 4rem 0;
   }
 }
 .hero .intro-excerpt {
@@ -1038,21 +1038,19 @@ legend {
   max-width: 100%; /* Giới hạn kích thước ảnh chính */
   height: auto; /* Duy trì tỷ lệ khung hình */
 }
-.search{
+.search {
   --padding: 12px;
- width: 700px;
- display: flex;
- align-items: center;
- padding: var(--padding);
-  border-radius: 28px ;
+  width: 700px;
+  display: flex;
+  align-items: center;
+  padding: var(--padding);
+  border-radius: 28px;
   background: #718772;
   margin: 0 auto;
-
-
 }
-.search-input{
+.search-input {
   font-size: 16px;
-  font-family: 'lexend',sans-serif;
+  font-family: "lexend", sans-serif;
   color: #333;
   margin-left: var(--padding);
 }

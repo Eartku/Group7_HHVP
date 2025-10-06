@@ -38,7 +38,6 @@
     >
       <div class="container">
         <a class="navbar-brand" href="index.html">Bonsai<span>🌱</span></a>
-
         <button
           class="navbar-toggler"
           type="button"
@@ -53,14 +52,11 @@
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li><a class="nav-link" href="shop.html">Shop</a></li>
-            <li><a class="nav-link" href="about.html">About us</a></li>
-            <li><a class="nav-link" href="services.html">Services</a></li>
-            <li><a class="nav-link" href="blog.html">Blog</a></li>
-            <li><a class="nav-link" href="contact.html">Contact us</a></li>
+            <li class="nav-item active"></li>
+            <li><a href="index.html">TRANG CHỦ</a></li>
+            <li><a href="shop1.html">CÂY ĐỂ PHÒNG</a></li>
+            <li><a href="shop2.html">CÂY ĐỂ BÀN</a></li>
+            <li><a href="shop3.html">DÂY LEO</a></li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
@@ -132,6 +128,7 @@
                     class="form-control"
                     id="c_fname"
                     name="c_fname"
+                    value="Trần Nhựt"
                   />
                 </div>
                 <div class="col-md-6">
@@ -143,6 +140,7 @@
                     class="form-control"
                     id="c_lname"
                     name="c_lname"
+                    value="Huy"
                   />
                 </div>
               </div>
@@ -163,18 +161,92 @@
 
               <div class="form-group row">
                 <div class="col-md-12">
-                  <label for="c_address" class="text-black"
-                    >Địa chỉ <span class="text-danger">*</span></label
+                  <label class="text-black">Chọn loại địa chỉ</label><br />
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="addressOption"
+                      id="savedAddressOption"
+                      value="saved"
+                      checked
+                    />
+                    <label class="form-check-label" for="savedAddressOption">
+                      Dùng địa chỉ đã lưu
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="addressOption"
+                      id="newAddressOption"
+                      value="new"
+                    />
+                    <label class="form-check-label" for="newAddressOption">
+                      Nhập địa chỉ mới
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Địa chỉ đã lưu -->
+              <div class="form-group row" id="savedAddressSection">
+                <div class="col-md-12">
+                  <label for="saved_address" class="text-black"
+                    >Địa chỉ đã lưu</label
                   >
+                  <select
+                    class="form-control"
+                    id="saved_address"
+                    name="saved_address"
+                  >
+                    <option value="1">135 Trần Bình Trọng, Quận 5</option>
+                    <option value="2">45A Lê Lợi, Quận 1</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Nhập địa chỉ mới -->
+              <div
+                class="form-group row"
+                id="newAddressSection"
+                style="display: none"
+              >
+                <div class="col-md-12">
+                  <label for="c_address" class="text-black">
+                    Địa chỉ mới <span class="text-danger">*</span>
+                  </label>
                   <input
                     type="text"
                     class="form-control"
                     id="c_address"
                     name="c_address"
-                    placeholder="Địa chỉ đường phố"
+                    placeholder="Nhập địa chỉ đường phố"
                   />
                 </div>
               </div>
+
+              <script>
+                const savedAddressSection = document.getElementById(
+                  "savedAddressSection"
+                );
+                const newAddressSection =
+                  document.getElementById("newAddressSection");
+                const radios = document.getElementsByName("addressOption");
+
+                radios.forEach((radio) => {
+                  radio.addEventListener("change", () => {
+                    if (radio.value === "saved") {
+                      savedAddressSection.style.display = "block";
+                      newAddressSection.style.display = "none";
+                    } else {
+                      savedAddressSection.style.display = "none";
+                      newAddressSection.style.display = "block";
+                    }
+                  });
+                });
+              </script>
 
               <div class="form-group mt-3">
                 <input
@@ -194,6 +266,7 @@
                     class="form-control"
                     id="c_state_country"
                     name="c_state_country"
+                    value="HCM/Việt Nam"
                   />
                 </div>
                 <div class="col-md-6">
@@ -221,6 +294,7 @@
                     class="form-control"
                     id="c_email_address"
                     name="c_email_address"
+                    value="Huy@gmail.com"
                   />
                 </div>
                 <div class="col-md-6">
@@ -233,194 +307,8 @@
                     id="c_phone"
                     name="c_phone"
                     placeholder="Phone Number"
+                    value="0363636363"
                   />
-                </div>
-              </div>
-
-              <div class="form-group">
-                <!-- <label
-                  for="c_create_account"
-                  class="text-black"
-                  data-bs-toggle="collapse"
-                  href="#create_an_account"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="create_an_account"
-                  ><input type="checkbox" value="1" id="c_create_account" /> Tạo
-                  tài khoản?</label
-                > -->
-                <div class="collapse" id="create_an_account">
-                  <div class="py-2 mb-4">
-                    <p class="mb-3">
-                      Tạo tài khoản bằng cách nhập thông tin bên dưới. Nếu bạn
-                      đã có tài khoản, vui lòng đăng nhập ở đầu trang.
-                    </p>
-                    <div class="form-group">
-                      <label for="c_account_password" class="text-black"
-                        >Mật khẩu tài khoản</label
-                      >
-                      <input
-                        type="email"
-                        class="form-control"
-                        id="c_account_password"
-                        name="c_account_password"
-                        placeholder=""
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label
-                  for="c_ship_different_address"
-                  class="text-black"
-                  data-bs-toggle="collapse"
-                  href="#ship_different_address"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="ship_different_address"
-                  ><input
-                    type="checkbox"
-                    value="1"
-                    id="c_ship_different_address"
-                  />
-                  Hãy đảm bảo là thông tin trên đúng</label
-                >
-                <div class="collapse" id="ship_different_address">
-                  <div class="py-2">
-                    <div class="form-group">
-                      <label for="c_diff_country" class="text-black"
-                        >Country <span class="text-danger">*</span></label
-                      >
-                      <select id="c_diff_country" class="form-control">
-                        <option value="1">Select a country</option>
-                        <option value="2">bangladesh</option>
-                        <option value="3">Algeria</option>
-                        <option value="4">Afghanistan</option>
-                        <option value="5">Ghana</option>
-                        <option value="6">Albania</option>
-                        <option value="7">Bahrain</option>
-                        <option value="8">Colombia</option>
-                        <option value="9">Dominican Republic</option>
-                      </select>
-                    </div>
-
-                    <div class="form-group row">
-                      <div class="col-md-6">
-                        <label for="c_diff_fname" class="text-black"
-                          >First Name <span class="text-danger">*</span></label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="c_diff_fname"
-                          name="c_diff_fname"
-                        />
-                      </div>
-                      <div class="col-md-6">
-                        <label for="c_diff_lname" class="text-black"
-                          >Last Name <span class="text-danger">*</span></label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="c_diff_lname"
-                          name="c_diff_lname"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="form-group row">
-                      <div class="col-md-12">
-                        <label for="c_diff_companyname" class="text-black"
-                          >Company Name
-                        </label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="c_diff_companyname"
-                          name="c_diff_companyname"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                      <div class="col-md-12">
-                        <label for="c_diff_address" class="text-black"
-                          >Address <span class="text-danger">*</span></label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="c_diff_address"
-                          name="c_diff_address"
-                          placeholder="Street address"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Apartment, suite, unit etc. (optional)"
-                      />
-                    </div>
-
-                    <div class="form-group row">
-                      <div class="col-md-6">
-                        <label for="c_diff_state_country" class="text-black"
-                          >State / Country
-                          <span class="text-danger">*</span></label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="c_diff_state_country"
-                          name="c_diff_state_country"
-                        />
-                      </div>
-                      <div class="col-md-6">
-                        <label for="c_diff_postal_zip" class="text-black"
-                          >Posta / Zip <span class="text-danger">*</span></label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="c_diff_postal_zip"
-                          name="c_diff_postal_zip"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="form-group row mb-5">
-                      <div class="col-md-6">
-                        <label for="c_diff_email_address" class="text-black"
-                          >Email Address
-                          <span class="text-danger">*</span></label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="c_diff_email_address"
-                          name="c_diff_email_address"
-                        />
-                      </div>
-                      <div class="col-md-6">
-                        <label for="c_diff_phone" class="text-black"
-                          >Phone <span class="text-danger">*</span></label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="c_diff_phone"
-                          name="c_diff_phone"
-                          placeholder="Phone Number"
-                        />
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
 
@@ -585,20 +473,22 @@
                           name="payment"
                           value="cod"
                           class="me-2"
+                          checked
                         />
                         <a
                           class="d-block flex-grow-1"
                           data-bs-toggle="collapse"
                           href="#collapsepaypal"
                           role="button"
-                          aria-expanded="false"
+                          aria-expanded="true"
                           aria-controls="collapsepaypal"
-                          >Thanh toán khi nhận hàng</a
                         >
+                          Tiền mặt khi nhận hàng
+                        </a>
                       </h3>
 
                       <div
-                        class="collapse"
+                        class="collapse show"
                         id="collapsepaypal"
                         data-bs-parent="#paymentMethods"
                       >
