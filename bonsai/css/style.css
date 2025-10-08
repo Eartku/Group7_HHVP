@@ -28,7 +28,7 @@ a {
   text-decoration: underline;
 }
 a:hover {
-  color: #2f2f2f;
+  color: #666565;
   text-decoration: none;
 }
 a.more {
@@ -64,7 +64,7 @@ a.more {
 }
 .custom-navbar .custom-navbar-nav li a {
   font-weight: 500;
-  color: #ffffff !important;
+  color: #d4d4d4 !important;
   opacity: 0.5;
   -webkit-transition: 0.3s all ease;
   -o-transition: 0.3s all ease;
@@ -89,10 +89,11 @@ a.more {
   }
 }
 .custom-navbar .custom-navbar-nav li a:hover {
+  color: #000000;
   opacity: 1;
 }
 .custom-navbar .custom-navbar-nav li a:hover:before {
-  width: calc(100% - 16px);
+  width: calc(100% + 6px);
 }
 .custom-navbar .custom-navbar-nav li.active a {
   opacity: 1;
@@ -136,8 +137,16 @@ a.more {
   font-size: 18px;
 }
 .hero {
-  background: #3b5d50;
-  padding: calc(4rem - 30px) 0 0rem 0;
+  position: relative;
+  width: 100%;
+  min-height: 40vh; /* chiếm toàn màn hình */
+  background: url('../images/background.jpg') no-repeat center center;
+  background-size: cover; /* ép ảnh phủ toàn section */
+  display: flex;
+  align-items: center; /* căn giữa theo chiều dọc */
+  justify-content: flex-start; /* chữ bên trái */
+  padding: calc(4rem - 30px) 0 0 0;
+  overflow: hidden;
 }
 @media (min-width: 768px) {
   .hero {
@@ -160,17 +169,42 @@ a.more {
 }
 .hero h1 {
   font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 30px;
+  color: hsl(0, 0%, 100%);
+  margin-bottom: 35px;
+  text-shadow: 0 0 5px #f9bf29, 0 0 10px #f9bf29, 0 0 20px #f9bf29, 0 0 40px #f9bf29;
+  animation: glow 1.5s ease-in-out infinite alternate;
 }
-@media (min-width: 1400px) {
-  .hero h1 {
-    font-size: 54px;
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px #3cf755, 0 0 10px #46ffd7, 0 0 20px #2983f9, 0 0 40px #9b29f9;
   }
+  to {
+    text-shadow: 0 0 10px #29f967, 0 0 20px #cf29f9, 0 0 30px #29f9e8, 0 0 50px #2972f9;
+  }
+}
+@media (min-width: 1500px) {
+  .hero h1 {
+    font-size: px;
+  }
+}
+
+.glow-hover {
+  color: #88fff9; /* màu chữ bình thường */
+  transition: all 0.3s ease-in-out; /* mượt mà khi hover */
+}
+
+.glow-hover:hover {
+  color: #ffffff; /* màu chữ phát sáng */
+  text-shadow: 
+    0 0 5px #9429f9,
+    0 0 10px #295af9,
+    0 0 20px #29f9e8,
+    0 0 40px #f929ee;
+  scale: 1.05;
 }
 .hero p {
   color: rgba(255, 255, 255, 0.5);
-  margin-botom: 30px;
 }
 .hero .hero-img-wrap {
   position: relative;
@@ -225,14 +259,14 @@ a.more {
   font-weight: 600;
   padding: 12px 30px;
   border-radius: 30px;
-  color: #ffffff;
-  background: #2f2f2f;
-  border-color: #2f2f2f;
+  color: #2b2a2a;
+  background: #ffffff;
+  border-color: #ffffff;
 }
 .btn:hover {
   color: #ffffff;
-  background: #222222;
-  border-color: #222222;
+  background: #ffffff;
+  border-color: #ffffff;
 }
 .btn:active,
 .btn:focus {
@@ -252,10 +286,12 @@ a.more {
   color: #2f2f2f;
   background: #f9bf29;
   border-color: #f9bf29;
+  transition: all 0.3s ease;
 }
 .btn.btn-secondary:hover {
-  background: #f8b810;
-  border-color: #f8b810;
+  background: #010f91;
+  border-color: #010f91;
+  scale: 1.05;
 }
 .btn.btn-white-outline {
   background: transparent;
@@ -1045,8 +1081,9 @@ legend {
   align-items: center;
   padding: var(--padding);
   border-radius: 28px;
-  background: #718772;
+  background: #03d39f;
   margin: 0 auto;
+  transition: all 0.2s ease-in-out;
 }
 .search-input {
   font-size: 16px;

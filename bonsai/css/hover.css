@@ -1,0 +1,50 @@
+/* Áp dụng cho thẻ bạn muốn hover, ví dụ img hoặc div */
+.zoom-hover {
+  transition: transform 0.3s ease; /* Hiệu ứng chuyển mượt */
+}
+
+.zoom-hover:hover {
+  transform: scale(1.1); /* Phóng to 1.1 lần khi hover */
+}
+.tree-animation {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 50px auto;
+  animation: rotate 4s linear infinite; /* cả vòng tròn xoay */
+}
+
+.leaf {
+  position: absolute;
+  width: 40px;
+  height: 20px;
+  background: green;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0% 50%; 
+}
+
+.leaf1 {
+  transform: rotate(0deg) translateX(50px);
+}
+
+.leaf2 {
+  transform: rotate(180deg) translateX(50px);
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.zoom-hover-spec {
+  transition: transform 0.3s ease; /* Hiệu ứng chuyển mượt */
+}
+
+.zoom-hover-spec:hover {
+  transform: scale(1.7); /* Phóng to 1.7 lần khi hover */
+}

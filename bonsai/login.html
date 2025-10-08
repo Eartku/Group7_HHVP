@@ -1,0 +1,50 @@
+<link  href="css/login.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" />
+        <link href="css/hover.css" rel="stylesheet" />
+
+<div class="form-structor">
+	<div class="signup">
+		<h2 class="form-title zoom-hover" id="signup"><span> or </span>SIGN UP</h2>
+		<div class="form-holder">
+			<input type="text" class="input" placeholder="NAME" />
+        </div>
+        <div class="form-holder">
+			<input type="email" class="input" placeholder="EMAIL" />
+        </div>
+        <div class="form-holder">
+			<input type="password" class="input" placeholder="PASSWORD" />
+		</div>
+		<a href="index.html"><button  class="submit-btn glow-hover" >SUBMIT</button></a>
+	</div>
+	<div class="login slide-up">
+		<div class="center">
+			<h2 class="form-title zoom-hover" id="login"><span> or </span>LOG IN</h2>
+			<div class="form-holder">
+				<input type="email" class="input" placeholder="EMAIL" />
+				<input type="password" class="input" placeholder="PASSWORD" />
+			</div>
+			<button class="submit-btn">LOGIN
+				<script>
+					document.addEventListener("DOMContentLoaded", function() {
+					const signupTitle = document.getElementById("signup");
+					const loginTitle = document.getElementById("login");
+					const signup = document.querySelector(".signup");
+					const login = document.querySelector(".login");
+
+					// Khi nhấn tiêu đề Sign up → hiển thị signup
+					signupTitle.addEventListener("click", () => {
+					signup.classList.remove("slide-up");
+					login.classList.add("slide-up");
+					});
+
+					// Khi nhấn tiêu đề Log in → hiển thị login
+					loginTitle.addEventListener("click", () => {
+					login.classList.remove("slide-up");
+					signup.classList.add("slide-up");
+					});
+				});
+				</script>
+            </button>
+		</div>
+	</div>
+</div>

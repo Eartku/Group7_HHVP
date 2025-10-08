@@ -29,6 +29,7 @@
     />
     <link href="css/tiny-slider.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
+    <link href="css/hover.css" rel="stylesheet" />
     <title>Bonsai vì thế giới xanh</title>
   </head>
 
@@ -39,7 +40,7 @@
       arial-label="Furni navigation bar"
     >
       <div class="container">
-        <a class="navbar-brand" href="index.html">Bonsai<span>🌱</span></a>
+        <a class="navbar-brand glow-hover melting-text" href="index.html">Plantaris<span>🌱</span></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -55,18 +56,18 @@
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
             <li class="nav-item active">
-                <li><a href="index.html">TRANG CHỦ</a></li>
-                <li><a href="shop1.html">CÂY ĐỂ PHÒNG</a></li>
-                <li><a href="shop2.html">CÂY ĐỂ BÀN</a></li>
-                <li ><a href="shop3.html">DÂY LEO</a></li>
+                <li class="zoom-hover"><a href="index.html" >TRANG CHỦ</a></li>
+                <li class="zoom-hover"><a href="shop1.html">CÂY ĐỂ PHÒNG</a></li>
+                <li class="zoom-hover"><a href="shop2.html">CÂY ĐỂ BÀN</a></li>
+                <li class="zoom-hover"><a href="shop3.html">DÂY LEO</a></li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
             <li>
-              <a class="nav-link" href="#"><img src="images/user.svg" /></a>
+              <a class="nav-link zoom-hover-spec" href="login.html"><img src="images/user.svg" /></a>
             </li>
             <li>
-              <a class="nav-link" href="cart.html"
+              <a class="nav-link zoom-hover-spec" href="cart.html"
                 ><img src="images/cart.svg"
               /></a>
             </li>
@@ -78,7 +79,18 @@
 
     <!-- Start Hero Section -->
     <div class="hero">
-      <form class="flex-grow-1" action="#" method="get">
+      
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col-lg-5">
+            <div class="intro-excerpt">
+              <h1 class = "mb-4 glow-hover">Góc xanh cho không gian của bạn!</h1>
+              <p class="mb-4 glow-hover">
+                “Trong mỗi bước đi cùng thiên nhiên, ta nhận được nhiều hơn
+                những gì mình tìm kiếm.” -John Muir
+              </p>
+              <p>
+                <form class="flex-grow-1 glow-hover" action="#" method="get">
                    <div class="search d-flex align-items-center">
                      <button type="submit" class="search-btn">
                        <span class="material-symbols-outlined">search</span>
@@ -86,27 +98,18 @@
                      <input class="search-input form-control" type="search" placeholder="Search">
                    </div>
                  </form>
-      <!-- <div class="container">
-        <div class="row justify-content-between">
-          <div class="col-lg-5">
-            <div class="intro-excerpt">
-              <h1>Góc xanh cho ngôi nhà của ban</h1>
-              <p class="mb-4">
-                “Trong mỗi bước đi cùng thiên nhiên, ta nhận được nhiều hơn
-                những gì mình tìm kiếm.” -John Muir
-              </p>
-              <p>
-                <a href="shop.html" class="btn btn-secondary me-2">Mua sắm</a>
               </p>
             </div>
           </div>
           <div class="col-lg-7">
             <div class="hero-img-wrap">
-              <img src="images/test2.png" class="img-fluid" />
+              <!-- <img src="images/test2.png" class="img-fluid"/> -->
+              
+            </div>
             </div>
           </div>
         </div>
-      </div> -->
+      </div> 
     </div>
     <!-- End Hero Section -->
 
@@ -116,17 +119,17 @@
         <div class="row">
           <!-- Start Column 1 -->
           <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
-            <h2 class="mb-4 section-title">Nuôi dưỡng từ thiên nhiên.</h2>
-            <p class="mb-4">Mang hơi thở thiên nhiên vào từng góc nhỏ.</p>
+            <h2 class="mb-4 section-title zoom-hover">Nuôi dưỡng từ thiên nhiên.</h2>
+            <p class="mb-4 zoom-hover">Mang hơi thở thiên nhiên vào từng góc nhỏ.</p>
           </div>
           <!-- End Column 1 -->
 
           <!-- Start Column 2 -->
-          <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+          <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0 zoom-hover">
             <a class="product-item" href="#">
               <img src="images/cay1.png" class="img-fluid product-thumbnail" />
               <h3 class="product-title">cây tre cảnh</h3>
-              <strong class="product-price">$50.00</strong>
+              <strong class="product-price">50.000đ</strong>
 
               <span class="icon-cross">
                 <img src="images/cross.svg" class="img-fluid" />
@@ -136,11 +139,11 @@
           <!-- End Column 2 -->
 
           <!-- Start Column 3 -->
-          <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+          <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0 zoom-hover">
             <a class="product-item" href="#">
               <img src="images/cay2.png" class="img-fluid product-thumbnail" />
               <h3 class="product-title">cây Monstera</h3>
-              <strong class="product-price">$78.00</strong>
+              <strong class="product-price">78.000đ</strong>
 
               <span class="icon-cross">
                 <img src="images/cross.svg" class="img-fluid" />
@@ -150,11 +153,11 @@
           <!-- End Column 3 -->
 
           <!-- Start Column 4 -->
-          <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+          <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0 zoom-hover">
             <a class="product-item" href="#">
               <img src="images/cay3.png" class="img-fluid product-thumbnail" />
               <h3 class="product-title">Cây Chuối cảnh</h3>
-              <strong class="product-price">$43.00</strong>
+              <strong class="product-price">75.000đ</strong>
 
               <span class="icon-cross">
                 <img src="images/cross.svg" class="img-fluid" />
