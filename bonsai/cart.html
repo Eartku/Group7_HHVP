@@ -97,15 +97,16 @@
         <div class="row mb-5">
           <form class="col-md-12" method="post">
             <div class="site-blocks-table">
+              ```html
               <table class="table">
                 <thead>
                   <tr>
                     <th class="product-thumbnail">Hình ảnh</th>
-                    <th class="product-name">sản phẩm</th>
+                    <th class="product-name">Sản phẩm</th>
                     <th class="product-price">Giá</th>
-                    <th class="product-quantity">số lượng</th>
+                    <th class="product-quantity">Số lượng</th>
                     <th class="product-total">Tổng cộng</th>
-                    <th class="product-remove">xóa</th>
+                    <th class="product-remove">Xóa</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -122,37 +123,17 @@
                     </td>
                     <td>50.000đ</td>
                     <td>
-                      <div
-                        class="input-group mb-3 d-flex align-items-center quantity-container"
-                        style="max-width: 120px"
-                      >
-                        <div class="input-group-prepend">
-                          <button
-                            class="btn btn-outline-black decrease"
-                            type="button"
-                          >
-                            &minus;
-                          </button>
-                        </div>
-                        <input
-                          type="text"
-                          class="form-control text-center quantity-amount"
-                          value="1"
-                          placeholder=""
-                          aria-label="Example text with button addon"
-                          aria-describedby="button-addon1"
-                        />
-                        <div class="input-group-append">
-                          <button
-                            class="btn btn-outline-black increase"
-                            type="button"
-                          >
-                            &plus;
-                          </button>
-                        </div>
-                      </div>
+                      <input
+                        type="number"
+                        class="form-control text-center"
+                        value="1"
+                        min="1"
+                        max="99"
+                        step="1"
+                        style="width: 80px"
+                      />
                     </td>
-                    <td>100.00đ</td>
+                    <td>100.000đ</td>
                     <td><a href="#" class="btn btn-black btn-sm">X</a></td>
                   </tr>
 
@@ -169,83 +150,21 @@
                     </td>
                     <td>43.000đ</td>
                     <td>
-                      <div
-                        class="input-group mb-3 d-flex align-items-center quantity-container"
-                        style="max-width: 120px"
-                      >
-                        <div class="input-group-prepend">
-                          <button
-                            class="btn btn-outline-black decrease"
-                            type="button"
-                          >
-                            &minus;
-                          </button>
-                        </div>
-                        <input
-                          type="text"
-                          class="form-control text-center quantity-amount"
-                          value="1"
-                          placeholder=""
-                          aria-label="Example text with button addon"
-                          aria-describedby="button-addon1"
-                        />
-                        <div class="input-group-append">
-                          <button
-                            class="btn btn-outline-black increase"
-                            type="button"
-                          >
-                            &plus;
-                          </button>
-                        </div>
-                      </div>
+                      <input
+                        type="number"
+                        class="form-control text-center"
+                        value="1"
+                        min="1"
+                        max="99"
+                        step="1"
+                        style="width: 80px"
+                      />
                     </td>
                     <td>129.000đ</td>
                     <td><a href="#" class="btn btn-black btn-sm">X</a></td>
                   </tr>
                 </tbody>
               </table>
-
-              <script>
-                // Duyệt qua từng nhóm tăng/giảm
-                document
-                  .querySelectorAll(".quantity-container")
-                  .forEach((container) => {
-                    const input = container.querySelector(".quantity-amount");
-                    const btnIncrease = container.querySelector(".increase");
-                    const btnDecrease = container.querySelector(".decrease");
-
-                    btnIncrease.addEventListener("click", () => {
-                      let value = parseInt(input.value) || 0;
-                      input.value = value + 1;
-                      updateRowTotal(container);
-                    });
-
-                    btnDecrease.addEventListener("click", () => {
-                      let value = parseInt(input.value) || 0;
-                      if (value > 1) input.value = value - 1;
-                      updateRowTotal(container);
-                    });
-                  });
-
-                // Hàm cập nhật tổng tiền cho từng hàng
-                function updateRowTotal(container) {
-                  const row = container.closest("tr"); // Lấy dòng hiện tại
-                  const priceText =
-                    row.querySelector("td:nth-child(3)").innerText; // Lấy cột giá
-                  const totalCell = row.querySelector("td:nth-child(5)"); // Cột tổng cộng
-                  const input = container.querySelector(".quantity-amount");
-
-                  // Chuyển "50.000đ" → 50000
-                  const price = parseFloat(priceText.replace(/[^\d]/g, ""));
-                  const quantity = parseInt(input.value);
-
-                  // Tính tổng = giá × số lượng
-                  const total = price * quantity;
-
-                  // Định dạng lại có dấu chấm ngăn cách và thêm "đ"
-                  totalCell.innerText = total.toLocaleString("vi-VN") + "đ";
-                }
-              </script>
             </div>
           </form>
         </div>
