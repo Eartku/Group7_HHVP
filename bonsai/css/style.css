@@ -1207,7 +1207,7 @@ body {
 }
 
 .btn.orange {
-  background: #ee4d2d;
+  background: #000000;
   color: #fff;
 }
 
@@ -1217,11 +1217,11 @@ body {
   border: 1px solid #ccc;
 }
 .complete {
-  color: #ee4d2d;
+  color: #0e0e0e;
   margin-left: 8px;
 }
 .sen-shop {
   margin-left: auto;
-  color: #26aa99;
+  color: #0a0a0a;
   font-weight: bold;
 }
