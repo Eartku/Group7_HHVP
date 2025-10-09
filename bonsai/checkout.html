@@ -162,6 +162,8 @@
               <div class="form-group row">
                 <div class="col-md-12">
                   <label class="text-black">Chọn loại địa chỉ</label><br />
+
+                  <!--Dùng địa chỉ đã lưu -->
                   <div class="form-check form-check-inline">
                     <input
                       class="form-check-input"
@@ -170,22 +172,28 @@
                       id="savedAddressOption"
                       value="saved"
                       checked
+                      disabled
                     />
-                    <label class="form-check-label" for="savedAddressOption">
+                    <label
+                      class="form-check-label text-muted"
+                      for="savedAddressOption"
+                    >
                       Dùng địa chỉ đã lưu
                     </label>
                   </div>
-                  <div class="form-check form-check-inline">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="addressOption"
-                      id="newAddressOption"
-                      value="new"
-                    />
-                    <label class="form-check-label" for="newAddressOption">
+
+                  <!-- Nhập địa chỉ mới  -->
+                  <div
+                    class="form-check form-check-inline"
+                    style="margin-left: 15px"
+                  >
+                    <a
+                      href="checkout2.html"
+                      class="text-primary fw-bold"
+                      style="text-decoration: none"
+                    >
                       Nhập địa chỉ mới
-                    </label>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -206,47 +214,6 @@
                   </select>
                 </div>
               </div>
-
-              <!-- Nhập địa chỉ mới -->
-              <div
-                class="form-group row"
-                id="newAddressSection"
-                style="display: none"
-              >
-                <div class="col-md-12">
-                  <label for="c_address" class="text-black">
-                    Địa chỉ mới <span class="text-danger">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="c_address"
-                    name="c_address"
-                    placeholder="Nhập địa chỉ đường phố"
-                  />
-                </div>
-              </div>
-
-              <script>
-                const savedAddressSection = document.getElementById(
-                  "savedAddressSection"
-                );
-                const newAddressSection =
-                  document.getElementById("newAddressSection");
-                const radios = document.getElementsByName("addressOption");
-
-                radios.forEach((radio) => {
-                  radio.addEventListener("change", () => {
-                    if (radio.value === "saved") {
-                      savedAddressSection.style.display = "block";
-                      newAddressSection.style.display = "none";
-                    } else {
-                      savedAddressSection.style.display = "none";
-                      newAddressSection.style.display = "block";
-                    }
-                  });
-                });
-              </script>
 
               <div class="form-group mt-3">
                 <input
