@@ -1,0 +1,78 @@
+/* Zoom + Glow Hover */
+.hover-zoom-glow {
+  display: inline-block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-zoom-glow:hover {
+  transform: scale(1.1); /* phóng to 10% */
+  box-shadow: 0 0 20px rgba(84, 74, 226, 0.7), 0 0 40px rgba(84, 74, 226, 0.5);
+}
+
+/* Hover Zoom + Glow cho Text */
+.hover-text-glow {
+  display: inline-block;
+  font-size: 24px;
+  font-weight: 600;
+  color: #09ffb5; /* Màu mặc định */
+  transition: transform 0.3s ease, text-shadow 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-text-glow:hover {
+  transform: scale(1.1); /* Zoom chữ */
+  color: #b5fae3; /* Thay đổi màu chữ khi hover */
+  text-shadow: 0 0 8px #544ae2, 0 0 16px #7b5fff, 0 0 24px #a58fff; /* Glow nhiều lớp */
+}
+
+.hover-text-glow-small {  /* sửa tên cho thống nhất */
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 100;
+  color: #09ffb5; /* Màu mặc định */
+  transition: transform 0.3s ease, text-shadow 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-text-glow-small:hover {
+  transform: scale(1.1); /* Zoom chữ */
+  color: #b5fae3; /* Thay đổi màu chữ khi hover */
+  text-shadow: 0 0 8px #544ae2, 0 0 16px #7b5fff, 0 0 24px #a58fff; /* Glow nhiều lớp */
+}
+
+.hover-div-zoom {
+  display: inline-block; /* hoặc block nếu muốn chiếm toàn bộ width */
+  background-color: #f1f5f3;
+  color: rgb(0, 0, 0);
+  padding: 20px;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* Hover effect */
+.hover-div-zoom:hover {
+  transform: scale(1.05); /* zoom 1.05 lần */
+  box-shadow: 0 8px 20px rgba(74, 226, 107, 0.3); /* optional: thêm nổi bật */
+}
+
+.login-div-btn {
+  display: inline-block;       /* cho phép scale hover */
+  background-color: #544ae2;   /* màu nền */
+  color: white;                /* màu chữ */
+  padding: 20px 28px;          /* padding nút */
+  border-radius: 8px;          /* bo góc */
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.login-div-btn:hover {
+  transform: scale(1.05);      /* zoom 1.05 lần */
+  background-color: #7b5fff;   /* đổi màu nền khi hover */
+  box-shadow: 0 8px 20px rgba(84, 74, 226, 0.4); /* glow nhẹ */
+}
+

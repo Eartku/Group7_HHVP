@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Register</title>
+    <link href="css/css.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome text -->
+        <div class="welcome-text">
+            <h1 class="hover-gradient-text">Welcome to BônSai</h1>
+        </div>
+        
+        <div class="lorem-text">
+            <p>Hãy bắt đầu để trải nghiệm không gian xanh!</p>
+        </div>
+        
+        <!-- Register form -->
+        <div class="login-section">
+            <h2 class="login-title">ĐĂNG KÝ TÀI KHOẢN</h2>
+            
+            <form action="login.html" method="get">
+                <div class="form-group">
+                    <label for="username">Tên người dùng</label>
+                    <input type="text" id="username" name="username" placeholder="Nhập tên người dùng">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" placeholder="Nhập email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Xác nhận mật khẩu</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Nhập lại mật khẩu">
+                </div>
+                
+                <a href="login.html"><button type="submit" class="login-btn" style="position: static; text-align: center; margin-top: 20px;">Đăng ký</button></a>
+            </form>
+        </div>
+        
+        <!-- Footer / login link -->
+        <div class="designer" style="position: static; text-align: center; margin-top: 20px;">
+            <p>Đã có tài khoản?  <a href="login.html" class="hover-gradient-text">  Đăng nhập</a></p>
+        </div>
+    </div>
+</body>
+</html>

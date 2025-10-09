@@ -31,7 +31,9 @@
     />
     <link href="css/tiny-slider.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
-    <title>Bonsai vì thế giới xanh</title>
+    <link href="css/hover.css" rel="stylesheet" />
+    <link href="css/animation.css" rel="stylesheet" />
+    <title>BônSai</title>
   </head>
 
   <body>
@@ -41,7 +43,7 @@
       arial-label="Furni navigation bar"
     >
       <div class="container">
-        <a class="navbar-brand" href="index.html">Bonsai<span>🌱</span></a>
+        <a class="navbar-brand" href="index.html">BônSai<span>🌱</span></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -65,11 +67,14 @@
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
             <li>
-              <a class="nav-link" href="#"><img src="images/user.svg" /></a>
+              <a class="nav-link" href="login.html"><img src="images/user.svg" style="scale: 2; margin: 15px;"/></a>
             </li>
             <li>
-              <a class="nav-link" href="cart.html"
-                ><img src="images/cart.svg"
+              <a class="nav-link" href="cart.html"><img src="images/cart.svg" style="scale: 1.7; margin: 11px;"/></a>
+            </li>
+            <li>
+              <a class="nav-link" href="index2.html" style="margin-left: 30px;"
+                ><img src="images/logout.svg"
               /></a>
             </li>
           </ul>
@@ -84,13 +89,13 @@
         <div class="row justify-content-between">
           <div class="col-lg-5">
             <div class="intro-excerpt">
-              <h1>Góc xanh cho không gian của bạn</h1>
-              <p class="mb-4">
+              <h1 class="hover-text-glow">Góc xanh cho không gian của bạn</h1>
+              <p class="mb-4 hover-text-glow-small">
                 “Trong mỗi bước đi cùng thiên nhiên, ta nhận được nhiều hơn
                 những gì mình tìm kiếm.” - Trích John Muir
               </p>
               <p>
-                    <div class="search d-flex align-items-center">
+                    <div class="search d-flex align-items-center hover-gradient-text">
               <button type="submit" class="search-btn">
                 <span class="material-symbols-outlined">search</span>
               </button>
@@ -128,7 +133,7 @@
           <!-- End Column 1 -->
 
           <!-- Start Column 2 -->
-          <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+          <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0 hover-div-zoom">
             <a class="product-item" href="#">
               <img
                 src="images/cay001.png"
@@ -145,7 +150,7 @@
           <!-- End Column 2 -->
 
           <!-- Start Column 3 -->
-          <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+          <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0 hover-div-zoom">
             <a class="product-item" href="#">
               <img
                 src="images/cay002.png"
@@ -162,7 +167,7 @@
           <!-- End Column 3 -->
 
           <!-- Start Column 4 -->
-          <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+          <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0 hover-div-zoom">
             <a class="product-item" href="#">
               <img
                 src="images/cay003.png"
@@ -188,7 +193,7 @@
         <div class="row justify-content-between">
           <div class="col-lg-6">
             <h2 class="section-title">Tại sao lại chọn chúng tôi ?</h2>
-            <p>
+            <p class="hover-div-zoom">
               Chúng tôi mang đến cây cảnh khỏe mạnh, được chăm sóc kỹ lưỡng, đảm
               bảo chất lượng và dịch vụ tận tâm. Mỗi sản phẩm đều được tư vấn
               phù hợp với không gian và phong cách của bạn, cùng chính sách bảo
@@ -197,7 +202,7 @@
 
             <div class="row my-5">
               <div class="col-6 col-md-6">
-                <div class="feature">
+                <div class="feature hover-div-zoom">
                   <div class="icon">
                     <img src="images/truck.svg" alt="Image" class="imf-fluid" />
                   </div>
@@ -210,7 +215,7 @@
               </div>
 
               <div class="col-6 col-md-6">
-                <div class="feature">
+                <div class="feature hover-div-zoom">
                   <div class="icon">
                     <img src="images/bag.svg" alt="Image" class="imf-fluid" />
                   </div>
@@ -220,7 +225,7 @@
               </div>
 
               <div class="col-6 col-md-6">
-                <div class="feature">
+                <div class="feature hover-div-zoom">
                   <div class="icon">
                     <img
                       src="images/support.svg"
@@ -236,7 +241,7 @@
               </div>
 
               <div class="col-6 col-md-6">
-                <div class="feature">
+                <div class="feature hover-div-zoom">
                   <div class="icon">
                     <img
                       src="images/return.svg"
@@ -245,31 +250,50 @@
                     />
                   </div>
                   <h3>Hoàn trả miễn phí</h3>
-                  <p>Hoàn trả hoàn toàn miễn phí sau 1 tháng.</p>
+                  <p>Có thể hoàn trả nếu hỏng hóc và hoàn toàn miễn phí sau 1 tháng.</p>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="col-lg-5">
-            <div class="img-wrap">
+            <div class="img-wrap slider" >
               <img
-                src="images/why-choose-us-img.jpg"
-                alt="Image"
-                class="img-fluid"
+                src="images/P1.jpg" class="active"
+              />
+              <img
+                src="images/P2.jpg"
+              />
+              <img
+                src="images/P3.jpg"
+              />
+              <img
+                src="images/P4.jpg"
+              />
+              <img
+                src="images/P5.jpg"
+              />
+              <img
+                src="images/P6.jpg"
+              />
+              <img
+                src="images/P7.jpg"
               />
             </div>
+            <script src="../js/slider.js"></script>
           </div>
         </div>
       </div>
     </div>
 
+
     <!-- Start Popular Product -->
     <div class="popular-product">
       <div class="container">
         <div class="row">
+          <h2 class="section-title">Phổ biến</h2>
           <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
-            <div class="product-item-sm d-flex">
+            <div class="product-item-sm d-flex hover-div-zoom">
               <div class="thumbnail">
                 <img src="images/cay1.png" alt="Image" class="img-fluid" />
               </div>
@@ -285,7 +309,7 @@
           </div>
 
           <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
-            <div class="product-item-sm d-flex">
+            <div class="product-item-sm d-flex hover-div-zoom">
               <div class="thumbnail">
                 <img src="images/cay2.png" alt="Image" class="img-fluid" />
               </div>
@@ -301,14 +325,14 @@
           </div>
 
           <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
-            <div class="product-item-sm d-flex">
+            <div class="product-item-sm d-flex hover-div-zoom">
               <div class="thumbnail">
                 <img src="images/cay3.png" alt="Image" class="img-fluid" />
               </div>
               <div class="pt-3">
                 <h3>Cây chuối cảnh</h3>
                 <p>
-                  Cây chuối cảnh có lá to thuôn dài, xanh bóng, mọc thẳng vươn
+                  Cây chuối cảnh có lá to thuôn dài, mọc thẳng vươn
                   cao, tượng trưng cho sức sống mạnh mẽ và thịnh vượng.
                 </p>
                 <p><a href="#">Xem thêm</a></p>
@@ -429,10 +453,10 @@
         <div class="row g-5 mb-5">
           <div class="col-lg-4">
             <div class="mb-4 footer-logo-wrap">
-              <a href="#" class="footer-logo">Bonsai<span>🌱</span></a>
+              <a href="#" class="footer-logo">BônSai<span>🌱</span></a>
             </div>
             <p class="mb-4">
-              Nguyễn Hoàng Phúc đã mang đến nhiều loại cây trồng phù hợp với mọi
+              BônSai đã mang đến nhiều loại cây trồng phù hợp với mọi
               không gian làm việc.
             </p>
 
