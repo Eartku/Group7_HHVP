@@ -252,24 +252,6 @@ input[type="password"]:focus {
   background-position: 100% 0;   /* gradient dịch chuyển */
 }
 
-.login-div-btn {
-  display: inline-block;       /* cho phép scale hover */
-  background-color: #544ae2;   /* màu nền */
-  color: white;                /* màu chữ */
-  padding: 14px 28px;          /* padding nút */
-  border-radius: 8px;          /* bo góc */
-  font-size: 16px;
-  font-weight: 600;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-}
-
-.login-div-btn:hover {
-  transform: scale(1.05);      /* zoom 1.05 lần */
-  background-color: #7b5fff;   /* đổi màu nền khi hover */
-  box-shadow: 0 8px 20px rgba(84, 74, 226, 0.4); /* glow nhẹ */
-}
 
 
 
