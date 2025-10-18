@@ -76,3 +76,142 @@
   box-shadow: 0 8px 20px rgba(84, 74, 226, 0.4); /* glow nhẹ */
 }
 
+.hover-btn {
+  display: inline-block;
+  background: #58b346;
+  color: white;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 18px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 55px;              /* ban đầu chỉ đủ icon */
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.cell {
+  width: 100px;        /* kích thước cố định của ô */
+  height: 60px;        /* chiều cao ô */
+  display: flex;
+  align-items: center; /* căn giữa dọc */
+  justify-content: center; /* căn giữa ngang */
+  background: #156b03; /* chỉ để nhìn cho rõ */
+}
+
+.hover-btn {
+  width: 60px;
+  height: 40px;
+  background: #198754;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.hover-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.hover-btn img {
+  width: 22px;
+  height: 22px;
+  transform: scale(1);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.hover-btn span {
+  display: inline-block;
+  transform: scale(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+  color: #fff;
+  font-weight: 500;
+}
+
+/* Khi hover */
+.hover-btn:hover {
+  width: 120px;
+  background: #25a00c;
+}
+
+.hover-btn:hover img {
+  transform: scale(0); /* icon thu nhỏ biến mất */
+}
+
+.hover-btn:hover span {
+  transform: scale(1); /* chữ phóng ra từ giữa */
+}
+
+
+
+.hover-box {
+  scale: 1.5;
+  margin-left: 50px;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background: #3b5d51;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: width 0.4s ease, background 0.3s ease;
+}
+
+.hover-box:hover {
+  background: #4db339;
+  width: 120px;
+}
+
+/* Hai mặt */
+.hover-box .front,
+.hover-box .back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+  color: white;
+  font-weight: 500;
+}
+
+/* Icon ban đầu */
+.hover-box .front {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Text ẩn ban đầu */
+.hover-box .back {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* Khi hover – hoán đổi */
+.hover-box:hover .front {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.hover-box:hover .back {
+  opacity: 1;
+  transform: scale(1);
+}

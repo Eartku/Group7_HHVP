@@ -1,0 +1,36 @@
+.pages .page {
+  display: none;
+  padding: 20px;
+  background: #111;
+  color: #fff;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Chỉ hiện page tương ứng */
+#page1:checked ~ .pages .page1,
+#page2:checked ~ .pages .page2,
+#page3:checked ~ .pages .page3 {
+  display: block;
+}
+
+.controls {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.controls label {
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 5px;
+  padding: 8px 12px;
+  background: #222;
+  color: #fff;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.controls label:hover {
+  background: #00bfff;
+  box-shadow: 0 0 10px #00bfff;
+}

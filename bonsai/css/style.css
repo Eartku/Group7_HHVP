@@ -14,7 +14,7 @@ body {
   font-family: "Inter", sans-serif;
   font-weight: 400;
   line-height: 28px;
-  color: #6a6a6a;
+  color: #ffffff;
   font-size: 14px;
   background-color: #eff2f1;
 }
@@ -28,12 +28,25 @@ a {
   text-decoration: underline;
 }
 a:hover {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   color: #000000;
   color: #4d4d4d;
   text-decoration: none;
 }
 a.more {
   font-size: 20px;
+=======
+=======
+>>>>>>> Stashed changes
+  color: #2f2f2f;
+  text-decoration: none;
+}
+a.more {
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   font-weight: 600;
 }
 
@@ -42,6 +55,94 @@ a.more {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+.custom-navbar .navbar-brand {
+  font-size: 32px;
+  font-weight: 600;
+}
+.custom-navbar .navbar-brand > span {
+  opacity: 0.4;
+}
+.custom-navbar .navbar-toggler {
+  border-color: transparent;
+}
+.custom-navbar .navbar-toggler:active,
+.custom-navbar .navbar-toggler:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: none;
+}
+@media (min-width: 992px) {
+  .custom-navbar .custom-navbar-nav li {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+}
+.custom-navbar .custom-navbar-nav li a {
+  font-weight: 500;
+  color: #ffffff !important;
+  opacity: 0.5;
+  -webkit-transition: 0.3s all ease;
+  -o-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+  position: relative;
+}
+@media (min-width: 768px) {
+  .custom-navbar .custom-navbar-nav li a:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 8px;
+    right: 8px;
+    background: #f9bf29;
+    height: 5px;
+    opacity: 1;
+    visibility: visible;
+    width: 0;
+    -webkit-transition: 0.15s all ease-out;
+    -o-transition: 0.15s all ease-out;
+    transition: 0.15s all ease-out;
+  }
+}
+.custom-navbar .custom-navbar-nav li a:hover {
+  opacity: 1;
+}
+.custom-navbar .custom-navbar-nav li a:hover:before {
+  width: calc(100% - 16px);
+}
+.custom-navbar .custom-navbar-nav li.active a {
+  opacity: 1;
+}
+.custom-navbar .custom-navbar-nav li.active a:before {
+  width: calc(100% - 16px);
+}
+.custom-navbar .custom-navbar-cta {
+  margin-left: 0 !important;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+@media (min-width: 768px) {
+  .custom-navbar .custom-navbar-cta {
+    margin-left: 40px !important;
+  }
+}
+.custom-navbar .custom-navbar-cta li {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.custom-navbar .custom-navbar-cta li:first-child {
+  margin-right: 20px;
+}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 
 .custom-navbar .navbar-brand {
   font-size: 32px;
@@ -49,7 +150,7 @@ a.more {
 }
 
 .custom-navbar .navbar-brand > span {
-  opacity: 0.4;
+  opacity: 1;
 }
 
 .custom-navbar .navbar-toggler {
@@ -72,7 +173,7 @@ a.more {
 
 .custom-navbar .custom-navbar-nav li a {
   font-weight: 500;
-  color: #d4d4d4 !important;
+  color: #ffffff !important;
   opacity: 0.5;
   transition: 0.3s all ease;
   position: relative;
@@ -348,6 +449,19 @@ a.more {
 .product-section .product-item:hover:before {
   height: 70%;
 }
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+
+.why-choose-section {
+  padding: 7rem 0;
+}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 .why-choose-section .img-wrap {
   position: relative;
 }
@@ -419,22 +533,52 @@ a.more {
 }
 
 .popular-product {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   padding: 0 0 0rem 0;
+=======
+  padding: 0 0 7rem 0;
+>>>>>>> Stashed changes
+=======
+  padding: 0 0 7rem 0;
+>>>>>>> Stashed changes
 }
 .popular-product .product-item-sm h3 {
   font-size: 14px;
   font-weight: 700;
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   color: #000000;
 }
 .popular-product .product-item-sm a {
   text-decoration: none;
   color: #000000;
+=======
+=======
+>>>>>>> Stashed changes
+  color: #2f2f2f;
+}
+.popular-product .product-item-sm a {
+  text-decoration: none;
+  color: #2f2f2f;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   -webkit-transition: 0.3s all ease;
   -o-transition: 0.3s all ease;
   transition: 0.3s all ease;
 }
 .popular-product .product-item-sm a:hover {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   color: rgba(0, 0, 0, 0.5);
+=======
+  color: rgba(47, 47, 47, 0.5);
+>>>>>>> Stashed changes
+=======
+  color: rgba(47, 47, 47, 0.5);
+>>>>>>> Stashed changes
 }
 .popular-product .product-item-sm p {
   line-height: 1.4;
@@ -448,12 +592,26 @@ a.more {
   flex: 0 0 120px;
   position: relative;
 }
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 .popular-product .product-item-sm .thumbnail:before {
   content: "";
   position: absolute;
   border-radius: 20px;
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   background: #38857c;
+=======
+  background: #dce5e4;
+>>>>>>> Stashed changes
+=======
+  background: #dce5e4;
+>>>>>>> Stashed changes
   width: 98px;
   height: 98px;
   top: 50%;
@@ -933,7 +1091,15 @@ legend {
 }
 /* === KẾT THÚC CSS MỚI === */
 .btn-buy {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   background-color: #000000;
+=======
+  background-color: #e53935;
+>>>>>>> Stashed changes
+=======
+  background-color: #e53935;
+>>>>>>> Stashed changes
   color: white;
   padding: 12px 22px;
   border-radius: 6px;
@@ -943,7 +1109,15 @@ legend {
   display: inline-block;
 }
 .btn-cart {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   background-color: #000000;
+=======
+  background-color: #43a047;
+>>>>>>> Stashed changes
+=======
+  background-color: #43a047;
+>>>>>>> Stashed changes
   color: white;
   padding: 12px 22px;
   border-radius: 6px;
@@ -952,7 +1126,15 @@ legend {
   display: inline-block;
 }
 .btn-buy:hover {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   background-color: #2e7d32;
+=======
+  background-color: #c62828;
+>>>>>>> Stashed changes
+=======
+  background-color: #c62828;
+>>>>>>> Stashed changes
 }
 .btn-cart:hover {
   background-color: #2e7d32;
@@ -1058,6 +1240,8 @@ legend {
   color: #000;
   transform: scale(1.05);
 }
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 /* 
 danh sách */
@@ -1217,3 +1401,7 @@ body {
   color: #0a0a0a;
   font-weight: bold;
 }
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes

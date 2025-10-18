@@ -101,23 +101,47 @@
                 <thead>
                   <tr>
                     <th class="product-thumbnail">Hình ảnh</th>
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
                     <th class="product-name">Sản phẩm</th>
                     <th class="product-price">Giá</th>
                     <th class="product-quantity">Số lượng</th>
                     <th class="product-total">Tổng cộng</th>
                     <th class="product-remove">Xóa</th>
+=======
+=======
+>>>>>>> Stashed changes
+                    <th class="product-name">sản phẩm</th>
+                    <th class="product-price">Giá</th>
+                    <th class="product-quantity">số lượng</th>
+                    <th class="product-total">Tổng cộng</th>
+                    <th class="product-remove">xóa</th>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td class="product-thumbnail">
                       <img
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
                         src="images/cay001.png"
+=======
+                        src="images/cay1.png"
+>>>>>>> Stashed changes
+=======
+                        src="images/cay1.png"
+>>>>>>> Stashed changes
                         alt="Image"
                         class="img-fluid"
                       />
                     </td>
                     <td class="product-name">
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
                       <h2 class="h5 text-black">Monstera deliciosa</h2>
                     </td>
                     <td>60.000đ</td>
@@ -133,18 +157,70 @@
                       />
                     </td>
                     <td>100.000đ</td>
+=======
+=======
+>>>>>>> Stashed changes
+                      <h2 class="h5 text-black">Tre cảnh</h2>
+                    </td>
+                    <td>50.000đ</td>
+                    <td>
+                      <div
+                        class="input-group mb-3 d-flex align-items-center quantity-container"
+                        style="max-width: 120px"
+                      >
+                        <div class="input-group-prepend">
+                          <button
+                            class="btn btn-outline-black decrease"
+                            type="button"
+                          >
+                            &minus;
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control text-center quantity-amount"
+                          value="1"
+                          placeholder=""
+                          aria-label="Example text with button addon"
+                          aria-describedby="button-addon1"
+                        />
+                        <div class="input-group-append">
+                          <button
+                            class="btn btn-outline-black increase"
+                            type="button"
+                          >
+                            &plus;
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                    <td>100.00đ</td>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
                     <td><a href="#" class="btn btn-black btn-sm">X</a></td>
                   </tr>
 
                   <tr>
                     <td class="product-thumbnail">
                       <img
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
                         src="images/cay002.png"
+=======
+                        src="images/cay3.png"
+>>>>>>> Stashed changes
+=======
+                        src="images/cay3.png"
+>>>>>>> Stashed changes
                         alt="Image"
                         class="img-fluid"
                       />
                     </td>
                     <td class="product-name">
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
                       <h2 class="h5 text-black">Môn cảnh</h2>
                     </td>
                     <td>78.000đ</td>
@@ -158,16 +234,127 @@
                         step="1"
                         style="width: 80px"
                       />
+=======
+=======
+>>>>>>> Stashed changes
+                      <h2 class="h5 text-black">Chuối cảnh</h2>
+                    </td>
+                    <td>43.000đ</td>
+                    <td>
+                      <div
+                        class="input-group mb-3 d-flex align-items-center quantity-container"
+                        style="max-width: 120px"
+                      >
+                        <div class="input-group-prepend">
+                          <button
+                            class="btn btn-outline-black decrease"
+                            type="button"
+                          >
+                            &minus;
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control text-center quantity-amount"
+                          value="1"
+                          placeholder=""
+                          aria-label="Example text with button addon"
+                          aria-describedby="button-addon1"
+                        />
+                        <div class="input-group-append">
+                          <button
+                            class="btn btn-outline-black increase"
+                            type="button"
+                          >
+                            &plus;
+                          </button>
+                        </div>
+                      </div>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
                     </td>
                     <td>129.000đ</td>
                     <td><a href="#" class="btn btn-black btn-sm">X</a></td>
                   </tr>
                 </tbody>
               </table>
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
             </div>
           </form>
         </div>
 
+=======
+
+              <script>
+                // Duyệt qua từng nhóm tăng/giảm
+                document
+                  .querySelectorAll(".quantity-container")
+                  .forEach((container) => {
+                    const input = container.querySelector(".quantity-amount");
+                    const btnIncrease = container.querySelector(".increase");
+                    const btnDecrease = container.querySelector(".decrease");
+
+                    btnIncrease.addEventListener("click", () => {
+                      let value = parseInt(input.value) || 0;
+                      input.value = value + 1;
+                      updateRowTotal(container);
+                    });
+
+=======
+
+              <script>
+                // Duyệt qua từng nhóm tăng/giảm
+                document
+                  .querySelectorAll(".quantity-container")
+                  .forEach((container) => {
+                    const input = container.querySelector(".quantity-amount");
+                    const btnIncrease = container.querySelector(".increase");
+                    const btnDecrease = container.querySelector(".decrease");
+
+                    btnIncrease.addEventListener("click", () => {
+                      let value = parseInt(input.value) || 0;
+                      input.value = value + 1;
+                      updateRowTotal(container);
+                    });
+
+>>>>>>> Stashed changes
+                    btnDecrease.addEventListener("click", () => {
+                      let value = parseInt(input.value) || 0;
+                      if (value > 1) input.value = value - 1;
+                      updateRowTotal(container);
+                    });
+                  });
+
+                // Hàm cập nhật tổng tiền cho từng hàng
+                function updateRowTotal(container) {
+                  const row = container.closest("tr"); // Lấy dòng hiện tại
+                  const priceText =
+                    row.querySelector("td:nth-child(3)").innerText; // Lấy cột giá
+                  const totalCell = row.querySelector("td:nth-child(5)"); // Cột tổng cộng
+                  const input = container.querySelector(".quantity-amount");
+
+                  // Chuyển "50.000đ" → 50000
+                  const price = parseFloat(priceText.replace(/[^\d]/g, ""));
+                  const quantity = parseInt(input.value);
+
+                  // Tính tổng = giá × số lượng
+                  const total = price * quantity;
+
+                  // Định dạng lại có dấu chấm ngăn cách và thêm "đ"
+                  totalCell.innerText = total.toLocaleString("vi-VN") + "đ";
+                }
+              </script>
+            </div>
+          </form>
+        </div>
+
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         <div class="row">
           <div class="col-md-6">
             <div class="row mb-5">
@@ -249,7 +436,15 @@
     <footer class="footer-section">
       <div class="container relative">
         <div class="sofa-img">
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
           <img src="images/cay101.png" alt="Image" class="img-fluid" />
+=======
+          <img src="images/sofa.png" alt="Image" class="img-fluid" />
+>>>>>>> Stashed changes
+=======
+          <img src="images/sofa.png" alt="Image" class="img-fluid" />
+>>>>>>> Stashed changes
         </div>
 
         <div class="row">
