@@ -27,3 +27,11 @@ function checkLogin(event) {
   }
 }
 
+  function updateCart() {
+    // Thông báo
+    alert("Cập nhật giỏ hàng thành công!");
+
+    // Nếu muốn, bạn có thể thêm code xử lý giỏ hàng ở đây
+    // ví dụ: cập nhật số lượng sản phẩm, tính lại tổng, ...
+  }
+

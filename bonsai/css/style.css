@@ -11,12 +11,18 @@ body {
 }
 
 body {
+  background: url("../images/bcbackground.jpg");
   font-family: "Inter", sans-serif;
   font-weight: 400;
   line-height: 28px;
-  color: #ffffff;
-  font-size: 14px;
-  background-color: #eff2f1;
+  color: #000000;
+  font-size: 20px;
+  background-size: cover;        /* Ảnh tự co để phủ kín */
+  background-position: bottom center;   /* Canh giữa */
+  background-repeat: no-repeat;  /* Không lặp lại */
+  background-attachment: fixed;  /* Ảnh cố định khi cuộn (tạo cảm giác “parallax”) */
+  height: 100vh;
+  margin: 0;
 }
 
 a {
@@ -28,25 +34,25 @@ a {
   text-decoration: underline;
 }
 a:hover {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
+
   color: #000000;
   color: #4d4d4d;
   text-decoration: none;
 }
 a.more {
   font-size: 20px;
-=======
-=======
->>>>>>> Stashed changes
+
+
+
   color: #2f2f2f;
   text-decoration: none;
 }
 a.more {
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
+
+
+
   font-weight: 600;
 }
 
@@ -55,11 +61,11 @@ a.more {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
+
+
+
+
+
 .custom-navbar .navbar-brand {
   font-size: 32px;
   font-weight: 600;
@@ -139,10 +145,10 @@ a.more {
 .custom-navbar .custom-navbar-cta li:first-child {
   margin-right: 20px;
 }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
+
+
+
 
 .custom-navbar .navbar-brand {
   font-size: 32px;
@@ -230,6 +236,10 @@ a.more {
 }
 .hero {
   background: url("../images/c2.jpg");
+  background-size: cover;        /* Ảnh tự co để phủ kín */
+  background-position: bottom center;   /* Canh giữa */
+  background-repeat: no-repeat;  /* Không lặp lại */
+  margin: 0;
   padding: calc(4rem - 30px) 0 0rem 0;
 }
 @media (min-width: 768px) {
@@ -362,11 +372,14 @@ a.more {
 
 .section-title {
   color: #3d5b50;
-  font-size: 30px;
+  font-size: 40px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: 10px;
   margin-top: 150px;
 }
 .product-section {
-  padding: 7rem 0;
+  padding-bottom: 10px;
+  padding-top: 50px;
 }
 .product-section .product-item {
   text-align: center;
@@ -394,7 +407,7 @@ a.more {
 }
 .product-section .product-item h3,
 .product-section .product-item strong {
-  color: #2f2f2f;
+  color: #000000;
   text-decoration: none;
 }
 .product-section .product-item .icon-cross {
@@ -402,7 +415,7 @@ a.more {
   width: 35px;
   height: 35px;
   display: inline-block;
-  background: #2f2f2f;
+  background: #979797;
   bottom: 15px;
   left: 50%;
   -webkit-transform: translateX(-50%);
@@ -430,7 +443,7 @@ a.more {
   right: 0;
   position: absolute;
   content: "";
-  background: #dce5e4;
+  background: #d6d6d6;
   height: 0%;
   z-index: -1;
   border-radius: 10px;
@@ -449,19 +462,11 @@ a.more {
 .product-section .product-item:hover:before {
   height: 70%;
 }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
 
 .why-choose-section {
-  padding: 7rem 0;
+  padding-bottom: 0px;
 }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
 .why-choose-section .img-wrap {
   position: relative;
 }
@@ -483,7 +488,7 @@ a.more {
 }
 
 .feature {
-  margin-bottom: 30px;
+  margin-bottom: 0px;
 }
 .feature .icon {
   display: inline-block;
@@ -526,59 +531,45 @@ a.more {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  border: 2px solid #3b5d50;
+  border: 10px solid #3b5d50;
   position: absolute;
   left: 0;
   top: 8px;
 }
 
 .popular-product {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  padding: 0 0 0rem 0;
-=======
-  padding: 0 0 7rem 0;
->>>>>>> Stashed changes
-=======
-  padding: 0 0 7rem 0;
->>>>>>> Stashed changes
+  padding: 0px;
 }
 .popular-product .product-item-sm h3 {
-  font-size: 14px;
+  font-size: 30px;
   font-weight: 700;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
+
   color: #000000;
 }
 .popular-product .product-item-sm a {
   text-decoration: none;
-  color: #000000;
-=======
-=======
->>>>>>> Stashed changes
+  color: #022b2c;
+
+
+
   color: #2f2f2f;
 }
 .popular-product .product-item-sm a {
   text-decoration: none;
   color: #2f2f2f;
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
+
+
+
   -webkit-transition: 0.3s all ease;
   -o-transition: 0.3s all ease;
   transition: 0.3s all ease;
 }
 .popular-product .product-item-sm a:hover {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   color: rgba(0, 0, 0, 0.5);
-=======
+
   color: rgba(47, 47, 47, 0.5);
->>>>>>> Stashed changes
-=======
-  color: rgba(47, 47, 47, 0.5);
->>>>>>> Stashed changes
 }
 .popular-product .product-item-sm p {
   line-height: 1.4;
@@ -592,26 +583,26 @@ a.more {
   flex: 0 0 120px;
   position: relative;
 }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
+
+
+
+
+
 .popular-product .product-item-sm .thumbnail:before {
   content: "";
   position: absolute;
   border-radius: 20px;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
+
   background: #38857c;
-=======
+
   background: #dce5e4;
->>>>>>> Stashed changes
-=======
+
+
   background: #dce5e4;
->>>>>>> Stashed changes
+
   width: 98px;
   height: 98px;
   top: 50%;
@@ -889,7 +880,7 @@ a.more {
 }
 
 .untree_co-section {
-  padding: 7rem 0;
+  padding: 20px;
 }
 
 .form-control {
@@ -923,7 +914,7 @@ a.more {
   line-height: 1.5;
 }
 .service .service-icon {
-  border-radius: 10px;
+  border-radius: 11px;
   -webkit-box-flex: 0;
   -ms-flex: 0 0 50px;
   flex: 0 0 50px;
@@ -983,7 +974,8 @@ textarea {
 }
 
 .couponcode-wrap input {
-  border-radius: 10px !important;
+  border-radius: 20px !important;
+  width: 50px;
 }
 
 .text-primary {
@@ -1091,15 +1083,15 @@ legend {
 }
 /* === KẾT THÚC CSS MỚI === */
 .btn-buy {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
+
   background-color: #000000;
-=======
+
   background-color: #e53935;
->>>>>>> Stashed changes
-=======
+
+
   background-color: #e53935;
->>>>>>> Stashed changes
+
   color: white;
   padding: 12px 22px;
   border-radius: 6px;
@@ -1109,15 +1101,15 @@ legend {
   display: inline-block;
 }
 .btn-cart {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
+
   background-color: #000000;
-=======
+
   background-color: #43a047;
->>>>>>> Stashed changes
-=======
+
+
   background-color: #43a047;
->>>>>>> Stashed changes
+
   color: white;
   padding: 12px 22px;
   border-radius: 6px;
@@ -1126,15 +1118,15 @@ legend {
   display: inline-block;
 }
 .btn-buy:hover {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
+
   background-color: #2e7d32;
-=======
+
   background-color: #c62828;
->>>>>>> Stashed changes
-=======
+
+
   background-color: #c62828;
->>>>>>> Stashed changes
+
 }
 .btn-cart:hover {
   background-color: #2e7d32;
@@ -1240,8 +1232,8 @@ legend {
   color: #000;
   transform: scale(1.05);
 }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
+
 
 /* 
 danh sách */
@@ -1401,7 +1393,7 @@ body {
   color: #0a0a0a;
   font-weight: bold;
 }
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
+
+
+

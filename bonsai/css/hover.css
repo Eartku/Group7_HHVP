@@ -202,6 +202,8 @@
 /* Text ẩn ban đầu */
 .hover-box .back {
   opacity: 0;
+  font-size: 14px;
+  font-weight: bold;
   transform: scale(0.8);
 }
 
