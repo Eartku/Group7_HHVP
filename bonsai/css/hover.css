@@ -155,6 +155,7 @@
 
 
 
+/* ---- Hover box (giữ nguyên hiệu ứng của Kosmoz) ---- */
 .hover-box {
   scale: 1.5;
   margin-left: 50px;
@@ -216,4 +217,132 @@
 .hover-box:hover .back {
   opacity: 1;
   transform: scale(1);
+}
+
+/* =============================
+   HOVER-BOX-2 (lật bằng click)
+============================= */
+.hover-box-2 {
+  scale: 1.5;
+  margin-left: 50px;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background: #3b5d51;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: width 0.4s ease, background 0.3s ease;
+}
+
+/* Hai mặt */
+.hover-box-2 .front,
+.hover-box-2 .back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.45s ease;
+  color: white;
+  font-weight: 500;
+  backface-visibility: hidden;
+}
+
+/* Front icon */
+.hover-box-2 .front {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+
+.hover-box-2 .front img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Back text */
+.hover-box-2 .back {
+  opacity: 0;
+  transform: rotateY(-180deg);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Khi checkbox được tick → lật sang back */
+#user-toggle:checked + .hover-box-2 {
+  background: #4db339;
+  width: 120px;
+}
+
+#user-toggle:checked + .hover-box-2 .front {
+  opacity: 0;
+  transform: rotateY(180deg);
+}
+
+#user-toggle:checked + .hover-box-2 .back {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+
+/* =============================
+   DROPDOWN MENU (theo click)
+============================= */
+.nav-item {
+  position: relative;
+  list-style: none;
+  display: inline-block;
+  font-family: "Poppins", sans-serif;
+}
+
+.dropdown {
+  position: absolute;
+  top: 65px;
+  left: 65%;
+  transform: translateX(-50%) translateY(-10px) scale(0.95);
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  list-style: none;
+  padding: 8px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s ease;
+  backdrop-filter: blur(6px);
+  min-width: 180px;
+  z-index: 20;
+}
+
+.dropdown li a {
+  display: block;
+  padding: 10px 14px;
+  color: #2f3e36;
+  text-decoration: none;
+  font-size: 17px;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+}
+
+.dropdown li a:hover {
+  background: linear-gradient(135deg, #4f8a74, #3b5d51);
+  color: #fff;
+  transform: translateX(4px);
+}
+
+/* ✅ Khi checkbox tick → hiện menu */
+#user-toggle:checked + .hover-box-2 + .dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+svg {
+  stroke-width: 3; /* tăng giá trị lên, ví dụ 3 hoặc 4 */
 }

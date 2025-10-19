@@ -29,7 +29,7 @@
     <link href="css/hover.css" rel="stylesheet" />
     <link href="css/animation.css" rel="stylesheet" />
 
-    <title>BonSai</title>
+    <title>BonSai | Thanh toán</title>
   </head>
   <body>
     <!-- Header/Navigation -->
@@ -78,12 +78,19 @@
               </a>
             </li>
 
-            <li>
-              <a class="nav-link hover-box" href="login.html">
-                <div class="front"><img src="images/user.svg" /></div>
-                <div class="back"><span>Người dùng</span></div>
-              </a>
-            </li>
+            <li class="nav-item">
+            <input type="checkbox" id="user-toggle" hidden />
+
+            <label for="user-toggle" class="nav-link hover-box-2">
+              <div class="front"><img src="images/user.svg" /></div>
+              <div class="back"><span>Người dùng</span></div>
+            </label>
+
+            <ul class="dropdown">
+              <li><a href="profile.html">Hồ sơ cá nhân</a></li>
+              <li><a href="orders.html">Lịch sử đơn hàng</a></li>
+            </ul>
+          </li>
 
             <li>
               <a class="nav-link hover-box" href="cart.html">
@@ -91,11 +98,10 @@
                 <div class="back"><span>Giỏ hàng</span></div>
               </a>
             </li>
-
-            <li style="margin-left: 10px">
-              <a class="nav-link hover-box" href="index2.html">
-                <div class="front"><img src="images/exit.svg" /></div>
-                <div class="back"><span>Đăng xuất</span></div>
+            <li>
+              <a class="nav-link hover-box" href="search.html">
+                <div class="front"><img src="images/search.svg" /></div>
+                <div class="back"><span>Tìm kiếm</span></div>
               </a>
             </li>
           </ul>
