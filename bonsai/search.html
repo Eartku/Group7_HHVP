@@ -112,17 +112,22 @@
 <div class="hero">
   <form class="search-bar" action="#" method="get">
     <div class="search-wrapper">
-      <!-- nút search -->
       <button type="submit" class="search-btn">
         <span class="material-symbols-outlined">search</span>
       </button>
 
-      <!-- input tìm kiếm -->
-      <input
-        class="search-input"
-        type="search"
-        placeholder="Tìm kiếm sản phẩm..."
-      />
+      <input class="search-input form-control" type="search" placeholder="Tìm kiếm..." list="plants"/>
+      <datalist id="plants">
+        <option value="Môn cảnh">
+        <option value="Monstera deliciosa">
+        <option value="Lưỡi hổ">
+        <option value="Cau tiểu trâm">
+        <option value="Dây trầu bà">
+        <option value="Rau má 36k">
+        <option value="Sen đá">
+        <option value="Xương rồng">
+        <option value="Cúc trắng">
+      </datalist>
 
       <!-- nút filter -->
       <input type="checkbox" id="show-filter" hidden />
@@ -133,22 +138,28 @@
       <!-- dropdown filter -->
       <div class="filter-options">
         <ul>
-        <li><a href="search.html">Tất cả</a></li>
-        <li><a href="shop1.html">Cây để phòng</a></li>
-        <li><a href="shop2.html">Cây để bàn</a></li>
-        <li><a href="shop3.html">Cây treo tường</a></li>
-      </ul>
-
-        <!-- radio ẩn -->
-        <input type="radio" name="category" id="all" checked hidden>
-        <input type="radio" name="category" id="cay-de-phong" hidden>
-        <input type="radio" name="category" id="cay-de-ban" hidden>
-        <input type="radio" name="category" id="cay-treo-tuong" hidden>
+          <li><a href="search.html">Tất cả</a></li>
+          <li><a href="shop1.html">Cây để phòng</a></li>
+          <li><a href="shop2.html">Cây để bàn</a></li>
+          <li><a href="shop3.html">Cây treo tường</a></li>
+          <!-- Nested filter theo giá -->
+          <li>
+            <!-- checkbox nested phải nằm trước label -->
+            <input type="checkbox" id="toggle-price" hidden />
+            <label for="toggle-price">Theo khoảng giá</label>
+            <ul class="nested">
+              <li><a href="search.html">Từ 20k - 50k</a></li>
+              <li><a href="search.html">Từ 50k - 100k</a></li>
+              <li><a href="search.html">Trên 100k</a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
-
     </div>
   </form>
 </div>
+
+
 
 
     <!-- End Hero Section -->

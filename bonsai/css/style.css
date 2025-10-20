@@ -1488,6 +1488,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  align-items: center;
   transition: background 0.2s;
 }
 
@@ -1500,14 +1501,15 @@ body {
   display: none;
   position: absolute;
   top: 220px;
-  right: 30%;
+  right: 25%;
   background: #fff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(113, 43, 43, 0.2);
+  border-radius: 10px;
   padding: 10px;
   z-index: 100;
   min-width: 150px;
-  font-size: 16px;
+  font-size: 12px;
+  
 }
 
 /* show khi checkbox checked */
@@ -1548,7 +1550,7 @@ body {
 /* hover mỗi li */
 .filter-options li:hover {
   background-color: #f0f0f0;
-  border-left: 4px solid #4caf50; /* ví dụ highlight xanh bên trái */
+  border-left: 4px solid #4c6baf; /* ví dụ highlight xanh bên trái */
 }
 
 /* nếu muốn thêm nút trong mỗi item */
@@ -1565,6 +1567,30 @@ body {
 
 .filter-options li:hover button {
   display: inline-block;
+}
+
+#show-filter:checked + .filter-btn + .filter-options {
+  display: block;
+}
+
+/* Nested dropdown ẩn mặc định */
+.has-nested .nested {
+  display: none;
+  margin-left: 10px; /* thụt vào */
+  padding-left: 10px;
+  border-left: 1px solid #ccc;
+}
+
+/* Hiện nested khi checkbox toggle-price được check */
+#toggle-price:checked + label + .nested {
+  display: block;
+}
+
+/* Style cơ bản cho label nested */
+.has-nested > label {
+  cursor: pointer;
+  display: block;
+  padding: 5px 0;
 }
 
 a {

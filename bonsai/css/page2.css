@@ -1,0 +1,102 @@
+/* ================= Page Slide ================= */
+
+/* Container giữ các page */
+.book {
+  position: relative;
+  overflow: hidden;
+  min-height: 550px; /* điều chỉnh theo nội dung */
+}
+
+/* Tất cả page đều tuyệt đối, che nhau */
+.page {
+  position: absolute;
+  top: 0;
+  left: 100%; /* mặc định nằm ngoài view bên phải */
+  width: 100%;
+  flex-wrap: wrap;
+  transition: all 0.6s ease-in-out;
+  opacity: 0;
+  z-index: 0;
+}
+
+/* Hiển thị page khi radio checked */
+#page1:checked ~ .book .page1,
+#page2:checked ~ .book .page2,
+#page3:checked ~ .book .page3 {
+  left: 0;
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Page cũ trượt ra trái và mờ dần */
+#page1:checked ~ .book .page2,
+#page1:checked ~ .book .page3,
+#page2:checked ~ .book .page1,
+#page2:checked ~ .book .page3,
+#page3:checked ~ .book .page1,
+#page3:checked ~ .book .page2 {
+  left: -100%;
+  opacity: 0;
+  z-index: 0;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+input[type="radio"][name="page"] {
+  display: none !important;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  position: absolute;
+}
+
+.controls label {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #eee;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.controls label:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+#page1:checked ~ .controls label[for="page1"],
+#page2:checked ~ .controls label[for="page2"],
+#page3:checked ~ .controls label[for="page3"] {
+  background-color: #28a745;
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
+
+.controls label[for="next"] {
+  width: auto;
+  padding: 0 12px;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+}
+
+.controls label[for="next"]:hover {
+  background-color: #28a745;
+  color: #fff;
+}
