@@ -302,7 +302,7 @@
 }
 
 .dropdown {
-  position: absolute;
+  position: absolute !important;
   top: 65px;
   left: 65%;
   transform: translateX(-50%) translateY(-10px) scale(0.95);

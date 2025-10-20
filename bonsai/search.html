@@ -98,7 +98,7 @@
             </li>
             <li>
               <a class="nav-link hover-box" href="search.html">
-                <div class="front"><img src="images/search.svg" /></div>
+                <div class="front"><img src="images/search.svg" style="scale: 1.5;"/></div>
                 <div class="back"><span>Tìm kiếm</span></div>
               </a>
             </li>
@@ -109,44 +109,48 @@
     <!-- End Header/Navigation -->
 
     <!-- Start Hero Section -->
-    <div class="hero">
-      <form class="flex-grow-1" action="#" method="get">
-        <div class="search d-flex align-items-center">
-          <button type="submit" class="search-btn">
-            <span class="material-symbols-outlined">search</span>
-          </button>
-          <input
-            class="search-input form-control"
-            type="search"
-            placeholder="Search"
-          />
-        </div>
-        
-      </form>
-      
+<div class="hero">
+  <form class="search-bar" action="#" method="get">
+    <div class="search-wrapper">
+      <!-- nút search -->
+      <button type="submit" class="search-btn">
+        <span class="material-symbols-outlined">search</span>
+      </button>
 
-      <!-- <div class="container">
-        <div class="row justify-content-between">
-          <div class="col-lg-5">
-            <div class="intro-excerpt">
-              <h1>Góc xanh cho ngôi nhà của ban</h1>
-              <p class="mb-4">
-                “Trong mỗi bước đi cùng thiên nhiên, ta nhận được nhiều hơn
-                những gì mình tìm kiếm.” -John Muir
-              </p>
-              <p>
-                <a href="shop.html" class="btn btn-secondary me-2">Mua sắm</a>
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-7">
-            <div class="hero-img-wrap">
-              <img src="images/test2.png" class="img-fluid" />
-            </div>
-          </div>
-        </div>
-      </div> -->
+      <!-- input tìm kiếm -->
+      <input
+        class="search-input"
+        type="search"
+        placeholder="Tìm kiếm sản phẩm..."
+      />
+
+      <!-- nút filter -->
+      <input type="checkbox" id="show-filter" hidden />
+      <label for="show-filter" class="filter-btn">
+        <span class="material-symbols-outlined">tune</span>
+      </label>
+
+      <!-- dropdown filter -->
+      <div class="filter-options">
+        <ul>
+        <li><a href="search.html">Tất cả</a></li>
+        <li><a href="shop1.html">Cây để phòng</a></li>
+        <li><a href="shop2.html">Cây để bàn</a></li>
+        <li><a href="shop3.html">Cây treo tường</a></li>
+      </ul>
+
+        <!-- radio ẩn -->
+        <input type="radio" name="category" id="all" checked hidden>
+        <input type="radio" name="category" id="cay-de-phong" hidden>
+        <input type="radio" name="category" id="cay-de-ban" hidden>
+        <input type="radio" name="category" id="cay-treo-tuong" hidden>
+      </div>
+
     </div>
+  </form>
+</div>
+
+
     <!-- End Hero Section -->
 
     <div class="untree_co-section product-section before-footer-section">
@@ -723,6 +727,7 @@
           <label for="next">></label>
         </div>
       </div>
+      
 
     <!-- Start Footer Section -->
     <footer class="footer-section">
