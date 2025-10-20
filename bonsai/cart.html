@@ -6,8 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BonSai | Chi tiết giỏ hàng</title>
     <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search"
+    />
     <link href="css/tiny-slider.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
     <link href="css/hover.css" rel="stylesheet" />
@@ -19,15 +25,33 @@
     <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark">
       <div class="container">
         <a class="navbar-brand" href="index.html">BonSai<span>🌱</span></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarsFurni"
+          aria-controls="navbarsFurni"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li><a href="shop1.html" class="hover-text-glow-small">CÂY ĐỂ PHÒNG</a></li>
-            <li><a href="shop2.html" class="hover-text-glow-small">CÂY ĐỂ BÀN</a></li>
-            <li><a href="shop3.html" class="hover-text-glow-small">CÂY TREO TƯỜNG</a></li>
+            <li>
+              <a href="shop1.html" class="hover-text-glow-small"
+                >CÂY ĐỂ PHÒNG</a
+              >
+            </li>
+            <li>
+              <a href="shop2.html" class="hover-text-glow-small">CÂY ĐỂ BÀN</a>
+            </li>
+            <li>
+              <a href="shop3.html" class="hover-text-glow-small"
+                >CÂY TREO TƯỜNG</a
+              >
+            </li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
@@ -41,18 +65,18 @@
             </li>
 
             <li class="nav-item">
-            <input type="checkbox" id="user-toggle" hidden />
+              <input type="checkbox" id="user-toggle" hidden />
 
-            <label for="user-toggle" class="nav-link hover-box-2">
-              <div class="front"><img src="images/user.svg" /></div>
-              <div class="back"><span>Người dùng</span></div>
-            </label>
+              <label for="user-toggle" class="nav-link hover-box-2">
+                <div class="front"><img src="images/user.svg" /></div>
+                <div class="back"><span>Người dùng</span></div>
+              </label>
 
-            <ul class="dropdown">
-              <li><a href="profile.html">Hồ sơ cá nhân</a></li>
-              <li><a href="orders.html">Lịch sử đơn hàng</a></li>
-            </ul>
-          </li>
+              <ul class="dropdown">
+                <li><a href="profile.html">Hồ sơ cá nhân</a></li>
+                <li><a href="orders.html">Lịch sử đơn hàng</a></li>
+              </ul>
+            </li>
 
             <li>
               <a class="nav-link hover-box" href="cart.html">
@@ -102,40 +126,117 @@
               </thead>
               <tbody>
                 <tr>
-                  <td style="width:100px;">
-                    <img src="images/cay001.png" alt="Image" class="img-fluid" style="width:80px; scale: 1.7;" />
+                  <td style="width: 100px">
+                    <img
+                      src="images/cay001.png"
+                      alt="Image"
+                      class="img-fluid"
+                      style="width: 80px; scale: 1.7"
+                    />
                   </td>
                   <td>Monstera deliciosa</td>
                   <td>60.000đ</td>
-                  <td style="width:100px;">
-                    <input type="number" class="form-control text-center" value="1" min="1" max="99" style="width:100px; margin:auto;"/>
+                  <td style="width: 100px">
+                    <input
+                      type="number"
+                      class="form-control text-center"
+                      value="1"
+                      min="1"
+                      max="99"
+                      style="width: 100px; margin: auto"
+                    />
                   </td>
                   <td>60.000đ</td>
-                  <td><a href="#" class="btn btn-black btn-sm hover-text-glow">X</a></td>
+                  <td>
+                    <button
+                      type="button"
+                      onclick="updateCart2()"
+                      class="btn btn-black btn-sm hover-text-glow"
+                    >
+                      X
+                    </button>
+                    <script>
+                      function updateCart2() {
+                        alert("Xóa sản phẩm thành công!");
+                      }
+                    </script>
+                  </td>
                 </tr>
                 <tr>
-                  <td style="width:100px;">
-                    <img src="images/cay002.png" alt="Image" class="img-fluid" style="width:80px; height:auto; display:block; margin:auto; scale: 1.7;" />
+                  <td style="width: 100px">
+                    <img
+                      src="images/cay002.png"
+                      alt="Image"
+                      class="img-fluid"
+                      style="
+                        width: 80px;
+                        height: auto;
+                        display: block;
+                        margin: auto;
+                        scale: 1.7;
+                      "
+                    />
                   </td>
                   <td>Môn cảnh</td>
                   <td>78.000đ</td>
-                  <td style="width:100px;">
-                    <input type="number" class="form-control text-center" value="1" min="1" max="99" style="width:100px; margin:auto;"/>
+                  <td style="width: 100px">
+                    <input
+                      type="number"
+                      class="form-control text-center"
+                      value="1"
+                      min="1"
+                      max="99"
+                      style="width: 100px; margin: auto"
+                    />
                   </td>
                   <td>78.000đ</td>
-                  <td><a href="#" class="btn btn-black btn-sm hover-text-glow">X</a></td>
+                  <td>
+                    <button
+                      type="button"
+                      onclick="updateCart2()"
+                      class="btn btn-black btn-sm hover-text-glow"
+                    >
+                      X
+                    </button>
+                  </td>
                 </tr>
                 <tr>
-                  <td style="width:100px;">
-                    <img src="images/cay003.png" alt="Image" class="img-fluid" style="width:80px; height:auto; display:block; margin:auto; scale: 1.7;" />
+                  <td style="width: 100px">
+                    <img
+                      src="images/cay003.png"
+                      alt="Image"
+                      class="img-fluid"
+                      style="
+                        width: 80px;
+                        height: auto;
+                        display: block;
+                        margin: auto;
+                        scale: 1.7;
+                      "
+                    />
                   </td>
                   <td>Lưỡi hổ</td>
                   <td>36.000đ</td>
-                  <td style="width:100px;">
-                    <input type="number" class="form-control text-center" value="1" min="1" max="99" style="width:100px; margin:auto;"/>
+                  <td style="width: 100px">
+                    <input
+                      type="number"
+                      class="form-control text-center"
+                      value="1"
+                      min="1"
+                      max="99"
+                      style="width: 100px; margin: auto"
+                    />
                   </td>
                   <td>36.000đ</td>
-                  <td><a href="#" class="btn btn-black btn-sm hover-text-glow">X</a></td>
+                  <td>
+                    <button
+                      type="button"
+                      onclick="updateCart2()"
+                      class="btn btn-black btn-sm hover-text-glow"
+                    >
+                      X
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -143,15 +244,28 @@
 
           <!-- Buttons Section -->
           <div class="d-flex gap-2 mb-5">
-          <button type="button" onclick="window.location.href='search.html'" class="btn btn-outline-black btn-sm" style="width: 200px;">Tiếp tục mua sắm</button>
-          <button type="button" onclick="updateCart()" class="btn btn-outline-black btn-sm" style="width: 200px;">Cập nhật giỏ hàng</button>
-        </div>
-        <script>
-          function updateCart() {
-            alert("Cập nhật giỏ hàng thành công!");
-          }
-        </script>
-
+            <button
+              type="button"
+              onclick="window.location.href='search.html'"
+              class="btn btn-outline-black btn-sm"
+              style="width: 200px"
+            >
+              Tiếp tục mua sắm
+            </button>
+            <button
+              type="button"
+              onclick="updateCart()"
+              class="btn btn-outline-black btn-sm"
+              style="width: 200px"
+            >
+              Cập nhật giỏ hàng
+            </button>
+          </div>
+          <script>
+            function updateCart() {
+              alert("Cập nhật giỏ hàng thành công!");
+            }
+          </script>
 
           <!-- Cart Total & Checkout -->
           <div class="row">
@@ -163,9 +277,15 @@
                 </div>
                 <div class="d-flex justify-content-between mb-3">
                   <span>Tổng cộng</span>
-                  <strong style="color: brown;">174.000đ</strong>
+                  <strong style="color: brown">174.000đ</strong>
                 </div>
-                <button type="button" class="btn btn-black btn-lg btn-block " onclick="window.location.href='checkout.html'">Tiến hành thanh toán</button>
+                <button
+                  type="button"
+                  class="btn btn-black btn-lg btn-block"
+                  onclick="window.location.href='checkout.html'"
+                >
+                  Tiến hành thanh toán
+                </button>
               </div>
             </div>
           </div>
@@ -184,14 +304,35 @@
           <div class="col-lg-8">
             <div class="subscription-form">
               <h3 class="d-flex align-items-center">
-                <span class="me-1"><img src="images/envelope-outline.svg" alt="Image" class="img-fluid" /></span>
+                <span class="me-1"
+                  ><img
+                    src="images/envelope-outline.svg"
+                    alt="Image"
+                    class="img-fluid"
+                /></span>
                 <span>Nêu ý kiến cá nhân</span>
               </h3>
 
               <form action="#" class="row g-3">
-                <div class="col-auto"><input type="text" class="form-control" placeholder="Nhập họ và tên" /></div>
-                <div class="col-auto"><input type="email" class="form-control" placeholder="Nhập email" /></div>
-                <div class="col-auto"><button class="btn btn-primary"><span class="fa fa-paper-plane"></span></button></div>
+                <div class="col-auto">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Nhập họ và tên"
+                  />
+                </div>
+                <div class="col-auto">
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="Nhập email"
+                  />
+                </div>
+                <div class="col-auto">
+                  <button class="btn btn-primary">
+                    <span class="fa fa-paper-plane"></span>
+                  </button>
+                </div>
               </form>
             </div>
           </div>
@@ -204,21 +345,43 @@
             </div>
             <p class="mb-4">Mang đến không gian xanh tốt!.</p>
             <ul class="list-unstyled custom-social">
-              <li><a href="https://www.facebook.com/TruongDaihocSaiGon.SGU"><span class="fa fa-brands fa-facebook-f"></span></a></li>
-              <li><a href="https://www.youtube.com/watch?v=T0sHaz4H9MQ"><span class="fa fa-brands fa-twitter"></span></a></li>
-              <li><a href="https://www.instagram.com/daihocsaigon/"><span class="fa fa-brands fa-instagram"></span></a></li>
-              <li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
+              <li>
+                <a href="https://www.facebook.com/TruongDaihocSaiGon.SGU"
+                  ><span class="fa fa-brands fa-facebook-f"></span
+                ></a>
+              </li>
+              <li>
+                <a href="https://www.youtube.com/watch?v=T0sHaz4H9MQ"
+                  ><span class="fa fa-brands fa-twitter"></span
+                ></a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/daihocsaigon/"
+                  ><span class="fa fa-brands fa-instagram"></span
+                ></a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-brands fa-linkedin"></span></a>
+              </li>
             </ul>
           </div>
 
           <div class="col-lg-8">
             <div class="row links-wrap">
               <div class="col-12 text-center">
-                <ul >
-                  <li class="list-inline-item me-4"><a href="#">Giới thiệu</a></li>
-                  <li class="list-inline-item me-4"><a href="shop.html">Mua sắm</a></li>
-                  <li class="list-inline-item me-4"><a href="services.html">Dịch vụ</a></li>
-                  <li class="list-inline-item me-4"><a href="contact.html">Liên hệ</a></li>
+                <ul>
+                  <li class="list-inline-item me-4">
+                    <a href="#">Giới thiệu</a>
+                  </li>
+                  <li class="list-inline-item me-4">
+                    <a href="shop.html">Mua sắm</a>
+                  </li>
+                  <li class="list-inline-item me-4">
+                    <a href="services.html">Dịch vụ</a>
+                  </li>
+                  <li class="list-inline-item me-4">
+                    <a href="contact.html">Liên hệ</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -230,7 +393,9 @@
             <div class="col-lg-6">
               <p class="mb-2 text-center text-lg-start">
                 Copyright &copy;
-                <script>document.write(new Date().getFullYear());</script>
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
                 . All Rights Reserved. — Designed with love by
                 <a href="group7.html">Group 7.co</a> Distributed By
                 <a href="group7.html">Group7</a>
