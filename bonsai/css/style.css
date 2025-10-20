@@ -1443,5 +1443,146 @@ body {
   font-size: 16px;
 }
 
+.search-bar {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  width: 600px;
+  height: 70px;
+}
+
+/* nút search bên trái */
+.search-btn {
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #555;
+}
+
+/* ô nhập */
+.search-input {
+  border: none;
+  flex: 1;
+  padding: 8px;
+  outline: none;
+}
+
+/* nút filter bên phải */
+.filter-btn {
+  background: #3b5d51;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.filter-btn:hover {
+  background: #2f4a42;
+}
+
+/* dropdown filter mặc định ẩn */
+.filter-options {
+  display: none;
+  position: absolute;
+  top: 220px;
+  right: 30%;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border-radius: 6px;
+  padding: 10px;
+  z-index: 100;
+  min-width: 150px;
+  font-size: 16px;
+}
+
+/* show khi checkbox checked */
+#show-filter:checked + .filter-btn + .filter-options {
+  display: block;
+}
+
+/* style các label trong dropdown */
+.filter-options label {
+  display: block;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.filter-options label:hover {
+  background-color: #f0f0f0;
+}
+
+.filter-options ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* style li */
+.filter-options li {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between; /* nếu muốn thêm nút hoặc icon bên phải */
+  align-items: center;
+  transition: background 0.2s;
+}
+
+/* hover mỗi li */
+.filter-options li:hover {
+  background-color: #f0f0f0;
+  border-left: 4px solid #4caf50; /* ví dụ highlight xanh bên trái */
+}
+
+/* nếu muốn thêm nút trong mỗi item */
+.filter-options li button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 2px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  display: none; /* chỉ hiện khi hover */
+}
+
+.filter-options li:hover button {
+  display: inline-block;
+}
+
+a {
+  text-decoration: none; /* bỏ gạch chân */
+  color: inherit;        /* kế thừa màu chữ từ label hoặc parent */
+}
+
+/* Nếu chỉ muốn cho label trong a */
+a label {
+  text-decoration: none;
+}
+
+.circle-img {
+  width: 150px;
+  height: 150px;           /* vuông trước */
+  object-fit: contain;      /* giữ tỉ lệ, không cắt */
+  border-radius: 50%;       /* biến vuông thành tròn */
+  background-color: #f0f0f0; /* nếu ảnh không lấp đầy, sẽ thấy nền */
+  display: block;
+}
 
