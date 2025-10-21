@@ -100,7 +100,9 @@
             </li>
             <li>
               <a class="nav-link hover-box" href="search.html">
-                <div class="front"><img src="images/search.svg" style="scale: 1.5;"/></div>
+                <div class="front">
+                  <img src="images/search.svg" style="scale: 1.5" />
+                </div>
                 <div class="back"><span>Tìm kiếm</span></div>
               </a>
             </li>
@@ -323,7 +325,7 @@
                   name="c_order_notes"
                   id="c_order_notes"
                   cols="30"
-                  rows="16"
+                  rows="14"
                   class="form-control"
                   placeholder="Ghi chú đơn hàng của bạn tại đây..."
                 ></textarea>
@@ -503,13 +505,22 @@
                     </div>
                   </div>
 
-                  <div class="form-group p-lg-5" style="margin-bottom: -50px">
+                  <div class="text-center mt-4">
                     <button
-                      class="btn-buy btn-lg py-3 btn-block"
-                      onclick="window.location='sure.html'"
+                      type="button"
+                      class="btn btn-success"
+                      onclick="confirmSave()"
                     >
-                      Đặt Hàng
+                      <i></i> ĐẶT HÀNG
                     </button>
+
+                    <script>
+                      function confirmSave() {
+                        if (confirm("Bạn có chắc muốn đặt đơn này không?")) {
+                          window.location.href = "thankyou.html"; // chuyển trang
+                        }
+                      }
+                    </script>
                   </div>
                 </div>
               </div>
