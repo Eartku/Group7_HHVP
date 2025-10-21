@@ -88,50 +88,105 @@
     <!-- Start Hero Section -->
     <div class="hero">
       <form class="search-bar" action="admin_ordersearch.html" method="get">
-        <div class="search-wrapper">
-          <button type="submit" class="search-btn">
-            <span class="material-symbols-outlined">search</span>
-          </button>
+        <!-- nút filter -->
+        <input type="checkbox" id="show-filter" hidden />
+        <label for="show-filter" class="filter-btn">
+          <a
+            class="filter-btn"
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 150px;
+              height: 50px;
+              border: 1px solid #011007;
+              border-radius: 8px;
+              background-color: #11ba52;
+              text-decoration: none;
+              color: #333;
+              font-weight: 500;
+              transition: 0.3s;
+            "
+          >
+            Tra cứu
+          </a>
+        </label>
 
-          <input
-            class="search-input form-control"
-            type="search"
-            placeholder="Tìm kiếm..."
-            list="plants"
-          />
+        <!-- dropdown filter -->
+        <div class="filter-options" style="top: 208px; right: 36%">
+          <ul>
+            <label class="form-label fw-bold">Ngày đặt</label>
+            <input type="date" class="form-control" value="2025-10-20" />
+            <li>
+              <a href="#"><b>Trạng thái đơn hàng</b></a>
+            </li>
+            <li>
+              <label for="new">
+                <input
+                  id="new"
+                  type="radio"
+                  name="status"
+                  value="new"
+                  checked
+                />
+                Mới đặt
+              </label>
+            </li>
 
-          <!-- nút filter -->
-          <input type="checkbox" id="show-filter" hidden />
-          <label for="show-filter" class="filter-btn">
-            <span class="material-symbols-outlined">tune</span>
-          </label>
+            <li>
+              <label for="processed">
+                <input
+                  id="processed"
+                  type="radio"
+                  name="status"
+                  value="processed"
+                />
+                Đã xử lý
+              </label>
+            </li>
 
-          <!-- dropdown filter -->
-          <div class="filter-options">
-            <ul>
-              <label class="form-label fw-bold">Ngày đặt</label>
-              <input type="date" class="form-control" value="2025-10-20" />
-              <li>
-                <a href="#"><b>Trạng thái đơn hàng</b></a>
-              </li>
-              <li><a href="admin_order.html">Mới đặt</a></li>
-              <li><a href="admin_order.html">Đã xử Lý</a></li>
-              <li><a href="admin_order.html">Đã giao</a></li>
-              <li><a href="admin_order.html">Hủy</a></li>
+            <li>
+              <label for="delivered">
+                <input
+                  id="delivered"
+                  type="radio"
+                  name="status"
+                  value="delivered"
+                />
+                Đã giao
+              </label>
+            </li>
 
-              <!-- Nested filter theo giá -->
-            </ul>
-          </div>
+            <li>
+              <label for="cancelled">
+                <input
+                  id="cancelled"
+                  type="radio"
+                  name="status"
+                  value="cancelled"
+                />
+                Hủy
+              </label>
+            </li>
+            <li>
+              <a href="admin_ordersearch.html" style="color: brown"
+                ><b> TRA CỨU</b></a
+              >
+            </li>
+
+            <!-- Nested filter theo giá -->
+          </ul>
         </div>
+        <!-- </div> -->
       </form>
     </div>
-
     <!-- End Hero Section -->
+
     <!-- End Header/Navigation -->
 
     <!-- Start Customer Management Section -->
     <div class="container py-5" style="min-height: 50px">
-      <h2 class="mb-4 text-center text-black">KẾT QUẢ TÌM KIẾM</h2>
+      <h2 class="mb-4 text-center text-black">KẾT QUẢ TRA CỨU</h2>
 
       <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
         <input type="radio" name="page" id="page1" checked />
