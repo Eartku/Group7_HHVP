@@ -59,9 +59,9 @@
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
             <li><a href="../admin/customermanage.html" class="hover-text-glow-small">QUẢN LÝ KHÁCH HÀNG</a></li>
-            <li><a href="shopadmin.html" class="hover-text-glow-small">QUẢN LÝ SẢN PHẨM</a></li>
-            <li><a href="shop3.html" class="hover-text-glow-small">QUẢN LÝ ĐƠN HÀNG</a></li>
-            <li><a href="shop3.html" class="hover-text-glow-small">QUẢN LÝ KHO</a></li>
+            <li><a href="admin_product.html" class="hover-text-glow-small">QUẢN LÝ SẢN PHẨM</a></li>
+            <li><a href="admin_order.html" class="hover-text-glow-small">QUẢN LÝ ĐƠN HÀNG</a></li>
+            <li><a href="admin_stock.html" class="hover-text-glow-small">QUẢN LÝ KHO</a></li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
@@ -557,7 +557,30 @@
           </div>
         </div>
       </div>
-    </footer>
+  </footer>
+  <a href="addproduct.html" class="btn-add-product">
+  Thêm sản phẩm
+  </a>
+  <style>
+  .btn-add-product {
+  position: fixed;
+  bottom: 30px; /* cách mép dưới */
+  right: 30px; /* cách mép phải */
+  background-color: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  z-index: 9999;
+  }
+  .btn-add-product:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+  }
+  </style>
   </body>
 <script>
   function deleteProduct() {
