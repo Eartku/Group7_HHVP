@@ -25,18 +25,18 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search"
     />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
-
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
     />
     <link href="css/tiny-slider.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
     <link href="css/hover.css" rel="stylesheet" />
     <link href="css/animation.css" rel="stylesheet" />
-     <link href="css/page.css" rel="stylesheet" />
-    <title>BonSai | Cây để phòng</title>
+    <link href="css/page.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <title>BonSai | Tìm kiếm</title>
   </head>
 
   <body>
@@ -61,14 +61,14 @@
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li><a href="shop11.html" class="hover-text-glow-small" style="font-weight: bold; font-size: calc(100% + 3px);">CÂY ĐỂ PHÒNG</a></li>
-            <li><a href="shop22.html"class="hover-text-glow-small">CÂY ĐỂ BÀN</a></li>
-            <li><a href="shop33.html" class="hover-text-glow-small">CÂY TREO TƯỜNG</a></li>
+            <li><a href="shop1.html" class="hover-text-glow-small">CÂY ĐỂ PHÒNG</a></li>
+            <li><a href="shop2.html"class="hover-text-glow-small">CÂY ĐỂ BÀN</a></li>
+            <li><a href="shop3.html" class="hover-text-glow-small">CÂY TREO TƯỜNG</a></li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
             <li>
-              <a href="index2.html" class="nav-link hover-box">
+              <a href="index.html" class="nav-link hover-box">
                 <div class="front">
                   <img src="images/home.svg" style="scale: 1.3" />
                 </div>
@@ -78,18 +78,27 @@
 
             <li class="nav-item">
             <input type="checkbox" id="user-toggle" hidden />
-            </li>
+
+            <label for="user-toggle" class="nav-link hover-box-2">
+              <div class="front"><img src="images/user.svg" /></div>
+              <div class="back"><span>Người dùng</span></div>
+            </label>
+
+            <ul class="dropdown">
+              <li><a href="profile.html">Hồ sơ cá nhân</a></li>
+              <li><a href="orders.html">Lịch sử đơn hàng</a></li>
+            </ul>
+          </li>
 
             <li>
-              <a class="nav-link hover-box" href="#" onclick="checkLogin(event)">
+              <a class="nav-link hover-box" href="cart.html">
                 <div class="front"><img src="images/cart.svg" /></div>
                 <div class="back"><span>Giỏ hàng</span></div>
               </a>
             </li>
-
             <li>
               <a class="nav-link hover-box" href="search2.html">
-                <div class="front"><img src="images/search.svg" /></div>
+                <div class="front"><img src="images/search.svg" style="scale: 1.5;"/></div>
                 <div class="back"><span>Tìm kiếm</span></div>
               </a>
             </li>
@@ -100,33 +109,119 @@
     <!-- End Header/Navigation -->
 
     <!-- Start Hero Section -->
-    <div class="hero">
-        <div class="center-row" style="scale: 1; text-align: center;">
-          <h1 class="glow">CÂY ĐỂ PHÒNG</h1>
-          <span style="color: aliceblue;">Tạo nên một không gian tươi mát<span>
-        </div>
-      <!-- <div class="container">
-        <div class="row justify-content-between">
-          <div class="col-lg-5">
-            <div class="intro-excerpt">
-              <h1>Góc xanh cho ngôi nhà của ban</h1>
-              <p class="mb-4">
-                “Trong mỗi bước đi cùng thiên nhiên, ta nhận được nhiều hơn
-                những gì mình tìm kiếm.” -John Muir
-              </p>
-              <p>
-                <a href="shop.html" class="btn btn-secondary me-2">Mua sắm</a>
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-7">
-            <div class="hero-img-wrap">
-              <img src="images/test2.png" class="img-fluid" />
-            </div>
-          </div>
-        </div>
-      </div> -->
+<div class="hero">
+  <form class="search-bar" action="#" method="get">
+    <div class="search-wrapper">
+      <a href="shop33.html" class="search-btn">
+  <span class="material-symbols-outlined">search</span>
+</a>
+
+
+      <input class="search-input form-control" type="search" placeholder="Tìm kiếm..." list="plants"/>
+      <datalist id="plants">
+        <option value="Môn cảnh">
+        <option value="Monstera deliciosa">
+        <option value="Lưỡi hổ">
+        <option value="Cau tiểu trâm">
+        <option value="Dây trầu bà">
+        <option value="Rau má 36k">
+        <option value="Sen đá">
+        <option value="Xương rồng">
+        <option value="Cúc trắng">
+      </datalist>
+
+      <!-- nút filter -->
+      <input type="checkbox" id="show-filter" hidden />
+      <label for="show-filter" class="filter-btn">
+        <span class="material-symbols-outlined">tune</span>
+      </label>
+
+      <!-- dropdown filter -->
+   <div class="filter-options">
+  <ul>
+    <li><a href="search.html">Tất cả</a></li>
+
+    <!-- Nhóm 1: loại cây -->
+    <li>
+      <label>
+        <input
+          type="radio"
+          name="category"
+          value="room"
+          checked
+        />
+        Cây để phòng
+      </label>
+    </li>
+    <li>
+      <label>
+        <input
+          type="radio"
+          name="category"
+          value="desk"
+        />
+        Cây để bàn
+      </label>
+    </li>
+    <li>
+      <label>
+        <input
+          type="radio"
+          name="category"
+          value="wall"
+        />
+        Cây treo tường
+      </label>
+    </li>
+
+    <!-- Nhóm 2: theo giá -->
+    <li>
+      <input type="checkbox" id="toggle-price" hidden />
+      <label for="toggle-price">Theo khoảng giá</label>
+      <ul class="nested">
+        <li>
+          <label>
+            <input
+              type="radio"
+              name="price"
+              value="20-50"
+              checked
+            />
+            Từ 20k - 50k
+          </label>
+        </li>
+        <li>
+          <label>
+            <input
+              type="radio"
+              name="price"
+              value="50-100"
+            />
+            Từ 50k - 100k
+          </label>
+        </li>
+        <li>
+          <label>
+            <input
+              type="radio"
+              name="price"
+              value="100+"
+            />
+            Trên 100k
+          </label>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
     </div>
+  </form>
+</div>
+
+
+
+
     <!-- End Hero Section -->
 
     <div class="untree_co-section product-section before-footer-section">
@@ -140,18 +235,18 @@
           <!-- Start Column 1 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="images/cay001.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Rau má</h3>
-              <strong class="product-price">36.000đ</strong>
+              <img src="images/cay101.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Tiểu cảnh sen đá sedum</h3>
+              <strong class="product-price">37.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-              <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -162,19 +257,19 @@
 
           <!-- Start Column 2 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay002.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Môn cảnh</h3>
-              <strong class="product-price">78.000đ</strong>
+            <div class="product-item">
+              <img src="images/cay102.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Chậu sen đá phối</h3>
+              <strong class="product-price">76.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -185,20 +280,20 @@
 
           <!-- Start Column 3 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay003.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Lưỡi hổ</h3>
+            <div class="product-item">
+              <img src="images/cay103.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Tiểu cảnh sen đá Echeveria</h3>
               <strong class="product-price">99.999đ</strong>
 
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -209,19 +304,19 @@
 
           <!-- Start Column 4 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay004.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Lan ý</h3>
-              <strong class="product-price">85.000đ</strong>
+            <div class="product-item">
+              <img src="images/cay104.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Cúc trắng</h3>
+              <strong class="product-price">65.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -232,19 +327,19 @@
 
           <!-- Start Column 5 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay005.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Cau tiểu trâm</h3>
-              <strong class="product-price">43.000đ</strong>
+            <div class="product-item">
+              <img src="images/cay105.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Lan hồ điệp</h3>
+              <strong class="product-price">44.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -255,19 +350,19 @@
 
           <!-- Start Column 6 -->
            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay006.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Trầu bà Nam Mỹ</h3>
-              <strong class="product-price">48.000đ</strong>
+            <div class="product-item">
+              <img src="images/cay106.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Xương rồng</h3>
+              <strong class="product-price">68.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -278,19 +373,19 @@
 
           <!-- Start Column 7 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay007.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Chuối cảnh</h3>
-              <strong class="product-price">49.000đ</strong>
+            <div class="product-item">
+              <img src="images/cay107.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Trầu bà </h3>
+              <strong class="product-price">39.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -301,19 +396,19 @@
 
           <!-- Start Column 8 -->
            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay008.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Lan chi lớn</h3>
-              <strong class="product-price">56.000đ</strong>
+            <div class="product-item">
+              <img src="images/cay108.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Nha đam</h3>
+              <strong class="product-price">46.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -326,19 +421,19 @@
         <div class="row page page2">
           <!-- Start Column 1 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay001.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Monstera deliciosa</h3>
-              <strong class="product-price">60.000đ</strong>
+            <div class="product-item">
+              <img src="images/cay108.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Nha đam</h3>
+              <strong class="product-price">48.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -349,19 +444,19 @@
 
           <!-- Start Column 2 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/rauma.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Rau má</h3>
-              <strong class="product-price">36.000.000đ</strong>
+            <div class="product-item">
+              <img src="images/cay101.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Tiểu cảnh sen đá sedum</h3>
+              <strong class="product-price">49.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -372,19 +467,19 @@
 
           <!-- Start Column 3 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay003.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Lưỡi hổ</h3>
+            <div class="product-item">
+              <img src="images/cay106.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Xương rồng</h3>
               <strong class="product-price">99.999đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -395,19 +490,19 @@
 
           <!-- Start Column 4 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay004.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Lan ý</h3>
-              <strong class="product-price">85.000đ</strong>
+            <div class="product-item">
+              <img src="images/cay102.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Chậu sen đá phối</h3>
+              <strong class="product-price">86.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -418,19 +513,19 @@
 
           <!-- Start Column 5 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay005.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Cau tiểu trâm</h3>
-              <strong class="product-price">43.000đ</strong>
+            <div class="product-item">
+              <img src="images/cay105.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Lan hồ điệp</h3>
+              <strong class="product-price">74.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -441,19 +536,19 @@
 
           <!-- Start Column 6 -->
            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay006.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Trầu bà Nam Mỹ</h3>
-              <strong class="product-price">48.000đ</strong>
+            <div class="product-item">
+              <img src="images/cay103.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Tiểu cảnh sen đá Echeveria</h3>
+              <strong class="product-price">76.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -464,19 +559,19 @@
 
           <!-- Start Column 7 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay007.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Chuối cảnh</h3>
-              <strong class="product-price">49.000đ</strong>
+            <div class="product-item">
+              <img src="images/cay107.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Chầu bà </h3>
+              <strong class="product-price">47.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -487,19 +582,19 @@
 
           <!-- Start Column 8 -->
            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay008.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Lan chi lớn</h3>
-              <strong class="product-price">56.000đ</strong>
+            <div class="product-item">
+              <img src="images/cay104.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Cúc Trắng </h3>
+              <strong class="product-price">45.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -512,19 +607,19 @@
         <div class="row page page3">
           <!-- Start Column 1 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay004.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Lan ý</h3>
+            <div class="product-item">
+              <img src="images/cay108.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Nha Đam</h3>
               <strong class="product-price">85.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -535,19 +630,19 @@
 
           <!-- Start Column 2 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay002.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Môn cảnh</h3>
+            <div class="product-item">
+              <img src="images/cay107.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Trầu bà</h3>
               <strong class="product-price">78.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -558,19 +653,19 @@
 
           <!-- Start Column 3 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay003.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Lưỡi hổ</h3>
+            <div class="product-item">
+              <img src="images/cay106.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Xương rồng</h3>
               <strong class="product-price">99.999đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -581,19 +676,19 @@
 
           <!-- Start Column 4 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay004.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Lan ý</h3>
+            <div class="product-item">
+              <img src="images/cay105.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Lan hồ điệp</h3>
               <strong class="product-price">85.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -604,19 +699,19 @@
 
           <!-- Start Column 5 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay005.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Cau tiểu trâm</h3>
+            <div class="product-item">
+              <img src="images/cay104.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Cúc trắng</h3>
               <strong class="product-price">43.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -627,19 +722,19 @@
 
           <!-- Start Column 6 -->
            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay006.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Trầu bà Nam Mỹ</h3>
+            <div class="product-item">
+              <img src="images/cay103.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Tiểu cảnh sen đá Echeveria</h3>
               <strong class="product-price">48.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -650,19 +745,19 @@
 
           <!-- Start Column 7 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay007.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Chuối cảnh</h3>
+            <div class="product-item">
+              <img src="images/cay102.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Chậu sen phối</h3>
               <strong class="product-price">49.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -673,19 +768,19 @@
 
           <!-- Start Column 8 -->
            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                        <div class="product-item">
-              <img src="images/cay008.png" class="img-fluid product-thumbnail" />
-              <h3 class="product-title">Lan chi lớn</h3>
+            <div class="product-item">
+              <img src="images/cay101.png" class="img-fluid product-thumbnail" />
+              <h3 class="product-title">Tiểu cảnh sen đá sedum</h3>
               <strong class="product-price">56.000đ</strong>
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                <a href="details2.html" class="btn btn-sm btn-success"
+                <a href="details.html" class="btn btn-sm btn-success"
                   >Chi tiết</a
                 >
               </div>
 
-          <span class="icon-cross" onclick="checkLogin(event)">
+              <span class="icon-cross">
                 <a href="cart.html">
                   <img src="images/cross.svg" class="img-fluid" />
                 </a>
@@ -702,8 +797,9 @@
           <label for="page3">3</label>
           <label for="next">></label>
         </div>
-        <script src="../js/slider.js"></script>
       </div>
+      
+
     <!-- Start Footer Section -->
     <footer class="footer-section">
       <div class="container relative">
@@ -779,6 +875,7 @@
               </li>
             </ul>
           </div>
+
         <div class="border-top copyright">
           <div class="row pt-4">
             <div class="col-lg-6">
@@ -804,5 +901,4 @@
         </div>
       </div>
     </footer>
-  </body>
 </html>
