@@ -144,13 +144,18 @@
                 <div class="mb-3">
                   <label class="text-black">Địa chỉ giao hàng</label>
                   <textarea
+                  style="height: 215px !important;"
                     class="form-control"
                     rows="3"
                     placeholder="Nhập địa chỉ của bạn"
                   >320 Trần Bình Trọng, Quận 5, TP.HCM</textarea>
                 </div>
 
-                <button class="btn btn-dark w-100">Lưu thay đổi</button>
+             <button type="button" class="btn btn-dark w-100" onclick="window.location.href='profile.html'">
+  Thay đổi hồ sơ
+</button>
+
+
               </form>
             </div>
           </div>
@@ -171,34 +176,77 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>#P0001</td>
-                    <td>12/10/2025</td>
-                    <td>148.000đ</td>
-                    <td><span class="badge bg-success">Đã giao</span></td>
+                    <td>#P001</td>
+                    <td>12/12/2025</td>
+                    <td>137.000đ</td>
+                    <td><span class="badge bg-warning text-dark">Mới đặt</span></td>
                     <td><button onclick="window.location.href='orderdetail.html'" class="badge bg-success"><span>Chi tiết</span></button></td>
                   </tr>
                   <tr>
-                    <td>#P0002</td>
-                    <td>05/09/2025</td>
+                    <td>#P002</td>
+                    <td>13/07/2025</td>
                     <td>89.000đ</td>
                     <td><span class="badge bg-warning text-dark">Mới đặt</span></td>
                     <td><button onclick="window.location.href='orderdetail.html'" class="badge bg-success"><span>Chi tiết</span></button></td>
                   </tr>
                   <tr>
-                    <td>#P0003</td>
-                    <td>22/08/2025</td>
+                    <td>#P003</td>
+                    <td>02/04/2025</td>
                     <td>120.000đ</td>
-                    <td><span class="badge bg-danger">Hủy</span></td>
+                    <td><span class="badge bg-success">Đã giao</span></td>
                     <td><button onclick="window.location.href='orderdetail.html'" class="badge bg-success"><span>Chi tiết</span></button></td>
                   </tr>
                    <tr>
-                    <td>#P0004</td>
-                    <td>20/10/2025</td>
+                    <td>#P004</td>
+                    <td>19/04/2025</td>
                     <td>136.000đ</td>
+                    <td><span class="badge bg-danger">Hủy</span></td>
+                    <td><button onclick="window.location.href='orderdetail.html'" class="badge bg-success"><span>Chi tiết</span></button></td>
+                  </tr>
+                  <tr>
+                    <td>#P005</td>
+                    <td>11/11/2025</td>
+                    <td>167.000đ</td>
                     <td><span class="badge bg-success">Đã xử lý</span></td>
                     <td><button onclick="window.location.href='orderdetail.html'" class="badge bg-success"><span>Chi tiết</span></button></td>
                   </tr>
+                  <tr>
+                    <td>#P006</td>
+                    <td>10/05/2025</td>
+                    <td>190.000đ</td>
+                    <td><span class="badge bg-warning text-dark">Mới đặt</span></td>
+                    <td><button onclick="window.location.href='orderdetail.html'" class="badge bg-success"><span>Chi tiết</span></button></td>
+                  </tr>
+                  <tr>
+                    <td>#P007</td>
+                    <td>13/03/2025</td>
+                    <td>236.000đ</td>
+                    <td><span class="badge bg-success">Đã giao</span></td>
+                    <td><button onclick="window.location.href='orderdetail.html'" class="badge bg-success"><span>Chi tiết</span></button></td>
+                  </tr>
+                  <tr>
+                    <td>#P008</td>
+                    <td>01/01/2020</td>
+                    <td>306.000đ</td>
+                    <td><span class="badge bg-success">Đã xử lý</span></td>
+                    <td><button onclick="window.location.href='orderdetail.html'" class="badge bg-success"><span>Chi tiết</span></button></td>
+                  </tr>
+                  <tr>
+                    <td>#P009</td>
+                    <td>12/04/2022</td>
+                    <td>176.000đ</td>
+                    <td><span class="badge bg-danger">Hủy</span></td>
+                    <td><button onclick="window.location.href='orderdetail.html'" class="badge bg-success"><span>Chi tiết</span></button></td>
+                  </tr>
+                  <tr>
+                    <td>#P010</td>
+                    <td>08/01/2023</td>
+                    <td>127.000đ</td>
+                    <td><span class="badge bg-success">Đã giao</span></td>
+                    <td><button onclick="window.location.href='orderdetail.html'" class="badge bg-success"><span>Chi tiết</span></button></td>
+                  </tr>
                 </tbody>
+                
               </table>
 
               <div class="text-center mt-4">
@@ -218,7 +266,7 @@
     <!-- Footer -->
     <footer class="footer-section">
       <div class="container relative">
-        <div class="sofa-img">
+        <div class="sofa-img" style="top: -100px">
           <img src="images/senda.png" alt="Image" class="img-fluid" />
         </div>
         <div class="row g-5 mb-5">

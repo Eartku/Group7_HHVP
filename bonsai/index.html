@@ -112,23 +112,70 @@
               những gì mình tìm kiếm.” - Trích John Muir
             </p>
             <form class="flex-grow-1" action="#" method="get">
-        <div class="search d-flex align-items-center">
-          <button type="submit" class="search-btn">
-            <a href="search.html"><span class="material-symbols-outlined">search</span></a>
-          </button>
-          <input class="search-input form-control" type="search" placeholder="Tìm kiếm..." list="plants"/>
-          <datalist id="plants">
-            <option value="Môn cảnh">
-              <option value="Monstera deliciosa">
-                <option value="Lưỡi hổ">
-            <option value="Cau tiểu trâm">
-              <option value="Dây trầu bà">
-                <option value="Rau má 36k">
-            <option value="Sen đá">
-              <option value="Xương rồng">
-                <option value="Cúc trắng">
-          </datalist>
-        </div>
+          <div class="search-wrapper">
+      <a href="shop3.html" class="search-btn">
+  <span class="material-symbols-outlined">search</span>
+</a>
+
+
+      <input class="search-input form-control" type="search" placeholder="Tìm kiếm..." list="plants"/>
+      <datalist id="plants">
+        <option value="Môn cảnh">
+        <option value="Monstera deliciosa">
+        <option value="Lưỡi hổ">
+        <option value="Cau tiểu trâm">
+        <option value="Dây trầu bà">
+        <option value="Rau má 36k">
+        <option value="Sen đá">
+        <option value="Xương rồng">
+        <option value="Cúc trắng">
+      </datalist>
+
+      <!-- nút filter -->
+      <input type="checkbox" id="show-filter" hidden />
+      <label for="show-filter" class="filter-btn">
+        <span class="material-symbols-outlined">tune</span>
+      </label>
+
+      <!-- dropdown filter -->
+   <div class="filter-options" style="top: 375px;
+    right: -59%;">
+  <ul>
+    <!-- Nhóm 1: loại cây -->
+       <div class="mb-2">
+                <label class="form-label small mb-1" style="font-size: 1.25em;"><b>Loại cây</b></label>
+                <select class="form-select form-select-sm">
+                  <option>Tất cả</option>
+                  <option>Cây để phòng</option>
+                  <option>Cây để bàn</option>
+                  <option>Cây treo tường</option>
+                </select>
+              </div>
+ <!-- Nhóm 2: theo tên --> 
+  <div class="mb-2">
+                <label class="form-label small mb-1" style="font-size: 1.25em;"><b>Tên sản phẩm</b></label>
+                <select class="form-select form-select-sm">
+                  <option>Môn cảnh</option>
+                  <option>Lưỡi hổ</option>
+                  <option>Lan ý</option>
+                  <option>Cau tiểu trâm</option>
+                  <option>Chuối cảnh</option>
+                  <option>Lan chi lớn</option>
+                </select> 
+              </div>         
+    <!-- Nhóm 3: theo giá -->
+<div class="mb-2">
+                <label class="form-label small mb-1" style="font-size: 1.25em;"><b>Theo khoảng giá</b></label>
+                <select class="form-select form-select-sm">
+                  <option>Từ 20k - 50k</option>
+                  <option>Từ 50k - 100k</option>
+                  <option>Trên 100k</option>
+                </select>
+              </div>        
+  </ul>
+</div>
+
+    </div> 
       </form>
           </div>
         </div>
@@ -374,7 +421,7 @@
         </div>
 
         <div class="row">
-          <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
+          <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0 " style="width: 33%;">
             <div class="post-entry">
               <a href="#" class="post-thumbnail"><img src="images/post-1.jpg" class="img-fluid" /></a>
               <div class="post-content-entry">
@@ -386,7 +433,7 @@
             </div>
           </div>
 
-          <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
+          <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0"style="width: 33%;">
             <div class="post-entry">
               <a href="#" class="post-thumbnail"><img src="images/thai.png" class="img-fluid" /></a>
               <div class="post-content-entry">
@@ -398,7 +445,7 @@
             </div>
           </div>
 
-          <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
+          <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0"style="width: 33%;">
             <div class="post-entry">
               <a href="#" class="post-thumbnail"><img src="images/post-3.jpg" class="img-fluid" /></a>
               <div class="post-content-entry">
