@@ -62,7 +62,10 @@
 
   <body>
     <!-- Start Header/Navigation -->
-    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
+    <nav
+      class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
+      aria-label="Bonsai navigation bar"
+    >
       <div class="container">
         <a class="navbar-brand" href="admin.html">ADMIN<span>🌱</span></a>
         <button
@@ -79,20 +82,50 @@
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li><a href="customermanage.html" class="nav-link hover-text-glow" style="font-size: 14px;">QUẢN LÝ KHÁCH HÀNG</a></li>
-            <li><a href="admin_product.html" class="nav-link hover-text-glow" style="font-size: 18px;">QUẢN LÝ SẢN PHẨM</a></li>
-            <li><a href="admin_order.html" class="nav-link hover-text-glow" style="font-size: 14px;" >QUẢN LÝ ĐƠN HÀNG</a></li>
-            <li><a href="admin_stock.html" class="nav-link hover-text-glow" style="font-size: 14px;">QUẢN LÝ KHO</a></li>
+            <li>
+              <a
+                href="customermanage.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >QUẢN LÝ KHÁCH HÀNG</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_product.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 18px"
+                >QUẢN LÝ SẢN PHẨM</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_order.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >QUẢN LÝ ĐƠN HÀNG</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_stock.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >QUẢN LÝ KHO</a
+              >
+            </li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
             <li>
               <a href="../admin.html" class="nav-link hover-box">
-                <div class="front"><img src="../images/home.svg" style="scale: 1.3;" /></div>
+                <div class="front">
+                  <img src="../images/home.svg" style="scale: 1.3" />
+                </div>
                 <div class="back"><span>TRANG CHỦ</span></div>
               </a>
             </li>
-            <li style="margin-left: 10px;">
+            <li style="margin-left: 10px">
               <a class="nav-link hover-box" href="admin_login.html">
                 <div class="front"><img src="../images/exit.svg" /></div>
                 <div class="back"><span>Đăng xuất</span></div>
@@ -106,28 +139,42 @@
 
     <!-- Hero Section -->
     <div class="hero">
-      <div class="center-row" style="scale: 1; text-align: center;">
+      <div class="center-row" style="scale: 1; text-align: center">
         <h1 class="glow">QUẢN LÝ SẢN PHẨM</h1>
       </div>
     </div>
-     <!-- Hero Section -->
+    <!-- Hero Section -->
     <div class="untree_co-section product-section before-footer-section">
-        <input type="radio" name="page" id="page1" checked>
-        <input type="radio" name="page" id="page2">
-        <input type="radio" name="page" id="page3">
+      <input type="radio" name="page" id="page1" checked />
+      <input type="radio" name="page" id="page2" />
+      <input type="radio" name="page" id="page3" />
       <div class="container book">
         <!-- class 1 -->
         <div class="row page page1">
           <!-- Start Column 1 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay001.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay001.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Rau má</h3>
               <strong class="product-price">36.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-              <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-              <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -135,13 +182,27 @@
           <!-- Start Column 2 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay002.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay002.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Môn cảnh</h3>
               <strong class="product-price">78.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-              <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-              <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -149,14 +210,27 @@
           <!-- Start Column 3 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay003.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay003.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Lưỡi hổ</h3>
               <strong class="product-price">99.999đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -164,14 +238,27 @@
           <!-- Start Column 4 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay004.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay004.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Lan ý</h3>
               <strong class="product-price">85.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -179,29 +266,55 @@
           <!-- Start Column 5 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay005.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay005.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Cau tiểu trâm</h3>
               <strong class="product-price">43.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
           <!-- End Column 5 -->
           <!-- Start Column 6 -->
-           <div class="col-12 col-md-4 col-lg-3 mb-5">
+          <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay006.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay006.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Trầu bà Nam Mỹ</h3>
               <strong class="product-price">48.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -209,29 +322,55 @@
           <!-- Start Column 7 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay007.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay007.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Chuối cảnh</h3>
               <strong class="product-price">49.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
           <!-- End Column 7 -->
           <!-- Start Column 8 -->
-           <div class="col-12 col-md-4 col-lg-3 mb-5">
+          <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay008.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay008.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Lan chi lớn</h3>
               <strong class="product-price">56.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -241,14 +380,27 @@
           <!-- Start Column 1 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay001.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay001.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Monstera deliciosa</h3>
               <strong class="product-price">60.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -256,14 +408,27 @@
           <!-- Start Column 2 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/rauma.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/rauma.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Rau má</h3>
               <strong class="product-price">36.000.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -271,14 +436,27 @@
           <!-- Start Column 3 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay003.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay003.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Lưỡi hổ</h3>
               <strong class="product-price">99.999đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -286,14 +464,27 @@
           <!-- Start Column 4 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay004.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay004.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Lan ý</h3>
               <strong class="product-price">85.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -301,29 +492,55 @@
           <!-- Start Column 5 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay005.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay005.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Cau tiểu trâm</h3>
               <strong class="product-price">43.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
           <!-- End Column 5 -->
           <!-- Start Column 6 -->
-           <div class="col-12 col-md-4 col-lg-3 mb-5">
+          <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay006.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay006.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Trầu bà Nam Mỹ</h3>
               <strong class="product-price">48.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -331,29 +548,55 @@
           <!-- Start Column 7 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay007.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay007.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Chuối cảnh</h3>
               <strong class="product-price">49.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
           <!-- End Column 7 -->
           <!-- Start Column 8 -->
-           <div class="col-12 col-md-4 col-lg-3 mb-5">
+          <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay008.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay008.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Lan chi lớn</h3>
               <strong class="product-price">56.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -363,14 +606,27 @@
           <!-- Start Column 1 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay004.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay004.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Lan ý</h3>
               <strong class="product-price">85.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -378,14 +634,27 @@
           <!-- Start Column 2 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay002.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay002.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Môn cảnh</h3>
               <strong class="product-price">78.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -393,13 +662,27 @@
           <!-- Start Column 3 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay003.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay003.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Lưỡi hổ</h3>
               <strong class="product-price">99.999đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-            <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -407,14 +690,27 @@
           <!-- Start Column 4 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay004.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay004.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Lan ý</h3>
               <strong class="product-price">85.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-            <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -422,29 +718,55 @@
           <!-- Start Column 5 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay005.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay005.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Cau tiểu trâm</h3>
               <strong class="product-price">43.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
           <!-- End Column 5 -->
           <!-- Start Column 6 -->
-           <div class="col-12 col-md-4 col-lg-3 mb-5">
+          <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay006.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay006.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Trầu bà Nam Mỹ</h3>
               <strong class="product-price">48.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -452,45 +774,70 @@
           <!-- Start Column 7 -->
           <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay007.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay007.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Chuối cảnh</h3>
               <strong class="product-price">49.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
           <!-- End Column 7 -->
           <!-- Start Column 8 -->
-           <div class="col-12 col-md-4 col-lg-3 mb-5">
+          <div class="col-12 col-md-4 col-lg-3 mb-5">
             <div class="product-item">
-              <img src="../images/cay008.png" class="img-fluid product-thumbnail" />
+              <img
+                src="../images/cay008.png"
+                class="img-fluid product-thumbnail"
+              />
               <h3 class="product-title">Lan chi lớn</h3>
               <strong class="product-price">56.000đ</strong>
-                <!-- Thêm nút sửa / xóa -->
+              <!-- Thêm nút sửa / xóa -->
               <div class="mt-2 d-flex justify-content-between">
-             <a href="productdetails.html" class="btn btn-custom btn-edit" style="width: 48%;">Sửa</a>
-             <button class="btn btn-custom btn-delete" style="width: 48%;" onclick="deleteProduct()">Xóa</button>
-
+                <a
+                  href="productdetails.html"
+                  class="btn btn-custom btn-edit"
+                  style="width: 48%"
+                  >Sửa</a
+                >
+                <button
+                  class="btn btn-custom btn-delete"
+                  style="width: 48%"
+                  onclick="deleteProduct()"
+                >
+                  Xóa
+                </button>
               </div>
-
             </div>
           </div>
           <!-- End Column 8 -->
         </div>
       </div>
-        <div class="controls">
-          <label for="page1">1</label>
-          <label for="page2">2</label>
-          <label for="page3">3</label>
-          <label for="next">></label>
-        </div>
+      <div class="controls">
+        <label for="page1">1</label>
+        <label for="page2">2</label>
+        <label for="page3">3</label>
+        <label for="next">></label>
       </div>
+    </div>
     <!-- Start Footer Section -->
-      <footer class="footer-section bg-dark text-light mt-5">
+    <footer class="footer-section bg-dark text-light mt-5">
       <div class="container py-4">
         <div class="row">
           <div class="col-lg-8">
@@ -500,102 +847,102 @@
         <div class="border-top pt-3 mt-3 text-center">
           <p class="mb-0">
             Copyright &copy;
-            <script>document.write(new Date().getFullYear());</script>
-            . All Rights Reserved. — Designed by <a href="group7.html" class="text-light text-decoration-underline">Group 7</a>
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            . All Rights Reserved. — Designed by
+            <a href="group7.html" class="text-light text-decoration-underline"
+              >Group 7</a
+            >
           </p>
         </div>
       </div>
     </footer>
     <!-- End Footer Section -->
-  <a href="newproduct.html" class="btn-add-product">
-   + Thêm sản phẩm
-  </a>
-  <style>
-  .btn-add-product {
-  position: fixed;
-  bottom: 30px; /* cách mép dưới */
-  right: 30px; /* cách mép phải */
-  background-color: #12341a;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 50px;
-  font-weight: bold;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  z-index: 9999;
-  }
-  .btn-add-product:hover {
-  background-color: #12341a;
-  transform: scale(1.05);
-  }
-  </style>
-<a href="sellingprice.html" class="btn-price-manage">
-  💰 Giá bán
-</a>
-<style>
-.btn-price-manage {
-  position: fixed;
-  bottom: 30px; /* cùng độ cao với nút thêm sản phẩm */
-  left: 30px; /* nằm bên trái */
-  background-color: #12341a; /* màu xanh dương khác biệt một chút */
-  color: white;
-  padding: 12px 20px;
-  border-radius: 50px;
-  font-weight: bold;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  z-index: 9999;
-}
+    <a href="newproduct.html" class="btn-add-product"> + Thêm sản phẩm </a>
+    <style>
+      .btn-add-product {
+        position: fixed;
+        bottom: 30px; /* cách mép dưới */
+        right: 30px; /* cách mép phải */
+        background-color: #35f261;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 50px;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        z-index: 9999;
+      }
+      .btn-add-product:hover {
+        background-color: #83f9fd;
+        transform: scale(1.05);
+      }
+    </style>
+    <a href="sellingprice.html" class="btn-price-manage"> 💰 Giá bán </a>
+    <style>
+      .btn-price-manage {
+        position: fixed;
+        bottom: 100px; /* cùng độ cao với nút thêm sản phẩm */
+        right: 30px; /* cách mép phải */ /* nằm bên trái */
+        background-color: #35f261; /* màu xanh dương khác biệt một chút */
+        color: white;
+        padding: 12px 20px;
+        border-radius: 50px;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        z-index: 9999;
+      }
 
-.btn-price-manage:hover {
-  background-color: #12341a;
-  transform: scale(1.05);
-}
-</style>
+      .btn-price-manage:hover {
+        background-color: #83f9fd;
+        transform: scale(1.05);
+      }
+    </style>
 
-<style>
-.btn-custom {
-  border-radius: 50px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  border: none;
-}
+    <style>
+      .btn-custom {
+        border-radius: 50px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        border: none;
+      }
 
-.btn-custom:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-}
+      .btn-custom:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      }
 
-/* Màu riêng cho từng loại nút */
-.btn-edit {
-  background-color: #12341a;
-  color: white;
-}
+      /* Màu riêng cho từng loại nút */
+      .btn-edit {
+        background-color: #12341a;
+        color: white;
+      }
 
-.btn-edit:hover {
-  background-color: #0e2a14;
-}
+      .btn-edit:hover {
+        background-color: #0e2a14;
+      }
 
-.btn-delete {
-  background-color: #831010;
-  color: white;
-}
+      .btn-delete {
+        background-color: #831010;
+        color: white;
+      }
 
-.btn-delete:hover {
-  background-color: #a51414;
-}
-</style>
-
-</body>
-<script>
-  function deleteProduct() {
-    if (confirm("Bạn có chắc muốn xóa sản phẩm này không?")) {
-      alert("✅ Sản phẩm đã được xóa thành công!");
-      // Nếu bạn muốn xóa thật, có thể thêm dòng xử lý ở đây (ví dụ: gửi request hoặc xóa phần tử)
+      .btn-delete:hover {
+        background-color: #a51414;
+      }
+    </style>
+  </body>
+  <script>
+    function deleteProduct() {
+      if (confirm("Bạn có chắc muốn xóa sản phẩm này không?")) {
+        alert("✅ Sản phẩm đã được xóa thành công!");
+        // Nếu bạn muốn xóa thật, có thể thêm dòng xử lý ở đây (ví dụ: gửi request hoặc xóa phần tử)
+      }
     }
-  }
-</script>
+  </script>
 </html>
