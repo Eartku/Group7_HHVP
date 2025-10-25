@@ -201,12 +201,11 @@ input[type="radio"][name="page"] {
 #page33:checked ~ .controls1 label[for="page33"],
 #page44:checked ~ .controls1 label[for="page44"],
 #page55:checked ~ .controls1 label[for="page55"] {
-  background-color: #28a745;
+  background-color: #166929;
   color: #fff;
   transform: scale(1.1);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
-
 .controls1 label[for="next"] {
   width: auto;
   padding: 0 12px;
