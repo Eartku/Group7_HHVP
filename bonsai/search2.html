@@ -139,79 +139,37 @@
       <!-- dropdown filter -->
    <div class="filter-options">
   <ul>
-    <li><a href="search.html">Tất cả</a></li>
-
-    <!-- Nhóm 1: loại cây -->
-    <li>
-      <label>
-        <input
-          type="radio"
-          name="category"
-          value="room"
-          checked
-        />
-        Cây để phòng
-      </label>
-    </li>
-    <li>
-      <label>
-        <input
-          type="radio"
-          name="category"
-          value="desk"
-        />
-        Cây để bàn
-      </label>
-    </li>
-    <li>
-      <label>
-        <input
-          type="radio"
-          name="category"
-          value="wall"
-        />
-        Cây treo tường
-      </label>
-    </li>
-
-    <!-- Nhóm 2: theo giá -->
-    <li>
-      <input type="checkbox" id="toggle-price" hidden />
-      <label for="toggle-price">Theo khoảng giá</label>
-      <ul class="nested">
-        <li>
-          <label>
-            <input
-              type="radio"
-              name="price"
-              value="20-50"
-              checked
-            />
-            Từ 20k - 50k
-          </label>
-        </li>
-        <li>
-          <label>
-            <input
-              type="radio"
-              name="price"
-              value="50-100"
-            />
-            Từ 50k - 100k
-          </label>
-        </li>
-        <li>
-          <label>
-            <input
-              type="radio"
-              name="price"
-              value="100+"
-            />
-            Trên 100k
-          </label>
-        </li>
-      </ul>
-    </li>
+<!-- Nhóm 1: loại cây -->
+       <div class="mb-2">
+                <label class="form-label small mb-1" style="font-size: 1.25em;"><b>Loại cây</b></label>
+                <select class="form-select form-select-sm">
+                  <option>Tất cả</option>
+                  <option>Cây để phòng</option>
+                  <option>Cây để bàn</option>
+                  <option>Cây treo tường</option>
+                </select>
+              </div>
+ <!-- Nhóm 2: theo tên --> 
+  <div class="mb-2">
+                <label class="form-label small mb-1" style="font-size: 1.25em;"><b>Tên sản phẩm</b></label>
+                <select class="form-select form-select-sm">
+                  <option>Môn cảnh</option>
+                  <option>Lưỡi hổ</option>
+                  <option>Lan ý</option>
+                  <option>Cau tiểu trâm</option>
+                  <option>Chuối cảnh</option>
+                  <option>Lan chi lớn</option>
+                </select> 
+              </div>         
+    <!-- Nhóm 3: theo giá -->
+<div class="mb-2">
+                <label class="form-label small mb-1" style="font-size: 1.25em;"><b>Theo khoảng giá</b></label>
+                <select class="form-select form-select-sm">
+                  <option>Từ 20k - 50k</option>
+                  <option>Từ 50k - 100k</option>
+                  <option>Trên 100k</option>
+                </select>
+              </div>        
   </ul>
 </div>
 
