@@ -114,6 +114,16 @@
     <label class="form-label">Ảnh sản phẩm</label>
     <input type="file" class="form-control" name="productImage" />
   </div>
+   <div class="mb-3">
+    <label class="form-label">Mã sản phẩm</label>
+    <input
+      type="text"
+      class="form-control"
+      name="productName"
+      value="#SP001"
+      required
+    />
+  </div>
   <div class="mb-3">
     <label class="form-label">Tên sản phẩm</label>
     <input
@@ -157,15 +167,27 @@
       required
     />
   </div>
+  <!-- Mô tả sản phẩm -->
   <div class="mb-3">
-    <label class="form-label">Mô tả</label>
-    <textarea
-      class="form-control"
-      name="productDesc"
-      rows="3"
-      placeholder="Nhập mô tả sản phẩm..."
-    ></textarea>
+  <label class="form-label">Mô tả sản phẩm</label>
+  <textarea
+    class="form-control"
+    name="productName"
+    rows="4"
+    required
+  >Rau má là loại cây thân thảo, mọc bò lan, thường được sử dụng để làm nước giải khát hoặc trong các món ăn thanh mát. Cây dễ trồng, ưa ẩm và có thể sinh trưởng quanh năm.</textarea>
   </div>
+   <!-- Ngày nhập -->
+ <div class="mb-3">
+  <label class="form-label">Ngày nhập</label>
+  <input
+    type="date"
+    class="form-control"
+    name="productDate"
+    value="2024-10-03"
+    required
+  />
+</div>
   <div class="d-flex justify-content-between mt-4">
     <a href="productdetails.html" class="btn btn-secondary w-50 me-2">Quay lại</a>
     <button type="button" class="btn btn-success w-50" onclick="confirmSave()">Lưu thay đổi</button>
