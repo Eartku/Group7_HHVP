@@ -34,9 +34,7 @@
     <link href="../css/hover.css" rel="stylesheet" />
     <link href="../css/animation.css" rel="stylesheet" />
     <link href="../css/page.css" rel="stylesheet" />
-
     <title>BonSai | Sửa sản phẩm</title>
-
     <style>
       .edit-container {
         max-width: 500px;
@@ -46,12 +44,10 @@
         border-radius: 15px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
-
       .product-preview {
         text-align: center;
         margin-bottom: 20px;
       }
-
       .product-preview img {
         width: 200px;
         border-radius: 10px;
@@ -59,7 +55,6 @@
       }
     </style>
   </head>
-
   <body>
     <!-- Start Header/Navigation -->
     <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
@@ -76,7 +71,6 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
             <li><a href="customermanage.html" class="nav-link hover-text-glow" style="font-size: 14px;">QUẢN LÝ KHÁCH HÀNG</a></li>
@@ -103,28 +97,23 @@
       </div>
     </nav>
     <!-- End Header/Navigation -->
-
     <!-- Hero Section -->
     <div class="hero">
       <div class="center-row" style="scale: 1; text-align: center;">
         <h1 class="glow">SỬA THÔNG TIN SẢN PHẨM</h1>
       </div>
     </div>
-
     <!-- Edit Form Section -->
     <div class="edit-container">
       <h2 class="text-center mb-4 text-success">Sửa thông tin sản phẩm</h2>
-
       <div class="product-preview">
         <img src="../images/rauma.png" alt="Ảnh sản phẩm" />
       </div>
-
   <form>
   <div class="mb-3">
     <label class="form-label">Ảnh sản phẩm</label>
     <input type="file" class="form-control" name="productImage" />
   </div>
-
   <div class="mb-3">
     <label class="form-label">Tên sản phẩm</label>
     <input
@@ -135,9 +124,8 @@
       required
     />
   </div>
-
- <!-- Giá vốn -->
-<div class="mb-3">
+  <!-- Giá vốn -->
+  <div class="mb-3">
   <label class="form-label">Giá vốn (VNĐ)</label>
   <input
     type="number"
@@ -146,10 +134,9 @@
     value="25000"
     required
   />
-</div>
-
-<!-- Giá bán -->
-<div class="mb-3">
+  </div>
+  <!-- Giá bán -->
+  <div class="mb-3">
   <label class="form-label">Giá bán (VNĐ)</label>
   <input
     type="number"
@@ -158,8 +145,7 @@
     value="36000"
     required
   />
-</div>
-
+  </div>
   <!-- ✅ Thêm phần số lượng trong kho -->
   <div class="mb-3">
     <label class="form-label">Số lượng trong kho</label>
@@ -171,7 +157,6 @@
       required
     />
   </div>
-
   <div class="mb-3">
     <label class="form-label">Mô tả</label>
     <textarea
@@ -181,35 +166,30 @@
       placeholder="Nhập mô tả sản phẩm..."
     ></textarea>
   </div>
- 
   <div class="d-flex justify-content-between mt-4">
     <a href="productdetails.html" class="btn btn-secondary w-50 me-2">Quay lại</a>
     <button type="button" class="btn btn-success w-50" onclick="confirmSave()">Lưu thay đổi</button>
   </div>
   </form>
-
     </div>
-
-    <!-- Footer -->
-    <footer class="footer-section mt-5">
-      <div class="container relative">
-        <div class="row g-5 mb-5">
-          <div class="col-lg-4">
-            <div class="mb-4 footer-logo-wrap">
-              <a href="#" class="footer-logo">BonSai<span>.</span></a>
-            </div>
-            <p class="mb-4">Mang đến cho bạn trải nghiệm xanh tốt nhất!</p>
-            <ul class="list-unstyled custom-social">
-              <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
-              <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
-              <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
-              <li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
-            </ul>
+    <!-- Start Footer Section -->
+      <footer class="footer-section bg-dark text-light mt-5">
+      <div class="container py-4">
+        <div class="row">
+          <div class="col-lg-8">
+            <h5>Admin - BonSai 🌱</h5>
           </div>
+        </div>
+        <div class="border-top pt-3 mt-3 text-center">
+          <p class="mb-0">
+            Copyright &copy;
+            <script>document.write(new Date().getFullYear());</script>
+            . All Rights Reserved. — Designed by <a href="group7.html" class="text-light text-decoration-underline">Group 7</a>
+          </p>
         </div>
       </div>
     </footer>
-
+    <!-- End Footer Section -->
     <!-- Script xác nhận lưu -->
     <script>
       function confirmSave() {
@@ -219,7 +199,6 @@
         }
       }
     </script>
-
     <!-- Bootstrap JS -->
     <script src="../js/bootstrap.bundle.min.js"></script>
   </body>
