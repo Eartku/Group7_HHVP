@@ -117,17 +117,57 @@
           <ul>
             <label class="form-label fw-bold">Ngày đặt</label>
             <input type="date" class="form-control" value="2025-10-20" />
-            <div class="mb-2">
-              <label class="form-label small mb-1" style="font-size: 1.25em"
-                ><b>Trạng thái đơn hàng</b></label
-              >
-              <select class="form-select form-select-sm">
-                <option>Mới Đặt</option>
-                <option>Đã xử lý</option>
-                <option>Đã giao</option>
-                <option>Hủy</option>
-              </select>
-            </div>
+            <li>
+              <a href="#"><b>Trạng thái đơn hàng</b></a>
+            </li>
+            <li>
+              <label for="new">
+                <input
+                  id="new"
+                  type="radio"
+                  name="status"
+                  value="new"
+                  checked
+                />
+                Mới đặt
+              </label>
+            </li>
+
+            <li>
+              <label for="processed">
+                <input
+                  id="processed"
+                  type="radio"
+                  name="status"
+                  value="processed"
+                />
+                Đã xử lý
+              </label>
+            </li>
+
+            <li>
+              <label for="delivered">
+                <input
+                  id="delivered"
+                  type="radio"
+                  name="status"
+                  value="delivered"
+                />
+                Đã giao
+              </label>
+            </li>
+
+            <li>
+              <label for="cancelled">
+                <input
+                  id="cancelled"
+                  type="radio"
+                  name="status"
+                  value="cancelled"
+                />
+                Hủy
+              </label>
+            </li>
             <li>
               <a href="admin_ordersearch.html" style="color: brown"
                 ><b> TRA CỨU</b></a
@@ -141,11 +181,12 @@
       </form>
     </div>
     <!-- End Hero Section -->
+
     <!-- End Header/Navigation -->
 
     <!-- Start Customer Management Section -->
     <div class="container py-5" style="min-height: 50px">
-      <h2 class="mb-4 text-center text-black">Quản Lý đơn hàng</h2>
+      <h2 class="mb-4 text-center text-black">KẾT QUẢ TRA CỨU</h2>
 
       <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
         <input type="radio" name="page" id="page1" checked />

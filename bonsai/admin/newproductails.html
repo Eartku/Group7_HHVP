@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>BonSai | Thông Tin Khách Hàng</title>
+    <title>BonSai | Thông Tin Sản Phẩm</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../css/style.css" rel="stylesheet" />
     <link href="../css/hover.css" rel="stylesheet" />
@@ -12,11 +12,19 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
     />
+    <style>
+      /* Gỡ bỏ vòng tròn quanh ảnh */
+      .avatar-wrapper img {
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+    </style>
   </head>
 
   <body>
     <!-- Navbar -->
-     <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
+    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
       <div class="container">
         <a class="navbar-brand" href="../admin.html">ADMIN<span>🌱</span></a>
         <button
@@ -33,9 +41,9 @@
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li><a href="customermanage.html" class="nav-link hover-text-glow" style="font-size: 18px;">QUẢN LÝ KHÁCH HÀNG</a></li>
-            <li><a href="admin_product.html" class="nav-link hover-text-glow" style="font-size: 14px;">QUẢN LÝ SẢN PHẨM</a></li>
-            <li><a href="admin_order.html" class="nav-link hover-text-glow" style="font-size: 14px;" >QUẢN LÝ ĐƠN HÀNG</a></li>
+            <li><a href="customermanage.html" class="nav-link hover-text-glow" style="font-size: 14px;">QUẢN LÝ KHÁCH HÀNG</a></li>
+            <li><a href="admin_product.html" class="nav-link hover-text-glow active" style="font-size: 18px;">QUẢN LÝ SẢN PHẨM</a></li>
+            <li><a href="admin_order.html" class="nav-link hover-text-glow" style="font-size: 14px;">QUẢN LÝ ĐƠN HÀNG</a></li>
             <li><a href="admin_stock.html" class="nav-link hover-text-glow" style="font-size: 14px;">QUẢN LÝ KHO</a></li>
           </ul>
 
@@ -60,70 +68,75 @@
     <!-- Hero -->
     <div class="hero">
       <div class="center-row text-center">
-        <h1 class="glow">THÔNG TIN KHÁCH HÀNG</h1>
+        <h1 class="glow">THÔNG TIN SẢN PHẨM</h1>
       </div>
     </div>
 
-    <!-- Customer Info -->
+    <!-- Product Info -->
     <div class="untree_co-section">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-8">
             <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
-
+              
+              <!-- Ảnh sản phẩm -->
               <div class="text-center mb-4 position-relative d-inline-block">
                 <div class="avatar-wrapper position-relative d-inline-block">
                   <img
-                    src="../images/post-1(1).jpg"
-                    alt="Avatar"
-                    class="rounded-circle shadow avatar-img"
-                    width="120"
-                    height="120"
+                    src="../images/rauma.png"
+                    alt="Ảnh sản phẩm"
+                    class="img-fluid rounded-3"
+                    width="200"
+                    height="200"
                   />
                 </div>
-                <h4 class="mt-3 text-black fw-bold">Nguyễn Hoàng Phúc</h4>
-                <span class="badge bg-success px-3 py-2 mt-2">Trạng thái: Hoạt động</span>
+                <span class="badge bg-success px-3 py-2 mt-2">Còn hàng</span>
               </div>
 
+              <!-- Bảng thông tin -->
               <table class="table table-bordered align-middle text-black">
                 <tbody>
                   <tr>
-                    <th scope="row" style="width: 200px;">Mã khách hàng</th>
-                    <td>#C0001</td>
+                    <th scope="row" style="width: 220px;">Mã sản phẩm</th>
+                    <td>#SP001</td>
                   </tr>
                   <tr>
-                    <th scope="row">Email</th>
-                    <td>nguyenhoangphuc@gmail.com</td>
+                    <th scope="row">Tên</th>
+                    <td>Rau má</td>
                   </tr>
                   <tr>
-                    <th scope="row">Số điện thoại</th>
-                    <td>0909xxxxxxx</td>
+                    <th scope="row">Giá bán</th>
+                    <td>36.000đ</td>
                   </tr>
                   <tr>
-                    <th scope="row">Địa chỉ giao hàng</th>
-                    <td>180 Bùi Văn Ba, Quận 7, TP.HCM</td>
+                    <th scope="row">Số lượng trong kho</th>
+                    <td>124</td>
                   </tr>
                   <tr>
-                    <th scope="row">Ngày tham gia</th>
-                    <td>12/09/2023</td>
+                    <th scope="row">Mô tả sản phẩm</th>
+                    <td>
+                      Rau má là loại cây thân thảo, mọc bò lan, thường được sử dụng để làm nước giải khát hoặc trong các món ăn thanh mát. 
+                      Cây dễ trồng, ưa ẩm và có thể sinh trưởng quanh năm.
+                    </td>
                   </tr>
                   <tr>
-                    <th scope="row">Tổng đơn hàng</th>
-                    <td>15</td>
+                    <th scope="row">Ngày thêm vào</th>
+                    <td>10/03/2024</td>
                   </tr>
                   <tr>
-                    <th scope="row">Tổng chi tiêu</th>
-                    <td>5.230.000đ</td>
+                    <th scope="row">Lần cập nhật gần nhất</th>
+                    <td>05/10/2025</td>
                   </tr>
                 </tbody>
               </table>
 
+              <!-- Nút thao tác -->
               <div class="text-center mt-4">
-                <a href="customermanage.html" class="btn btn-dark me-2">
+                <a href="newproduct.html" class="btn btn-dark me-2">
                   <i class="fas fa-arrow-left me-1"></i> Quay lại
                 </a>
-                <a href="editcustomer.html" class="btn btn-success">
-                  <i class="fas fa-edit me-1"></i> Chỉnh sửa
+                <a href="admin_product.html" class="btn btn-success">
+                  <i class="fas fa-edit me-1"></i> Xác nhận lưu
                 </a>
               </div>
 
@@ -156,6 +169,6 @@
       </div>
     </footer>
 
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

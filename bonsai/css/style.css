@@ -17,10 +17,10 @@ body {
   line-height: 28px;
   color: #000000;
   font-size: 20px;
-  background-size: cover;        /* Ảnh tự co để phủ kín */
-  background-position: bottom center;   /* Canh giữa */
-  background-repeat: no-repeat;  /* Không lặp lại */
-  background-attachment: fixed;  /* Ảnh cố định khi cuộn (tạo cảm giác “parallax”) */
+  background-size: cover; /* Ảnh tự co để phủ kín */
+  background-position: bottom center; /* Canh giữa */
+  background-repeat: no-repeat; /* Không lặp lại */
+  background-attachment: fixed; /* Ảnh cố định khi cuộn (tạo cảm giác “parallax”) */
   height: 100vh;
   margin: 0;
 }
@@ -34,8 +34,6 @@ a {
   text-decoration: underline;
 }
 a:hover {
-
-
   color: #000000;
   color: #4d4d4d;
   text-decoration: none;
@@ -43,16 +41,10 @@ a:hover {
 a.more {
   font-size: 20px;
 
-
-
   color: #2f2f2f;
   text-decoration: none;
 }
 a.more {
-
-
-
-
   font-weight: 600;
 }
 
@@ -61,10 +53,6 @@ a.more {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-
-
-
-
 
 .custom-navbar .navbar-brand {
   font-size: 32px;
@@ -146,10 +134,6 @@ a.more {
   margin-right: 20px;
 }
 
-
-
-
-
 .custom-navbar .navbar-brand {
   font-size: 32px;
   font-weight: 600;
@@ -218,7 +202,6 @@ a.more {
   margin-right: 20px;
 }
 
-
 .menu-category {
   background: #63ad1d; /* màu xanh lá */
   color: #fff; /* chữ trắng */
@@ -236,9 +219,9 @@ a.more {
 }
 .hero {
   background: url("../images/c2.jpg");
-  background-size: cover;        /* Ảnh tự co để phủ kín */
-  background-position: bottom center;   /* Canh giữa */
-  background-repeat: no-repeat;  /* Không lặp lại */
+  background-size: cover; /* Ảnh tự co để phủ kín */
+  background-position: bottom center; /* Canh giữa */
+  background-repeat: no-repeat; /* Không lặp lại */
   margin: 0;
   padding: calc(4rem - 30px) 0 0rem 0;
 }
@@ -373,7 +356,7 @@ a.more {
 .section-title {
   color: #3d5b50;
   font-size: 40px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, "Times New Roman", Times, serif;
   font-weight: 10px;
   margin-top: 150px;
 }
@@ -544,23 +527,17 @@ a.more {
   font-size: 30px;
   font-weight: 700;
 
-
   color: #000000;
 }
 .popular-product .product-item-sm a {
   text-decoration: none;
   color: #022b2c;
 
-
-
   color: #2f2f2f;
 }
 .popular-product .product-item-sm a {
   text-decoration: none;
   color: #2f2f2f;
-
-
-
 
   -webkit-transition: 0.3s all ease;
   -o-transition: 0.3s all ease;
@@ -584,22 +561,14 @@ a.more {
   position: relative;
 }
 
-
-
-
-
-
-
 .popular-product .product-item-sm .thumbnail:before {
   content: "";
   position: absolute;
   border-radius: 20px;
 
-
   background: #38857c;
 
   background: #dce5e4;
-
 
   background: #dce5e4;
 
@@ -927,7 +896,7 @@ a.more {
 }
 
 textarea {
-  height: auto !important;
+  height: 313px !important;
 }
 
 .site-blocks-table {
@@ -1083,12 +1052,9 @@ legend {
 }
 /* === KẾT THÚC CSS MỚI === */
 .btn-buy {
-
-
   background-color: #000000;
 
   background-color: #e53935;
-
 
   background-color: #e53935;
 
@@ -1101,12 +1067,9 @@ legend {
   display: inline-block;
 }
 .btn-cart {
-
-
   background-color: #000000;
 
   background-color: #43a047;
-
 
   background-color: #43a047;
 
@@ -1118,15 +1081,11 @@ legend {
   display: inline-block;
 }
 .btn-buy:hover {
-
-
   background-color: #2e7d32;
 
   background-color: #c62828;
 
-
   background-color: #c62828;
-
 }
 .btn-cart:hover {
   background-color: #2e7d32;
@@ -1232,8 +1191,6 @@ legend {
   color: #000;
   transform: scale(1.05);
 }
-
-
 
 /* 
 danh sách */
@@ -1509,7 +1466,6 @@ body {
   z-index: 100;
   min-width: 150px;
   font-size: 12px;
-  
 }
 
 /* show khi checkbox checked */
@@ -1595,7 +1551,7 @@ body {
 
 a {
   text-decoration: none; /* bỏ gạch chân */
-  color: inherit;        /* kế thừa màu chữ từ label hoặc parent */
+  color: inherit; /* kế thừa màu chữ từ label hoặc parent */
 }
 
 /* Nếu chỉ muốn cho label trong a */
@@ -1605,10 +1561,9 @@ a label {
 
 .circle-img {
   width: 150px;
-  height: 150px;           /* vuông trước */
-  object-fit: contain;      /* giữ tỉ lệ, không cắt */
-  border-radius: 50%;       /* biến vuông thành tròn */
+  height: 150px; /* vuông trước */
+  object-fit: contain; /* giữ tỉ lệ, không cắt */
+  border-radius: 50%; /* biến vuông thành tròn */
   background-color: #f0f0f0; /* nếu ảnh không lấp đầy, sẽ thấy nền */
   display: block;
 }
-

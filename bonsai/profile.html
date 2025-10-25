@@ -7,7 +7,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
     <link href="css/hover.css" rel="stylesheet" />
-    <link href="css/animation.css" rel="stylesheet"/>
+    <link href="css/animation.css" rel="stylesheet" />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
@@ -30,9 +30,19 @@
 
         <div class="collapse navbar-collapse" id="navbarProfile">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li><a href="shop1.html" class="hover-text-glow-small">CÂY ĐỂ PHÒNG</a></li>
-            <li><a href="shop2.html" class="hover-text-glow-small">CÂY ĐỂ BÀN</a></li>
-            <li><a href="shop3.html" class="hover-text-glow-small">CÂY TREO TƯỜNG</a></li>
+            <li>
+              <a href="shop1.html" class="hover-text-glow-small"
+                >CÂY ĐỂ PHÒNG</a
+              >
+            </li>
+            <li>
+              <a href="shop2.html" class="hover-text-glow-small">CÂY ĐỂ BÀN</a>
+            </li>
+            <li>
+              <a href="shop3.html" class="hover-text-glow-small"
+                >CÂY TREO TƯỜNG</a
+              >
+            </li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
@@ -46,18 +56,18 @@
             </li>
 
             <li class="nav-item">
-            <input type="checkbox" id="user-toggle" hidden />
+              <input type="checkbox" id="user-toggle" hidden />
 
-            <label for="user-toggle" class="nav-link hover-box-2">
-              <div class="front"><img src="images/user.svg" /></div>
-              <div class="back"><span>Người dùng</span></div>
-            </label>
+              <label for="user-toggle" class="nav-link hover-box-2">
+                <div class="front"><img src="images/user.svg" /></div>
+                <div class="back"><span>Người dùng</span></div>
+              </label>
 
-            <ul class="dropdown">
-              <li><a href="profile.html">Hồ sơ cá nhân</a></li>
-              <li><a href="orders.html">Lịch sử đơn hàng</a></li>
-            </ul>
-          </li>
+              <ul class="dropdown">
+                <li><a href="profile.html">Hồ sơ cá nhân</a></li>
+                <li><a href="orders.html">Lịch sử đơn hàng</a></li>
+              </ul>
+            </li>
 
             <li>
               <a class="nav-link hover-box" href="cart.html">
@@ -67,7 +77,9 @@
             </li>
             <li>
               <a class="nav-link hover-box" href="search.html">
-                <div class="front"><img src="images/search.svg" style="scale: 1.5;"/></div>
+                <div class="front">
+                  <img src="images/search.svg" style="scale: 1.5" />
+                </div>
                 <div class="back"><span>Tìm kiếm</span></div>
               </a>
             </li>
@@ -91,26 +103,28 @@
             <div class="p-4 p-lg-5 border bg-white rounded-3">
               <form>
                 <div class="text-center mb-4 position-relative d-inline-block">
-                    <div class="avatar-wrapper position-relative d-inline-block">
+                  <div class="avatar-wrapper position-relative d-inline-block">
                     <img
-                        src="images/avatar.svg"
-                        alt="Avatar"
-                        class="rounded-circle shadow avatar-img"
-                        width="120"
-                        height="120"
-                        />
-                        <button type="button" class="btn btn-edit-avatar">
-                        <i class="fas fa-camera"></i>
-                        </button>
-                    </div>
-                    <h4 class="mt-3 text-black">Trần Nhựt Huy</h4>
-                    </div>
-
-                    
+                      src="images/avatar.svg"
+                      alt="Avatar"
+                      class="rounded-circle shadow avatar-img"
+                      width="120"
+                      height="120"
+                    />
+                    <button type="button" class="btn btn-edit-avatar">
+                      <i class="fas fa-camera"></i>
+                    </button>
+                  </div>
+                  <h4 class="mt-3 text-black">Trần Nhựt Huy</h4>
+                </div>
 
                 <div class="mb-3">
                   <label class="text-black">Họ và Tên</label>
-                  <input type="text" class="form-control" value="Trần Nhựt Huy" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="Trần Nhựt Huy"
+                  />
                 </div>
 
                 <div class="mb-3">
@@ -120,7 +134,11 @@
 
                 <div class="mb-3">
                   <label class="text-black">Email</label>
-                  <input type="email" class="form-control" value="huy@gmail.com" />
+                  <input
+                    type="email"
+                    class="form-control"
+                    value="huy@gmail.com"
+                  />
                 </div>
 
                 <div class="mb-3">
@@ -130,7 +148,12 @@
 
                 <div class="mb-3">
                   <label class="text-black">Địa chỉ giao hàng</label>
-                  <textarea class="form-control" rows="3">320, Trần Bình Trọng, Quận 5, TP.HCM
+                  <textarea
+                    class="form-control"
+                    rows="3"
+                    style="height: 100px !important"
+                  >
+320, Trần Bình Trọng, Quận 5, TP.HCM
                   </textarea>
                 </div>
 

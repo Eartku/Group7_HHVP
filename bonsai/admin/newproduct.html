@@ -107,16 +107,16 @@
     <!-- Hero Section -->
     <div class="hero">
       <div class="center-row" style="scale: 1; text-align: center;">
-        <h1 class="glow">SỬA THÔNG TIN SẢN PHẨM</h1>
+        <h1 class="glow">THÔNG TIN SẢN PHẨM MỚI</h1>
       </div>
     </div>
 
     <!-- Edit Form Section -->
     <div class="edit-container">
-      <h2 class="text-center mb-4 text-success">Sửa thông tin sản phẩm</h2>
+      <h2 class="text-center mb-4 text-success">Thông tin sản phẩm mới</h2>
 
       <div class="product-preview">
-        <img src="../images/rauma.png" alt="Ảnh sản phẩm" />
+        <img src="  " alt="Ảnh sản phẩm" />
       </div>
 
   <form>
@@ -131,7 +131,7 @@
       type="text"
       class="form-control"
       name="productName"
-      value="Rau má"
+      value=" "
       required
     />
   </div>
@@ -142,7 +142,7 @@
       type="number"
       class="form-control"
       name="productPrice"
-      value="36000"
+      value=" "
       required
     />
   </div>
@@ -154,7 +154,7 @@
       type="number"
       class="form-control"
       name="productStock"
-      value="124"
+      value=" "
       required
     />
   </div>
@@ -170,8 +170,8 @@
   </div>
 
   <div class="d-flex justify-content-between mt-4">
-    <a href="productdetails.html" class="btn btn-secondary w-50 me-2">Quay lại</a>
-    <button type="button" class="btn btn-success w-50" onclick="confirmSave()">Lưu thay đổi</button>
+    <a href="admin_product.html" class="btn btn-secondary w-50 me-2">Quay lại</a>
+    <button type="button" class="btn btn-success w-50" onclick="confirmSave()">Lưu</button>
   </div>
   </form>
 
@@ -200,9 +200,9 @@
     <!-- Script xác nhận lưu -->
     <script>
       function confirmSave() {
-        if (confirm("Bạn có chắc muốn lưu thay đổi không?")) {
+        if (confirm("Bạn có chắc muốn lưu thông tin mới không?")) {
           alert("✅ Thông tin sản phẩm đã được lưu thành công!");
-          window.location.href = "productdetails.html";
+          window.location.href = "newproductails.html";
         }
       }
     </script>

@@ -2,31 +2,20 @@
 <html lang="vi">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <link rel="shortcut icon" href="../images/logo.png" />
-    <title>BonSai | Quản Lý Khách Hàng</title>
-
-    <!-- Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BonSai |Trạng thái đơn Hàng</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/hover.css" rel="stylesheet" />
+    <link href="../css/animation.css" rel="stylesheet" />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
     />
-    <link href="../css/style.css" rel="stylesheet" />
-    <link href="../css/hover.css" rel="stylesheet" />
-    <link href="../css/page2.css" rel="stylesheet" />
-    <link href="../css/tiny-slider.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-    />
   </head>
 
   <body>
-    <!-- Start Header/Navigation -->
+    <!-- Navbar -->
     <nav
       class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
       aria-label="Bonsai navigation bar"
@@ -80,14 +69,15 @@
         </div>
       </div>
     </nav>
-
-    <!-- HERO -->
+    <!-- Hero -->
     <div class="hero">
-      <div class="center-row" style="text-align: center">
-        <h1 class="glow">CHI TIẾT ĐƠN HÀNG</h1>
+      <div class="center-row text-center">
+        <h1 class="glow">CẬP NHẬT TRẠNG THÁI ĐƠN HÀNG</h1>
       </div>
     </div>
 
+    <!-- Edit Form -->
+    <!-- HERO -->
     <!-- ORDER DETAIL -->
     <div class="untree_co-section">
       <div class="container">
@@ -128,8 +118,16 @@
               </table>
 
               <h4 class="text-black mb-3">Trạng thái đơn hàng</h4>
-              <p><span class="badge bg-warning text-dark">Mới đặt</span></p>
-              <p style="margin-bottom: 2.1rem">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Trạng thái</label>
+                <select class="form-select">
+                  <option selected>Mới đặt</option>
+                  <option>đã xử lý</option>
+                  <option>đã giao</option>
+                  <option>Hủy</option>
+                </select>
+              </div>
+              <p style="margin-bottom: 1rem">
                 <span
                   ><img src="../images/truck.svg" style="scale: 100%-5px"
                 /></span>
@@ -155,22 +153,34 @@
 
               <hr />
               <h4 class="text-black mb-3">Ghi chú</h4>
-              <p>
-                Dự kiến giao đến vào 14/12/2025.Xin hãy chuẩn bị tiền thanh
-                toán.
-              </p>
+              <textarea
+                style="height: 100px !important"
+                class="form-control"
+                rows="3"
+                placeholder="Ghi chú để thông báo đế khách hàng về tình trạng đơn hàng! "
+              >
+Dự kiến giao đến vào 14/12/2025.Xin hãy chuẩn bị tiền thanh toán.</textarea
+              >
             </div>
           </div>
         </div>
 
         <!-- BUTTON -->
-        <div class="text-center mt-5">
-          <a href="admin_order.html" class="btn btn-dark btn-lg px-5"
-            ><< Quay lại</a
-          >
-          <a href="suahoadonn.html" class="btn btn-dark btn-lg px-5"
-            >Cập nhật trạng thái</a
-          >
+        <div class="text-center mt-4">
+          <a href="orderdetails.html" class="btn btn-dark me-2">
+            <i class="fas fa-arrow-left me-1"></i> Quay lại
+          </a>
+          <button type="button" class="btn btn-success" onclick="confirmSave()">
+            <i class="fas fa-save me-1"></i> Lưu thay đổi
+          </button>
+
+          <script>
+            function confirmSave() {
+              if (confirm("Bạn có chắc muốn lưu thay đổi này không?")) {
+                window.location.href = "orderdetails.html"; // chuyển trang
+              }
+            }
+          </script>
         </div>
       </div>
     </div>
