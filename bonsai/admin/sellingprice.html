@@ -7,13 +7,19 @@
 <html lang="vi">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <link rel="shortcut icon" href="../images/logo.png" />
     <title>BonSai | Quản Lý Giá Bán</title>
 
     <!-- Bootstrap CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
     <link href="../css/style.css" rel="stylesheet" />
     <link href="../css/hover.css" rel="stylesheet" />
     <link href="../css/page2.css" rel="stylesheet" />
@@ -22,7 +28,7 @@
 
   <body>
     <!-- Start Header/Navigation -->
-      <nav
+    <nav
       class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
       aria-label="Bonsai navigation bar"
     >
@@ -44,16 +50,19 @@
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
             <li>
               <a href="customermanage.html" class="nav-link active"
-                >QUẢN LÝ KHÁCH HÀNG</a
+                >KHÁCH HÀNG</a
               >
             </li>
             <li>
-              <a href="admin_product.html" class="nav-link">QUẢN LÝ SẢN PHẨM</a>
+              <a href="admin_type.html" class="nav-link">LOẠI SẢN PHẨM</a>
             </li>
             <li>
-              <a href="admin_order.html" class="nav-link">QUẢN LÝ ĐƠN HÀNG</a>
+              <a href="admin_product.html" class="nav-link">SẢN PHẨM</a>
             </li>
-            <li><a href="admin_stock.html" class="nav-link">QUẢN LÝ KHO</a></li>
+            <li>
+              <a href="admin_order.html" class="nav-link">ĐƠN HÀNG</a>
+            </li>
+            <li><a href="admin_stock.html" class="nav-link">KHO</a></li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-4">
@@ -78,72 +87,88 @@
     <!-- End Header/Navigation -->
 
     <!-- Start Price Management Section -->
-    <div class="container py-5" style="min-height: 50px;">
-      <h2 class="mb-4 text-center text-black">Quản Lý Giá Bán Sản Phẩm</h2>         
-  <!-- Thanh tìm kiếm và lọc -->
-  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
-    <div class="d-flex align-items-center mb-2">
-      <label for="searchInput" class="me-2 fw-bold text-secondary">🔍 Tìm kiếm:</label>
-      <input
-        type="text"
-        id="searchInput"
-        class="form-control"
-        placeholder="Nhập tên sản phẩm..."
-        style="width: 200px;"
-      />
-    </div>
+    <div class="container py-5" style="min-height: 50px">
+      <h2 class="mb-4 text-center text-black">Quản Lý Giá Bán Sản Phẩm</h2>
+      <!-- Thanh tìm kiếm và lọc -->
+      <div
+        class="d-flex flex-wrap justify-content-between align-items-center mb-4"
+      >
+        <div class="d-flex align-items-center mb-2">
+          <label for="searchInput" class="me-2 fw-bold text-secondary"
+            >🔍 Tìm kiếm:</label
+          >
+          <input
+            type="text"
+            id="searchInput"
+            class="form-control"
+            placeholder="Nhập tên sản phẩm..."
+            style="width: 200px"
+          />
+        </div>
 
-       <!-- 3 thanh tra cứu -->
-    <div class="d-flex align-items-center flex-wrap justify-content-center gap-3">
-      <div class="d-flex align-items-center">
-        <label for="costSearch" class="me-2 fw-bold text-secondary">💰 Giá vốn:</label>
-        <input
-          type="number"
-          id="costSearch"
-          class="form-control"
-          placeholder="Nhập giá..."
-          style="width: 130px;"
-        />
-      </div>
-      <div class="d-flex align-items-center">
-        <label for="profitSearch" class="me-2 fw-bold text-secondary">% Lợi nhuận:</label>
-        <input
-          type="number"
-          id="profitSearch"
-          class="form-control"
-          placeholder="%"
-          style="width: 100px;"
-        />
-      </div>
-      <div class="d-flex align-items-center">
-        <label for="priceSearch" class="me-2 fw-bold text-secondary">💵 Giá bán:</label>
-        <input
-          type="number"
-          id="priceSearch"
-          class="form-control"
-          placeholder="Nhập giá..."
-          style="width: 130px;"
-        />
-      </div>
-    </div>
+        <!-- 3 thanh tra cứu -->
+        <div
+          class="d-flex align-items-center flex-wrap justify-content-center gap-3"
+        >
+          <div class="d-flex align-items-center">
+            <label for="costSearch" class="me-2 fw-bold text-secondary"
+              >💰 Giá vốn:</label
+            >
+            <input
+              type="number"
+              id="costSearch"
+              class="form-control"
+              placeholder="Nhập giá..."
+              style="width: 130px"
+            />
+          </div>
+          <div class="d-flex align-items-center">
+            <label for="profitSearch" class="me-2 fw-bold text-secondary"
+              >% Lợi nhuận:</label
+            >
+            <input
+              type="number"
+              id="profitSearch"
+              class="form-control"
+              placeholder="%"
+              style="width: 100px"
+            />
+          </div>
+          <div class="d-flex align-items-center">
+            <label for="priceSearch" class="me-2 fw-bold text-secondary"
+              >💵 Giá bán:</label
+            >
+            <input
+              type="number"
+              id="priceSearch"
+              class="form-control"
+              placeholder="Nhập giá..."
+              style="width: 130px"
+            />
+          </div>
+        </div>
 
-    <div class="d-flex align-items-center mb-2">
-      <label for="filterSelect" class="me-2 fw-bold text-secondary">📂 Phân loại:</label>
-      <select id="filterSelect" class="form-select" style="width: 130px;">
-        <option selected>Tất cả</option>
-        <option>Cây để bàn</option>
-        <option>Cây để phòng</option>
-        <option>Cây treo tường</option>
-      </select>
-    </div>
-  </div>
+        <div class="d-flex align-items-center mb-2">
+          <label for="filterSelect" class="me-2 fw-bold text-secondary"
+            >📂 Phân loại:</label
+          >
+          <select id="filterSelect" class="form-select" style="width: 130px">
+            <option selected>Tất cả</option>
+            <option>Cây để bàn</option>
+            <option>Cây để phòng</option>
+            <option>Cây treo tường</option>
+          </select>
+        </div>
+      </div>
       <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
-        <input type="radio" name="page" id="page1" checked>
-        <input type="radio" name="page" id="page2">
+        <input type="radio" name="page" id="page1" checked />
+        <input type="radio" name="page" id="page2" />
         <div class="book">
           <!-- Trang 1 -->
           <div class="page page1">
-            <table class="table table-bordered text-center align-middle page page1">
+            <table
+              class="table table-bordered text-center align-middle page page1"
+            >
               <thead class="table-light">
                 <tr>
                   <th>STT</th>
@@ -160,35 +185,61 @@
                   <td>1</td>
                   <td>Lan Ý</td>
                   <td>Cây để phòng</td>
-                  <td><input type="number" class="form-control" value="85000"></td>
-                  <td><input type="number" class="form-control" value="30"></td>
-                  <td><input type="number" class="form-control" value="110500"></td>
-                  <td><input type="text" class="form-control" placeholder="..." /></td>
+                  <td>
+                    <input type="number" class="form-control" value="85000" />
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" value="30" />
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" value="110500" />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" placeholder="..." />
+                  </td>
                 </tr>
                 <tr>
                   <td>2</td>
                   <td>Tiểu cảnh sen đá sedum</td>
                   <td>Cây để bàn</td>
-                  <td><input type="number" class="form-control" value="100000"></td>
-                  <td><input type="number" class="form-control" value="25"></td>
-                  <td><input type="number" class="form-control" value="125000"></td>
-                  <td><input type="text" class="form-control" placeholder="..." /></td>
+                  <td>
+                    <input type="number" class="form-control" value="100000" />
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" value="25" />
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" value="125000" />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" placeholder="..." />
+                  </td>
                 </tr>
                 <tr>
                   <td>3</td>
                   <td>Trầu bà lá to</td>
                   <td>Cây treo tường</td>
-                  <td><input type="number" class="form-control" value="43000"></td>
-                  <td><input type="number" class="form-control" value="40"></td>
-                  <td><input type="number" class="form-control" value="60200"></td>
-                  <td><input type="text" class="form-control" placeholder="..." /></td>
+                  <td>
+                    <input type="number" class="form-control" value="43000" />
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" value="40" />
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" value="60200" />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" placeholder="..." />
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <!-- Trang 2 -->
           <div class="page page2">
-            <table class="table table-bordered text-center align-middle page page2">
+            <table
+              class="table table-bordered text-center align-middle page page2"
+            >
               <thead class="table-light">
                 <tr>
                   <th>STT</th>
@@ -205,19 +256,35 @@
                   <td>4</td>
                   <td>Thường xuân</td>
                   <td>Cây treo tường</td>
-                  <td><input type="number" class="form-control" value="95000"></td>
-                  <td><input type="number" class="form-control" value="35"></td>
-                  <td><input type="number" class="form-control" value="128250"></td>
-                  <td><input type="text" class="form-control" placeholder="..." /></td>
+                  <td>
+                    <input type="number" class="form-control" value="95000" />
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" value="35" />
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" value="128250" />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" placeholder="..." />
+                  </td>
                 </tr>
                 <tr>
                   <td>5</td>
                   <td>Trầu Bà</td>
                   <td>Cây để bàn</td>
-                  <td><input type="number" class="form-control" value="78000"></td>
-                  <td><input type="number" class="form-control" value="40"></td>
-                  <td><input type="number" class="form-control" value="109200"></td>
-                  <td><input type="text" class="form-control" placeholder="..." /></td>
+                  <td>
+                    <input type="number" class="form-control" value="78000" />
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" value="40" />
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" value="109200" />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" placeholder="..." />
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -230,7 +297,9 @@
         </div>
 
         <div class="text-end mt-4">
-          <button class="btn btn-success px-5"onclick="confirmSave()">💾 Lưu thay đổi</button>
+          <button class="btn btn-success px-5" onclick="confirmSave()">
+            💾 Lưu thay đổi
+          </button>
         </div>
       </div>
     </div>
@@ -246,8 +315,13 @@
         <div class="border-top pt-3 mt-3 text-center">
           <p class="mb-0">
             Copyright &copy;
-            <script>document.write(new Date().getFullYear());</script>
-            . All Rights Reserved. — Designed by <a href="group7.html" class="text-light text-decoration-underline">Group 7</a>
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            . All Rights Reserved. — Designed by
+            <a href="group7.html" class="text-light text-decoration-underline"
+              >Group 7</a
+            >
           </p>
         </div>
       </div>

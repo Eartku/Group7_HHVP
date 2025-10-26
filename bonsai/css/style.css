@@ -1583,7 +1583,7 @@ a label {
   text-align: center;
   padding: 12px;
   width: 587px;
-  height: 650px;
+  height: 692px;
   transition: 0.3s;
 }
 
@@ -1597,6 +1597,7 @@ a label {
 
 .type-name {
   color: #c2a878;
+  font-family: Playfair Display;
   font-weight: bold;
   display: block;
   margin-top: 25px;
@@ -1605,9 +1606,17 @@ a label {
   text-decoration: none;
 }
 .type-name:hover {
-  color: #fff; /* giữ nguyên màu trắng */
+  color: #c2a878; /* giữ nguyên màu trắng */
   text-decoration: none; /* đảm bảo không hiện gạch chân */
 }
+.type-desc {
+  font-size: 22px;
+  color: #d9ece4;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  font-style: italic;
+}
+
 /* .type-item:hover {
   transform: translateY(-4px);
   background-color: #388e3c; /* hover đậm hơn } */

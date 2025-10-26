@@ -55,7 +55,6 @@
       }
     </style>
   </head>
-
   <body>
     <!-- Start Header/Navigation -->
     <nav
@@ -82,22 +81,23 @@
                 href="customermanage.html"
                 class="nav-link hover-text-glow"
                 style="font-size: 14px"
-                >KHÁCH HÀNG</a
+              >
+                KHÁCH HÀNG</a
               >
             </li>
             <li>
               <a
                 href="admin_type.html"
                 class="nav-link hover-text-glow"
-                style="font-size: 14px"
-                >SẢN PHẨM</a
+                style="font-size: 18px"
+                >LOẠI SẢN PHẨM</a
               >
             </li>
             <li>
               <a
                 href="admin_product.html"
                 class="nav-link hover-text-glow"
-                style="font-size: 18px"
+                style="font-size: 14px"
                 >SẢN PHẨM</a
               >
             </li>
@@ -118,6 +118,7 @@
               >
             </li>
           </ul>
+
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
             <li>
               <a href="../admin.html" class="nav-link hover-box">
@@ -141,100 +142,46 @@
     <!-- Hero Section -->
     <div class="hero">
       <div class="center-row" style="scale: 1; text-align: center">
-        <h1 class="glow">THÔNG TIN SẢN PHẨM MỚI</h1>
+        <h1 class="glow">SỬA THÔNG TIN LOẠI SẢN PHẨM</h1>
       </div>
     </div>
     <!-- Edit Form Section -->
     <div class="edit-container">
-      <h2 class="text-center mb-4 text-success">Thông tin sản phẩm mới</h2>
-
+      <h2 class="text-center mb-4 text-success">Sửa thông tin loại sản phẩm</h2>
       <div class="product-preview">
-        <img src="  " alt="Ảnh sản phẩm" />
+        <img src="../images/cayphong1.jpg" alt="Ảnh sản phẩm" />
       </div>
       <form>
         <div class="mb-3">
-          <label class="form-label">Ảnh sản phẩm</label>
+          <label class="form-label">Ảnh</label>
           <input type="file" class="form-control" name="productImage" />
         </div>
         <div class="mb-3">
-          <label class="form-label">Mã sản phẩm</label>
+          <label class="form-label">Tên loại sản phẩm</label>
           <input
             type="text"
             class="form-control"
             name="productName"
-            value=" "
+            value="Loại để phòng"
             required
           />
         </div>
-        <div class="mb-3">
-          <label class="form-label">Tên sản phẩm</label>
-          <input
-            type="text"
-            class="form-control"
-            name="productName"
-            value=" "
-            required
-          />
-        </div>
-        <!-- Phân loại cây -->
-        <div class="mb-3">
-          <label class="form-label">Phân loại cây</label>
-          <select class="form-select" name="productCategory" required>
-            <option value="">-- Chọn loại cây --</option>
-            <option value="bonsai">Cây để phòng</option>
-            <option value="cay-canh-mini">Cây để bàn</option>
-            <option value="cay-phong-thuy">Cây cây treo tường</option>
-          </select>
-        </div>
-        <!-- Giá vốn -->
-        <div class="mb-3">
-          <label class="form-label">Giá vốn (VNĐ)</label>
-          <input
-            type="number"
-            class="form-control"
-            name="productCost"
-            value=" "
-            required
-          />
-        </div>
-        <!-- Giá bán -->
-        <div class="mb-3">
-          <label class="form-label">Giá bán (VNĐ)</label>
-          <input
-            type="number"
-            class="form-control"
-            name="productPrice"
-            value=" "
-            required
-          />
-        </div>
-        <!-- ✅ Thêm phần số lượng trong kho -->
-        <div class="mb-3">
-          <label class="form-label">Số lượng trong kho</label>
-          <input
-            type="number"
-            class="form-control"
-            name="productStock"
-            value=" "
-            required
-          />
-        </div>
+
+        <!-- Mô tả sản phẩm -->
         <div class="mb-3">
           <label class="form-label">Mô tả sản phẩm</label>
           <textarea
             class="form-control"
-            name="productDesc"
-            rows="3"
-            placeholder="Nhập mô tả sản phẩm..."
-          ></textarea>
-        </div>
-        <!-- Ngày nhập -->
-        <div class="mb-3">
-          <label class="form-label">Ngày nhập</label>
-          <input type="date" class="form-control" name="productDate" required />
+            name="productName"
+            rows="4"
+            required
+            style="height: 50px !important"
+          >
+Tạo nên một không gian tươi mát</textarea
+          >
         </div>
         <div class="d-flex justify-content-between mt-4">
-          <a href="admin_product.html" class="btn btn-secondary w-50 me-2"
+          <a href="admin_type.html" class="btn btn-secondary w-50 me-2"
             >Quay lại</a
           >
           <button
@@ -242,44 +189,21 @@
             class="btn btn-success w-50"
             onclick="confirmSave()"
           >
-            Lưu
+            Lưu thay đổi
           </button>
         </div>
       </form>
     </div>
-    <!-- Start Footer Section -->
-    <footer class="footer-section bg-dark text-light mt-5">
-      <div class="container py-4">
-        <div class="row">
-          <div class="col-lg-8">
-            <h5>Admin - BonSai 🌱</h5>
-          </div>
-        </div>
-        <div class="border-top pt-3 mt-3 text-center">
-          <p class="mb-0">
-            Copyright &copy;
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            . All Rights Reserved. — Designed by
-            <a href="group7.html" class="text-light text-decoration-underline"
-              >Group 7</a
-            >
-          </p>
-        </div>
-      </div>
-    </footer>
-    <!-- End Footer Section -->
+
     <!-- Script xác nhận lưu -->
     <script>
       function confirmSave() {
-        if (confirm("Bạn có chắc muốn lưu thông tin mới không?")) {
+        if (confirm("Bạn có chắc muốn lưu thay đổi không?")) {
           alert("✅ Thông tin sản phẩm đã được lưu thành công!");
-          window.location.href = "newproductails.html";
+          window.location.href = "admin_type.html";
         }
       }
     </script>
-
     <!-- Bootstrap JS -->
     <script src="../js/bootstrap.bundle.min.js"></script>
   </body>
