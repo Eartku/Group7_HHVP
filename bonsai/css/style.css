@@ -1567,3 +1567,47 @@ a label {
   background-color: #f0f0f0; /* nếu ảnh không lấp đầy, sẽ thấy nền */
   display: block;
 }
+
+/*amind_type*/
+.type-container {
+  padding: 7rem 0 2rem 0 !important;
+  display: flex;
+  justify-content: center;
+  gap: 30px; /* khoảng cách giữa các ô */
+  flex-wrap: wrap; /* tự xuống dòng khi màn hình nhỏ */
+}
+
+.type-item {
+  background-color: #3b5d50;
+  border-radius: 8px;
+  text-align: center;
+  padding: 12px;
+  width: 587px;
+  height: 650px;
+  transition: 0.3s;
+}
+
+.type-item img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover; /* ảnh auto vừa khung */
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.type-name {
+  color: #c2a878;
+  font-weight: bold;
+  display: block;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  font-size: 50px;
+  text-decoration: none;
+}
+.type-name:hover {
+  color: #fff; /* giữ nguyên màu trắng */
+  text-decoration: none; /* đảm bảo không hiện gạch chân */
+}
+/* .type-item:hover {
+  transform: translateY(-4px);
+  background-color: #388e3c; /* hover đậm hơn } */
