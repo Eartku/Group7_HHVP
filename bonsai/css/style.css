@@ -1582,14 +1582,14 @@ a label {
   border-radius: 8px;
   text-align: center;
   padding: 12px;
-  width: 587px;
-  height: 692px;
+  width: 450px;
+  height: 523px;
   transition: 0.3s;
 }
 
 .type-item img {
   width: 100%;
-  height: 500px;
+  height: 330px;
   object-fit: cover; /* ảnh auto vừa khung */
   border-radius: 6px;
   margin-bottom: 8px;
