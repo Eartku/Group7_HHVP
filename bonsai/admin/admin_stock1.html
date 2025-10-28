@@ -1,0 +1,460 @@
+<!--
+* Bootstrap 5
+* Template Name: Plantaris (Admin - QLKH)
+* Author: Kosmoz
+-->
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="shortcut icon" href="../images/logo.png" />
+    <title>BonSai | Quản Lý Đơn Hàng</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/hover.css" rel="stylesheet" />
+    <link href="../css/page2.css" rel="stylesheet" />
+    <link href="../css/tiny-slider.css" rel="stylesheet" />
+    <link href="../css/page.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+  </head>
+
+  <body>
+    <!-- Start Header/Navigation -->
+    <nav
+      class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
+      aria-label="Bonsai navigation bar"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="../admin.html">ADMIN<span>🌱</span></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarsFurni"
+          aria-controls="navbarsFurni"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+            <li>
+              <a
+                href="customermanage.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >KHÁCH HÀNG</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_type.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >LOẠI SẢN PHẨM</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_product.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >SẢN PHẨM</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_order.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >ĐƠN HÀNG</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_stock1.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 18px"
+                >KHO</a
+              >
+            </li>
+          </ul>
+
+          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-4">
+            <li>
+              <a href="../admin.html" class="nav-link hover-box">
+                <div class="front">
+                  <img src="../images/home.svg" style="scale: 1.3" />
+                </div>
+                <div class="back"><span>Trang chủ</span></div>
+              </a>
+            </li>
+            <li style="margin-left: 10px">
+              <a class="nav-link hover-box" href="admin_login.html">
+                <div class="front"><img src="../images/exit.svg" /></div>
+                <div class="back"><span>Đăng xuất</span></div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Start Hero Section -->
+    <div
+      class="untree_co-section product-section before-footer-section"
+      style="padding: 0rem 0 2rem 0 !important"
+    >
+      <input type="radio" name="page" id="page110" checked />
+      <input type="radio" name="page" id="page220" />
+      <input type="radio" name="page" id="page330" />
+      <div class="hero" style="padding: calc(4rem - 30px) 0 4rem 0">
+        <div class="center-row" style="scale: 1; text-align: center">
+          <h1 class="glow">TỒN KHO</h1>
+          <div class="controls2">
+            <label for="page110" style="border: 2px solid #67eb58"
+              >SỐ LƯỢNG TỒN KHO</label
+            >
+            <label for="page220" style="border: 2px solid #d5ee37"
+              >NHẬP-XUẤT-TỒN</label
+            >
+            <label for="page330" style="border: 2px solid #ec3a12"
+              >CẢNH BÁO</label
+            >
+          </div>
+        </div>
+      </div>
+      <div class="container book" style="min-height: 700px">
+        <!-- class 1 -->
+        <!-- Start Column 1 -->
+
+        <div class="row page page110">
+          <div class="col-md-6" style="width: 100%">
+            <div class="page-header1 fade-in-up">
+              <div class="search-filter-container">
+                <div class="search-box">
+                  <i class="fas fa-search"></i>
+                  <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Tìm kiếm sản phẩm..."
+                  />
+                </div>
+                <div class="mb-2" style="margin-bottom: 0rem !important">
+                  <select
+                    class="form-select form-select-sm"
+                    style="padding: 14px 20px; font-size: 1.123rem"
+                  >
+                    <option>Môn cảnh</option>
+                    <option>Lưỡi hổ</option>
+                    <option>Lan ý</option>
+                    <option>Chuối cảnh</option>
+                    <option>Trầu bà</option>
+                    <option>Cúc trắng</option>
+                    <option>Ngọc bích</option>
+                    <option>Thường xuân</option>
+                  </select>
+                </div>
+                <div class="brand-filter">
+                  <div class="mb-2" style="margin-bottom: 0rem !important">
+                    <select
+                      class="form-select form-select-sm"
+                      style="padding: 14px 20px; font-size: 1.123rem"
+                    >
+                      <option>Để phòng</option>
+                      <option>Để bàn</option>
+                      <option>Treo tường</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="date-filter">
+                  <input type="date" id="startDate" class="date-input" />
+                  <a style="color: rgb(0, 0, 0)">Đến</a>
+                  <input type="date" id="endDate" class="date-input" />
+                  <button
+                    class="action-btn secondary small"
+                    onclick="filterByDate()"
+                  >
+                    <i class="fas fa-filter me-1"></i>Lọc
+                  </button>
+                </div>
+              </div>
+            </div>
+            <h2 class="mb-4 text-center text-black">
+              BẢNG SỐ LƯỢNG CÓ TRONG KHO
+            </h2>
+            <div class="p-4 p-lg-5 border bg-white rounded-3">
+              <table class="table table-bordered text-center">
+                <thead class="table-light">
+                  <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Loại</th>
+                    <th>Cập nhật gần đây</th>
+                    <th>Số lượng</th>
+                    <th>Lịch sửa cập nhật</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Môn cảnh</td>
+                    <td>Để Phòng</td>
+                    <td>11/10/2025</td>
+                    <td>20</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Cau tiểu trâm</td>
+                    <td>Để phòng</td>
+                    <td>09/10/2025</td>
+                    <td>36</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Xương rồng</td>
+                    <td>Để bàn</td>
+                    <td>29/09/2025</td>
+                    <td>12</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Lan hồ điệp</td>
+                    <td>Để bàn</td>
+                    <td>28/09/2025</td>
+                    <td>25</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Ngọc bích</td>
+                    <td>Treo tường</td>
+                    <td>20/09/2025</td>
+                    <td>55</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Trầu bà Pothos</td>
+                    <td>Teo tường</td>
+                    <td>19/09/2025</td>
+                    <td>02</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Cúc trắng</td>
+                    <td>Để bàn</td>
+                    <td>18/09/2025</td>
+                    <td>12</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Lưỡi hổ</td>
+                    <td>Để phòng</td>
+                    <td>15/09/2025</td>
+                    <td>62</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row page page220">
+          <div class="col-md-6" style="width: 100%">
+            <!-- <h2 class="h3 mb-3 text-black">Lịch sử đơn hàng</h2> -->
+            <br />
+            <div class="p-4 p-lg-5 border bg-white rounded-3">
+              <table class="table table-bordered text-center">
+                <thead class="table-light">
+                  <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Loại</th>
+                    <th>Cập nhật gần đây</th>
+                    <th>Số lượng</th>
+                    <th>Lịch sửa cập nhật</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#P001</td>
+                    <td>12/12/2025</td>
+                    <td>137.000đ</td>
+                    <td>
+                      <span class="badge bg-warning text-dark">Mới đặt</span>
+                    </td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Chi tiết</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>#P002</td>
+                    <td>11/12/2025</td>
+                    <td>89.000đ</td>
+                    <td>
+                      <span class="badge bg-warning text-dark">Mới đặt</span>
+                    </td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Chi tiết</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row page page330">
+          <!-- Start Column 1 -->
+          <div class="col-md-6" style="width: 100%">
+            <!-- <h2 class="h3 mb-3 text-black">Lịch sử đơn hàng</h2> -->
+            <br />
+            <div class="p-4 p-lg-5 border bg-white rounded-3">
+              <table class="table table-bordered text-center">
+                <thead class="table-light">
+                  <tr>
+                    <th>Mã đơn</th>
+                    <th>Ngày đặt</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Xem chi tiết</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#P004</td>
+                    <td>10/12/2025</td>
+                    <td>136.000đ</td>
+                    <td><span class="badge bg-success">Đã xử lý</span></td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Chi tiết</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>#P005</td>
+                    <td>09/12/2025</td>
+                    <td>167.000đ</td>
+                    <td><span class="badge bg-success">Đã xử lý</span></td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Chi tiết</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Start Footer -->
+    <footer class="footer-section bg-dark text-light mt-5">
+      <div class="container py-4">
+        <div class="row">
+          <div class="col-lg-8">
+            <h5>Admin - BonSai 🌱</h5>
+          </div>
+        </div>
+        <div class="border-top pt-3 mt-3 text-center">
+          <p class="mb-0">
+            Copyright &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            . All Rights Reserved. — Designed by
+            <a href="group7.html" class="text-light text-decoration-underline"
+              >Group 7</a
+            >
+          </p>
+        </div>
+      </div>
+    </footer>
+    <!-- End Footer -->
+  </body>
+</html>
