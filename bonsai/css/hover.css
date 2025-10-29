@@ -346,3 +346,19 @@
 svg {
   stroke-width: 3; /* tăng giá trị lên, ví dụ 3 hoặc 4 */
 }
+
+.hover-div-zoom-a {
+  display: inline-block; /* hoặc block nếu muốn chiếm toàn bộ width */
+  background-color: rgba(74, 226, 107, 0.3);
+  color: rgb(0, 0, 0);
+  padding: 20px;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* Hover effect */
+.hover-div-zoom-a:hover {
+  transform: scale(1.05); /* zoom 1.05 lần */
+  box-shadow: 0 8px 20px rgba(74, 226, 107, 0.3); /* optional: thêm nổi bật */
+}
