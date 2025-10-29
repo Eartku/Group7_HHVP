@@ -329,51 +329,144 @@
 
         <div class="row page page220">
           <div class="col-md-6" style="width: 100%">
-            <!-- <h2 class="h3 mb-3 text-black">Lịch sử đơn hàng</h2> -->
-            <br />
+            <div class="page-header1 fade-in-up">
+              <div class="search-filter-container">
+                <div class="search-box">
+                  <i class="fas fa-search"></i>
+                  <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Tìm kiếm sản phẩm..."
+                  />
+                </div>
+                <div class="mb-2" style="margin-bottom: 0rem !important">
+                  <select
+                    class="form-select form-select-sm"
+                    style="padding: 14px 20px; font-size: 1.123rem"
+                  >
+                    <option>Môn cảnh</option>
+                    <option>Lưỡi hổ</option>
+                    <option>Lan ý</option>
+                    <option>Chuối cảnh</option>
+                    <option>Trầu bà</option>
+                    <option>Cúc trắng</option>
+                    <option>Ngọc bích</option>
+                    <option>Thường xuân</option>
+                  </select>
+                </div>
+                <div class="brand-filter">
+                  <div class="mb-2" style="margin-bottom: 0rem !important">
+                    <select
+                      class="form-select form-select-sm"
+                      style="padding: 14px 20px; font-size: 1.123rem"
+                    >
+                      <option>Nhập</option>
+                      <option>Xuất</option>
+                      <option>Tồn</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="date-filter">
+                  <input type="date" id="startDate" class="date-input" />
+                  <a style="color: rgb(0, 0, 0)">Đến</a>
+                  <input type="date" id="endDate" class="date-input" />
+                  <button
+                    class="action-btn secondary small"
+                    onclick="filterByDate()"
+                  >
+                    <i class="fas fa-filter me-1"></i>Lọc
+                  </button>
+                </div>
+              </div>
+            </div>
+            <h2 class="mb-4 text-center text-black">BẢNG NHẬP-XUẤT-TỒN KHO</h2>
             <div class="p-4 p-lg-5 border bg-white rounded-3">
               <table class="table table-bordered text-center">
                 <thead class="table-light">
                   <tr>
                     <th>Tên sản phẩm</th>
-                    <th>Loại</th>
-                    <th>Cập nhật gần đây</th>
-                    <th>Số lượng</th>
-                    <th>Lịch sửa cập nhật</th>
+                    <th>Nhập</th>
+                    <th>Xuất</th>
+                    <th>Tồn</th>
+                    <th>Thời gian</th>
+                    <th>Trạng thái</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>#P001</td>
-                    <td>12/12/2025</td>
-                    <td>137.000đ</td>
+                    <td>Môn cảnh</td>
+                    <td>+110</td>
+                    <td>-50</td>
+                    <td>20</td>
+                    <td>11/10/2025</td>
+                    <td><span class="badge bg-success">Đạt</span></td>
+                  </tr>
+
+                  <tr>
+                    <td>Cau tiểu trâm</td>
+                    <td>+10</td>
+                    <td>-</td>
+                    <td>36</td>
+                    <td>09/10/2025</td>
+                    <td><span class="badge bg-success">Đạt</span></td>
+                  </tr>
+
+                  <tr>
+                    <td>Xương rồng</td>
+                    <td>+10</td>
+                    <td>-</td>
+                    <td>12</td>
+                    <td>29/09/2025</td>
+                    <td><span class="badge bg-success">Đạt</span></td>
+                  </tr>
+
+                  <tr>
+                    <td>Lan hồ điệp</td>
+                    <td>+15</td>
+                    <td>-4</td>
+                    <td>25</td>
+                    <td>28/09/2025</td>
+                    <td><span class="badge bg-success">Đạt</span></td>
+                  </tr>
+
+                  <tr>
+                    <td>Ngọc bích</td>
+                    <td>-</td>
+                    <td>-5</td>
+                    <td>55</td>
+                    <td>20/09/2025</td>
+                    <td><span class="badge bg-success">Đạt</span></td>
+                  </tr>
+
+                  <tr>
+                    <td>Trầu bà Pothos</td>
+                    <td>-</td>
+                    <td>-9</td>
+                    <td>2</td>
+                    <td>19/09/2025</td>
                     <td>
-                      <span class="badge bg-warning text-dark">Mới đặt</span>
-                    </td>
-                    <td>
-                      <button
-                        onclick="window.location.href='see_history_stock.html'"
-                        class="badge bg-success"
+                      <span class="badge bg-warning text-dark"
+                        >Sắp hết hàng</span
                       >
-                        <span>Chi tiết</span>
-                      </button>
                     </td>
                   </tr>
+
                   <tr>
-                    <td>#P002</td>
-                    <td>11/12/2025</td>
-                    <td>89.000đ</td>
-                    <td>
-                      <span class="badge bg-warning text-dark">Mới đặt</span>
-                    </td>
-                    <td>
-                      <button
-                        onclick="window.location.href='see_history_stock.html'"
-                        class="badge bg-success"
-                      >
-                        <span>Chi tiết</span>
-                      </button>
-                    </td>
+                    <td>Cúc trắng</td>
+                    <td>+20</td>
+                    <td>-4</td>
+                    <td>12</td>
+                    <td>18/09/2025</td>
+                    <td><span class="badge bg-success">Đạt</span></td>
+                  </tr>
+
+                  <tr>
+                    <td>Lưỡi hổ</td>
+                    <td>-</td>
+                    <td>-8</td>
+                    <td>0</td>
+                    <td>05/09/2025</td>
+                    <td><span class="badge bg-danger">Hết hàng</span></td>
                   </tr>
                 </tbody>
               </table>
@@ -386,6 +479,7 @@
           <div class="col-md-6" style="width: 100%">
             <!-- <h2 class="h3 mb-3 text-black">Lịch sử đơn hàng</h2> -->
             <br />
+            <h2 class="mb-4 text-center text-black">⚠️ CẢNH BÁO</h2>
             <div class="p-4 p-lg-5 border bg-white rounded-3">
               <table class="table table-bordered text-center">
                 <thead class="table-light">
