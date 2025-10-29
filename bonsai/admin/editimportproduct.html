@@ -1,12 +1,12 @@
 <!--
 * Bootstrap 5
-* Trang: Quản lý Nhập sản phẩm
+* Trang: Phiếu nhập hàng
 * Tác giả: vũ
 -->
 
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
+   <head>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -59,9 +59,8 @@
     </style>
   </head>
 
-
   <body class="bg-light">
-    <nav
+     <nav
       class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
       aria-label="Bonsai navigation bar"
     >
@@ -105,13 +104,13 @@
                 >SẢN PHẨM</a
               >
             </li>
-             
              <li>
-             <a
-              href="admin_importproduct.html"
-              class="nav-link active-import"
+              <a
+                href="admin_importproduct.html"
+                 class="nav-link active-import"
                  style="font-size: 19px"
-                 >NHẬP SẢN PHẨM</a>
+                >NHẬP SẢN PHẨM</a
+              >
             </li>
              <li>
               <a
@@ -158,153 +157,108 @@
         </div>
       </div>
     </nav>
-    <!-- End Header/Navigation -->
     <div class="container py-4">
       <!-- Tiêu đề -->
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold text-success">Quản lý Nhập sản phẩm</h2>
-        <a href="importproduct.html" class="btn btn-success">
-          <i class="fas fa-plus me-1"></i> Thêm phiếu nhập
-        </a>
+      <div class="text-center mb-4">
+        <h2 class="fw-bold text-success">
+          <i class="fas fa-file-circle-plus me-2"></i> Phiếu nhập hàng
+        </h2>
       </div>
 
-      <!-- Thanh tìm kiếm -->
-    <!-- Thanh tìm kiếm & lọc phiếu nhập -->
-<div class="page-header1 fade-in-up">
-  <div class="search-filter-container d-flex flex-wrap gap-3 align-items-center">
-    
-    <!-- Ô tìm kiếm -->
-    <div class="search-box">
-    <i class="fas fa-search"></i>
-    <input
-    type="text"
-    id="searchInput"
-    placeholder="Tìm kiếm mã phiếu" /></div>
-    <!-- Ngày nhập -->
-    <div class="date-filter d-flex align-items-center gap-2">
-      <input type="date" id="startDate" class="form-control" style="min-width: 180px" />
-      <span>đến</span>
-      <input type="date" id="endDate" class="form-control" style="min-width: 180px" />
-    </div>
-
-    <!-- Trạng thái -->
-    <div class="status-filter">
-      <select
-        class="form-select"
-        style="padding: 10px 20px; min-width: 180px; font-size: 1rem"
-      >
-        <option value="">Tất cả trạng thái</option>
-        <option value="dangnhap">Đang nhập</option>
-        <option value="hoanthanh">Hoàn thành</option>
-      </select>
-    </div>
-
-    <!-- Nút lọc -->
-    <div>
-      <button type="button" class="btn btn-success">
-        <i class="fas fa-filter me-1"></i> Lọc
-      </button>
-    </div>
-
-  </div>
-</div>
-
-<style>
-  .search-filter-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .search-box input:focus {
-    box-shadow: none;
-  }
-  .date-filter input {
-    height: 40px;
-  }
-</style>
-
-      <!-- Danh sách phiếu nhập -->
+      <!-- Form phiếu nhập -->
       <div class="card shadow-sm">
         <div class="card-header bg-success text-white fw-semibold">
-          Danh sách phiếu nhập hàng
+          Thông tin phiếu nhập mã PN001
         </div>
-        <div class="card-body p-0">
-          <table class="table table-striped mb-0">
-            <thead class="table-success">
-              <tr>
-                <th>Mã phiếu</th>
-                <th>Ngày nhập</th>
-                <th>Tổng giá trị (VNĐ)</th>
-                <th>Trạng thái</th>
-                <th>Thao tác</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>PN001</td>
-                <td>2025-10-25</td>
-                <td>3.200.000</td>
-                <td><span class="badge bg-warning text-dark">Đang nhập</span></td>
-                <td>
-                  <a href="editimportproduct.html" class="btn btn-sm btn-outline-success me-1"
-                    ><i class="fas fa-edit"></i> Sửa</a
-                  >
-                  <a href="#" class="btn btn-sm btn-outline-secondary"
-                    ><i class="fas fa-check"></i> Hoàn thành</a
-                  >
-                </td>
-              </tr>
-              <tr>
-                <td>PN002</td>
-                <td>2025-10-26</td>
-                <td>5.600.000</td>
-                <td><span class="badge bg-success">Hoàn thành</span></td>
-                <td>
-                  <button class="btn btn-sm btn-outline-secondary" disabled>
-                    <i class="fas fa-lock"></i> Đã hoàn thành
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="card-body">
+ <form id="importForm" action="admin_importproduct.html" method="get">
+  <!-- Ngày nhập -->
+  <div class="mb-3">
+    <label class="form-label">Ngày nhập</label>
+    <input
+      type="date"
+      class="form-control"
+      name="importDate"
+      value="2025-10-29"  <!-- Thông tin có sẵn -->
+ 
+  </div>
+
+  <!-- Sản phẩm nhập -->
+  <div class="border rounded p-3 mb-3">
+    <h6 class="text-success mb-3">
+      <i class="fas fa-leaf me-1"></i> Sản phẩm nhập
+    </h6>
+
+    <div class="row g-3 align-items-center mb-2">
+      <div class="col-md-4">
+        <label class="form-label">Tên sản phẩm</label>
+        <input
+          type="text"
+          class="form-control"
+          name="productName"
+          value="Lan ý"  <!-- Có sẵn -->
+    
       </div>
 
-      
+      <div class="col-md-4">
+        <label class="form-label">Giá nhập (VNĐ)</label>
+        <input
+          type="number"
+          class="form-control"
+          name="importPrice"
+          value="25000"  <!-- Có sẵn -->
+      </div>
 
+      <div class="col-md-4">
+        <label class="form-label">Số lượng</label>
+        <input
+          type="number"
+          class="form-control"
+          name="quantity"
+          value="10"  <!-- Có sẵn -->
+ 
+      </div>
     </div>
-    <!-- Start Footer Section -->
-    <footer class="footer-section bg-dark text-light mt-5">
-      <div class="container py-4">
-        <div class="row">
-          <div class="col-lg-8">
-            <h5>Admin - BonSai 🌱</h5>
-          </div>
-        </div>
-        <div class="border-top pt-3 mt-3 text-center">
-          <p class="mb-0">
-            Copyright &copy;
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            . All Rights Reserved. — Designed by
-            <a href="group7.html" class="text-light text-decoration-underline"
-              >Group 7</a
-            >
-          </p>
+  </div>
+
+  <!-- ✅ Nút hành động -->
+  <div class="text-end">
+    <a href="admin_importproduct.html" class="btn btn-secondary w-24 me-2">Quay lại</a>
+    <button type="submit" class="btn btn-success">
+      <i class="fas fa-save me-1"></i> Lưu chỉnh sửa
+    </button>
+  </div>
+</form>
+
+
+<!-- Script đặt sau form -->
+<script>
+  document.getElementById("importForm").addEventListener("submit", function (e) {
+    e.preventDefault(); // Ngăn form gửi đi ngay
+
+    if (confirm("Bạn có chắc muốn lưu chỉnh sửa này không?")) {
+      alert("✅ Đã lưu phiếu nhập thành công!");
+      window.location.href = "admin_importproduct.html"; // Quay lại trang chính
+    }
+  });
+</script>
+
         </div>
       </div>
-    </footer>
+    </div>
 
     <style>
       body {
         font-family: "Segoe UI", sans-serif;
       }
-      h2, h4 {
+      h2 {
         letter-spacing: 0.5px;
       }
-      .table th, .table td {
-        vertical-align: middle;
+      .card {
+        border-radius: 1rem;
+      }
+      .form-label {
+        font-weight: 500;
       }
     </style>
   </body>
