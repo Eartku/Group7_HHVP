@@ -77,6 +77,23 @@
                 >SẢN PHẨM</a
               >
             </li>
+             <li>
+              <a
+                href="admin_importproduct.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >NHẬP SẢN PHẨM</a
+              >
+            </li>
+            
+              <li>
+              <a
+                href="admin_sellingprice.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >GIÁ BÁN</a
+              >
+            </li>
             <li>
               <a
                 href="admin_order.html"
@@ -88,8 +105,8 @@
             <li>
               <a
                 href="admin_stock1.html"
-                class="nav-link hover-text-glow"
-                style="font-size: 18px"
+                class="nav-link active-import"
+                 style="font-size: 19px"
                 >KHO</a
               >
             </li>
@@ -185,15 +202,18 @@
                   <input type="date" id="startDate" class="date-input" />
                   <a style="color: rgb(0, 0, 0)">Đến</a>
                   <input type="date" id="endDate" class="date-input" />
-                  <button
-                    class="action-btn secondary small"
-                    onclick="filterByDate()"
-                  >
-                    <i class="fas fa-filter me-1"></i>Lọc
-                  </button>
+                  <div>
+               <button type="button" class="btn btn-success">
+               <i class="fas fa-filter me-1"></i> Lọc
+               </button>
+               </div>
+
                 </div>
               </div>
             </div>
+
+
+
             <h2 class="mb-4 text-center text-black">
               BẢNG SỐ LƯỢNG CÓ TRONG KHO
             </h2>

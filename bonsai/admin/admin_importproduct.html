@@ -1,12 +1,11 @@
-<!-- /*
+<!--
 * Bootstrap 5
-* Template Name: Furni
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
+* Trang: Quản lý Nhập sản phẩm
+* Tác giả: vũ
+-->
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -34,7 +33,9 @@
     <link href="../css/hover.css" rel="stylesheet" />
     <link href="../css/animation.css" rel="stylesheet" />
     <link href="../css/page.css" rel="stylesheet" />
+
     <title>BonSai | Sửa sản phẩm</title>
+
     <style>
       .edit-container {
         max-width: 500px;
@@ -44,10 +45,12 @@
         border-radius: 15px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
+
       .product-preview {
         text-align: center;
         margin-bottom: 20px;
       }
+
       .product-preview img {
         width: 200px;
         border-radius: 10px;
@@ -55,14 +58,15 @@
       }
     </style>
   </head>
-  <body>
-    <!-- Start Header/Navigation -->
+
+
+  <body class="bg-light">
     <nav
       class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
       aria-label="Bonsai navigation bar"
     >
       <div class="container">
-        <a class="navbar-brand" href="admin.html">ADMIN<span>🌱</span></a>
+        <a class="navbar-brand" href="../admin.html">ADMIN<span>🌱</span></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -74,6 +78,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
             <li>
@@ -95,20 +100,20 @@
             <li>
               <a
                 href="admin_product.html"
-               class="nav-link active-import"
-                 style="font-size: 19px"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
                 >SẢN PHẨM</a
               >
             </li>
+             
              <li>
-              <a
-                href="admin_importproduct.html"
-                class="nav-link hover-text-glow"
-                style="font-size: 14px"
-                >NHẬP SẢN PHẨM</a
-              >
+             <a
+              href="admin_importproduct.html"
+              class="nav-link active-import"
+                 style="font-size: 19px"
+                 >NHẬP SẢN PHẨM</a>
             </li>
-              <li>
+             <li>
               <a
                 href="admin_sellingprice.html"
                 class="nav-link hover-text-glow"
@@ -154,116 +159,119 @@
       </div>
     </nav>
     <!-- End Header/Navigation -->
-    <!-- Hero Section -->
-    <div class="hero">
-      <div class="center-row" style="scale: 1; text-align: center">
-        <h1 class="glow">SỬA THÔNG TIN SẢN PHẨM</h1>
+    <div class="container py-4">
+      <!-- Tiêu đề -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-success">Quản lý Nhập sản phẩm</h2>
+        <a href="importproduct.html" class="btn btn-success">
+          <i class="fas fa-plus me-1"></i> Thêm phiếu nhập
+        </a>
       </div>
+
+      <!-- Thanh tìm kiếm -->
+    <!-- Thanh tìm kiếm & lọc phiếu nhập -->
+<div class="page-header1 fade-in-up">
+  <div class="search-filter-container d-flex flex-wrap gap-3 align-items-center">
+    
+    <!-- Ô tìm kiếm -->
+    <div class="search-box">
+    <i class="fas fa-search"></i>
+    <input
+    type="text"
+    id="searchInput"
+    placeholder="Tìm kiếm mã phiếu" /></div>
+    <!-- Ngày nhập -->
+    <div class="date-filter d-flex align-items-center gap-2">
+      <input type="date" id="startDate" class="form-control" style="min-width: 180px" />
+      <span>đến</span>
+      <input type="date" id="endDate" class="form-control" style="min-width: 180px" />
     </div>
-    <!-- Edit Form Section -->
-    <div class="edit-container">
-      <h2 class="text-center mb-4 text-success">Sửa thông tin sản phẩm</h2>
-      <div class="product-preview">
-        <img src="../images/rauma.png" alt="Ảnh sản phẩm" />
+
+    <!-- Trạng thái -->
+    <div class="status-filter">
+      <select
+        class="form-select"
+        style="padding: 10px 20px; min-width: 180px; font-size: 1rem"
+      >
+        <option value="">Tất cả trạng thái</option>
+        <option value="dangnhap">Đang nhập</option>
+        <option value="hoanthanh">Hoàn thành</option>
+      </select>
+    </div>
+
+    <!-- Nút lọc -->
+    <div>
+      <button type="button" class="btn btn-success">
+        <i class="fas fa-filter me-1"></i> Lọc
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .search-filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .search-box input:focus {
+    box-shadow: none;
+  }
+  .date-filter input {
+    height: 40px;
+  }
+</style>
+
+      <!-- Danh sách phiếu nhập -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white fw-semibold">
+          Danh sách phiếu nhập hàng
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-striped mb-0">
+            <thead class="table-success">
+              <tr>
+                <th>Mã phiếu</th>
+                <th>Ngày nhập</th>
+                <th>Tổng giá trị (VNĐ)</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>PN001</td>
+                <td>2025-10-25</td>
+                <td>3.200.000</td>
+                <td><span class="badge bg-warning text-dark">Đang nhập</span></td>
+                <td>
+                  <a href="#suaphieu" class="btn btn-sm btn-outline-success me-1"
+                    ><i class="fas fa-edit"></i> Sửa</a
+                  >
+                  <a href="#" class="btn btn-sm btn-outline-secondary"
+                    ><i class="fas fa-check"></i> Hoàn thành</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>PN002</td>
+                <td>2025-10-26</td>
+                <td>5.600.000</td>
+                <td><span class="badge bg-success">Hoàn thành</span></td>
+                <td>
+                  <button class="btn btn-sm btn-outline-secondary" disabled>
+                    <i class="fas fa-lock"></i> Đã hoàn thành
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <form>
-        <div class="mb-3">
-          <label class="form-label">Ảnh sản phẩm</label>
-          <input type="file" class="form-control" name="productImage" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Mã sản phẩm</label>
-          <input
-            type="text"
-            class="form-control"
-            name="productName"
-            value="#SP001"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Tên sản phẩm</label>
-          <input
-            type="text"
-            class="form-control"
-            name="productName"
-            value="Rau má"
-            required
-          />
-        </div>
-        <!-- Phân loại cây -->
-        <div class="mb-3">
-          <label class="form-label">Phân loại cây</label>
-          <select class="form-select" name="productCategory" required>
-            <option value="">Cây để phòng</option>
-            <option value="cay-canh-mini">Cây để bàn</option>
-            <option value="cay-phong-thuy">Cây cây treo tường</option>
-          </select>
-        </div>
-        <!-- Giá vốn -->
-        <div class="mb-3">
-          <label class="form-label">Giá vốn (VNĐ)</label>
-          <input
-            type="number"
-            class="form-control"
-            name="productCost"
-            value="25000"
-            required
-          />
-        </div>
-        <!-- Giá bán -->
-        <div class="mb-3">
-          <label class="form-label">Giá bán (VNĐ)</label>
-          <input
-            type="number"
-            class="form-control"
-            name="productPrice"
-            value="36000"
-            required
-          />
-        </div>
-        <!-- ✅ Thêm phần số lượng trong kho -->
-        <div class="mb-3">
-          <label class="form-label">Số lượng trong kho</label>
-          <input
-            type="number"
-            class="form-control"
-            name="productStock"
-            value="124"
-            required
-          />
-        </div>
-        <!-- Mô tả sản phẩm -->
-        <div class="mb-3">
-          <label class="form-label">Mô tả sản phẩm</label>
-          <textarea class="form-control" name="productName" rows="4" required>
-Rau má là loại cây thân thảo, mọc bò lan, thường được sử dụng để làm nước giải khát hoặc trong các món ăn thanh mát. Cây dễ trồng, ưa ẩm và có thể sinh trưởng quanh năm.</textarea
-          >
-        </div>
-        <!-- Ngày nhập -->
-        <div class="mb-3">
-          <label class="form-label">Ngày nhập</label>
-          <input
-            type="date"
-            class="form-control"
-            name="productDate"
-            value="2024-10-03"
-            required
-          />
-        </div>
-        <div class="d-flex justify-content-between mt-4">
-          <a href="productdetails.html" class="btn btn-secondary w-50 me-2"
-            >Quay lại</a
-          >
-          <button
-            type="button"
-            class="btn btn-success w-50"
-            onclick="confirmSave()"
-          >
-            Lưu thay đổi
-          </button>
-        </div>
-      </form>
+
+      
+
     </div>
     <!-- Start Footer Section -->
     <footer class="footer-section bg-dark text-light mt-5">
@@ -287,17 +295,17 @@ Rau má là loại cây thân thảo, mọc bò lan, thường được sử d�
         </div>
       </div>
     </footer>
-    <!-- End Footer Section -->
-    <!-- Script xác nhận lưu -->
-    <script>
-      function confirmSave() {
-        if (confirm("Bạn có chắc muốn lưu thay đổi không?")) {
-          alert("✅ Thông tin sản phẩm đã được lưu thành công!");
-          window.location.href = "newproduct1.html";
-        }
+
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
       }
-    </script>
-    <!-- Bootstrap JS -->
-    <script src="../js/bootstrap.bundle.min.js"></script>
+      h2, h4 {
+        letter-spacing: 0.5px;
+      }
+      .table th, .table td {
+        vertical-align: middle;
+      }
+    </style>
   </body>
 </html>

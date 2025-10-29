@@ -1,13 +1,12 @@
-<!-- /*
+<!--
 * Bootstrap 5
-* Template Name: Furni
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
+* Trang: Phiếu nhập hàng
+* Tác giả: vũ
+-->
+
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="vi">
+   <head>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -34,7 +33,9 @@
     <link href="../css/hover.css" rel="stylesheet" />
     <link href="../css/animation.css" rel="stylesheet" />
     <link href="../css/page.css" rel="stylesheet" />
+
     <title>BonSai | Sửa sản phẩm</title>
+
     <style>
       .edit-container {
         max-width: 500px;
@@ -44,10 +45,12 @@
         border-radius: 15px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
+
       .product-preview {
         text-align: center;
         margin-bottom: 20px;
       }
+
       .product-preview img {
         width: 200px;
         border-radius: 10px;
@@ -55,14 +58,14 @@
       }
     </style>
   </head>
-  <body>
-    <!-- Start Header/Navigation -->
-    <nav
+
+  <body class="bg-light">
+     <nav
       class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
       aria-label="Bonsai navigation bar"
     >
       <div class="container">
-        <a class="navbar-brand" href="admin.html">ADMIN<span>🌱</span></a>
+        <a class="navbar-brand" href="../admin.html">ADMIN<span>🌱</span></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -74,6 +77,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
             <li>
@@ -81,15 +85,14 @@
                 href="customermanage.html"
                 class="nav-link hover-text-glow"
                 style="font-size: 14px"
-              >
-                KHÁCH HÀNG</a
+                >KHÁCH HÀNG</a
               >
             </li>
             <li>
               <a
                 href="admin_type.html"
-                 class="nav-link active-import"
-                 style="font-size: 19px"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
                 >LOẠI SẢN PHẨM</a
               >
             </li>
@@ -104,12 +107,12 @@
              <li>
               <a
                 href="admin_importproduct.html"
-                class="nav-link hover-text-glow"
-                style="font-size: 14px"
+                 class="nav-link active-import"
+                 style="font-size: 19px"
                 >NHẬP SẢN PHẨM</a
               >
             </li>
-              <li>
+             <li>
               <a
                 href="admin_sellingprice.html"
                 class="nav-link hover-text-glow"
@@ -154,62 +157,115 @@
         </div>
       </div>
     </nav>
-    <!-- End Header/Navigation -->
-    <!-- Hero Section -->
-    <div class="hero">
-      <div class="center-row" style="scale: 1; text-align: center">
-        <h1 class="glow">THÊM LOẠI SẢN PHẨM</h1>
+    <div class="container py-4">
+      <!-- Tiêu đề -->
+      <div class="text-center mb-4">
+        <h2 class="fw-bold text-success">
+          <i class="fas fa-file-circle-plus me-2"></i> Phiếu nhập hàng
+        </h2>
+      </div>
+
+      <!-- Form phiếu nhập -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white fw-semibold">
+          Thông tin phiếu nhập
+        </div>
+        <div class="card-body">
+           <form id="importForm" action="admin_importproduct.html" method="get">
+  <!-- Ngày nhập -->
+  <div class="mb-3">
+    <label class="form-label">Ngày nhập</label>
+    <input
+      type="date"
+      class="form-control"
+      name="importDate"
+      required
+    />
+  </div>
+
+  <!-- Sản phẩm nhập -->
+  <div class="border rounded p-3 mb-3">
+    <h6 class="text-success mb-3">
+      <i class="fas fa-leaf me-1"></i> Sản phẩm nhập
+    </h6>
+
+    <div class="row g-3 align-items-center mb-2">
+      <div class="col-md-4">
+        <label class="form-label">Tên sản phẩm</label>
+        <input
+          type="text"
+          class="form-control"
+          name="productName"
+          placeholder="VD: Lan ý"
+          required
+        />
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Giá nhập (VNĐ)</label>
+        <input
+          type="number"
+          class="form-control"
+          name="importPrice"
+          placeholder="VD: 25000"
+          required
+        />
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Số lượng</label>
+        <input
+          type="number"
+          class="form-control"
+          name="quantity"
+          placeholder="VD: 10"
+          required
+        />
       </div>
     </div>
-    <!-- Edit Form Section -->
-    <div class="edit-container">
-      <h2 class="text-center mb-4 text-success">Thêm loại sản phẩm</h2>
-      <form>
-        <div class="mb-3">
-          <label class="form-label">Ảnh</label>
-          <input type="file" class="form-control" name="productImage" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Tên loại sản phẩm</label>
-          <input type="text" class="form-control" name="productName" />
-        </div>
+  </div>
 
-        <!-- Mô tả sản phẩm -->
-        <div class="mb-3">
-          <label class="form-label">Mô tả sản phẩm</label>
-          <textarea
-            class="form-control"
-            name="productName"
-            rows="4"
-            required
-            style="height: 50px !important"
-          ></textarea>
+  <!-- ✅ Nút hành động — đặt NGAY TRONG form -->
+  <div class="text-end">
+    <a href="admin_importproduct.html" class="btn btn-secondary w-24 me-2">Quay lại</a>
+    <button type="submit" class="btn btn-success">
+      <i class="fas fa-save me-1"></i> Lưu phiếu nhập
+    </button>
+    <button type="reset" class="btn btn-outline-secondary ms-2">
+      <i class="fas fa-undo me-1"></i> Nhập lại
+    </button>
+  </div>
+</form>
+
+<!-- Script đặt sau form -->
+<script>
+  document.getElementById("importForm").addEventListener("submit", function (e) {
+    e.preventDefault(); // Ngăn form gửi đi ngay
+
+    if (confirm("Bạn có chắc muốn lưu phiếu nhập này không?")) {
+      alert("✅ Đã lưu phiếu nhập thành công!");
+      window.location.href = "admin_importproduct.html"; // Quay lại trang chính
+    }
+  });
+</script>
+
         </div>
-        <div class="d-flex justify-content-between mt-4">
-          <a href="admin_type.html" class="btn btn-secondary w-50 me-2"
-            >Quay lại</a
-          >
-          <button
-            type="button"
-            class="btn btn-success w-50"
-            onclick="confirmSave()"
-          >
-            Thêm
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
 
-    <!-- Script xác nhận lưu -->
-    <script>
-      function confirmSave() {
-        if (confirm("Bạn có chắc muốn lưu muổn thêm loại mới không?")) {
-          alert("✅ đã thêm thành công!");
-          window.location.href = "admin_type.html";
-        }
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
       }
-    </script>
-    <!-- Bootstrap JS -->
-    <script src="../js/bootstrap.bundle.min.js"></script>
+      h2 {
+        letter-spacing: 0.5px;
+      }
+      .card {
+        border-radius: 1rem;
+      }
+      .form-label {
+        font-weight: 500;
+      }
+    </style>
   </body>
 </html>
