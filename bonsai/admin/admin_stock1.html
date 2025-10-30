@@ -386,19 +386,20 @@
                     </select>
                   </div>
                 </div>
-                <div class="date-filter">
+                 <div class="date-filter">
                   <input type="date" id="startDate" class="date-input" />
                   <a style="color: rgb(0, 0, 0)">Đến</a>
                   <input type="date" id="endDate" class="date-input" />
-                  <button
-                    class="action-btn secondary small"
-                    onclick="filterByDate()"
-                  >
-                    <i class="fas fa-filter me-1"></i>Lọc
-                  </button>
+                  <div>
+               <button type="button" class="btn btn-success">
+               <i class="fas fa-filter me-1"></i> Lọc
+               </button>
+               </div>
+
                 </div>
               </div>
             </div>
+
             <h2 class="mb-4 text-center text-black">BẢNG NHẬP-XUẤT-TỒN KHO</h2>
             <div class="p-4 p-lg-5 border bg-white rounded-3">
               <table class="table table-bordered text-center">
@@ -504,45 +505,38 @@
               <table class="table table-bordered text-center">
                 <thead class="table-light">
                   <tr>
-                    <th>Mã đơn</th>
-                    <th>Ngày đặt</th>
-                    <th>Tổng tiền</th>
+                    <th>Sản phẩm</th>
+                    <th>Loại</th>
+                    <th>Số lượng</th>
                     <th>Trạng thái</th>
-                    <th>Xem chi tiết</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>#P004</td>
-                    <td>10/12/2025</td>
-                    <td>136.000đ</td>
-                    <td><span class="badge bg-success">Đã xử lý</span></td>
+                    <td>Trầu bà Pothos</td>
+                    <td>Treo Tường</td>
+                    <td>2</td>
                     <td>
-                      <button
-                        onclick="window.location.href='see_history_stock.html'"
-                        class="badge bg-success"
+                      <span class="badge bg-warning text-dark"
+                        >Sắp hết hàng</span
                       >
-                        <span>Chi tiết</span>
-                      </button>
+                    </td>
                     </td>
                   </tr>
                   <tr>
-                    <td>#P005</td>
-                    <td>09/12/2025</td>
-                    <td>167.000đ</td>
-                    <td><span class="badge bg-success">Đã xử lý</span></td>
-                    <td>
-                      <button
-                        onclick="window.location.href='see_history_stock.html'"
-                        class="badge bg-success"
-                      >
-                        <span>Chi tiết</span>
-                      </button>
-                    </td>
+                    <td>Lưỡi Hổ</td>
+                    <td>Để Phòng</td>
+                    <td>0</td>
+                    <td><span class="badge bg-danger">Hết hàng</span></td>
                   </tr>
                 </tbody>
               </table>
             </div>
+            <div class="text-center mt-4">
+  <a href="importproduct.html" class="btn btn-success">
+    <i class="fas fa-plus me-1"></i> NHẬP THÊM HÀNG
+  </a>
+</div>
           </div>
         </div>
       </div>
