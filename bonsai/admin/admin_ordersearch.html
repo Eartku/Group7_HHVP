@@ -133,54 +133,56 @@
     <div class="hero">
       <div class="center-row" style="scale: 1; text-align: center">
         <h1 class="glow">QUẢN LÝ ĐƠN HÀNG</h1>
-        <form class="search-bar" action="admin_ordersearch.html" method="get">
-          <!-- nút filter -->
-          <input type="checkbox" id="show-filter" hidden />
-          <label for="show-filter" class="filter-btn">
-            <a
-              class="filter-btn"
-              style="
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 150px;
-                height: 50px;
-                border: 1px solid #011007;
-                border-radius: 8px;
-                background-color: #11ba52;
-                text-decoration: none;
-                color: #333;
-                font-weight: 500;
-                transition: 0.3s;
-              "
-            >
-              Tra cứu
-            </a>
-          </label>
-          <!-- dropdown filter -->
-          <div class="filter-options" style="top: 93px; right: 31%">
-            <ul>
-              <label class="form-label fw-bold">Ngày đặt</label>
-              <input type="date" class="form-control" value="2025-10-20" />
-              <div class="mb-2">
-                <label class="form-label small mb-1" style="font-size: 1.25em"
-                  ><b>Trạng thái đơn hàng</b></label
+      <form class="search-bar" action="admin_ordersearch.html" method="get">
+              <!-- nút filter -->
+              <input type="checkbox" id="show-filter" hidden />
+              <label for="show-filter" class="filter-btn">
+                <a
+                  class="filter-btn"
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 150px;
+                    height: 50px;
+                    border: none;                /* xóa viền */
+                    border-radius: 25px;         /* bo tròn hoàn toàn */
+                    background: linear-gradient(90deg, #11ba52, #0da74a); /* gradient xanh đẹp */
+                    text-decoration: none;
+                    color: white;                /* chữ trắng */
+                    font-weight: 600;
+                    font-size: 1.1em;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* đổ bóng nhẹ */
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                  "
+                  onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.3)';"
+                  onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';"
                 >
-                <select class="form-select form-select-sm">
-                  <option>Mới Đặt</option>
-                  <option>Đã xử lý</option>
-                  <option>Đã giao</option>
-                  <option>Hủy</option>
-                </select>
+                  Tra cứu
+                </a>
+              </label>
+
+              <!-- dropdown filter -->
+              <div class="filter-options" style="top: 93px; right: 31%">
+                <ul>
+                  <label class="form-label fw-bold">Ngày đặt</label>
+                  <input type="date" class="form-control" value="2025-10-20" style="border: 1px solid #ccc; border-radius: 8px;" />
+                  <div class="mb-2">
+                    <label class="form-label small mb-1" style="font-size: 1.25em"><b>Trạng thái đơn hàng</b></label>
+                    <select class="form-select form-select-sm" style="border-radius: 8px;">
+                      <option>Mới Đặt</option>
+                      <option>Đã xử lý</option>
+                      <option>Đã giao</option>
+                      <option>Hủy</option>
+                    </select>
+                  </div>
+                  <li>
+                    <a href="admin_ordersearch.html" style="color: brown"><b>TRA CỨU</b></a>
+                  </li>
+                </ul>
               </div>
-              <li>
-                <a href="admin_ordersearch.html" style="color: brown"
-                  ><b> TRA CỨU</b></a
-                >
-              </li>
-            </ul>
-          </div>
-        </form>
+            </form>
       </div>
     </div>
     <!-- End Hero Section -->
