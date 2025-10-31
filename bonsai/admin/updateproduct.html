@@ -202,26 +202,14 @@
             <option value="cay-phong-thuy">Cây cây treo tường</option>
           </select>
         </div>
-        <!-- Giá vốn -->
-        <div class="mb-3">
-          <label class="form-label">Giá vốn (VNĐ)</label>
-          <input
-            type="number"
-            class="form-control"
-            name="productCost"
-            value="25000"
-            required
-          />
-        </div>
         <!-- Giá bán -->
         <div class="mb-3">
           <label class="form-label">Giá bán (VNĐ)</label>
           <input
-            type="number"
+            type="text"
             class="form-control"
-            name="productPrice"
-            value="36000"
-            required
+            name="productName"
+            value="36.000đ"
           />
         </div>
         <!-- ✅ Thêm phần số lượng trong kho -->
@@ -238,7 +226,13 @@
         <!-- Mô tả sản phẩm -->
         <div class="mb-3">
           <label class="form-label">Mô tả sản phẩm</label>
-          <textarea class="form-control" name="productName" rows="4" required>
+          <textarea
+            class="form-control"
+            name="productName"
+            rows="4"
+            required
+            style="height: 150px !important"
+          >
 Rau má là loại cây thân thảo, mọc bò lan, thường được sử dụng để làm nước giải khát hoặc trong các món ăn thanh mát. Cây dễ trồng, ưa ẩm và có thể sinh trưởng quanh năm.</textarea
           >
         </div>
