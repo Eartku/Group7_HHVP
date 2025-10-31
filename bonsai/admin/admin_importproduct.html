@@ -59,7 +59,6 @@
     </style>
   </head>
 
-
   <body class="bg-light">
     <nav
       class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
@@ -105,15 +104,16 @@
                 >SẢN PHẨM</a
               >
             </li>
-             
-             <li>
-             <a
-              href="admin_importproduct.html"
-              class="nav-link active-import"
-                 style="font-size: 19px"
-                 >NHẬP SẢN PHẨM</a>
+
+            <li>
+              <a
+                href="admin_importproduct.html"
+                class="nav-link active-import"
+                style="font-size: 19px"
+                >NHẬP SẢN PHẨM</a
+              >
             </li>
-             <li>
+            <li>
               <a
                 href="admin_sellingprice.html"
                 class="nav-link hover-text-glow"
@@ -161,69 +161,86 @@
     <!-- End Header/Navigation -->
     <div class="container py-4">
       <!-- Tiêu đề -->
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <div class="text-center">
-         <h2 class="fw-bold text-success">Quản lý Nhập sản phẩm</h2>
-       </div>
-        <a href="importproduct.html" class="btn btn-success">
+      <div
+        class="d-flex justify-content-center align-items-center mb-4 position-relative"
+      >
+        <h2 class="fw-bold text-success text-center" style="padding: 30px">
+          Quản lý Nhập sản phẩm
+        </h2>
+        <a
+          href="importproduct.html"
+          class="btn btn-success position-absolute end-0"
+        >
           <i class="fas fa-plus me-1"></i> Thêm phiếu nhập
         </a>
       </div>
 
       <!-- Thanh tìm kiếm -->
-    <!-- Thanh tìm kiếm & lọc phiếu nhập -->
-<div class="page-header1 fade-in-up">
-  <div class="search-filter-container d-flex flex-wrap gap-3 align-items-center">
-    
-    <!-- Ô tìm kiếm -->
-    <div class="search-box">
-    <i class="fas fa-search"></i>
-    <input
-    type="text"
-    id="searchInput"
-    placeholder="Tìm kiếm mã phiếu" /></div>
-    <!-- Ngày nhập -->
-    <div class="date-filter d-flex align-items-center gap-2">
-      <input type="date" id="startDate" class="form-control" style="min-width: 180px" />
-      <span>đến</span>
-      <input type="date" id="endDate" class="form-control" style="min-width: 180px" />
-    </div>
+      <!-- Thanh tìm kiếm & lọc phiếu nhập -->
+      <div class="page-header1 fade-in-up">
+        <div
+          class="search-filter-container d-flex flex-wrap gap-3 align-items-center"
+        >
+          <!-- Ô tìm kiếm -->
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Tìm kiếm mã phiếu"
+            />
+          </div>
+          <!-- Ngày nhập -->
+          <div class="date-filter d-flex align-items-center gap-2">
+            <input
+              type="date"
+              id="startDate"
+              class="form-control"
+              style="min-width: 180px"
+            />
+            <span>đến</span>
+            <input
+              type="date"
+              id="endDate"
+              class="form-control"
+              style="min-width: 180px"
+            />
+          </div>
 
-    <!-- Trạng thái -->
-    <div class="status-filter">
-      <select
-        class="form-select"
-        style="padding: 10px 20px; min-width: 180px; font-size: 1rem"
-      >
-        <option value="">Tất cả trạng thái</option>
-        <option value="dangnhap">Đang nhập</option>
-        <option value="hoanthanh">Hoàn thành</option>
-      </select>
-    </div>
+          <!-- Trạng thái -->
+          <div class="status-filter">
+            <select
+              class="form-select"
+              style="padding: 10px 20px; min-width: 180px; font-size: 1rem"
+            >
+              <option value="">Tất cả trạng thái</option>
+              <option value="dangnhap">Đang nhập</option>
+              <option value="hoanthanh">Hoàn thành</option>
+            </select>
+          </div>
 
-    <!-- Nút lọc -->
-    <div>
-      <button type="button" class="btn btn-success">
-        <i class="fas fa-filter me-1"></i> Lọc
-      </button>
-    </div>
+          <!-- Nút lọc -->
+          <div>
+            <button type="button" class="btn btn-success">
+              <i class="fas fa-filter me-1"></i> Lọc
+            </button>
+          </div>
+        </div>
+      </div>
 
-  </div>
-</div>
-
-<style>
-  .search-filter-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .search-box input:focus {
-    box-shadow: none;
-  }
-  .date-filter input {
-    height: 40px;
-  }
-</style>
+      <style>
+        .search-filter-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+        .search-box input:focus {
+          box-shadow: none;
+        }
+        .date-filter input {
+          height: 40px;
+        }
+      </style>
 
       <!-- Danh sách phiếu nhập -->
       <div class="card shadow-sm">
@@ -250,9 +267,13 @@
                 <td>2.500.000</td>
                 <td>100</td>
                 <td>25.000</td>
-                <td><span class="badge bg-warning text-dark">Đang nhập</span></td>
                 <td>
-                  <a href="editimportproduct.html" class="btn btn-sm btn-outline-success me-1"
+                  <span class="badge bg-warning text-dark">Đang xử lý</span>
+                </td>
+                <td>
+                  <a
+                    href="editimportproduct.html"
+                    class="btn btn-sm btn-outline-success me-1"
                     ><i class="fas fa-edit"></i> Sửa</a
                   >
                   <a href="#" class="btn btn-sm btn-outline-secondary"
@@ -273,13 +294,77 @@
                   </button>
                 </td>
               </tr>
+              <tr>
+                <td>PN003</td>
+                <td>2025-10-11</td>
+                <td>2.300.000</td>
+                <td>100</td>
+                <td>23.000</td>
+                <td><span class="badge bg-success">Hoàn thành</span></td>
+                <td>
+                  <button class="btn btn-sm btn-outline-secondary" disabled>
+                    <i class="fas fa-lock"></i> Đã hoàn thành
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>PN004</td>
+                <td>2025-10-26</td>
+                <td>7.600.000</td>
+                <td>250</td>
+                <td>30.400</td>
+                <td><span class="badge bg-success">Hoàn thành</span></td>
+                <td>
+                  <button class="btn btn-sm btn-outline-secondary" disabled>
+                    <i class="fas fa-lock"></i> Đã hoàn thành
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>PN005</td>
+                <td>2025-10-25</td>
+                <td>4.600.000</td>
+                <td>100</td>
+                <td>46.000</td>
+                <td>
+                  <span class="badge bg-warning text-dark">Đang xử lý</span>
+                </td>
+                <td>
+                  <a
+                    href="editimportproduct.html"
+                    class="btn btn-sm btn-outline-success me-1"
+                    ><i class="fas fa-edit"></i> Sửa</a
+                  >
+                  <a href="#" class="btn btn-sm btn-outline-secondary"
+                    ><i class="fas fa-check"></i> Hoàn thành</a
+                  >
+                </td>
+                 <tr>
+                <td>PN006</td>
+                <td>2025-10-26</td>
+                <td>8.100.000</td>
+                <td>150</td>
+                <td>45.400</td>
+                  <td>
+                  <span class="badge bg-warning text-dark">Đang xử lý</span>
+                </td>
+                <td>
+                  <a
+                    href="editimportproduct.html"
+                    class="btn btn-sm btn-outline-success me-1"
+                    ><i class="fas fa-edit"></i> Sửa</a
+                  >
+                  <a href="#" class="btn btn-sm btn-outline-secondary"
+                    ><i class="fas fa-check"></i> Hoàn thành</a
+                  >
+                </td>
+
+              </tr>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
-
-      
-
     </div>
     <!-- Start Footer Section -->
     <footer class="footer-section bg-dark text-light mt-5">
@@ -308,10 +393,12 @@
       body {
         font-family: "Segoe UI", sans-serif;
       }
-      h2, h4 {
+      h2,
+      h4 {
         letter-spacing: 0.5px;
       }
-      .table th, .table td {
+      .table th,
+      .table td {
         vertical-align: middle;
       }
     </style>
