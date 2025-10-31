@@ -132,8 +132,7 @@
     <!-- Start Hero Section -->
     <div>
       <div class="center-row" style="scale: 1; text-align: center">
-        <h2 class="fw-bold text-success" style="padding: 3.6%">
-          Quản lý Khách Hàng
+               <h2 class="fw-bold text-success" style="    line-height: 2.2;">Quản lý đơn hàng</h2>
         </h2>
         <div class="page-header1 fade-in-up">
           <div class="search-filter-container">
@@ -145,39 +144,24 @@
                 placeholder="Tìm kiếm sản phẩm..."
               />
             </div>
-            <div class="mb-2" style="margin-bottom: 0rem !important">
-              <select
-                class="form-select form-select-sm"
-                style="padding: 14px 20px; font-size: 1.123rem"
-              >
-                <option>Môn cảnh</option>
-                <option>Lưỡi hổ</option>
-                <option>Lan ý</option>
-                <option>Chuối cảnh</option>
-                <option>Trầu bà</option>
-                <option>Cúc trắng</option>
-                <option>Ngọc bích</option>
-                <option>Thường xuân</option>
-              </select>
-            </div>
             <div class="brand-filter">
               <div class="mb-2" style="margin-bottom: 0rem !important">
                 <select
                   class="form-select form-select-sm"
                   style="padding: 14px 20px; font-size: 1.123rem"
                 >
-                  <option>Để phòng</option>
-                  <option>Để bàn</option>
-                  <option>Treo tường</option>
+                  <option>Mới đặt</option>
+                  <option>Đã xử lý</option>
+                  <option>Đã giao</option>
+                   <option>Hủy</option>
                 </select>
               </div>
             </div>
             <div class="date-filter">
-              <input type="date" id="startDate" class="date-input" />
-              <a style="color: rgb(0, 0, 0)">Đến</a>
+        
               <input type="date" id="endDate" class="date-input" />
               <div>
-                <button type="button" class="btn btn-success">
+                <button type="button" class="btn btn-success" onclick="window.location.href='admin_order.html'">
                   <i class="fas fa-filter me-1"></i> Lọc
                 </button>
               </div>
@@ -191,7 +175,6 @@
 
     <!-- Start Customer Management Section -->
     <div class="container py-5" style="min-height: 50px">
-      <h2 class="mb-4 text-center text-black">Quản Lý đơn hàng</h2>
 
       <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
         <input type="radio" name="page" id="page1" checked />
