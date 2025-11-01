@@ -15,20 +15,25 @@
   </head>
   <body>
     <!-- Navbar -->
-    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark">
+    <nav
+      class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
+      aria-label="Bonsai navigation bar"
+    >
       <div class="container">
-        <a class="navbar-brand" href="index.html">BonSai🌱</a>
-
+        <a class="navbar-brand" href="index.html">BonSai<span>🌱</span></a>
         <button
           class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarProfile"
+          data-bs-target="#navbarsFurni"
+          aria-controls="navbarsFurni"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarProfile">
+        <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
             <li>
               <a href="shop1.html" class="hover-text-glow-small"
@@ -55,6 +60,13 @@
               </a>
             </li>
 
+            <li>
+              <a class="nav-link hover-box" href="cart.html">
+                <div class="front"><img src="images/cart.svg" /></div>
+                <div class="back"><span>Giỏ hàng</span></div>
+              </a>
+            </li>
+
             <li class="nav-item">
               <input type="checkbox" id="user-toggle" hidden />
 
@@ -70,17 +82,18 @@
             </li>
 
             <li>
-              <a class="nav-link hover-box" href="cart.html">
-                <div class="front"><img src="images/cart.svg" /></div>
-                <div class="back"><span>Giỏ hàng</span></div>
-              </a>
-            </li>
-            <li>
               <a class="nav-link hover-box" href="search.html">
                 <div class="front">
                   <img src="images/search.svg" style="scale: 1.5" />
                 </div>
                 <div class="back"><span>Tìm kiếm</span></div>
+              </a>
+            </li>
+
+            <li style="margin-left: 10px">
+              <a class="nav-link hover-box" href="index2.html">
+                <div class="front"><img src="images/exit.svg" /></div>
+                <div class="back"><span>Đăng xuất</span></div>
               </a>
             </li>
           </ul>
