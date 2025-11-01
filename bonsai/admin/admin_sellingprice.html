@@ -595,5 +595,24 @@
           margin-right: 4px;
         }
       </style>
+      <script>
+  // Chờ tài liệu tải xong
+          document.addEventListener("DOMContentLoaded", function () {
+            // Lấy tất cả nút "Lưu"
+            const saveButtons = document.querySelectorAll(".btn-success");
+
+            saveButtons.forEach((btn) => {
+              btn.addEventListener("click", function () {
+                // Hiển thị hộp xác nhận
+                const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
+                if (confirmSave) {
+                  // Nếu chọn OK → hiển thị thông báo đã lưu
+                  alert("✅ Đã lưu thành công!");
+                }
+              });
+            });
+          });
+        </script>
+
   </body>
 </html>
