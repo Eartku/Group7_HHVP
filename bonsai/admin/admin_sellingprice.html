@@ -133,6 +133,16 @@
         <h2 class="fw-bold text-success" style="padding: 30px">
           Quản lý Giá Bán Sản Phẩm
         </h2>
+                <!-- Thanh phân trang nằm dưới tiêu đề -->
+        <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
+          <label for="page1" class="btn btn-outline-success active" id="btnLoai">
+            % Theo Loại
+          </label>
+          <label for="page2" class="btn btn-outline-success" id="btnSanPham">
+            % Theo Sản Phẩm
+          </label>
+        </div>
+
       </div>
       <div class="page-header1 fade-in-up">
         <div class="search-filter-container">
@@ -141,7 +151,7 @@
             <input
               type="text"
               id="searchInput"
-              placeholder="Tìm kiếm sản phẩm..."
+              placeholder="Tìm kiếm sản phẩm/loại..."
             />
           </div>
           <div class="mb-2" style="margin-bottom: 0rem !important">
@@ -191,22 +201,19 @@
       </div>
     </div>
     <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
-      <input type="radio" name="page" id="page1" checked />
-      <input type="radio" name="page" id="page2" />
-      <div class="book">
-        <!-- Trang 1 -->
-        <div class="page page1">
-          <table
-            class="table table-bordered text-center align-middle page page1"
-          >
+    
+      <div id="contentContainer">
+  <div id="contentLoai" class="content-page">
+    <!-- Trang 1: Bảng % Theo Loại -->
+    <table class="table table-bordered text-center align-middle">
+            
             <thead class="table-light">
               <tr>
                 <th>STT</th>
-                <th>Tên sản phẩm</th>
                 <th>Loại sản phẩm</th>
-                <th>Giá vốn (VNĐ)</th>
+               
                 <th>% Lợi nhuận</th>
-                <th>Giá bán (VNĐ)</th>
+               
                 <th>Ghi chú</th>
 
               </tr>
@@ -214,7 +221,208 @@
             <tbody>
 
               <tr>
+                <td>1</td>
+                <td>Cây để bàn</td>
+              
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="25" readonly
+              
+                  />
+                </td>
+                
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="..."
+                    readonly
+                  />
+                </td>
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+              </tr>
+              <tr>
                 <td>2</td>
+                <td>Cây treo tường</td>
+              
+
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="40" readonly
+                 
+                  />
+                </td>
+               
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="..."
+                    readonly
+                  />
+                </td>
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Cây để phòng</td>
+              
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="30" readonly
+                
+                  />
+                </td>
+              
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="..."
+                    readonly
+                  />
+                </td>
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+              </tr>
+            
+            </tbody>
+          </table>
+        </div>
+        <!-- Trang 2 -->
+      <div id="contentSanPham" class="content-page" style="display: none;">
+    <!-- Trang 2: Bảng % Theo Sản Phẩm -->
+    <table class="table table-bordered text-center align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>STT</th>
+                <th>Tên sản phẩm</th>
+                <th>Phân loại</th>
+                <th>Giá vốn (VNĐ)</th>
+                <th>% Lợi nhuận</th>
+                
+                <th>Ghi chú</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Thường xuân</td>
+                <td>Cây treo tường</td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="95000"
+                    readonly
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="35" readonly
+                 
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="128250"
+                    readonly
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="..."
+                    readonly
+                  />
+                </td>
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+              </tr>
+               
+              <tr>
+                <td>2</td>
+                <td>Trầu Bà</td>
+                <td>Cây để bàn</td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="78000"
+                    readonly
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="40" readonly
+    
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="109200"
+                    readonly
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="..."
+                    readonly
+                  />
+                </td>
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+                 <tr>
+                <td>3</td>
                 <td>Tiểu cảnh sen đá sedum</td>
                 <td>Cây để bàn</td>
                 <td>
@@ -258,7 +466,7 @@
                   </button>
                 </td>
               <tr>
-                <td>3</td>
+                <td>4</td>
                 <td>Trầu bà lá to</td>
                 <td>Cây treo tường</td>
                 <td>
@@ -269,7 +477,6 @@
                     readonly
                   />
                 </td>
-
                 <td>
                   <input
                     type="number"
@@ -304,7 +511,7 @@
                 </td>
               </tr>
               <tr>
-                <td>4</td>
+                <td>5</td>
                 <td>Monstera</td>
                 <td>Cây để phòng</td>
                 <td>
@@ -349,7 +556,7 @@
                 </td>
               </tr>
               <tr>
-                <td>5</td>
+                <td>6</td>
                 <td>Môn cảnh</td>
                 <td>Cây để phòng</td>
                 <td>
@@ -394,7 +601,7 @@
                 </td>
               </tr>
               <tr>
-                <td>6</td>
+                <td>7</td>
                 <td>Lưỡi hổ</td>
                 <td>Cây để phòng</td>
                 <td>
@@ -441,123 +648,7 @@
             </tbody>
           </table>
         </div>
-        <!-- Trang 2 -->
-        <div class="page page2">
-          <table
-            class="table table-bordered text-center align-middle page page2"
-          >
-            <thead class="table-light">
-              <tr>
-                <th>STT</th>
-                <th>Tên sản phẩm</th>
-                <th>Loại sản phẩm</th>
-                <th>Giá vốn (VNĐ)</th>
-                <th>% Lợi nhuận</th>
-                <th>Giá bán (VNĐ)</th>
-                <th>Ghi chú</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>7</td>
-                <td>Thường xuân</td>
-                <td>Cây treo tường</td>
-                <td>
-                  <input
-                    type="number"
-                    class="form-control"
-                    value="95000"
-                    readonly
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    class="form-control"
-                    value="35" readonly
-                 
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    class="form-control"
-                    value="128250"
-                    readonly
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="..."
-                    readonly
-                  />
-                </td>
-                  <td>
-                  <button class="btn btn-warning btn-sm">
-                    <i class="fas fa-edit"></i> Chỉnh sửa
-                  </button>
-                  <button class="btn btn-success btn-sm">
-                    <i class="fas fa-save"></i> Lưu
-                  </button>
-                </td>
-              </tr>
-               
-              <tr>
-                <td>8</td>
-                <td>Trầu Bà</td>
-                <td>Cây để bàn</td>
-                <td>
-                  <input
-                    type="number"
-                    class="form-control"
-                    value="78000"
-                    readonly
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    class="form-control"
-                    value="40" readonly
-                  
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    class="form-control"
-                    value="109200"
-                    readonly
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="..."
-                    readonly
-                  />
-                </td>
-                  <td>
-                  <button class="btn btn-warning btn-sm">
-                    <i class="fas fa-edit"></i> Chỉnh sửa
-                  </button>
-                  <button class="btn btn-success btn-sm">
-                    <i class="fas fa-save"></i> Lưu
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <!-- Điều khiển chuyển trang -->
-      <div class="controls">
-        <label for="page1">1</label>
-        <label for="page2">2</label>
-      </div>
+      </div>   
     </div>
     <!-- End Price Management Section -->
     <!-- Start Footer -->
@@ -581,7 +672,7 @@
           </p>
         </div>
       </div>
-    </footer>
+     </footer>
           <style>
         .btn-sm {
           padding: 4px 10px;
@@ -594,40 +685,84 @@
         .btn-success i {
           margin-right: 4px;
         }
-      </style>
-              <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            const editButtons = document.querySelectorAll(".btn-warning");
-            const saveButtons = document.querySelectorAll(".btn-success");
+     </style>
+      <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const editButtons = document.querySelectorAll(".btn-warning");
+              const saveButtons = document.querySelectorAll(".btn-success");
 
-            // Khi bấm "Chỉnh sửa"
-            editButtons.forEach((btn) => {
-              btn.addEventListener("click", function () {
-                const row = btn.closest("tr");
-                const profitInput = row.querySelector('td:nth-child(5) input');
-                if (profitInput) {
-                  profitInput.removeAttribute("readonly"); // mở ô nhập
-                  profitInput.focus();
-                }
+              // Khi bấm "Chỉnh sửa"
+              editButtons.forEach((btn) => {
+                btn.addEventListener("click", function () {
+                  const row = btn.closest("tr");
+                  // Tìm ô input trong cùng hàng có type=number (ô % lợi nhuận)
+                  const profitInput = row.querySelector('input[type="number"]:not([readonly])') 
+                    || row.querySelectorAll('input[type="number"]')[row.querySelectorAll('input[type="number"]').length - 1] 
+                    || row.querySelector('td:nth-child(3) input'); // fallback
+                  
+                  // Hoặc đơn giản hơn:
+                  const numberInputs = row.querySelectorAll('input[type="number"]');
+                  if (numberInputs.length > 0) {
+                    const profitInput = numberInputs[numberInputs.length === 1 ? 0 : numberInputs.length - 1]; // chọn ô lợi nhuận hợp lý
+                    profitInput.removeAttribute("readonly");
+                    profitInput.focus();
+                  }
+                });
+              });
+
+              // Khi bấm "Lưu"
+              saveButtons.forEach((btn) => {
+                btn.addEventListener("click", function () {
+                  const row = btn.closest("tr");
+                  const profitInput = row.querySelector('input[type="number"]:not([readonly])');
+                  if (profitInput) profitInput.setAttribute("readonly", true);
+
+                  const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
+                  if (confirmSave) {
+                    alert("✅ Đã lưu thành công!");
+                  }
+                });
               });
             });
+      // Hiệu ứng chọn tab giữa % Theo Loại và % Theo Sản Phẩm
+            document.addEventListener("DOMContentLoaded", function () {
+              const btnLoai = document.getElementById("btnLoai");
+              const btnSanPham = document.getElementById("btnSanPham");
+              const contentLoai = document.getElementById("contentLoai");
+              const contentSanPham = document.getElementById("contentSanPham");
 
-            // Khi bấm "Lưu"
-            saveButtons.forEach((btn) => {
-              btn.addEventListener("click", function () {
-                const row = btn.closest("tr");
-                const profitInput = row.querySelector('td:nth-child(5) input');
-                if (profitInput) {
-                  profitInput.setAttribute("readonly", true); // khóa lại
-                }
+              btnLoai.addEventListener("click", () => {
+                btnLoai.classList.add("active");
+                btnSanPham.classList.remove("active");
+                contentLoai.style.display = "block";
+                contentSanPham.style.display = "none";
+              });
 
-                const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
-                if (confirmSave) {
-                  alert("✅ Đã lưu thành công!");
-                }
+              btnSanPham.addEventListener("click", () => {
+                btnSanPham.classList.add("active");
+                btnLoai.classList.remove("active");
+                contentLoai.style.display = "none";
+                contentSanPham.style.display = "block";
               });
             });
-          });
           </script>
+        <style>
+        #btnLoai, #btnSanPham {
+          min-width: 300px;
+          font-weight: 600;
+          border-width: 2px;
+          transition: all 0.3s ease;
+        }
+
+        #btnLoai:hover, #btnSanPham:hover {
+          background-color: #198754;
+          color: white;
+        }
+
+        #btnLoai.active, #btnSanPham.active {
+          background-color: #198754;
+          color: white;
+        }
+      </style>
   </body> 
 </html>
