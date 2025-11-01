@@ -190,7 +190,7 @@
     <div class="container py-4">
       <div class="text-center mb-4">
         <h2 class="fw-bold text-success">
-          <i class="fas fa-file-circle-plus me-2"></i> Phiếu nhập hàng
+          <i class="fas fa-file-circle-plus me-2"></i> Chi tiết phiếu nhập hàng
         </h2>
       </div>
 
@@ -201,20 +201,33 @@
         <div class="card-body">
           <form id="importForm" action="admin_importproduct.html" method="get">
             <!-- Ngày nhập & Mã phiếu -->
-          <div class="row g-3 mb-3 align-items-end">
-            <div class="col-md-6">
-              <label class="form-label">Ngày nhập</label>
-               <input
-                type="text"
-                class="form-control"
-                name="receiptCode"
-                value="20/06/2024"
-             ;"
-              />
+                <!-- Ngày nhập & Mã phiếu -->
+          <div class="edit-row border rounded p-3 mb-3">
+            <div class="row g-3 align-items-end">
+              <div class="col-md-6">
+                <label class="form-label">Ngày nhập</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="receiptDate"
+                  value="20/06/2024"
+                  readonly
+                />
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="btn btn-warning btn-sm">
+                  <i class="fas fa-edit"></i> Chỉnh sửa
+                </button>
+                <button type="button" class="btn btn-success btn-sm">
+                  <i class="fas fa-save"></i> Lưu
+                </button>
+              </div>
             </div>
-            <div class="col-md-6">
+          </div>
+          <div class="edit-row border rounded p-3 mb-3">
+          <div>
+            <div class="mt-3">
               <label class="form-label">Mã phiếu</label>
-              <!-- bạn có thể thay giá trị mẫu này -->
               <input
                 type="text"
                 class="form-control"
@@ -225,7 +238,7 @@
               />
             </div>
           </div>
-
+          </div>
 
 
             <!-- Sản phẩm nhập -->
@@ -243,7 +256,7 @@
                       type="text"
                       class="form-control"
                       name="productName[]"
-                     value="Monsterra"
+                     value="Monsterra" readonly
                       required
                     />
                   </div>
@@ -253,7 +266,7 @@
                       type="number"
                       class="form-control"
                       name="importPrice[]"
-                      value="25.000"
+                      value="25.000" readonly
                       required
                     />
                   </div>
@@ -263,7 +276,7 @@
                       type="number"
                       class="form-control"
                       name="quantity[]"
-                      value="100"
+                      value="100" readonly
                       required
                     />
                   </div>
@@ -289,7 +302,7 @@
                       type="text"
                       class="form-control"
                       name="productName[]"
-                      value="Lan ý"
+                      value="Lan ý" readonly
                       required
                     />
                   </div>
@@ -299,7 +312,7 @@
                       type="number"
                       class="form-control"
                       name="importPrice[]"
-                      value="31.000"
+                      value="31.000" readonly
                       required
                     />
                   </div>
@@ -309,7 +322,7 @@
                       type="number"
                       class="form-control"
                       name="quantity[]"
-                      value="200"
+                      value="200" readonly
                       required
                     />
                   </div>
@@ -335,7 +348,7 @@
                       type="text"
                       class="form-control"
                       name="productName[]"
-                      value="Lưỡi hổ"
+                      value="Lưỡi hổ" readonly
                       required
                     />
                   </div>
@@ -345,7 +358,7 @@
                       type="number"
                       class="form-control"
                       name="importPrice[]"
-                      value="24.000"
+                      value="24.000" readonly
                       required
                     />
                   </div>
@@ -355,7 +368,7 @@
                       type="number"
                       class="form-control"
                       name="quantity[]"
-                      value="150"
+                      value="150" readonly
                       required
                     />
                   </div>
@@ -404,24 +417,83 @@
       </div>
     </div>
      <script>
-  // Chờ tài liệu tải xong
-          document.addEventListener("DOMContentLoaded", function () {
-            // Lấy tất cả nút "Lưu"
-            const saveButtons = document.querySelectorAll(".btn-success");
+        document.addEventListener("DOMContentLoaded", function () {
+          const editButtons = document.querySelectorAll(".btn-warning");
+          const saveButtons = document.querySelectorAll(".btn-success");
 
-            saveButtons.forEach((btn) => {
-              btn.addEventListener("click", function () {
-                // Hiển thị hộp xác nhận
-                const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
-                if (confirmSave) {
-                  // Nếu chọn OK → hiển thị thông báo đã lưu
-                  alert("✅ Đã lưu thành công!");
-                }
+          // ✅ Khi bấm "Chỉnh sửa"
+          editButtons.forEach((btn) => {
+            btn.addEventListener("click", function () {
+              const row = btn.closest(".product-row");
+
+              // Mở khóa 3 ô input trong dòng đó
+              const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
+              inputs.forEach((input) => {
+                input.removeAttribute("readonly");
+                input.style.backgroundColor = "#fff"; // làm rõ là đang chỉnh
+                input.focus();
               });
             });
           });
+
+          // ✅ Khi bấm "Lưu"
+          saveButtons.forEach((btn) => {
+            btn.addEventListener("click", function () {
+              const row = btn.closest(".product-row");
+              const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
+              const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
+              if (confirmSave) {
+                // Khóa lại các ô sau khi lưu
+                inputs.forEach((input) => {
+                  input.setAttribute("readonly", true);
+                  input.style.backgroundColor = "#f1f1f1";
+                });
+                alert("✅ Đã lưu thành công!");
+              }
+            });
+          });
+        });
+        </script>
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const editButtons = document.querySelectorAll(".btn-warning");
+          const saveButtons = document.querySelectorAll(".btn-success");
+
+          // Khi bấm "Chỉnh sửa"
+          editButtons.forEach((btn) => {
+            btn.addEventListener("click", function () {
+              // kiểm tra có nằm trong .product-row hay .edit-row
+              const row = btn.closest(".product-row") || btn.closest(".edit-row");
+              if (!row) return;
+
+              const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
+              inputs.forEach((input) => {
+                input.removeAttribute("readonly");
+                input.style.backgroundColor = "#fff";
+                input.focus();
+              });
+            });
+          });
+
+          // Khi bấm "Lưu"
+          saveButtons.forEach((btn) => {
+            btn.addEventListener("click", function () {
+              const row = btn.closest(".product-row") || btn.closest(".edit-row");
+              if (!row) return;
+
+              const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
+              const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
+              if (confirmSave) {
+                inputs.forEach((input) => {
+                  input.setAttribute("readonly", true);
+                  input.style.backgroundColor = "#f1f1f1";
+                });
+                alert("✅ Đã lưu thành công!");
+              }
+            });
+          });
+        });
         </script>
 
   </body>
-
 </html>

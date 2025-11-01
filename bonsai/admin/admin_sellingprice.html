@@ -229,7 +229,7 @@
                   <input
                     type="number"
                     class="form-control"
-                    value="25"
+                    value="25" readonly
               
                   />
                 </td>
@@ -274,7 +274,7 @@
                   <input
                     type="number"
                     class="form-control"
-                    value="40"
+                    value="40" readonly
                  
                   />
                 </td>
@@ -319,7 +319,7 @@
                   <input
                     type="number"
                     class="form-control"
-                    value="30"
+                    value="30" readonly
                 
                   />
                 </td>
@@ -364,7 +364,7 @@
                   <input
                     type="number"
                     class="form-control"
-                    value="25"
+                    value="25" readonly
                    
                   />
                 </td>
@@ -409,7 +409,7 @@
                   <input
                     type="number"
                     class="form-control"
-                    value="32"
+                    value="32" readonly
                     
                   />
                 </td>
@@ -474,7 +474,7 @@
                   <input
                     type="number"
                     class="form-control"
-                    value="35"
+                    value="35" readonly
                  
                   />
                 </td>
@@ -520,7 +520,7 @@
                   <input
                     type="number"
                     class="form-control"
-                    value="40"
+                    value="40" readonly
                   
                   />
                 </td>
@@ -595,24 +595,39 @@
           margin-right: 4px;
         }
       </style>
-      <script>
-  // Chờ tài liệu tải xong
+              <script>
           document.addEventListener("DOMContentLoaded", function () {
-            // Lấy tất cả nút "Lưu"
+            const editButtons = document.querySelectorAll(".btn-warning");
             const saveButtons = document.querySelectorAll(".btn-success");
 
+            // Khi bấm "Chỉnh sửa"
+            editButtons.forEach((btn) => {
+              btn.addEventListener("click", function () {
+                const row = btn.closest("tr");
+                const profitInput = row.querySelector('td:nth-child(5) input');
+                if (profitInput) {
+                  profitInput.removeAttribute("readonly"); // mở ô nhập
+                  profitInput.focus();
+                }
+              });
+            });
+
+            // Khi bấm "Lưu"
             saveButtons.forEach((btn) => {
               btn.addEventListener("click", function () {
-                // Hiển thị hộp xác nhận
+                const row = btn.closest("tr");
+                const profitInput = row.querySelector('td:nth-child(5) input');
+                if (profitInput) {
+                  profitInput.setAttribute("readonly", true); // khóa lại
+                }
+
                 const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
                 if (confirmSave) {
-                  // Nếu chọn OK → hiển thị thông báo đã lưu
                   alert("✅ Đã lưu thành công!");
                 }
               });
             });
           });
-        </script>
-
-  </body>
+          </script>
+  </body> 
 </html>
