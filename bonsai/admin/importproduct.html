@@ -275,10 +275,12 @@
                       required
                     />
                   </div>
+                  <div class="col-md-3">
                   <div class="col-md-1 text-center remove-btn">
                     <button type="button" class="btn btn-outline-danger btn-sm removeRow">
                       <i class="fas fa-trash"></i>
                     </button>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -365,11 +367,13 @@
             <label class="form-label">Số lượng</label>
             <input type="number" class="form-control" name="quantity[]" placeholder="VD: 100" required />
           </div>
-          <div class="col-md-1 text-center remove-btn">
-            <button type="button" class="btn btn-outline-danger btn-sm removeRow">
-              <i class="fas fa-trash"></i>
-            </button>
-          </div>`;
+           <div class="col-md-3">
+                  <div class="col-md-1 text-center remove-btn">
+                    <button type="button" class="btn btn-outline-danger btn-sm removeRow">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                  </div>`;
         productList.appendChild(newRow);
       });
 
