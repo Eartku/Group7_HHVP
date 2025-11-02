@@ -273,23 +273,26 @@
   transform: rotateY(-180deg);
   font-size: 14px;
   font-weight: bold;
+  pointer-events: none; /* không click khi chưa mở */
 }
 
 /* Khi checkbox được tick → lật sang back */
-#user-toggle:checked + .hover-box-2 {
+input[type="checkbox"]:checked + .hover-box-2 {
   background: #4db339;
   width: 120px;
 }
 
-#user-toggle:checked + .hover-box-2 .front {
+input[type="checkbox"]:checked + .hover-box-2 .front {
   opacity: 0;
   transform: rotateY(180deg);
 }
 
-#user-toggle:checked + .hover-box-2 .back {
+input[type="checkbox"]:checked + .hover-box-2 .back {
   opacity: 1;
   transform: rotateY(0deg);
+  pointer-events: auto; /* click được khi mở */
 }
+
 
 /* =============================
    DROPDOWN MENU (theo click)

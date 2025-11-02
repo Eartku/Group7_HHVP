@@ -1,10 +1,4 @@
-<!--
-* Bootstrap 5
-* Template Name: Furni
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
--->
+<!-- Trang thanh toán-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -33,101 +27,104 @@
   </head>
   <body>
     <!-- Header/Navigation -->
-    <nav
-      class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
-      aria-label="Bonsai navigation bar"
+    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">BonSai<span>🌱</span></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarsFurni"
+      aria-controls="navbarsFurni"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
     >
-      <div class="container">
-        <a class="navbar-brand" href="index.html">BonSai<span>🌱</span></a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarsFurni"
-          aria-controls="navbarsFurni"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse" id="navbarsFurni">
-          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li>
-              <a href="shop1.html" class="hover-text-glow-small"
-                >CÂY ĐỂ PHÒNG</a
-              >
-            </li>
-            <li>
-              <a href="shop2.html" class="hover-text-glow-small">CÂY ĐỂ BÀN</a>
-            </li>
-            <li>
-              <a href="shop3.html" class="hover-text-glow-small"
-                >CÂY TREO TƯỜNG</a
-              >
-            </li>
+    <div class="collapse navbar-collapse" id="navbarsFurni">
+      <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+        <li><a href="shop1.html" class="hover-text-glow-small">CÂY ĐỂ PHÒNG</a></li>
+        <li><a href="shop2.html" class="hover-text-glow-small">CÂY ĐỂ BÀN</a></li>
+        <li><a href="shop3.html" class="hover-text-glow-small">CÂY TREO TƯỜNG</a></li>
+      </ul>
+
+      <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+
+        <!-- Trang chủ -->
+        <li>
+          <input type="checkbox" id="home-toggle" hidden />
+          <label for="home-toggle" class="hover-box-2">
+            <div class="front"><img src="images/home.svg" /></div>
+            <a href="index.html" class="back" onclick="event.stopPropagation();">Trang chủ</a>
+          </label>
+        </li>
+
+        <!-- Giỏ hàng -->
+        <li>
+          <input type="checkbox" id="cart-toggle" hidden />
+          <label for="cart-toggle" class="hover-box-2">
+            <div class="front"><img src="images/cart.svg" /></div>
+            <a href="cart.html" class="back" onclick="event.stopPropagation();">Giỏ hàng</a>
+          </label>
+        </li>
+
+        <!-- Người dùng -->
+        <li class="nav-item">
+          <input type="checkbox" id="user-toggle" hidden />
+          <label for="user-toggle" class="hover-box-2">
+            <div class="front"><img src="images/user.svg" /></div>
+            <div class="back"><span>Người dùng</span></div>
+          </label>
+          <ul class="dropdown" style="background-color: black; color: white;">
+            <li><a href="profile.html" style="color: white;">Hồ sơ cá nhân</a></li>
+            <li><a href="orders.html" style="color: white;">Lịch sử đơn hàng</a></li>
+            <li><a href="index2.html" style="color: white;"><img src="images/exit.svg" /> Đăng xuất</a></li>
           </ul>
+        </li>
 
-          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-            <li>
-              <a href="index.html" class="nav-link hover-box">
-                <div class="front">
-                  <img src="images/home.svg" style="scale: 1.3" />
-                </div>
-                <div class="back"><span>TRANG CHỦ</span></div>
-              </a>
-            </li>
+        <!-- Tìm kiếm -->
+        <li>
+          <input type="checkbox" id="search-toggle" hidden />
+          <label for="search-toggle" class="hover-box-2">
+            <div class="front"><img src="images/search.svg" /></div>
+            <a href="search.html" class="back" onclick="event.stopPropagation();">Tìm kiếm</a>
+          </label>
+        </li>
 
-            <li>
-              <a class="nav-link hover-box" href="cart.html">
-                <div class="front"><img src="images/cart.svg" /></div>
-                <div class="back"><span>Giỏ hàng</span></div>
-              </a>
-            </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+        <script>
+    const toggles = document.querySelectorAll('input[type="checkbox"]');
 
-            <li class="nav-item">
-              <input type="checkbox" id="user-toggle" hidden />
+    toggles.forEach(cb => {
+      const label = cb.nextElementSibling; // label liền sau checkbox
+      const parentLi = cb.closest('li');   // lấy cả li bao label + dropdown
+      let timer;
 
-              <label for="user-toggle" class="nav-link hover-box-2">
-                <div class="front"><img src="images/user.svg" /></div>
-                <div class="back"><span>Người dùng</span></div>
-              </label>
+      function startCloseTimer(ms = 1000) {
+        clearTimeout(timer);
+        timer = setTimeout(() => { cb.checked = false; }, ms);
+      }
 
-              <ul
-                class="dropdown"
-                style="background-color: rgb(0, 0, 0); color: white"
-              >
-                <li>
-                  <a href="profile.html" style="color: white">Hồ sơ cá nhân</a>
-                </li>
-                <li>
-                  <a href="orders.html" style="color: white"
-                    >Lịch sử đơn hàng</a
-                  >
-                </li>
-                <li>
-                  <a href="index2.html" style="color: white">
-                    <div>
-                      <img src="images/exit.svg" />
-                      <span>Đăng xuất</span>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </li>
+      // Khi checkbox được tick
+      cb.addEventListener('change', () => {
+        if(cb.checked && !parentLi.matches(':hover')) {
+          startCloseTimer();
+        }
+      });
 
-            <li>
-              <a class="nav-link hover-box" href="search.html">
-                <div class="front">
-                  <img src="images/search.svg" style="scale: 1.5" />
-                </div>
-                <div class="back"><span>Tìm kiếm</span></div>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+      // Hover vào vùng li (label + dropdown) → hủy timeout
+      parentLi.addEventListener('mouseenter', () => clearTimeout(timer));
+
+      // Hover ra vùng li → nếu đang mở, tự đóng sau 5 giây
+      parentLi.addEventListener('mouseleave', () => {
+        if(cb.checked) startCloseTimer();
+      });
+    });
+    </script>
 
     <!-- Hero Section -->
     <div class="hero">

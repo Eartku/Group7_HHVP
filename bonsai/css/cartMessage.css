@@ -1,34 +1,33 @@
-/* đã thêm vào giỏ hàng */
+/* Thông báo thêm vào giỏ hàng */
 .cart-message {
-  display: none;
+  display: none; /* ẩn mặc định */
   position: fixed;
   top: 20px;
   right: 20px;
   background-color: #28a745;
-  color: white;
-  padding: 10px 20px;
+  color: #fff;
+  padding: 12px 24px;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   z-index: 9999;
-  font-weight: 500;
-  animation: fadeInOut 1.5s ease;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  pointer-events: none; /* tránh chặn click */
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-@keyframes fadeInOut {
-  0% {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  10% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  90% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
+/* Hiện thông báo */
+.cart-message.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ẩn lại sau khi hiển thị */
+.cart-message.hide {
+  opacity: 0;
+  transform: translateY(-20px);
 }

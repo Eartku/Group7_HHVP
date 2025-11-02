@@ -14,7 +14,7 @@ function checkLogin(event) {
     event.preventDefault(); // chặn chuyển trang
 
     // Bước 1: cảnh báo ban đầu
-    alert("⚠️ Bạn phải đăng nhập trước khi mua sắm trong giỏ hàng!");
+    alert("⚠️ Bạn phải đăng nhập trước khi thao tác!");
 
     // Bước 2: hỏi người dùng có muốn đăng nhập không
     const confirmLogin = confirm("Bạn có muốn đến trang đăng nhập không?");

@@ -106,7 +106,24 @@
                     <input id="uploadAvatar" type="file" class="d-none" />
                   </div>
                 </div>
-                <h4 class="mt-3 text-black fw-bold">Nguyễn Hoàng Phúc</h4>
+                <h4 class="mt-3 text-black fw-bold" style="padding: 10px;">Nguyễn Hoàng Phúc</h4>
+
+                <div class="btn-group w-100" role="group" aria-label="Trạng thái khách hàng" style="margin-bottom: 10px;">
+                    <input type="radio" class="btn-check" name="status" id="active" autocomplete="off" checked onclick="changeStatus('active')">
+                    <label class="btn btn-outline-success" for="active">
+                        <i class="fas fa-user-check me-1"></i> Hoạt động
+                    </label>
+
+                    <input type="radio" class="btn-check" name="status" id="locked" autocomplete="off" onclick="changeStatus('locked')">
+                    <label class="btn btn-outline-danger" for="locked">
+                        <i class="fas fa-lock me-1"></i> Bị khóa
+                    </label>
+
+                    <input type="radio" class="btn-check" name="status" id="warning" autocomplete="off" onclick="changeStatus('warning')">
+                    <label class="btn btn-outline-warning" for="warning">
+                        <i class="fas fa-exclamation-triangle me-1"></i> Cảnh báo
+                    </label>
+                    </div>
               </div>
 
               <form>
@@ -192,23 +209,6 @@
                   <input type="text" class="form-control" value="180 Bùi Văn Ba, Quận 7, TP.HCM" />
                 </div>
 
-                <div class="btn-group w-100" role="group" aria-label="Trạng thái khách hàng" style="margin-bottom: 10px;">
-                    <input type="radio" class="btn-check" name="status" id="active" autocomplete="off" checked onclick="changeStatus('active')">
-                    <label class="btn btn-outline-success" for="active">
-                        <i class="fas fa-user-check me-1"></i> Hoạt động
-                    </label>
-
-                    <input type="radio" class="btn-check" name="status" id="locked" autocomplete="off" onclick="changeStatus('locked')">
-                    <label class="btn btn-outline-danger" for="locked">
-                        <i class="fas fa-lock me-1"></i> Bị khóa
-                    </label>
-
-                    <input type="radio" class="btn-check" name="status" id="warning" autocomplete="off" onclick="changeStatus('warning')">
-                    <label class="btn btn-outline-warning" for="warning">
-                        <i class="fas fa-exclamation-triangle me-1"></i> Cảnh báo
-                    </label>
-                    </div>
-
                     <script>
                     function changeStatus(status) {
                     if (status === "locked") {
@@ -248,7 +248,7 @@
                 </div>
 
                 <div class="text-center mt-4">
-                  <a href="customerdetail.html" class="btn btn-dark me-2">
+                  <a href="customermanage.html" class="btn btn-dark me-2">
                     <i class="fas fa-arrow-left me-1"></i> Quay lại
                   </a>
                     <button type="button" class="btn btn-success" onclick="confirmSave()">
