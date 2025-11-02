@@ -25,6 +25,7 @@
     <link href="../css/page2.css" rel="stylesheet" />
     <link href="../css/tiny-slider.css" rel="stylesheet" />
     <link href="../css/page.css" rel="stylesheet" />
+    <link href="../css/style2.css" rel="stylesheet"/>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
@@ -132,16 +133,12 @@
       </div>
     </nav>
     <!-- Start Hero Section -->
-    <div
-      class="untree_co-section product-section before-footer-section"
-      style="padding: 0rem 0 2rem 0 !important"
-    >
       <input type="radio" name="page" id="page110" checked />
       <input type="radio" name="page" id="page220" />
       <input type="radio" name="page" id="page330" />
       <div class= style="padding: calc(4rem - 30px) 0 4rem 0">
         <div class="center-row" style="scale: 1; text-align: center">
-          <h2 class="fw-bold text-success" style="padding: 3.6%;">Quản lý Khách Hàng</h2>
+          <h2 class="fw-bold text-success" style="padding: 3.6%;">Quản lý số lượng kho sản phẩm</h2>
           <div class="controls2">
             <label for="page110" style="border: 2px solid #67eb58"
               >SỐ LƯỢNG TỒN KHO</label
@@ -497,6 +494,36 @@
             <!-- <h2 class="h3 mb-3 text-black">Lịch sử đơn hàng</h2> -->
             <br />
             <h2 class="mb-4 text-center text-black">⚠️ CẢNH BÁO</h2>
+            <div class="alert-box">
+    <p class="alert-title">
+      <i class="fas fa-exclamation-triangle"></i>
+      <strong>CẢNH BÁO:</strong> Có <strong>3 sản phẩm sắp hết hàng</strong> và <strong>1 sản phẩm đã hết hàng</strong>
+    </p>
+    <p class="alert-text">
+      Vui lòng kiểm tra và nhập thêm hàng cho các sản phẩm dưới đây để đảm bảo không gián đoạn kinh doanh.
+    </p>
+  </div>
+
+  <div class="stats-container">
+    <div class="stat-card total">
+      <h2>120</h2>
+      <p>Tổng số sản phẩm</p>
+    </div>
+    <div class="stat-card stock">
+      <h2>116</h2>
+      <p>Sản phẩm tồn kho</p>
+    </div>
+    <div class="stat-card low">
+      <h2>3</h2>
+      <p>Sắp hết hàng</p>
+    </div>
+    <div class="stat-card out">
+      <h2>1</h2>
+      <p>Đã hết hàng</p>
+    </div>
+  </div>
+  <br>
+
             <div class="p-4 p-lg-5 border bg-white rounded-3">
               <table class="table table-bordered text-center">
                 <thead class="table-light">
@@ -517,6 +544,14 @@
                         >Sắp hết hàng</span
                       >
                     </td>
+                        <td>
+                      <button
+                        onclick="window.location.href='importproduct.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Nhập thêm</span>
+                      </button>
+                    </td>
                     </td>
                   </tr>
                   <tr>
@@ -524,19 +559,61 @@
                     <td>Để Phòng</td>
                     <td>0</td>
                     <td><span class="badge bg-danger">Hết hàng</span></td>
+                       <td>
+                      <button
+                        onclick="window.location.href='importproduct.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Nhập thêm</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Hoa cúc</td>
+                    <td>Treo Tường</td>
+                    <td>3</td>
+                    <td>
+                      <span class="badge bg-warning text-dark"
+                        >Sắp hết hàng</span
+                      >
+                    </td>
+                        <td>
+                      <button
+                        onclick="window.location.href='importproduct.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Nhập thêm</span>
+                      </button>
+                    </td>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Thường xuân</td>
+                    <td>Treo Tường</td>
+                    <td>5</td>
+                    <td>
+                      <span class="badge bg-warning text-dark"
+                        >Sắp hết hàng</span
+                      >
+                    </td>
+                        <td>
+                      <button
+                        onclick="window.location.href='importproduct.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Nhập thêm</span>
+                      </button>
+                    </td>
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <div class="text-center mt-4">
-  <a href="importproduct.html" class="btn btn-success">
-    <i class="fas fa-plus me-1"></i> NHẬP THÊM HÀNG
-  </a>
 </div>
           </div>
         </div>
       </div>
-    </div>
     <!-- Start Footer -->
     <footer class="footer-section bg-dark text-light mt-5">
       <div class="container py-4">

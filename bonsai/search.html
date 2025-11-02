@@ -41,7 +41,10 @@
 
   <body>
     <!-- Start Header/Navigation -->
-    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
+<nav
+      class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
+      aria-label="Bonsai navigation bar"
+    >
       <div class="container">
         <a class="navbar-brand" href="index.html">BonSai<span>🌱</span></a>
         <button
@@ -58,17 +61,30 @@
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li><a href="shop1.html" class="hover-text-glow-small">CÂY ĐỂ PHÒNG</a></li>
-            <li><a href="shop2.html" class="hover-text-glow-small">CÂY ĐỂ BÀN</a></li>
-            <li><a href="shop3.html" class="hover-text-glow-small">CÂY TREO TƯỜNG</a></li>
+            <li>
+              <a href="shop1.html" class="hover-text-glow-small"
+                >CÂY ĐỂ PHÒNG</a
+              >
+            </li>
+            <li>
+              <a href="shop2.html" class="hover-text-glow-small">CÂY ĐỂ BÀN</a>
+            </li>
+            <li>
+              <a href="shop3.html" class="hover-text-glow-small"
+                >CÂY TREO TƯỜNG</a
+              >
+            </li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
             <li>
               <a href="index.html" class="nav-link hover-box">
-                <div class="front"><img src="images/home.svg" style="scale: 1.3;" /></div>
+                <div class="front">
+                  <img src="images/home.svg" style="scale: 1.3" />
+                </div>
                 <div class="back"><span>TRANG CHỦ</span></div>
               </a>
+            </li>
 
             <li>
               <a class="nav-link hover-box" href="cart.html">
@@ -78,36 +94,49 @@
             </li>
 
             <li class="nav-item">
-            <input type="checkbox" id="user-toggle" hidden />
+              <input type="checkbox" id="user-toggle" hidden />
 
-            <label for="user-toggle" class="nav-link hover-box-2">
-              <div class="front"><img src="images/user.svg" /></div>
-              <div class="back"><span>Người dùng</span></div>
-            </label>
+              <label for="user-toggle" class="nav-link hover-box-2">
+                <div class="front"><img src="images/user.svg" /></div>
+                <div class="back"><span>Người dùng</span></div>
+              </label>
 
-            <ul class="dropdown">
-              <li><a href="profile.html">Hồ sơ cá nhân</a></li>
-              <li><a href="orders.html">Lịch sử đơn hàng</a></li>
-            </ul>
-          </li>
-
-          <li>
-              <a class="nav-link hover-box" href="search.html">
-                <div class="front"><img src="images/search.svg" style="scale: 1.5;"/></div>
-                <div class="back"><span>Tìm kiếm</span></div>
-              </a>
+              <ul
+                class="dropdown"
+                style="background-color: rgb(0, 0, 0); color: white"
+              >
+                <li>
+                  <a href="profile.html" style="color: white">Hồ sơ cá nhân</a>
+                </li>
+                <li>
+                  <a href="orders.html" style="color: white"
+                    >Lịch sử đơn hàng</a
+                  >
+                </li>
+                <li>
+                  <a href="index2.html" style="color: white">
+                    <div>
+                      <img src="images/exit.svg" />
+                      <span>Đăng xuất</span>
+                    </div>
+                  </a>
+                </li>
+              </ul>
             </li>
 
-            <li style="margin-left: 10px;">
-              <a class="nav-link hover-box" href="index2.html">
-                <div class="front"><img src="images/exit.svg" /></div>
-                <div class="back"><span>Đăng xuất</span></div>
+            <li>
+              <a class="nav-link hover-box" href="search.html">
+                <div class="front">
+                  <img src="images/search.svg" style="scale: 1.5" />
+                </div>
+                <div class="back"><span>Tìm kiếm</span></div>
               </a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
+
     <!-- End Header/Navigation -->
 
     <!-- Start Hero Section -->

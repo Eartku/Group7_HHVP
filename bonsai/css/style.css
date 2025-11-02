@@ -1800,7 +1800,6 @@ a label {
   background-color: #66bb6a !important;
   box-shadow: 0 0 10px rgba(102, 187, 106, 0.6);
 }
-.table td:last-child,
 .table th:last-child {
-  text-align: right;
+  text-align: center;
 }
