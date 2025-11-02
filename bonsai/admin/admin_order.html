@@ -159,7 +159,21 @@
             </div>
             <div class="date-filter">
         
-              <input type="date" id="endDate" class="date-input" />
+            <div class="date-filter d-flex align-items-center gap-2">
+            <input
+              type="date"
+              id="startDate"
+              class="form-control"
+              style="min-width: 180px"
+            />
+            <span>đến</span>
+            <input
+              type="date"
+              id="endDate"
+              class="form-control"
+              style="min-width: 180px"
+            />
+          </div>
               <div>
                 <button type="button" class="btn btn-success" onclick="window.location.href='admin_order.html'">
                   <i class="fas fa-filter me-1"></i> Lọc
