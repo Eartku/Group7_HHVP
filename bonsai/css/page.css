@@ -283,32 +283,54 @@ input[type="radio"][name="page"] {
 .controls2 label {
   display: inline-block;
   width: 240px;
-  height: 50px; /* 👈 màu viền vàng kim */
+  height: 50px;
   line-height: 50px;
   text-align: center;
-  border-radius: 0%;
-  background-color: #eee;
+  border-radius: 8px;
+  background-color: #f0f0f0;
   color: #333;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
+/* Màu khi hover */
 .controls2 label:hover {
-  background-color: #333;
+  background-color: #1b1b1b;
   color: #fff;
 }
 
-#page110:checked ~ .hero .controls2 label[for="page110"],
-#page220:checked ~ .hero .controls2 label[for="page220"],
-#page330:checked ~ .hero .controls2 label[for="page330"] {
-  background-color: #2ecc71; /* xanh lá nhạt */
-  color: white;
+/* =============== Highlight theo từng tab ================= */
+
+/* Khi chọn SỐ LƯỢNG TỒN KHO */
+#page110:checked ~ div .center-row .controls2 label[for="page110"] {
+  background-color: #67eb58;
+  color: #fff;
   transform: scale(1.05);
-  border-color: #27ae60;
-  box-shadow: 0 0 10px rgba(39, 174, 96, 0.6);
+  border-color: #4ccc42;
+  box-shadow: 0 0 10px rgba(76, 204, 66, 0.6);
 }
 
+/* Khi chọn NHẬP-XUẤT-TỒN */
+#page220:checked ~ div .center-row .controls2 label[for="page220"] {
+  background-color: #d5ee37;
+  color: #333;
+  transform: scale(1.05);
+  border-color: #c0d82c;
+  box-shadow: 0 0 10px rgba(192, 216, 44, 0.6);
+}
+
+/* Khi chọn CẢNH BÁO */
+#page330:checked ~ div .center-row .controls2 label[for="page330"] {
+  background-color: #ec3a12;
+  color: #fff;
+  transform: scale(1.05);
+  border-color: #c92e0f;
+  box-shadow: 0 0 10px rgba(233, 77, 39, 0.6);
+}
+
+/* Nút "next" nếu có */
 .controls2 label[for="next"] {
   width: auto;
   padding: 0 12px;
