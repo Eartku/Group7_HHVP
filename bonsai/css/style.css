@@ -1802,5 +1802,5 @@ a label {
 }
 .table td:last-child,
 .table th:last-child {
-  text-align: right;
+  text-align: center;
 }
