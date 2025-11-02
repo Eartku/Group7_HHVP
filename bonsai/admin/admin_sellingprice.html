@@ -144,7 +144,13 @@
         </div>
 
       </div>
-      <div class="page-header1 fade-in-up">
+    <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
+    
+      <div id="contentContainer">
+  <div id="contentLoai" class="content-page">
+    <!-- Trang 1: Bảng % Theo Loại -->
+    <table class="table table-bordered text-center align-middle">
+        <div class="page-header1 fade-in-up">
         <div class="search-filter-container">
           <div class="search-box">
             <i class="fas fa-search"></i>
@@ -154,32 +160,8 @@
               placeholder="Tìm kiếm sản phẩm/loại..."
             />
           </div>
-          <div class="mb-2" style="margin-bottom: 0rem !important">
-            <select
-              class="form-select form-select-sm"
-              style="padding: 14px 20px; font-size: 1.123rem"
-            >
-              <option selected>Giá bán (VNĐ)</option>
-              <option>0 - 50.000</option>
-              <option>50.000 - 100.000</option>
-              <option>100.000 - 200.000</option>
-              <option>Trên 200.000</option>
-            </select>
-          </div>
-          <div class="brand-filter">
-            <div class="mb-2" style="margin-bottom: 0rem !important">
-              <select
-                class="form-select form-select-sm"
-                style="padding: 14px 20px; font-size: 1.123rem"
-              >
-                <option selected>Giá vốn (VNĐ)</option>
-                <option>0 - 30.000</option>
-                <option>30.000 - 80.000</option>
-                <option>80.000 - 150.000</option>
-                <option>Trên 150.000</option>
-              </select>
-            </div>
-          </div>
+          
+          
           <div class="date-filter">
             <select
               class="form-select form-select-sm"
@@ -200,12 +182,6 @@
         </div>
       </div>
     </div>
-    <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
-    
-      <div id="contentContainer">
-  <div id="contentLoai" class="content-page">
-    <!-- Trang 1: Bảng % Theo Loại -->
-    <table class="table table-bordered text-center align-middle">
             
             <thead class="table-light">
               <tr>
@@ -294,6 +270,62 @@
       <div id="contentSanPham" class="content-page" style="display: none;">
     <!-- Trang 2: Bảng % Theo Sản Phẩm -->
     <table class="table table-bordered text-center align-middle">
+        <div class="page-header1 fade-in-up">
+        <div class="search-filter-container">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Tìm kiếm sản phẩm/loại..."
+            />
+          </div>
+          <div class="mb-2" style="margin-bottom: 0rem !important">
+            <select
+              class="form-select form-select-sm"
+              style="padding: 14px 20px; font-size: 1.123rem"
+            >
+              <option selected>Giá bán (VNĐ)</option>
+              <option>0 - 50.000</option>
+              <option>50.000 - 100.000</option>
+              <option>100.000 - 200.000</option>
+              <option>Trên 200.000</option>
+            </select>
+          </div>
+          <div class="brand-filter">
+            <div class="mb-2" style="margin-bottom: 0rem !important">
+              <select
+                class="form-select form-select-sm"
+                style="padding: 14px 20px; font-size: 1.123rem"
+              >
+                <option selected>Giá vốn (VNĐ)</option>
+                <option>0 - 30.000</option>
+                <option>30.000 - 80.000</option>
+                <option>80.000 - 150.000</option>
+                <option>Trên 150.000</option>
+              </select>
+            </div>
+          </div>
+          <div class="date-filter">
+            <select
+              class="form-select form-select-sm"
+              style="padding: 14px 20px; font-size: 1.123rem; width: 180px"
+            >
+              <option selected>% Lợi nhuận</option>
+              <option>Dưới 10%</option>
+              <option>10% - 30%</option>
+              <option>30% - 50%</option>
+              <option>Trên 50%</option>
+            </select>
+          </div>
+          <div>
+            <button type="button" class="btn btn-success">
+              <i class="fas fa-filter me-1"></i> Lọc
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
             <thead class="table-light">
               <tr>
                 <th>STT</th>
@@ -742,6 +774,17 @@
             #contentSanPham td:nth-child(6) input.form-control {
               text-align: center;
             }
+            .table {
+  background-color: transparent !important; /* làm nền bảng trong suốt */
+  border-color: rgba(255, 255, 255, 0.2);   /* đường viền nhạt (tùy ý) */
+  color: #333; /* màu chữ, có thể đổi trắng (#fff) nếu nền tối */
+}
+
+.table th, 
+.table td {
+  background-color: transparent !important; /* trong suốt từng ô */
+  border-color: rgba(255, 255, 255, 0.2);   /* đường viền mờ */
+}
 </style>
   </body> 
 </html>
