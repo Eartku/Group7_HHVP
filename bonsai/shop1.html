@@ -1,10 +1,5 @@
 <!-- /*
-* Bootstrap 5
-* Template Name: Furni
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
+Trang loại cây để phòng -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -42,79 +37,104 @@
   </head>
   <body>
     <!-- Start Header/Navigation -->
-    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
-      <div class="container">
-        <a class="navbar-brand" href="index.html">BonSai<span>🌱</span></a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarsFurni"
-          aria-controls="navbarsFurni"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+  <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">BonSai<span>🌱</span></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarsFurni"
+      aria-controls="navbarsFurni"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse" id="navbarsFurni">
-          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li><a href="shop1.html" class="hover-text-glow-small" style="font-weight: bold; font-size: calc(100% + 3px);">CÂY ĐỂ PHÒNG</a></li>
-            <li><a href="shop2.html" class="hover-text-glow-small">CÂY ĐỂ BÀN</a></li>
-            <li><a href="shop3.html" class="hover-text-glow-small">CÂY TREO TƯỜNG</a></li>
+    <div class="collapse navbar-collapse" id="navbarsFurni">
+      <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+        <li><a href="shop1.html" class="hover-text-glow-small">CÂY ĐỂ PHÒNG</a></li>
+        <li><a href="shop2.html" class="hover-text-glow-small">CÂY ĐỂ BÀN</a></li>
+        <li><a href="shop3.html" class="hover-text-glow-small">CÂY TREO TƯỜNG</a></li>
+      </ul>
+
+      <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+
+        <!-- Trang chủ -->
+        <li>
+          <input type="checkbox" id="home-toggle" hidden />
+          <label for="home-toggle" class="hover-box-2">
+            <div class="front"><img src="images/home.svg" /></div>
+            <a href="index.html" class="back" onclick="event.stopPropagation();">Trang chủ</a>
+          </label>
+        </li>
+
+        <!-- Giỏ hàng -->
+        <li>
+          <input type="checkbox" id="cart-toggle" hidden />
+          <label for="cart-toggle" class="hover-box-2">
+            <div class="front"><img src="images/cart.svg" /></div>
+            <a href="cart.html" class="back" onclick="event.stopPropagation();">Giỏ hàng</a>
+          </label>
+        </li>
+
+        <!-- Người dùng -->
+        <li class="nav-item">
+          <input type="checkbox" id="user-toggle" hidden />
+          <label for="user-toggle" class="hover-box-2">
+            <div class="front"><img src="images/user.svg" /></div>
+            <div class="back"><span>Người dùng</span></div>
+          </label>
+          <ul class="dropdown" style="background-color: black; color: white;">
+            <li><a href="profile.html" style="color: white;">Hồ sơ cá nhân</a></li>
+            <li><a href="orders.html" style="color: white;">Lịch sử đơn hàng</a></li>
+            <li><a href="index2.html" style="color: white;"><img src="images/exit.svg" /> Đăng xuất</a></li>
           </ul>
+        </li>
 
-          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-            <li>
-              <a href="index.html" class="nav-link hover-box">
-                <div class="front"><img src="images/home.svg" style="scale: 1.3;" /></div>
-                <div class="back"><span>TRANG CHỦ</span></div>
-              </a>
-            </li>
+        <!-- Tìm kiếm -->
+        <li>
+          <input type="checkbox" id="search-toggle" hidden />
+          <label for="search-toggle" class="hover-box-2">
+            <div class="front"><img src="images/search.svg" /></div>
+            <a href="search.html" class="back" onclick="event.stopPropagation();">Tìm kiếm</a>
+          </label>
+        </li>
 
-          <li>
-  <a class="nav-link hover-box" href="cart.html"
-     onclick="event.stopPropagation(); event.preventDefault(); window.location.href='cart.html';"
-     onmouseover="this.title=''; return false;">
-    <div class="front"><img src="images/cart.svg" alt="Giỏ hàng" /></div>
-    <div class="back"><span>Giỏ hàng</span></div>
-  </a>
-</li>
+      </ul>
+    </div>
+  </div>
+</nav>
+        <script>
+    const toggles = document.querySelectorAll('input[type="checkbox"]');
 
+    toggles.forEach(cb => {
+      const label = cb.nextElementSibling; // label liền sau checkbox
+      const parentLi = cb.closest('li');   // lấy cả li bao label + dropdown
+      let timer;
 
-            <li class="nav-item">
-            <input type="checkbox" id="user-toggle" hidden />
+      function startCloseTimer(ms = 1000) {
+        clearTimeout(timer);
+        timer = setTimeout(() => { cb.checked = false; }, ms);
+      }
 
-            <label for="user-toggle" class="nav-link hover-box-2">
-              <div class="front"><img src="images/user.svg" /></div>
-              <div class="back"><span>Người dùng</span></div>
-            </label>
+      // Khi checkbox được tick
+      cb.addEventListener('change', () => {
+        if(cb.checked && !parentLi.matches(':hover')) {
+          startCloseTimer();
+        }
+      });
 
-            <ul class="dropdown" style="background-color: rgb(0, 0, 0); color: white;">
-  <li><a href="profile.html" style="color: white;">Hồ sơ cá nhân</a></li>
-  <li><a href="orders.html" style="color: white;">Lịch sử đơn hàng</a></li>
-  <li>
-    <a href="index2.html" style="color: white;">
-      <div>
-        <img src="images/exit.svg" />
-        <span>Đăng xuất</span>
-      </div>
-    </a>
-  </li>
-</ul>
+      // Hover vào vùng li (label + dropdown) → hủy timeout
+      parentLi.addEventListener('mouseenter', () => clearTimeout(timer));
 
-          </li>
-
-          <li>
-              <a class="nav-link hover-box" href="search.html">
-                <div class="front"><img src="images/search.svg" style="scale: 1.5;"/></div>
-                <div class="back"><span>Tìm kiếm</span></div>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+      // Hover ra vùng li → nếu đang mở, tự đóng sau 5 giây
+      parentLi.addEventListener('mouseleave', () => {
+        if(cb.checked) startCloseTimer();
+      });
+    });
+    </script>
     <!-- End Header/Navigation -->
 
     <!-- Start Hero Section -->
@@ -167,7 +187,7 @@
 
               <!-- Thêm nút Chi tiết -->
               <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -189,7 +209,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -214,7 +234,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -238,7 +258,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -262,7 +282,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -286,7 +306,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -310,7 +330,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -334,7 +354,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -360,7 +380,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -384,7 +404,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -408,7 +428,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -432,7 +452,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -456,7 +476,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -480,7 +500,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -504,7 +524,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -528,7 +548,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -554,7 +574,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -578,7 +598,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -602,7 +622,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -626,7 +646,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -650,7 +670,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -674,7 +694,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -698,7 +718,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -722,7 +742,7 @@
 
               <!-- Thêm nút Chi tiết -->
              <div class="mt-2">
-                 <a href="cart.html" class="btn btn-sm btn-success"
+                 <a href="cart.html" class="btn btn-sm btn-success add-to-cart"
                   > <div class="front"><img src="images/cart.svg" /></div></a
                 >
                 <a href="details.html" class="btn btn-sm btn-success"
@@ -844,28 +864,35 @@
         </div>
       </div>
     </footer>
+
    <div id="cartMessage" class="cart-message">✅ Đã thêm vào giỏ hàng!</div>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // Lấy tất cả các nút có href = cart.html
-  const cartButtons = document.querySelectorAll("a[href='cart.html']");
+  const cartButtons = document.querySelectorAll(".add-to-cart");
   const cartMessage = document.getElementById("cartMessage");
 
   cartButtons.forEach((button) => {
-    button.addEventListener("click", function (e) {
-      e.preventDefault(); // ❗ Ngăn chặn việc chuyển trang ngay lập tức
-
-      // Hiện thông báo
+    button.addEventListener("click", (e) => {
+      e.preventDefault(); // Ngăn chuyển trang
+      // Hiển thị thông báo
       cartMessage.style.display = "block";
+      cartMessage.classList.remove("show");
+      void cartMessage.offsetWidth; // reset animation
+      cartMessage.classList.add("show");
 
-      // Sau 1.2 giây thì ẩn thông báo và mới chuyển trang
+      // Ẩn sau 1.5s
       setTimeout(() => {
-        cartMessage.style.display = "none";
-        window.location.href = "cart.html";
-      }, 1200);
+        cartMessage.classList.remove("show");
+        setTimeout(() => {
+          cartMessage.style.display = "none";
+          window.location.href = "cart.html";
+        }, 500); // match với thời gian fadeOut
+      }, 1500);
     });
   });
 });
 </script>
+
   </body>
 </html>

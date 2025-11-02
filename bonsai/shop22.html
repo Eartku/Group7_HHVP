@@ -1,10 +1,5 @@
 <!-- /*
-* Bootstrap 5
-* Template Name: Furni
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
+chưa đăng nhập-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -41,70 +36,97 @@
 
   <body>
     <!-- Start Header/Navigation -->
-    <nav
-      class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark"
-      arial-label="Furni navigation bar"
+    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
+  <div class="container">
+    <a class="navbar-brand" href="index2.html">BonSai<span>🌱</span></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarsFurni"
+      aria-controls="navbarsFurni"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
     >
-      <div class="container">
-        <a class="navbar-brand" href="index.html">BonSai<span>🌱</span></a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarsFurni"
-          aria-controls="navbarsFurni"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse" id="navbarsFurni">
-          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li><a href="shop11.html" class="hover-text-glow-small" >CÂY ĐỂ PHÒNG</a></li>
-            <li><a href="shop22.html"class="hover-text-glow-small" style="font-weight: bold; font-size: calc(100% + 3px);">CÂY ĐỂ BÀN</a></li>
-            <li><a href="shop33.html" class="hover-text-glow-small">CÂY TREO TƯỜNG</a></li>
-          </ul>
+    <div class="collapse navbar-collapse" id="navbarsFurni">
+      <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+        <li><a href="shop11.html" class="hover-text-glow-small">CÂY ĐỂ PHÒNG</a></li>
+        <li><a href="shop22.html" class="hover-text-glow-small">CÂY ĐỂ BÀN</a></li>
+        <li><a href="shop33.html" class="hover-text-glow-small">CÂY TREO TƯỜNG</a></li>
+      </ul>
 
-          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-            <li>
-              <a href="index2.html" class="nav-link hover-box">
-                <div class="front">
-                  <img src="images/home.svg" style="scale: 1.3" />
-                </div>
-                <div class="back"><span>TRANG CHỦ</span></div>
-              </a>
-            </li>
+      <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
 
-            <li class="nav-item">
-            <input type="checkbox" id="user-toggle" hidden />
+        <!-- Trang chủ -->
+        <li>
+          <input type="checkbox" id="home-toggle" hidden />
+          <label for="home-toggle" class="hover-box-2">
+            <div class="front"><img src="images/home.svg" /></div>
+            <a href="index2.html" class="back" >Trang chủ</a>
+          </label>
+        </li>
 
-          
+        <!-- Giỏ hàng -->
+        <li>
+          <input type="checkbox" id="cart-toggle" hidden />
+          <label for="cart-toggle" class="hover-box-2">
+            <div class="front"><img src="images/cart.svg" /></div>
+            <a href="cart.html" class="back" onclick="checkLogin(event);">Giỏ hàng</a>
+          </label>
+        </li>
 
-            <ul class="dropdown">
-              <li><a href="profile.html">Hồ sơ cá nhân</a></li>
-              <li><a href="orders.html">Lịch sử đơn hàng</a></li>
-            </ul>
-          </li>
+        <!-- Chưa đăng nhập -->
+        <li class="nav-item">
+          <input type="checkbox" id="user-toggle" hidden />
+          <label for="user-toggle" class="hover-box-2">
+            <div class="front"><img src="images/user.svg" /></div>
+            <div class="back" onclick="checkLogin(event);"><span>Chưa đăng nhập</span></div>
+          </label>
+        </li>
 
-           <li>
-              <a class="nav-link hover-box" href="#" onclick="checkLogin(event)">
-                <div class="front"><img src="images/cart.svg" /></div>
-                <div class="back"><span>Giỏ hàng</span></div>
-              </a>
-            </li>
+        <!-- Tìm kiếm -->
+        <li>
+          <input type="checkbox" id="search-toggle" hidden />
+          <label for="search-toggle" class="hover-box-2">
+            <div class="front"><img src="images/search.svg" /></div>
+            <a href="search_shop1.html" class="back">Tìm kiếm</a>
+          </label>
+        </li>
 
-            <li>
-              <a class="nav-link hover-box" href="search2.html">
-                <div class="front"><img src="images/search.svg" /></div>
-                <div class="back"><span>Tìm kiếm</span></div>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <!-- End Header/Navigation -->
+      </ul>
+    </div>
+  </div>
+</nav>
+    <script>
+    const toggles = document.querySelectorAll('input[type="checkbox"]');
+
+    toggles.forEach(cb => {
+      const label = cb.nextElementSibling; // label liền sau checkbox
+      let timer;
+
+      // Khi checkbox được tick (click)
+      cb.addEventListener('change', () => {
+        if(cb.checked && !label.matches(':hover')) {
+          timer = setTimeout(() => { cb.checked = false; }, 5000);
+        }
+      });
+
+      // Hover vào → hủy timeout, giữ mở
+      label.addEventListener('mouseenter', () => {
+        clearTimeout(timer);
+      });
+
+      // Hover ra → nếu đang mở, tự đóng sau 5 giây
+      label.addEventListener('mouseleave', () => {
+        if(cb.checked) {
+          timer = setTimeout(() => { cb.checked = false; }, 1000);
+        }
+      });
+    });
+    </script>
 
     <!-- Start Hero Section -->
     <div class="hero">
