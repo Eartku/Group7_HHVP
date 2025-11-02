@@ -232,14 +232,19 @@
                 <!-- Mẫu dòng sản phẩm -->
                 <div class="row g-3 align-items-center product-row">
                   <div class="col-md-4">
-                    <label class="form-label">Tên sản phẩm</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="productName[]"
-                      placeholder="VD: Lan ý"
-                      required
-                    />
+                         <label class="form-label">Sản phẩm</label>
+                          <select class="form-select" name="productCategory" required>
+                            <option value="">--Chọn sản phẩm--</option>
+                            <option value="Môn cảnh">Môn cảnh</option>
+                            <option value="Monstera deliciosa">Monstera deliciosa</option>
+                            <option value="Lưỡi hổ">Lưỡi hổ</option>
+                            <option value="Cau tiểu trâm">Cau tiểu trâm</option>
+                            <option value="Dây trầu bà">Dây trầu bà</option>
+                            <option value="Rau má 36k">Rau má</option>
+                            <option value="Sen đá">Sen đá</option>
+                            <option value="Xương rồng">Xương rồng</option>
+                            <option value="Cúc trắng">Cúc trắng</option>
+                          </select>
                   </div>
                   <div class="col-md-4">
                     <label class="form-label">Giá nhập (VNĐ)</label>
@@ -320,8 +325,19 @@
         newRow.classList.add("row", "g-3", "align-items-center", "product-row");
         newRow.innerHTML = `
           <div class="col-md-4">
-            <label class="form-label">Tên sản phẩm</label>
-            <input type="text" class="form-control" name="productName[]" placeholder="VD: Lan ý" required />
+                 <label class="form-label">Sản phẩm</label>
+                  <select class="form-select" name="productCategory" required>
+                    <option value="">--Chọn sản phẩm--</option>
+                    <option value="Môn cảnh">Môn cảnh</option>
+                    <option value="Monstera deliciosa">Monstera deliciosa</option>
+                    <option value="Lưỡi hổ">Lưỡi hổ</option>
+                    <option value="Cau tiểu trâm">Cau tiểu trâm</option>
+                    <option value="Dây trầu bà">Dây trầu bà</option>
+                    <option value="Rau má 36k">Rau má</option>
+                    <option value="Sen đá">Sen đá</option>
+                    <option value="Xương rồng">Xương rồng</option>
+                    <option value="Cúc trắng">Cúc trắng</option>
+                  </select>
           </div>
           <div class="col-md-4">
             <label class="form-label">Giá nhập (VNĐ)</label>

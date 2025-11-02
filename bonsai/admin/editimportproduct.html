@@ -251,14 +251,20 @@
                 <!-- Mẫu dòng sản phẩm -->
                 <div class="row g-3 align-items-center product-row">
                   <div class="col-md-4">
-                    <label class="form-label">Tên sản phẩm</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="productName[]"
-                     value="Monsterra" readonly
-                      required
-                    />
+                   <label class="form-label">Sản phẩm  </label>
+                         <select class="form-select" name="productCategory" disabled required>
+
+                            <option value="">Lưỡi hổ</option>
+                            <option value="Môn cảnh">Môn cảnh</option>
+                            <option value="Monstera deliciosa">Monstera deliciosa</option>
+                            <option value="Lưỡi hổ">Lưỡi hổ</option>
+                            <option value="Cau tiểu trâm">Cau tiểu trâm</option>
+                            <option value="Dây trầu bà">Dây trầu bà</option>
+                            <option value="Rau má 36k">Rau má</option>
+                            <option value="Sen đá">Sen đá</option>
+                            <option value="Xương rồng">Xương rồng</option>
+                            <option value="Cúc trắng">Cúc trắng</option>
+                          </select> 
                   </div>
                   <div class="col-md-4">
                     <label class="form-label">Giá nhập (VNĐ)</label>
@@ -297,14 +303,20 @@
                 <!-- Mẫu dòng sản phẩm -->
                 <div class="row g-3 align-items-center product-row">
                   <div class="col-md-4">
-                    <label class="form-label">Tên sản phẩm</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="productName[]"
-                      value="Lan ý" readonly
-                      required
-                    />
+                   <label class="form-label">Sản phẩm</label>
+                         <select class="form-select" name="productCategory" disabled required>
+
+                            <option value="">Monstera</option>
+                            <option value="Môn cảnh">Môn cảnh</option>
+                            <option value="Monstera deliciosa">Monstera deliciosa</option>
+                            <option value="Lưỡi hổ">Lưỡi hổ</option>
+                            <option value="Cau tiểu trâm">Cau tiểu trâm</option>
+                            <option value="Dây trầu bà">Dây trầu bà</option>
+                            <option value="Rau má 36k">Rau má</option>
+                            <option value="Sen đá">Sen đá</option>
+                            <option value="Xương rồng">Xương rồng</option>
+                            <option value="Cúc trắng">Cúc trắng</option>
+                          </select>
                   </div>
                   <div class="col-md-4">
                     <label class="form-label">Giá nhập (VNĐ)</label>
@@ -343,14 +355,20 @@
                 <!-- Mẫu dòng sản phẩm -->
                 <div class="row g-3 align-items-center product-row">
                   <div class="col-md-4">
-                    <label class="form-label">Tên sản phẩm</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="productName[]"
-                      value="Lưỡi hổ" readonly
-                      required
-                    />
+                    <label class="form-label">Sản phẩm</label>
+                         <select class="form-select" name="productCategory" disabled required>
+
+                            <option value="">Môn cảnh</option>
+                            <option value="Môn cảnh">Môn cảnh</option>
+                            <option value="Monstera deliciosa">Monstera deliciosa</option>
+                            <option value="Lưỡi hổ">Lưỡi hổ</option>
+                            <option value="Cau tiểu trâm">Cau tiểu trâm</option>
+                            <option value="Dây trầu bà">Dây trầu bà</option>
+                            <option value="Rau má 36k">Rau má</option>
+                            <option value="Sen đá">Sen đá</option>
+                            <option value="Xương rồng">Xương rồng</option>
+                            <option value="Cúc trắng">Cúc trắng</option>
+                          </select>
                   </div>
                   <div class="col-md-4">
                     <label class="form-label">Giá nhập (VNĐ)</label>
@@ -384,11 +402,8 @@
                     </button>
                   </div>
                 </div>
-              </div>
-              
-
-              <!-- Nút thêm dòng -->
-        
+              </div>           
+              <!-- Nút thêm dòng -->       
             </div>
             <div class="summary-box">
             <h6><i class="fas fa-calculator me-2"></i>Tổng kết phiếu nhập</h6>
@@ -417,68 +432,59 @@
       </div>
     </div>
      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const editButtons = document.querySelectorAll(".btn-warning");
-          const saveButtons = document.querySelectorAll(".btn-success");
+      document.addEventListener("DOMContentLoaded", function () {
+        const editButtons = document.querySelectorAll(".btn-warning");
+        const saveButtons = document.querySelectorAll(".btn-success");
 
-          // ✅ Khi bấm "Chỉnh sửa"
-          editButtons.forEach((btn) => {
-            btn.addEventListener("click", function () {
-              const row = btn.closest(".product-row");
+        // Khi bấm "Chỉnh sửa"
+        editButtons.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const row = btn.closest(".product-row") || btn.closest(".edit-row");
+            if (!row) return;
 
-              // Mở khóa 3 ô input trong dòng đó
-              const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
-              inputs.forEach((input) => {
-                input.removeAttribute("readonly");
-                input.style.backgroundColor = "#fff"; // làm rõ là đang chỉnh
-                input.focus();
-              });
+            // Mở khóa các input
+            const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
+            inputs.forEach((input) => {
+              input.removeAttribute("readonly");
+              input.style.backgroundColor = "#fff";
             });
-          });
 
-        
-        });
-        </script>
-        <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const editButtons = document.querySelectorAll(".btn-warning");
-          const saveButtons = document.querySelectorAll(".btn-success");
-
-          // Khi bấm "Chỉnh sửa"
-          editButtons.forEach((btn) => {
-            btn.addEventListener("click", function () {
-              // kiểm tra có nằm trong .product-row hay .edit-row
-              const row = btn.closest(".product-row") || btn.closest(".edit-row");
-              if (!row) return;
-
-              const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
-              inputs.forEach((input) => {
-                input.removeAttribute("readonly");
-                input.style.backgroundColor = "#fff";
-                input.focus();
-              });
-            });
-          });
-
-          // Khi bấm "Lưu"
-          saveButtons.forEach((btn) => {
-            btn.addEventListener("click", function () {
-              const row = btn.closest(".product-row") || btn.closest(".edit-row");
-              if (!row) return;
-
-              const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
-              const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
-              if (confirmSave) {
-                inputs.forEach((input) => {
-                  input.setAttribute("readonly", true);
-                  input.style.backgroundColor = "#f1f1f1";
-                });
-                alert("✅ Đã lưu thành công!");
-              }
+            // ✅ Mở khóa select (Sản phẩm)
+            const selects = row.querySelectorAll("select");
+            selects.forEach((sel) => {
+              sel.disabled = false;
+              sel.style.backgroundColor = "#fff";
             });
           });
         });
-        </script>
 
+        // Khi bấm "Lưu"
+        saveButtons.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const row = btn.closest(".product-row") || btn.closest(".edit-row");
+            if (!row) return;
+
+            const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
+            if (confirmSave) {
+              // Khóa lại input
+              const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
+              inputs.forEach((input) => {
+                input.setAttribute("readonly", true);
+                input.style.backgroundColor = "#f1f1f1";
+              });
+
+              // ✅ Khóa lại select
+              const selects = row.querySelectorAll("select");
+              selects.forEach((sel) => {
+                sel.disabled = true;
+                sel.style.backgroundColor = "#f1f1f1";
+              });
+
+              alert("✅ Đã lưu thành công!");
+            }
+          });
+        });
+      });
+      </script>
   </body>
 </html>
