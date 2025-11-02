@@ -174,6 +174,16 @@
           <input type="file" class="form-control" name="productImage" />
         </div>
         <div class="mb-3">
+          <label class="form-label">Mã sản phẩm</label>
+          <input
+            type="text"
+            class="form-control"
+            name="productName"
+            value="PN001" disabled
+            required
+          />
+        </div>
+        <div class="mb-3">
           <label class="form-label">Tên sản phẩm</label>
           <input
             type="text"
@@ -199,7 +209,7 @@
             type="text"
             class="form-control"
             name="productName"
-            value="36.000đ"
+            value="36.000đ" disabled
           />
         </div>
         <!-- ✅ Thêm phần số lượng trong kho -->
@@ -218,16 +228,7 @@ Cây Lưỡi Hổ với lá thẳng, cứng, xanh xen vàng nổi bật, mang v�
           >
         </div>
         <!-- Ngày nhập -->
-        <div class="mb-3">
-          <label class="form-label">Ngày nhập</label>
-          <input
-            type="date"
-            class="form-control"
-            name="productDate"
-            value="2024-10-03"
-            required
-          />
-        </div>
+        
         <div class="d-flex justify-content-between mt-4">
           <a href="admin_product.html" class="btn btn-secondary w-50 me-2"
             >Quay lại</a
