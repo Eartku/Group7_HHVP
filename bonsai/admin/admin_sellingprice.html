@@ -211,11 +211,8 @@
               <tr>
                 <th>STT</th>
                 <th>Loại sản phẩm</th>
-               
                 <th>% Lợi nhuận</th>
                
-                <th>Ghi chú</th>
-
               </tr>
             </thead>
             <tbody>
@@ -232,15 +229,7 @@
               
                   />
                 </td>
-                
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="..."
-                    readonly
-                  />
-                </td>
+            
                   <td>
                   <button class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i> Chỉnh sửa
@@ -264,14 +253,7 @@
                   />
                 </td>
                
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="..."
-                    readonly
-                  />
-                </td>
+                
                   <td>
                   <button class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i> Chỉnh sửa
@@ -294,14 +276,7 @@
                   />
                 </td>
               
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="..."
-                    readonly
-                  />
-                </td>
+                
                   <td>
                   <button class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i> Chỉnh sửa
@@ -326,8 +301,7 @@
                 <th>Phân loại</th>
                 <th>Giá vốn (VNĐ)</th>
                 <th>% Lợi nhuận</th>
-                
-                <th>Ghi chú</th>
+                <th>Giá bán (VNĐ) </th>
               </tr>
             </thead>
             <tbody>
@@ -359,14 +333,7 @@
                     readonly
                   />
                 </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="..."
-                    readonly
-                  />
-                </td>
+               
                   <td>
                   <button class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i> Chỉnh sửa
@@ -405,14 +372,7 @@
                     readonly
                   />
                 </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="..."
-                    readonly
-                  />
-                </td>
+              
                   <td>
                   <button class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i> Chỉnh sửa
@@ -449,14 +409,7 @@
                     readonly
                   />
                 </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="..."
-                    readonly
-                  />
-                </td>
+               
                   <td>
                   <button class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i> Chỉnh sửa
@@ -493,14 +446,7 @@
                     readonly
                   />
                 </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="..."
-                    readonly
-                  />
-                </td>
+              
                   <td>
                   <button class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i> Chỉnh sửa
@@ -538,14 +484,7 @@
                     readonly
                   />
                 </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="..."
-                    readonly
-                  />
-                </td>
+
                   <td>
                   <button class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i> Chỉnh sửa
@@ -583,14 +522,7 @@
                     readonly
                   />
                 </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="..."
-                    readonly
-                  />
-                </td>
+              
                   <td>
                   <button class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i> Chỉnh sửa
@@ -628,14 +560,7 @@
                     readonly
                   />
                 </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="..."
-                    readonly
-                  />
-                </td>
+               
                   <td>
                   <button class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i> Chỉnh sửa
@@ -687,82 +612,136 @@
         }
      </style>
       <script>
-            document.addEventListener("DOMContentLoaded", function () {
-              const editButtons = document.querySelectorAll(".btn-warning");
-              const saveButtons = document.querySelectorAll(".btn-success");
+      document.addEventListener("DOMContentLoaded", function () {
+        const editButtons = document.querySelectorAll(".btn-warning");
+        const saveButtons = document.querySelectorAll(".btn-success");
 
-              // Khi bấm "Chỉnh sửa"
-              editButtons.forEach((btn) => {
-                btn.addEventListener("click", function () {
-                  const row = btn.closest("tr");
-                  // Tìm ô input trong cùng hàng có type=number (ô % lợi nhuận)
-                  const profitInput = row.querySelector('input[type="number"]:not([readonly])') 
-                    || row.querySelectorAll('input[type="number"]')[row.querySelectorAll('input[type="number"]').length - 1] 
-                    || row.querySelector('td:nth-child(3) input'); // fallback
-                  
-                  // Hoặc đơn giản hơn:
-                  const numberInputs = row.querySelectorAll('input[type="number"]');
-                  if (numberInputs.length > 0) {
-                    const profitInput = numberInputs[numberInputs.length === 1 ? 0 : numberInputs.length - 1]; // chọn ô lợi nhuận hợp lý
-                    profitInput.removeAttribute("readonly");
-                    profitInput.focus();
-                  }
-                });
-              });
+  // Khi bấm "Chỉnh sửa"
+  editButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const row = btn.closest("tr");
 
-              // Khi bấm "Lưu"
-              saveButtons.forEach((btn) => {
-                btn.addEventListener("click", function () {
-                  const row = btn.closest("tr");
-                  const profitInput = row.querySelector('input[type="number"]:not([readonly])');
-                  if (profitInput) profitInput.setAttribute("readonly", true);
+      // Xác định xem bảng là "% Theo Sản Phẩm" hay "% Theo Loại"
+      const isSanPham = row.closest("#contentSanPham") !== null;
 
-                  const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
-                  if (confirmSave) {
-                    alert("✅ Đã lưu thành công!");
-                  }
-                });
-              });
-            });
-      // Hiệu ứng chọn tab giữa % Theo Loại và % Theo Sản Phẩm
-            document.addEventListener("DOMContentLoaded", function () {
-              const btnLoai = document.getElementById("btnLoai");
-              const btnSanPham = document.getElementById("btnSanPham");
-              const contentLoai = document.getElementById("contentLoai");
-              const contentSanPham = document.getElementById("contentSanPham");
+      // Chỉ mở ô % lợi nhuận
+      let profitInput;
+      if (isSanPham) {
+        // Trong bảng sản phẩm: cột % lợi nhuận là cột thứ 5
+        profitInput = row.querySelector("td:nth-child(5) input[type='number']");
+      } else {
+        // Trong bảng loại: cột % lợi nhuận là cột thứ 3
+        profitInput = row.querySelector("td:nth-child(3) input[type='number']");
+      }
 
-              btnLoai.addEventListener("click", () => {
-                btnLoai.classList.add("active");
-                btnSanPham.classList.remove("active");
-                contentLoai.style.display = "block";
-                contentSanPham.style.display = "none";
-              });
+          if (profitInput) {
+            profitInput.removeAttribute("readonly");
+            profitInput.focus();
+          }
+        });
+      });
 
-              btnSanPham.addEventListener("click", () => {
-                btnSanPham.classList.add("active");
-                btnLoai.classList.remove("active");
-                contentLoai.style.display = "none";
-                contentSanPham.style.display = "block";
-              });
-            });
-          </script>
+      // Khi bấm "Lưu"
+      saveButtons.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const row = btn.closest("tr");
+
+          // Xác định xem bảng là "% Theo Sản Phẩm" hay "% Theo Loại"
+          const isSanPham = row.closest("#contentSanPham") !== null;
+          let profitInput;
+
+          if (isSanPham) {
+            profitInput = row.querySelector("td:nth-child(5) input[type='number']");
+          } else {
+            profitInput = row.querySelector("td:nth-child(3) input[type='number']");
+          }
+
+          if (profitInput) {
+            profitInput.setAttribute("readonly", true);
+          }
+
+          const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
+          if (confirmSave) {
+            alert("✅ Đã lưu thành công!");
+          }
+        });
+      });
+    });
+        // Hiệu ứng chọn tab giữa % Theo Loại và % Theo Sản Phẩm
+        document.addEventListener("DOMContentLoaded", function () {
+          const btnLoai = document.getElementById("btnLoai");
+          const btnSanPham = document.getElementById("btnSanPham");
+          const contentLoai = document.getElementById("contentLoai");
+          const contentSanPham = document.getElementById("contentSanPham");
+
+          btnLoai.addEventListener("click", () => {
+            btnLoai.classList.add("active");
+            btnSanPham.classList.remove("active");
+            contentLoai.style.display = "block";
+            contentSanPham.style.display = "none";
+          });
+
+          btnSanPham.addEventListener("click", () => {
+            btnSanPham.classList.add("active");
+            btnLoai.classList.remove("active");
+            contentLoai.style.display = "none";
+            contentSanPham.style.display = "block";
+          });
+        });
+</script>
         <style>
-        #btnLoai, #btnSanPham {
-          min-width: 300px;
-          font-weight: 600;
-          border-width: 2px;
-          transition: all 0.3s ease;
-        }
+            #btnLoai, #btnSanPham {
+              min-width: 300px;
+              font-weight: 600;
+              border-width: 2px;
+              transition: all 0.3s ease;
+            }
 
-        #btnLoai:hover, #btnSanPham:hover {
-          background-color: #198754;
-          color: white;
-        }
+            #btnLoai:hover, #btnSanPham:hover {
+              background-color: #198754;
+              color: white;
+            }
 
-        #btnLoai.active, #btnSanPham.active {
-          background-color: #198754;
-          color: white;
-        }
-      </style>
+            #btnLoai.active, #btnSanPham.active {
+              background-color: #198754;
+              color: white;
+            }     
+          /* Thu hẹp bảng "% Theo Loại" và căn giữa */
+            #contentLoai table {
+              width: 80%;       /* Giảm bề ngang, có thể chỉnh 60–80% tùy ý */
+              margin: 0 auto;   /* Căn giữa bảng */
+            }
+
+            /* Căn giữa hai nút thao tác trong cột cuối */
+            #contentLoai td:last-child {
+              text-align: center;
+            }
+
+            /* Căn giữa toàn bộ cột % Lợi nhuận */
+            #contentLoai td:nth-child(3),
+            #contentLoai th:nth-child(3),
+            #contentSanPham td:nth-child(5),
+            #contentSanPham th:nth-child(5) {
+              text-align: center;
+              vertical-align: middle;
+            }
+
+            /* Cho ô input % lợi nhuận cũng nằm giữa gọn gàng */
+            #contentLoai input.form-control,
+            #contentSanPham input.form-control {
+              text-align: center;
+            }
+             /* Căn giữa cột "Giá bán" trong bảng % Theo Sản Phẩm */
+            #contentSanPham th:nth-child(6),
+            #contentSanPham td:nth-child(6) {
+              text-align: center;
+              vertical-align: middle;
+            }
+
+            /* Cho ô input trong cột giá bán cũng căn giữa */
+            #contentSanPham td:nth-child(6) input.form-control {
+              text-align: center;
+            }
+</style>
   </body> 
 </html>
