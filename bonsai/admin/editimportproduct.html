@@ -418,12 +418,10 @@
                       required
                     />
                   </div>
-                    <div class="col-md-4 text-center remove-btn">
-                    <button type="button" class="btn btn-outline-danger btn-sm removeRow">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
                    <div class="col-md-4">
+                   <button type="button" class="btn btn-outline-danger btn-sm removeRow">
+                      <i class="fas fa-trash"></i> Hủy
+                    </button>
                     <button type="button" class="btn btn-warning btn-sm">
                       <i class="fas fa-edit"></i> Chỉnh sửa
                     </button>
@@ -553,13 +551,7 @@
       });
     });
   });
-   // 🔹 Xóa dòng sản phẩm
-  productList.addEventListener("click", function (e) {
-    if (e.target.closest(".removeRow")) {
-      e.target.closest(".product-row").remove();
-      updateSummary(); // Cập nhật lại tổng khi xóa
-    }
-  });
+  
 </script>
 
   </body>
