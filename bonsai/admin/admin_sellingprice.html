@@ -136,10 +136,10 @@
                 <!-- Thanh phân trang nằm dưới tiêu đề -->
         <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
           <label for="page1" class="btn btn-outline-success active" id="btnLoai">
-            % Theo Loại
+            % Lợi nhuận theo Loại
           </label>
           <label for="page2" class="btn btn-outline-success" id="btnSanPham">
-            % Theo Sản Phẩm
+            % Lợi nhuận theo Sản Phẩm
           </label>
         </div>
 
@@ -636,76 +636,69 @@
         </div>
       </div>
     </footer>
+              <style>
+            .btn-sm {
+              padding: 4px 10px;
+              font-size: 0.875rem;
+            }
+            td:last-child {
+              white-space: nowrap;
+            }
+            .btn-warning i,
+            .btn-success i {
+              margin-right: 4px;
+            }
+          </style>
+            <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const editButtons = document.querySelectorAll(".btn-warning");
+              const saveButtons = document.querySelectorAll(".btn-success");
+          // Khi bấm "Chỉnh sửa"
+          editButtons.forEach((btn) => {
+            btn.addEventListener("click", function () {
+              const row = btn.closest("tr");
 
-          <style>
-        .btn-sm {
-          padding: 4px 10px;
-          font-size: 0.875rem;
-        }
-        td:last-child {
-          white-space: nowrap;
-        }
-        .btn-warning i,
-        .btn-success i {
-          margin-right: 4px;
-        }
-     </style>
-      <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const editButtons = document.querySelectorAll(".btn-warning");
-        const saveButtons = document.querySelectorAll(".btn-success");
+              // Xác định xem bảng là "% Theo Sản Phẩm" hay "% Theo Loại"
+              const isSanPham = row.closest("#contentSanPham") !== null;
 
-  // Khi bấm "Chỉnh sửa"
-  editButtons.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const row = btn.closest("tr");
+              // Chỉ mở ô % lợi nhuận
+              let profitInput;
+              if (isSanPham) {
+                // Trong bảng sản phẩm: cột % lợi nhuận là cột thứ 5
+                profitInput = row.querySelector("td:nth-child(5) input[type='number']");
+              } else {
+                // Trong bảng loại: cột % lợi nhuận là cột thứ 3
+                profitInput = row.querySelector("td:nth-child(3) input[type='number']");
+              }
 
-      // Xác định xem bảng là "% Theo Sản Phẩm" hay "% Theo Loại"
-      const isSanPham = row.closest("#contentSanPham") !== null;
+                  if (profitInput) {
+                    profitInput.removeAttribute("readonly");
+                    profitInput.focus();
+                  }
+                });
+              });
 
-      // Chỉ mở ô % lợi nhuận
-      let profitInput;
-      if (isSanPham) {
-        // Trong bảng sản phẩm: cột % lợi nhuận là cột thứ 5
-        profitInput = row.querySelector("td:nth-child(5) input[type='number']");
-      } else {
-        // Trong bảng loại: cột % lợi nhuận là cột thứ 3
-        profitInput = row.querySelector("td:nth-child(3) input[type='number']");
-      }
+          // Khi bấm "Lưu"
+          saveButtons.forEach((btn) => {
+            btn.addEventListener("click", function () {
+              const row = btn.closest("tr");
 
-          if (profitInput) {
-            profitInput.removeAttribute("readonly");
-            profitInput.focus();
-          }
+              // Xác định xem bảng là "% Theo Sản Phẩm" hay "% Theo Loại"
+              const isSanPham = row.closest("#contentSanPham") !== null;
+              let profitInput;
+
+              if (isSanPham) {
+                profitInput = row.querySelector("td:nth-child(5) input[type='number']");
+              } else {
+                profitInput = row.querySelector("td:nth-child(3) input[type='number']");
+              }
+
+              if (profitInput) {
+                profitInput.setAttribute("readonly", true);
+              }
+            });
+          });
         });
-      });
-
-      // Khi bấm "Lưu"
-      saveButtons.forEach((btn) => {
-        btn.addEventListener("click", function () {
-          const row = btn.closest("tr");
-
-          // Xác định xem bảng là "% Theo Sản Phẩm" hay "% Theo Loại"
-          const isSanPham = row.closest("#contentSanPham") !== null;
-          let profitInput;
-
-          if (isSanPham) {
-            profitInput = row.querySelector("td:nth-child(5) input[type='number']");
-          } else {
-            profitInput = row.querySelector("td:nth-child(3) input[type='number']");
-          }
-
-          if (profitInput) {
-            profitInput.setAttribute("readonly", true);
-          }
-
-          const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
-          if (confirmSave) {
-            alert("✅ Đã lưu thành công!");
-          }
-        });
-      });
-    });
         // Hiệu ứng chọn tab giữa % Theo Loại và % Theo Sản Phẩm
         document.addEventListener("DOMContentLoaded", function () {
           const btnLoai = document.getElementById("btnLoai");
@@ -727,8 +720,76 @@
             contentSanPham.style.display = "block";
           });
         });
+document.addEventListener("DOMContentLoaded", function () {
+  const editButtons = document.querySelectorAll(".btn-warning");
+  const saveButtons = document.querySelectorAll(".btn-success");
+
+  // Khi bấm "Chỉnh sửa"
+  editButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const row = btn.closest("tr");
+      const isSanPham = row.closest("#contentSanPham") !== null;
+      let profitInput;
+
+      if (isSanPham) {
+        // Bảng sản phẩm
+        profitInput = row.querySelector("td:nth-child(5) input[type='number']");
+        const costInput = row.querySelector("td:nth-child(4) input[type='number']");
+        const priceInput = row.querySelector("td:nth-child(6) input[type='number']");
+
+        if (profitInput) {
+          profitInput.removeAttribute("readonly");
+          profitInput.focus();
+
+          // ✅ Khi người dùng thay đổi % lợi nhuận → cập nhật giá bán ngay
+          profitInput.addEventListener("input", function () {
+            const cost = parseFloat(costInput.value);
+            const profit = parseFloat(profitInput.value);
+            if (!isNaN(cost) && !isNaN(profit)) {
+              const newPrice = Math.round(cost * (1 + profit / 100));
+              priceInput.value = newPrice;
+            } else {
+              priceInput.value = "";
+            }
+          });
+        }
+      } else {
+        // Bảng loại
+        profitInput = row.querySelector("td:nth-child(3) input[type='number']");
+        if (profitInput) {
+          profitInput.removeAttribute("readonly");
+          profitInput.focus();
+        }
+      }
+    });
+  });
+
+  // Khi bấm "Lưu"
+  saveButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const row = btn.closest("tr");
+      const isSanPham = row.closest("#contentSanPham") !== null;
+      let profitInput;
+
+      if (isSanPham) {
+        profitInput = row.querySelector("td:nth-child(5) input[type='number']");
+      } else {
+        profitInput = row.querySelector("td:nth-child(3) input[type='number']");
+      }
+
+      if (profitInput) {
+        profitInput.setAttribute("readonly", true);
+      }
+
+      const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
+      if (confirmSave) {
+        alert("✅ Đã lưu thành công!");
+      }
+    });
+  });
+});
 </script>
-        <style>
+          <style>
             #btnLoai, #btnSanPham {
               min-width: 300px;
               font-weight: 600;
@@ -781,7 +842,27 @@
             #contentSanPham td:nth-child(6) input.form-control {
               text-align: center;
             }
-</style>
+            #btnLoai, #btnSanPham {
+              min-width: 250px;
+              border-radius: 25px;
+              border: 8px solid #28a745;
+              background-color: white;
+              color: #28a745;
+              transition: all 0.3s ease;
+              font-weight: 600;
+            }
 
+            #btnLoai:hover, #btnSanPham:hover {
+              background-color: #28a745;
+              color: #fff;
+              transform: scale(1.05);
+            }
+
+            #btnLoai.active, #btnSanPham.active {
+              background-color: #28a745;
+              color: #fff;
+              box-shadow: 0 0 8px rgba(40, 167, 69, 0.3);
+            }
+          </style>
   </body> 
 </html>

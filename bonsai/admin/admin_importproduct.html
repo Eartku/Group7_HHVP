@@ -167,12 +167,9 @@
         <h2 class="fw-bold text-success text-center" style="padding: 30px">
           Quản lý Nhập sản phẩm
         </h2>
-        <a
-          href="importproduct.html"
-          class="btn btn-success position-absolute end-0"
-        >
-          <i class="fas fa-plus me-1"></i> Thêm phiếu nhập
-        </a>
+         <a href="importproduct.html" class="btn-add-import position-absolute end-0">
+          <i class="fas fa-plus me-2"></i> Thêm phiếu nhập
+         </a>
       </div>
 
       <!-- Thanh tìm kiếm -->
@@ -404,6 +401,34 @@
       .table td {
         vertical-align: middle;
       }
-    </style>
+      .btn-add-import {
+        background: linear-gradient(90deg, #28a745, #45c16c);
+        color: #fff !important;
+        font-weight: 600;
+        font-size: 16px;
+        padding: 10px 22px;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(72, 180, 97, 0.3);
+        transition: all 0.25s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .btn-add-import:hover {
+        background: linear-gradient(90deg, #2ecc71, #27ae60);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(39, 174, 96, 0.4);
+      }
+
+      .btn-add-import i {
+        transition: transform 0.3s ease;
+      }
+
+      .btn-add-import:hover i {
+        transform: rotate(180deg);
+      }
+          </style>
   </body>
 </html>
