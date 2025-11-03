@@ -418,10 +418,12 @@
                       required
                     />
                   </div>
-                   <div class="col-md-4">
-                   <button type="button" class="btn btn-outline-danger btn-sm removeRow">
-                      <i class="fas fa-trash"></i> Hủy
+                    <div class="col-md-4 text-center remove-btn">
+                    <button type="button" class="btn btn-outline-danger btn-sm removeRow">
+                      <i class="fas fa-trash"></i>
                     </button>
+                  </div>
+                   <div class="col-md-4">
                     <button type="button" class="btn btn-warning btn-sm">
                       <i class="fas fa-edit"></i> Chỉnh sửa
                     </button>
@@ -459,60 +461,106 @@
         </div>
       </div>
     </div>
-     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const editButtons = document.querySelectorAll(".btn-warning");
-        const saveButtons = document.querySelectorAll(".btn-success");
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const editButtons = document.querySelectorAll(".btn-warning");
+    const saveButtons = document.querySelectorAll(".btn-success");
+    const productList = document.querySelectorAll(".product-row");
 
-        // Khi bấm "Chỉnh sửa"
-        editButtons.forEach((btn) => {
-          btn.addEventListener("click", function () {
-            const row = btn.closest(".product-row") || btn.closest(".edit-row");
-            if (!row) return;
+    const totalProducts = document.getElementById("totalProducts");
+    const totalQuantity = document.getElementById("totalQuantity");
+    const totalValue = document.getElementById("totalValue");
 
-            // Mở khóa các input
-            const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
-            inputs.forEach((input) => {
-              input.removeAttribute("readonly");
-              input.style.backgroundColor = "#fff";
-            });
+    // 🔹 Hàm tính tổng
+    function updateSummary() {
+      let productCount = 0;
+      let totalQty = 0;
+      let totalVal = 0;
 
-            // ✅ Mở khóa select (Sản phẩm)
-            const selects = row.querySelectorAll("select");
-            selects.forEach((sel) => {
-              sel.disabled = false;
-              sel.style.backgroundColor = "#fff";
-            });
-          });
+      productList.forEach((row) => {
+        const price = parseFloat(row.querySelector('input[name="importPrice[]"]').value.replace(/\./g, "")) || 0;
+        const qty = parseInt(row.querySelector('input[name="quantity[]"]').value) || 0;
+
+        if (price > 0 && qty > 0) {
+          productCount++;
+          totalQty += qty;
+          totalVal += price * qty;
+        }
+      });
+
+      totalProducts.value = productCount;
+      totalQuantity.value = totalQty;
+      totalValue.value = totalVal.toLocaleString("vi-VN");
+    }
+
+    // 🔹 Gọi tính tổng ban đầu
+    updateSummary();
+
+    // 🔹 Theo dõi thay đổi giá và số lượng khi chỉnh sửa
+    productList.forEach((row) => {
+      row.addEventListener("input", (e) => {
+        if (e.target.name === "importPrice[]" || e.target.name === "quantity[]") {
+          updateSummary();
+        }
+      });
+    });
+
+    // 🔹 Khi bấm "Chỉnh sửa"
+    editButtons.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const row = btn.closest(".product-row") || btn.closest(".edit-row");
+        if (!row) return;
+
+        // Mở khóa input
+        const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
+        inputs.forEach((input) => {
+          input.removeAttribute("readonly");
+          input.style.backgroundColor = "#fff";
         });
 
-        // Khi bấm "Lưu"
-        saveButtons.forEach((btn) => {
-          btn.addEventListener("click", function () {
-            const row = btn.closest(".product-row") || btn.closest(".edit-row");
-            if (!row) return;
-
-            const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
-            if (confirmSave) {
-              // Khóa lại input
-              const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
-              inputs.forEach((input) => {
-                input.setAttribute("readonly", true);
-                input.style.backgroundColor = "#f1f1f1";
-              });
-
-              // ✅ Khóa lại select
-              const selects = row.querySelectorAll("select");
-              selects.forEach((sel) => {
-                sel.disabled = true;
-                sel.style.backgroundColor = "#f1f1f1";
-              });
-
-              alert("✅ Đã lưu thành công!");
-            }
-          });
+        // Mở khóa select
+        const selects = row.querySelectorAll("select");
+        selects.forEach((sel) => {
+          sel.disabled = false;
+          sel.style.backgroundColor = "#fff";
         });
       });
-      </script>
+    });
+
+    // 🔹 Khi bấm "Lưu"
+    saveButtons.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const row = btn.closest(".product-row") || btn.closest(".edit-row");
+        if (!row) return;
+
+        const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
+        if (confirmSave) {
+          const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
+          inputs.forEach((input) => {
+            input.setAttribute("readonly", true);
+            input.style.backgroundColor = "#f1f1f1";
+          });
+
+          const selects = row.querySelectorAll("select");
+          selects.forEach((sel) => {
+            sel.disabled = true;
+            sel.style.backgroundColor = "#f1f1f1";
+          });
+
+          updateSummary(); // ✅ Cập nhật tổng sau khi lưu
+          alert("✅ Đã lưu thành công!");
+        }
+      });
+    });
+  });
+   // 🔹 Xóa dòng sản phẩm
+  productList.addEventListener("click", function (e) {
+    if (e.target.closest(".removeRow")) {
+      e.target.closest(".product-row").remove();
+      updateSummary(); // Cập nhật lại tổng khi xóa
+    }
+  });
+</script>
+
   </body>
 </html>
