@@ -452,58 +452,58 @@
         </div>
       </div>
     </div>
- <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const editButtons = document.querySelectorAll(".btn-warning");
-  const saveButtons = document.querySelectorAll(".btn-success");
+          <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const editButtons = document.querySelectorAll(".btn-warning");
+            const saveButtons = document.querySelectorAll(".btn-success");
 
-  // 🔹 Khi bấm "Chỉnh sửa"
-  editButtons.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const row = btn.closest(".product-row") || btn.closest(".edit-row");
-      if (!row) return;
+            // 🔹 Khi bấm "Chỉnh sửa"
+            editButtons.forEach((btn) => {
+              btn.addEventListener("click", function () {
+                const row = btn.closest(".product-row") || btn.closest(".edit-row");
+                if (!row) return;
 
-      // Mở khóa input
-      const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
-      inputs.forEach((input) => {
-        input.removeAttribute("readonly");
-        input.style.backgroundColor = "#fff";
-      });
+                // Mở khóa input
+                const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
+                inputs.forEach((input) => {
+                  input.removeAttribute("readonly");
+                  input.style.backgroundColor = "#fff";
+                });
 
-      // Mở khóa select
-      const selects = row.querySelectorAll("select");
-      selects.forEach((sel) => {
-        sel.disabled = false;
-        sel.style.backgroundColor = "#fff";
-      });
-    });
-  });
+                // Mở khóa select
+                const selects = row.querySelectorAll("select");
+                selects.forEach((sel) => {
+                  sel.disabled = false;
+                  sel.style.backgroundColor = "#fff";
+                });
+              });
+            });
 
-  // 🔹 Khi bấm "Lưu"
-  saveButtons.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const row = btn.closest(".product-row") || btn.closest(".edit-row");
-      if (!row) return;
+            // 🔹 Khi bấm "Lưu"
+            saveButtons.forEach((btn) => {
+              btn.addEventListener("click", function () {
+                const row = btn.closest(".product-row") || btn.closest(".edit-row");
+                if (!row) return;
 
-      const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
-      if (confirmSave) {
-        const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
-        inputs.forEach((input) => {
-          input.setAttribute("readonly", true);
-          input.style.backgroundColor = "#f1f1f1";
-        });
+                const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
+                if (confirmSave) {
+                  const inputs = row.querySelectorAll("input[type='text'], input[type='number']");
+                  inputs.forEach((input) => {
+                    input.setAttribute("readonly", true);
+                    input.style.backgroundColor = "#f1f1f1";
+                  });
 
-        const selects = row.querySelectorAll("select");
-        selects.forEach((sel) => {
-          sel.disabled = true;
-          sel.style.backgroundColor = "#f1f1f1";
-        });
+                  const selects = row.querySelectorAll("select");
+                  selects.forEach((sel) => {
+                    sel.disabled = true;
+                    sel.style.backgroundColor = "#f1f1f1";
+                  });
 
-        alert("✅ Đã lưu thành công!");
-      }
-    });
-  });
-});
-</script>
+                  alert("✅ Đã lưu thành công!");
+                }
+              });
+            });
+          });
+          </script>
   </body>
 </html>
