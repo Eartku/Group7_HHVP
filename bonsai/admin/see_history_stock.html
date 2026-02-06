@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phiếu Cập Nhật Kho</title>
+
+    <style>
+      /* --- Khung tổng --- */
+      .inventory-card {
+        background-color: #f5f9f4;
+        border: 2px solid #a9c47f;
+        border-radius: 20px;
+        padding: 30px;
+        width: 80%;
+        margin: 40px auto;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+      }
+
+      /* --- Tiêu đề --- */
+      .inventory-title {
+        text-align: center;
+        color: #2b5d34;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 25px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      /* --- Khung thông tin sản phẩm --- */
+      .inventory-info {
+        display: flex;
+        justify-content: space-between;
+        background: #e9f3e3;
+        border: 1px solid #b6cf95;
+        border-radius: 15px;
+        padding: 15px 25px;
+        margin-bottom: 25px;
+        font-size: 1.05rem;
+      }
+
+      .inventory-info p {
+        margin: 6px 0;
+        color: #2b2b2b;
+      }
+
+      .info-left,
+      .info-right {
+        width: 48%;
+      }
+
+      /* --- Bảng lịch sử --- */
+      .inventory-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .inventory-table th {
+        background-color: #3b5d50;
+        color: #fff;
+        padding: 12px;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .inventory-table td {
+        text-align: center;
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        color: #333;
+        font-size: 0.95rem;
+      }
+
+      /* --- Trạng thái --- */
+      .status-ok {
+        color: #2e7d32;
+        font-weight: 600;
+      }
+
+      .status-warning {
+        color: #ff9800;
+        font-weight: 600;
+      }
+
+      .status-danger {
+        color: #d32f2f;
+        font-weight: 600;
+      }
+
+      /* --- Hiệu ứng hover --- */
+      .inventory-table tr:hover {
+        background-color: #f0f8f5;
+      }
+
+      /* --- Nút quay lại --- */
+      .back-btn-container {
+        text-align: center;
+        margin-top: 25px;
+      }
+
+      .back-btn {
+        background-color: #000000;
+        color: #fff;
+        border: none;
+        border-radius: 30px;
+        padding: 10px 25px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .back-btn:hover {
+        background-color: #2c4238;
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="inventory-card">
+      <h2 class="inventory-title">Phiếu Cập Nhật Sản Phẩm</h2>
+
+      <div class="inventory-info">
+        <div class="info-left">
+          <p><strong>Tên sản phẩm:</strong> Lưỡi Hổ</p>
+          <p><strong>Loại:</strong> Để bàn</p>
+        </div>
+        <div class="info-right">
+          <p><strong>số lương hiện tại:</strong> 22</p>
+          <p><strong>Mức tối thiểu:</strong> 10</p>
+        </div>
+      </div>
+
+      <table class="inventory-table">
+        <thead>
+          <tr>
+            <th>Ngày cập nhật</th>
+            <th>Hành động</th>
+            <th>Số lượng</th>
+            <th>Tồn</th>
+            <th>Trạng thái</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>25/10/2025</td>
+            <td>Nhập</td>
+            <td>+10</td>
+            <td>22</td>
+            <td class="status-ok">Đạt</td>
+          </tr>
+          <tr>
+            <td>20/10/2025</td>
+            <td>Xuất</td>
+            <td>-5</td>
+            <td>12</td>
+            <td class="status-warning">Đạt</td>
+          </tr>
+          <tr>
+            <td>10/10/2025</td>
+            <td>Xuất</td>
+            <td>-7</td>
+            <td>8</td>
+            <td class="status-danger">Sắp hết hàng</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="back-btn-container">
+        <a href="admin_stock1.html" class="back-btn">← Quay lại</a>
+      </div>
+    </div>
+  </body>
+</html>

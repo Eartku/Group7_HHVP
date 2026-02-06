@@ -1,0 +1,63 @@
+.slider {
+    margin-top: 100px;
+    margin-bottom: 80px;
+    margin-left: -50px;
+  position: relative;
+  width: 500px;
+  height: 700px;
+  overflow: hidden;
+}
+
+.slider img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.slider img.active {
+  opacity: 1;
+}
+
+.center-row {
+  text-align: center; /* căn giữa ngang */
+  padding: 2rem;
+}
+
+/* hiệu ứng phát sáng */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap');
+
+.glow {
+  font-family: 'Raleway', sans-serif;
+  color: #e0f7ff;
+  text-shadow:
+    0 0 6px rgba(224,247,255,0.8),
+    0 0 16px rgba(150,220,255,0.4);
+}
+
+
+/* tắt animation nếu người dùng giảm motion */
+@media (prefers-reduced-motion: reduce) {
+  .glow { animation: none; }
+}
+
+@keyframes glowPulse {
+  0% {
+    text-shadow:
+      0 0 4px rgba(255,255,255,0.8),
+      0 0 12px rgba(0,150,255,0.5);
+    transform: translateZ(0);
+  }
+  50% {
+    text-shadow:
+      0 0 10px rgba(255,255,255,1),
+      0 0 28px rgba(0,180,255,0.7),
+      0 0 60px rgba(0,120,255,0.25);
+  }
+  100% {
+    text-shadow:
+      0 0 4px rgba(255,255,255,0.8),
+      0 0 12px rgba(0,150,255,0.5);
+  }
+}

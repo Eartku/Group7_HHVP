@@ -1,0 +1,803 @@
+<!--
+* Bootstrap 5
+* Template Name: Plantaris (Admin - QLGB)
+* Author: Kosmoz
+-->
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="shortcut icon" href="../images/logo.png" />
+    <title>BonSai | Quản Lý Giá Bán</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/hover.css" rel="stylesheet" />
+    <link href="../css/page2.css" rel="stylesheet" />
+    <link href="../css/tiny-slider.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <!-- Start Header/Navigation -->
+    <nav
+      class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
+      aria-label="Bonsai navigation bar"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="../admin.html">ADMIN<span>🌱</span></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarsFurni"
+          aria-controls="navbarsFurni"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+            <li>
+              <a
+                href="customermanage.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >KHÁCH HÀNG</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_type.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >LOẠI SẢN PHẨM</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_product.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >SẢN PHẨM</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_importproduct.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >NHẬP SẢN PHẨM</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_sellingprice.html"
+                class="nav-link active-import"
+                style="font-size: 19px"
+                >GIÁ BÁN</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_order.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >ĐƠN HÀNG</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_stock1.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >KHO</a
+              >
+            </li>
+          </ul>
+
+          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-4">
+            <li>
+              <a href="../admin.html" class="nav-link hover-box">
+                <div class="front">
+                  <img src="../images/home.svg" style="scale: 1.3" />
+                </div>
+                <div class="back"><span>Trang chủ</span></div>
+              </a>
+            </li>
+            <li style="margin-left: 10px">
+              <a class="nav-link hover-box" href="admin_login.html">
+                <div class="front"><img src="../images/exit.svg" /></div>
+                <div class="back"><span>Đăng xuất</span></div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Header/Navigation -->
+
+    <!-- Start Price Management Section -->
+    <div class="container py-5" style="min-height: 50px">
+      <div class="text-center">
+        <h2 class="fw-bold text-success" style="padding: 30px">
+          Quản lý Giá Bán Sản Phẩm
+        </h2>
+                <!-- Thanh phân trang nằm dưới tiêu đề -->
+        <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
+          <label for="page1" class="btn btn-outline-success active" id="btnLoai">
+            % Lợi nhuận theo Loại
+          </label>
+          <label for="page2" class="btn btn-outline-success" id="btnSanPham">
+            % Lợi nhuận theo Sản Phẩm
+          </label>
+        </div>
+
+      </div>
+    <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
+    
+      <div id="contentContainer">
+  <div id="contentLoai" class="content-page">
+    <!-- Trang 1: Bảng % Theo Loại -->
+    <table class="table table-bordered text-center align-middle">
+        <div class="page-header1 fade-in-up">
+        <div class="search-filter-container">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Tìm kiếm loại sản phẩm..."
+            />
+          </div>
+          
+          
+          <div class="date-filter">
+            <select
+              class="form-select form-select-sm"
+              style="padding: 14px 20px; font-size: 1.123rem; width: 180px"
+            >
+              <option selected style="font-weight: bold;
+  color: #000;">% Lợi nhuận</option>
+              <option>Dưới 10%</option>
+              <option>10% - 30%</option>
+              <option>30% - 50%</option>
+              <option>Trên 50%</option>
+            </select>
+          </div>
+          <div>
+            <button type="button" class="btn btn-success">
+              <i class="fas fa-filter me-1"></i> Lọc
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+            
+            <thead class="table-light">
+              <tr>
+                <th>STT</th>
+                <th>Loại sản phẩm</th>
+                <th>% Lợi nhuận</th>
+               
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td>1</td>
+                <td>Cây để bàn</td>
+              
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="25" readonly
+              
+                  />
+                </td>
+            
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Cây treo tường</td>
+              
+
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="40" readonly
+                 
+                  />
+                </td>
+               
+                
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Cây để phòng</td>
+              
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="30" readonly
+                
+                  />
+                </td>
+              
+                
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+              </tr>
+            
+            </tbody>
+          </table>
+        </div>
+        <!-- Trang 2 -->
+      <div id="contentSanPham" class="content-page" style="display: none;">
+    <!-- Trang 2: Bảng % Theo Sản Phẩm -->
+    <table class="table table-bordered text-center align-middle">
+        <div class="page-header1 fade-in-up">
+        <div class="search-filter-container">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Tìm kiếm sản phẩm..."
+            />
+          </div>
+          <div class="mb-2" style="margin-bottom: 0rem !important">
+            <select
+              class="form-select form-select-sm"
+              style="padding: 14px 20px; font-size: 1.123rem"
+            >
+              <option selected style="font-weight: bold;
+  color: #000;">Giá bán (VNĐ)</option>
+              <option>0 - 50.000</option>
+              <option>50.000 - 100.000</option>
+              <option>100.000 - 200.000</option>
+              <option>Trên 200.000</option>
+            </select>
+          </div>
+          <div class="brand-filter">
+            <div class="mb-2" style="margin-bottom: 0rem !important">
+              <select
+                class="form-select form-select-sm"
+                style="padding: 14px 20px; font-size: 1.123rem"
+              >
+                <option selected style="font-weight: bold;
+  color: #000;">Giá vốn (VNĐ)</option>
+                <option>0 - 30.000</option>
+                <option>30.000 - 80.000</option>
+                <option>80.000 - 150.000</option>
+                <option>Trên 150.000</option>
+              </select>
+            </div>
+          </div>
+          <div class="date-filter">
+            <select
+              class="form-select form-select-sm"
+              style="padding: 14px 20px; font-size: 1.123rem; width: 180px"
+            >
+              <option selected style="font-weight: bold;
+  color: #000;">% Lợi nhuận</option>
+              <option>Dưới 10%</option>
+              <option>10% - 30%</option>
+              <option>30% - 50%</option>
+              <option>Trên 50%</option>
+            </select>
+          </div>
+          <div>
+            <button type="button" class="btn btn-success">
+              <i class="fas fa-filter me-1"></i> Lọc
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+            <thead class="table-light">
+              <tr>
+                <th>STT</th>
+                <th>Tên sản phẩm</th>
+                <th>Phân loại</th>
+                <th>Giá vốn (VNĐ)</th>
+                <th>% Lợi nhuận</th>
+                <th>Giá bán (VNĐ) </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Thường xuân</td>
+                <td>Cây treo tường</td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="95000"
+                    readonly
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="35" readonly
+                 
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="128250"
+                    readonly
+                  />
+                </td>
+               
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+              </tr>
+               
+              <tr>
+                <td>2</td>
+                <td>Trầu Bà</td>
+                <td>Cây để bàn</td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="78000"
+                    readonly
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="40" readonly
+    
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="109200"
+                    readonly
+                  />
+                </td>
+              
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+                 <tr>
+                <td>3</td>
+                <td>Tiểu cảnh sen đá sedum</td>
+                <td>Cây để bàn</td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="100000"
+                    readonly
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="25" readonly
+              
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="125000"
+                    readonly
+                  />
+                </td>
+               
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+              <tr>
+                <td>4</td>
+                <td>Trầu bà lá to</td>
+                <td>Cây treo tường</td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="43000"
+                    readonly
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="40" readonly
+                 
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="60200"
+                    readonly
+                  />
+                </td>
+              
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>Monstera</td>
+                <td>Cây để phòng</td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="36000"
+                    readonly
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="30" readonly
+                
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="25500"
+                    readonly
+                  />
+                </td>
+
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>Môn cảnh</td>
+                <td>Cây để phòng</td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="35000"
+                    readonly
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="25" readonly
+                   
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="55000"
+                    readonly
+                  />
+                </td>
+              
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>Lưỡi hổ</td>
+                <td>Cây để phòng</td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="78000"
+                    readonly
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="32" readonly
+                    
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="99000"
+                    readonly
+                  />
+                </td>
+               
+                  <td>
+                  <button class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                  </button>
+                  <button class="btn btn-success btn-sm">
+                    <i class="fas fa-save"></i> Lưu
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>   
+    </div>
+  </div>
+    <!-- End Price Management Section -->
+    <!-- Start Footer -->
+
+    <footer class="footer-section bg-dark text-light mt-" >
+      <div class="container py-4">
+        <div class="row">
+          <div class="col-lg-8">
+            <h5>Admin - BonSai 🌱</h5>
+          </div>
+        </div>
+        <div class="border-top pt-3 mt-3 text-center">
+          <p class="mb-0">
+            Copyright &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            . All Rights Reserved. — Designed by
+            <a href="group7.html" class="text-light text-decoration-underline"
+              >Group 7</a
+            >
+          </p>
+        </div>
+      </div>
+    </footer>
+           <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const editButtons = document.querySelectorAll(".btn-warning");
+              const saveButtons = document.querySelectorAll(".btn-success");
+
+              // Khi bấm "Chỉnh sửa"
+              editButtons.forEach((btn) => {
+                btn.addEventListener("click", function () {
+                  const row = btn.closest("tr");
+                  const isSanPham = row.closest("#contentSanPham") !== null;
+                  let profitInput;
+
+                  if (isSanPham) {
+                    // Bảng sản phẩm
+                    profitInput = row.querySelector("td:nth-child(5) input[type='number']");
+                  } else {
+                    // Bảng loại
+                    profitInput = row.querySelector("td:nth-child(3) input[type='number']");
+                  }
+
+                  if (profitInput) {
+                    profitInput.removeAttribute("readonly");
+                    profitInput.focus();
+                  }
+                });
+              });
+
+              // Khi bấm "Lưu"
+              saveButtons.forEach((btn) => {
+                btn.addEventListener("click", function () {
+                  const row = btn.closest("tr");
+                  const isSanPham = row.closest("#contentSanPham") !== null;
+                  let profitInput;
+
+                  if (isSanPham) {
+                    profitInput = row.querySelector("td:nth-child(5) input[type='number']");
+                  } else {
+                    profitInput = row.querySelector("td:nth-child(3) input[type='number']");
+                  }
+
+                  if (profitInput) {
+                    profitInput.setAttribute("readonly", true);
+                  }
+
+                  const confirmSave = confirm("Bạn có chắc chắn muốn lưu thay đổi này không?");
+                  if (confirmSave) {
+                    alert("✅ Đã lưu thành công!");
+                  }
+                });
+              });
+            });
+
+              // Hiệu ứng chọn tab giữa % Theo Loại và % Theo Sản Phẩm
+              document.addEventListener("DOMContentLoaded", function () {
+                const btnLoai = document.getElementById("btnLoai");
+                const btnSanPham = document.getElementById("btnSanPham");
+                const contentLoai = document.getElementById("contentLoai");
+                const contentSanPham = document.getElementById("contentSanPham");
+
+                btnLoai.addEventListener("click", () => {
+                  btnLoai.classList.add("active");
+                  btnSanPham.classList.remove("active");
+                  contentLoai.style.display = "block";
+                  contentSanPham.style.display = "none";
+                });
+
+                btnSanPham.addEventListener("click", () => {
+                  btnSanPham.classList.add("active");
+                  btnLoai.classList.remove("active");
+                  contentLoai.style.display = "none";
+                  contentSanPham.style.display = "block";
+                });
+              });
+          </script>
+
+           <style>
+            .btn-sm {
+              padding: 4px 10px;
+              font-size: 0.875rem;
+            }
+            td:last-child {
+              white-space: nowrap;
+            }
+            .btn-warning i,
+            .btn-success i {
+              margin-right: 4px;
+            }
+          </style>
+          <style>
+            #btnLoai, #btnSanPham {
+              min-width: 300px;
+              font-weight: 600;
+              border-width: 2px;
+              transition: all 0.3s ease;
+            }
+
+            #btnLoai:hover, #btnSanPham:hover {
+              background-color: #198754;
+              color: white;
+            }
+
+            #btnLoai.active, #btnSanPham.active {
+              background-color: #198754;
+              color: white;
+            }     
+          /* Thu hẹp bảng "% Theo Loại" và căn giữa */
+            #contentLoai table {
+              width: 80%;       /* Giảm bề ngang, có thể chỉnh 60–80% tùy ý */
+              margin: 0 auto;   /* Căn giữa bảng */
+            }
+
+            /* Căn giữa hai nút thao tác trong cột cuối */
+            #contentLoai td:last-child {
+              text-align: center;
+            }
+
+            /* Căn giữa toàn bộ cột % Lợi nhuận */
+            #contentLoai td:nth-child(3),
+            #contentLoai th:nth-child(3),
+            #contentSanPham td:nth-child(5),
+            #contentSanPham th:nth-child(5) {
+              text-align: center;
+              vertical-align: middle;
+            }
+
+            /* Cho ô input % lợi nhuận cũng nằm giữa gọn gàng */
+            #contentLoai input.form-control,
+            #contentSanPham input.form-control {
+              text-align: center;
+            }
+             /* Căn giữa cột "Giá bán" trong bảng % Theo Sản Phẩm */
+            #contentSanPham th:nth-child(6),
+            #contentSanPham td:nth-child(6) {
+              text-align: center;
+              vertical-align: middle;
+            }
+
+            /* Cho ô input trong cột giá bán cũng căn giữa */
+            #contentSanPham td:nth-child(6) input.form-control {
+              text-align: center;
+            }
+            #btnLoai, #btnSanPham {
+              min-width: 250px;
+              border-radius: 25px;
+              border: 8px solid #28a745;
+              background-color: white;
+              color: #28a745;
+              transition: all 0.3s ease;
+              font-weight: 600;
+            }
+
+            #btnLoai:hover, #btnSanPham:hover {
+              background-color: #28a745;
+              color: #fff;
+              transform: scale(1.05);
+            }
+
+            #btnLoai.active, #btnSanPham.active {
+              background-color: #28a745;
+              color: #fff;
+              box-shadow: 0 0 8px rgba(40, 167, 69, 0.3);
+            }
+          </style>
+  </body> 
+</html>

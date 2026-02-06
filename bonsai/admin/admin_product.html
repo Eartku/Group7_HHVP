@@ -1,0 +1,823 @@
+  <!-- /*
+  * Bootstrap 5
+  * Template Name: Furni
+  * Template Author: Untree.co
+  * Template URI: https://untree.co/
+  * License: https://creativecommons.org/licenses/by/3.0/
+  */ -->
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      />
+      <meta name="author" content="Untree.co" />
+      <link rel="shortcut icon" href="logo.png" />
+
+      <meta name="description" content="" />
+      <meta name="keywords" content="bootstrap, bootstrap4" />
+
+      <!-- Bootstrap CSS -->
+      <link href="../css/bootstrap.min.css" rel="stylesheet" />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      />
+      <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        rel="stylesheet"
+      />
+      <link href="../css/tiny-slider.css" rel="stylesheet" />
+      <link href="../css/style.css" rel="stylesheet" />
+      <link href="../css/hover.css" rel="stylesheet" />
+      <link href="../css/animation.css" rel="stylesheet" />
+      <link href="../css/page.css" rel="stylesheet" />
+
+      <title>BonSai | Sửa sản phẩm</title>
+
+      <style>
+        .edit-container {
+          max-width: 500px;
+          margin: 40px auto;
+          padding: 25px;
+          background: #ffffff;
+          border-radius: 15px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-preview {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+
+        .product-preview img {
+          width: 200px;
+          border-radius: 10px;
+          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        }
+      </style>
+    </head>
+
+    <body>
+      <!-- Start Header/Navigation -->
+      <nav
+        class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
+        aria-label="Bonsai navigation bar"
+      >
+        <div class="container">
+          <a class="navbar-brand" href="../admin.html">ADMIN<span>🌱</span></a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarsFurni"
+            aria-controls="navbarsFurni"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarsFurni">
+            <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+              <li>
+                <a
+                  href="customermanage.html"
+                  class="nav-link hover-text-glow"
+                  style="font-size: 14px"
+                  >KHÁCH HÀNG</a
+                >
+              </li>
+              <li>
+                <a
+                  href="admin_type.html"
+                  class="nav-link hover-text-glow"
+                  style="font-size: 14px"
+                  >LOẠI SẢN PHẨM</a
+                >
+              </li>
+              <li>
+                <a
+                  href="admin_product.html"
+                  class="nav-link active-import"
+                  style="font-size: 19px"
+                  >SẢN PHẨM</a
+                >
+              </li>
+              <li>
+                <a
+                  href="admin_importproduct.html"
+                  class="nav-link hover-text-glow"
+                  style="font-size: 14px"
+                  >NHẬP SẢN PHẨM</a
+                >
+              </li>
+              <li>
+                <a
+                  href="admin_sellingprice.html"
+                  class="nav-link hover-text-glow"
+                  style="font-size: 14px"
+                  >GIÁ BÁN</a
+                >
+              </li>
+              <li>
+                <a
+                  href="admin_order.html"
+                  class="nav-link hover-text-glow"
+                  style="font-size: 14px"
+                  >ĐƠN HÀNG</a
+                >
+              </li>
+              <li>
+                <a
+                  href="admin_stock1.html"
+                  class="nav-link hover-text-glow"
+                  style="font-size: 14px"
+                  >KHO</a
+                >
+              </li>
+            </ul>
+
+            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+              <li>
+                <a href="../admin.html" class="nav-link hover-box">
+                  <div class="front">
+                    <img src="../images/home.svg" style="scale: 1.3" />
+                  </div>
+                  <div class="back"><span>TRANG CHỦ</span></div>
+                </a>
+              </li>
+              <li style="margin-left: 10px">
+                <a class="nav-link hover-box" href="admin_login.html">
+                  <div class="front"><img src="../images/exit.svg" /></div>
+                  <div class="back"><span>Đăng xuất</span></div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Header/Navigation -->
+
+      <!-- Hero Section -->
+      <div>
+        <div class="center-row" style="scale: 1; text-align: center">
+                <h2 class="fw-bold text-success">Quản lý sản phẩm</h2>
+          </h2>
+          <div class="page-header1 fade-in-up">
+            <div class="search-filter-container">
+              <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input
+                  type="text"
+                  id="searchInput"
+                  placeholder="Tìm kiếm..."
+                />
+              </div>
+              <div class="mb-2" style="margin-bottom: 0rem !important">
+                <select
+                  class="form-select form-select-sm"
+                  style="padding: 14px 20px; font-size: 1.123rem"
+                >
+                  <option>Môn cảnh</option>
+                  <option>Lưỡi hổ</option>
+                  <option>Lan ý</option>
+                  <option>Chuối cảnh</option>
+                  <option>Trầu bà</option>
+                  <option>Cúc trắng</option>
+                  <option>Ngọc bích</option>
+                  <option>Thường xuân</option>
+                </select>
+              </div>
+              <div class="brand-filter">
+                <div class="mb-2" style="margin-bottom: 0rem !important">
+                  <select
+                    class="form-select form-select-sm"
+                    style="padding: 14px 20px; font-size: 1.123rem"
+                  >
+                    <option>Để phòng</option>
+                    <option>Để bàn</option>
+                    <option>Treo tường</option>
+                  </select>
+                </div>
+              </div>
+              <div class="date-filter">
+                <div>
+                  <button type="button" class="btn btn-success">
+                    <i class="fas fa-filter me-1"></i> Lọc
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Hero Section -->
+      <div class="untree_co-section product-section before-footer-section">
+        <input type="radio" name="page" id="page1" checked />
+        <input type="radio" name="page" id="page2" />
+        <input type="radio" name="page" id="page3" />
+        <div class="container book">
+          <!-- class 1 -->
+          <div class="row page page1">
+            <!-- Start Column 1 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay001.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Monstera</h3>
+                <strong class="product-price">36.001đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 1 -->
+            <!-- Start Column 2 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay002.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Môn cảnh</h3>
+                <strong class="product-price">78.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 2 -->
+            <!-- Start Column 3 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay003.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Lưỡi hổ</h3>
+                <strong class="product-price">99.999đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 3 -->
+            <!-- Start Column 4 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay004.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Lan ý</h3>
+                <strong class="product-price">85.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 4 -->
+            <!-- Start Column 5 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay005.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Cau tiểu trâm</h3>
+                <strong class="product-price">43.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 5 -->
+            <!-- Start Column 6 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay006.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Trầu bà Nam Mỹ</h3>
+                <strong class="product-price">48.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 6 -->
+            <!-- Start Column 7 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay007.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Chuối cảnh</h3>
+                <strong class="product-price">49.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 7 -->
+            <!-- Start Column 8 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay008.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Lan chi lớn</h3>
+                <strong class="product-price">56.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 8 -->
+          </div>
+          <div class="row page page2">
+            <!-- Start Column 1 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay001.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Monstera deliciosa</h3>
+                <strong class="product-price">60.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 1 -->
+            <!-- Start Column 2 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/rauma.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Rau má</h3>
+                <strong class="product-price">36.000.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 2 -->
+            <!-- Start Column 3 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay003.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Lưỡi hổ</h3>
+                <strong class="product-price">99.999đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 3 -->
+            <!-- Start Column 4 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay004.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Lan ý</h3>
+                <strong class="product-price">85.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 4 -->
+            <!-- Start Column 5 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay005.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Cau tiểu trâm</h3>
+                <strong class="product-price">43.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 5 -->
+            <!-- Start Column 6 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay006.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Trầu bà Nam Mỹ</h3>
+                <strong class="product-price">48.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 6 -->
+            <!-- Start Column 7 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay007.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Chuối cảnh</h3>
+                <strong class="product-price">49.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 7 -->
+            <!-- Start Column 8 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay008.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Lan chi lớn</h3>
+                <strong class="product-price">56.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 8 -->
+          </div>
+          <div class="row page page3">
+            <!-- Start Column 1 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay004.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Lan ý</h3>
+                <strong class="product-price">85.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 1 -->
+            <!-- Start Column 2 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay002.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Môn cảnh</h3>
+                <strong class="product-price">78.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 2 -->
+            <!-- Start Column 3 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay003.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Lưỡi hổ</h3>
+                <strong class="product-price">99.999đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 3 -->
+            <!-- Start Column 4 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay004.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Lan ý</h3>
+                <strong class="product-price">85.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 4 -->
+            <!-- Start Column 5 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay005.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Cau tiểu trâm</h3>
+                <strong class="product-price">43.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 5 -->
+            <!-- Start Column 6 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay006.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Trầu bà Nam Mỹ</h3>
+                <strong class="product-price">48.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 6 -->
+            <!-- Start Column 7 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay007.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Chuối cảnh</h3>
+                <strong class="product-price">49.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 7 -->
+            <!-- Start Column 8 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+              <div class="product-item">
+                <img
+                  src="../images/cay008.png"
+                  class="img-fluid product-thumbnail"
+                />
+                <h3 class="product-title">Lan chi lớn</h3>
+                <strong class="product-price">56.000đ</strong>
+                <!-- Thêm nút sửa / xóa -->
+                <div class="mt-2">
+                  <a href="updateproduct.html" class="btn btn-custom btn-edit">Sửa</a>
+                  <button class="btn btn-custom btn-delete" onclick="deleteProduct()">Xóa</button>
+                </div>
+              </div>
+            </div>
+            <!-- End Column 8 -->
+          </div>
+        </div>
+        <div class="controls">
+          <label for="page1">1</label>
+          <label for="page2">2</label>
+          <label for="page3">3</label>
+          <label for="next">></label>
+        </div>
+      </div>
+      <!-- Start Footer Section -->
+      <footer class="footer-section bg-dark text-light mt-5">
+        <div class="container py-4">
+          <div class="row">
+            <div class="col-lg-8">
+              <h5>Admin - BonSai 🌱</h5>
+            </div>
+          </div>
+          <div class="border-top pt-3 mt-3 text-center">
+            <p class="mb-0">
+              Copyright &copy;
+              <script>
+                document.write(new Date().getFullYear());
+              </script>
+              . All Rights Reserved. — Designed by
+              <a href="group7.html" class="text-light text-decoration-underline"
+                >Group 7</a
+              >
+            </p>
+          </div>
+        </div>
+      </footer>
+      <!-- End Footer Section -->
+      <a href="newproduct.html" class="btn-add-product">
+        <i class="fas fa-edit me-1"></i> Thêm sản phẩm mới
+      </a>
+      <style>
+        .btn-add-product {
+          position: fixed;
+          bottom: 30px; /* cách mép dưới */
+          right: 30px; /* cách mép phải */
+          background-color: #35f261;
+          color: #212529;
+          padding: 12px 20px;
+          border-radius: 50px;
+          font-weight: bold;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+          text-decoration: none;
+          transition: all 0.3s ease;
+          z-index: 9999;
+        }
+        .btn-add-product:hover {
+          background-color: #83f9fd;
+          transform: scale(1.05);
+        }
+
+        .btn-custom:hover {
+          transform: scale(1.05);
+          box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Màu riêng cho từng loại nút */
+        .btn-edit {
+          background-color: #12341a;
+          color: white;
+        }
+
+        .btn-edit:hover {
+          background-color: #0e2a14;
+        }
+
+        .btn-delete {
+          background-color: #831010;
+          color: white;
+        }
+
+        .btn-delete:hover {
+          background-color: #a51414;
+        }
+        .search-filter-container {
+          display: flex;
+          align-items: center;
+          justify-content: center; /* căn giữa toàn cụm */
+          flex-wrap: wrap;
+          margin-top: 10px;
+          padding: 0 276px;
+        }
+
+        /* Thanh tìm kiếm */
+        .search-box {
+          display: flex;
+          align-items: center;
+          background-color: #e7ece6;
+          border: 1px solid #ccc;
+          border-radius: 28px;
+          padding: 1px 26px;
+          width: 298px;
+           flex: 0 0 auto; /* giữ nguyên kích thước, không co giãn */
+           margin-right: 10px; /* cho gần lại */
+        }
+
+        .search-box i {
+          margin-right: 10px;
+          color: gray;
+        }
+
+        .search-box input {
+          border: none;
+          outline: none;
+          background: transparent;
+          width: 100%;
+          font-size: 1rem;
+        }
+
+        /* Select “Môn cảnh” */
+        .search-filter-container > .mb-2 {
+          margin-right: 10px; /* cách Để phòng 10px */
+        }
+
+        /* Select “Để phòng” */
+        .brand-filter {
+          margin-right: 10px; /* cách Lọc 10px */
+        }
+
+        /* Các select đồng bộ style */
+        .search-filter-container select {
+          background-color: #e7ece6;
+          border: none;
+          border-radius: 30px;
+          padding: 10px 20px;
+          font-size: 1rem;
+        }
+
+        /* Nút lọc */
+        .search-filter-container button {
+          padding: 10px 20px;
+          border-radius: 8px;
+          font-weight: 500;
+        }
+  .product-item .mt-2 {
+  display: flex;
+  justify-content: center; /* căn giữa hai nút */
+  gap: 8px; /* khoảng cách giữa 2 nút */
+}
+
+.btn-custom {
+  flex: 0 0 auto;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-edit {
+  background-color: #28a745; /* xanh lá */
+  color: white;
+  border: none;
+}
+
+.btn-delete {
+  background-color: #dc3545; /* đỏ */
+  color: white;
+  border: none;
+}
+
+.btn-edit:hover {
+  background-color: #2fc653;
+  transform: scale(1.05);
+}
+
+.btn-delete:hover {
+  background-color: #f54242;
+  transform: scale(1.05);
+}
+
+        
+      </style>
+      
+    </body>
+    <script>
+      function deleteProduct() {
+        if (confirm("Bạn có chắc muốn xóa sản phẩm này không?")) {
+          alert("✅ Sản phẩm đã được xóa thành công!");
+          // Nếu bạn muốn xóa thật, có thể thêm dòng xử lý ở đây (ví dụ: gửi request hoặc xóa phần tử)
+        }
+      }
+    </script>
+  </html>

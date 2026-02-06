@@ -1,0 +1,252 @@
+/* ==========================
+   Login Page CSS
+   Author: Huylore
+   ========================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Body layout */
+body {
+  background-image: url("../images/avatar.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+
+/* Container styling */
+.container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 35px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top gradient line */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, #4ae2cb, #63b3ed);
+}
+
+/* Welcome section */
+.welcome-text {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.welcome-text h1 {
+  font-size: 28px;
+  color: #857062;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.lorem-text {
+  font-size: 15px;
+  color: #718096;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Login section */
+.login-section {
+  margin-top: 20px;
+}
+
+/* Login title with underline */
+.login-title {
+  font-size: 22px;
+  color: #2d3748;
+  margin-bottom: 25px;
+  text-align: center;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.login-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background-color: #1e7109;
+  border-radius: 2px;
+}
+
+/* Form fields */
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #4a5568;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #f8fafc;
+  transition: all 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #047a00;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  background-color: #fff;
+}
+
+/* Remember + forgot section */
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  font-size: 14px;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+}
+
+.remember input {
+  margin-right: 8px;
+  accent-color: #2bddc5;
+}
+
+/* Forgot password link */
+.forgot-password {
+  color: #0c8d00;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.forgot-password:hover {
+  color: #3182ce;
+  text-decoration: underline;
+}
+
+/* Login button */
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(74, 144, 226, 0.2);
+
+  /* Gradient nền */
+  background: linear-gradient(90deg, #4ad300, #ffff5f);
+  background-size: 200% 100%;
+  transition: transform 0.4s ease-in-out, background-position 0.6s ease-in-out,
+    box-shadow 0.3s;
+}
+
+.login-btn:hover {
+  transform: scale(1.05) translateY(-2px);
+  background-position: 100% 0;
+  box-shadow: 0 6px 8px rgba(74, 144, 226, 0.3);
+}
+
+.login-btn:active {
+  transform: translateY(0) scale(1);
+}
+
+/* Footer / designer credit */
+.designer {
+  text-align: center;
+  margin-top: 35px;
+  font-size: 13px;
+  color: #00ed10;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .container {
+    padding: 30px 25px;
+  }
+
+  .welcome-text h1 {
+    font-size: 24px;
+  }
+
+  .login-title {
+    font-size: 20px;
+  }
+}
+
+.hover-zoom-gradient {
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #de9904, #5fff94);
+  background-size: 200% 100%;
+  color: white;
+  transition: transform 0.3s ease, background-position 0.5s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover effect */
+.hover-zoom-gradient:hover {
+  transform: scale(1.1);
+  background-position: 100% 0;
+}
+
+.hover-gradient-text {
+  font-size: 15px;
+  font-weight: 500;
+  background: linear-gradient(90deg, #00ffff, #7b5fff); /* Cyan → Tím */
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; /* gradient hiển thị trên chữ */
+  display: inline-block;
+  transition: transform 0.3s ease, background-position 0.5s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Hover effect */
+.hover-gradient-text:hover {
+  transform: scale(1.1); /* zoom 10% */
+  background-position: 100% 0; /* gradient dịch chuyển */
+}

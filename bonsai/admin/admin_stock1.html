@@ -1,0 +1,690 @@
+<!--
+* Bootstrap 5
+* Template Name: Plantaris (Admin - QLKH)
+* Author: Kosmoz
+-->
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="shortcut icon" href="../images/logo.png" />
+    <title>BonSai | Quản Lý Đơn Hàng</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/hover.css" rel="stylesheet" />
+    <link href="../css/page2.css" rel="stylesheet" />
+    <link href="../css/tiny-slider.css" rel="stylesheet" />
+    <link href="../css/page.css" rel="stylesheet" />
+    <link href="../css/style2.css" rel="stylesheet"/>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+  </head>
+
+  <body>
+    <!-- Start Header/Navigation -->
+    <nav
+      class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
+      aria-label="Bonsai navigation bar"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="../admin.html">ADMIN<span>🌱</span></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarsFurni"
+          aria-controls="navbarsFurni"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+            <li>
+              <a
+                href="customermanage.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >KHÁCH HÀNG</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_type.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >LOẠI SẢN PHẨM</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_product.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >SẢN PHẨM</a
+              >
+            </li>
+             <li>
+              <a
+                href="admin_importproduct.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >NHẬP SẢN PHẨM</a
+              >
+            </li>
+            
+              <li>
+              <a
+                href="admin_sellingprice.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >GIÁ BÁN</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_order.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >ĐƠN HÀNG</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_stock1.html"
+                class="nav-link active-import"
+                 style="font-size: 19px"
+                >KHO</a
+              >
+            </li>
+          </ul>
+
+          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-4">
+            <li>
+              <a href="../admin.html" class="nav-link hover-box">
+                <div class="front">
+                  <img src="../images/home.svg" style="scale: 1.3" />
+                </div>
+                <div class="back"><span>Trang chủ</span></div>
+              </a>
+            </li>
+            <li style="margin-left: 10px">
+              <a class="nav-link hover-box" href="admin_login.html">
+                <div class="front"><img src="../images/exit.svg" /></div>
+                <div class="back"><span>Đăng xuất</span></div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Start Hero Section -->
+      <input type="radio" name="page" id="page110" checked />
+      <input type="radio" name="page" id="page220" />
+      <input type="radio" name="page" id="page330" />
+      <div class= style="padding: calc(4rem - 30px) 0 4rem 0">
+        <div class="center-row" style="scale: 1; text-align: center">
+          <h2 class="fw-bold text-success" style="padding: 3.6%;">Quản lý số lượng kho sản phẩm</h2>
+           <div class="stats-container">
+    <div class="stat-card total">
+      <h2>120</h2>
+      <p>Tổng số sản phẩm</p>
+    </div>
+    <div class="stat-card stock">
+      <h2>116</h2>
+      <p>Sản phẩm tồn kho</p>
+    </div>
+    <div class="stat-card low">
+      <h2>3</h2>
+      <p>Sắp hết hàng</p>
+    </div>
+    <div class="stat-card out">
+      <h2>1</h2>
+      <p>Đã hết hàng</p>
+    </div>
+  </div>
+  <br>
+          <div class="controls2">
+            <label for="page110" style="border: 2px solid #67eb58"
+              >SỐ LƯỢNG TỒN KHO</label
+            >
+            <label for="page220" style="border: 2px solid #d5ee37"
+              >NHẬP-XUẤT-TỒN</label
+            >
+            <label for="page330" style="border: 2px solid #ec3a12"
+              >CẢNH BÁO</label
+            >
+          </div>
+        </div>
+      </div>
+      <div class="container book" style="min-height: 700px">
+        <!-- class 1 -->
+        <!-- Start Column 1 -->
+
+        <div class="row page page110">
+          <div class="col-md-6" style="width: 100%">
+            <div class="page-header1 fade-in-up">
+              <div class="search-filter-container">
+                <div class="search-box">
+                  <i class="fas fa-search"></i>
+                  <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Tìm kiếm..."
+                  />
+                </div>
+                <div class="mb-2" style="margin-bottom: 0rem !important">
+                  <select
+                    class="form-select form-select-sm"
+                    style="padding: 14px 20px; font-size: 1.123rem"
+                  >
+                  <option style="font-weight: bold;
+  color: #000;">Sản phẩm</option>
+                    <option>Môn cảnh</option>
+                    <option>Lưỡi hổ</option>
+                    <option>Lan ý</option>
+                    <option>Chuối cảnh</option>
+                    <option>Trầu bà</option>
+                    <option>Cúc trắng</option>
+                    <option>Ngọc bích</option>
+                    <option>Thường xuân</option>
+                  </select>
+                </div>
+                <div class="brand-filter">
+                  <div class="mb-2" style="margin-bottom: 0rem !important">
+                    <select
+                      class="form-select form-select-sm"
+                      style="padding: 14px 20px; font-size: 1.123rem"
+                    >
+                    <option style="font-weight: bold;
+  color: #000;">Loại</option>
+                      <option>Để phòng</option>
+                      <option>Để bàn</option>
+                      <option>Treo tường</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="date-filter">
+                  <input type="date" id="startDate" class="date-input" style="padding: 15px 20px;"/>
+                  <div>
+               <button type="button" class="btn btn-success">
+               <i class="fas fa-filter me-1"></i> Lọc
+               </button>
+               </div>
+
+                </div>
+              </div>
+            </div>
+
+
+
+            <h2 class="mb-4 text-center text-black">
+              BẢNG SỐ LƯỢNG CÓ TRONG KHO
+            </h2>
+            <div class="p-4 p-lg-5 border bg-white rounded-3">
+              <table class="table table-bordered text-center">
+                <thead class="table-light">
+                  <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Loại</th>
+                    <th>Cập nhật gần đây</th>
+                    <th>Tổng Số lượng</th>
+                    <th>Size Lớn</th>
+                    <th>Size Vừa</th>
+                    <th>Size Nhỏ</th>
+                    <th>Lịch sửa cập nhật</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Môn cảnh</td>
+                    <td>Để Phòng</td>
+                    <td>11/10/2025</td>
+                    <td>20</td>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>10</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Cau tiểu trâm</td>
+                    <td>Để phòng</td>
+                    <td>09/10/2025</td>
+                    <td>36</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>16</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Xương rồng</td>
+                    <td>Để bàn</td>
+                    <td>29/09/2025</td>
+                    <td>12</td>
+                    <td>4</td>
+                    <td>4</td>
+                    <td>4</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Lan hồ điệp</td>
+                    <td>Để bàn</td>
+                    <td>28/09/2025</td>
+                    <td>25</td>
+                    <td>8</td>
+                    <td>7</td>
+                    <td>10</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Ngọc bích</td>
+                    <td>Treo tường</td>
+                    <td>20/09/2025</td>
+                    <td>55</td>
+                    <td>20</td>
+                    <td>15</td>
+                    <td>20</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Trầu bà Pothos</td>
+                    <td>Teo tường</td>
+                    <td>19/09/2025</td>
+                    <td>02</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Cúc trắng</td>
+                    <td>Để bàn</td>
+                    <td>18/09/2025</td>
+                    <td>12</td>
+                    <td>4</td>
+                    <td>6</td>
+                    <td>2</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Lưỡi hổ</td>
+                    <td>Để phòng</td>
+                    <td>15/09/2025</td>
+                    <td>62</td>
+                    <td>30</td>
+                    <td>12</td>
+                    <td>20</td>
+                    <td>
+                      <button
+                        onclick="window.location.href='see_history_stock.html'"
+                        class="badge bg-success"
+                      >
+                        <span>xem</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row page page220">
+          <div class="col-md-6" style="width: 100%">
+            <div class="page-header1 fade-in-up">
+              <div class="search-filter-container">
+                <div class="search-box">
+                  <i class="fas fa-search"></i>
+                  <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Tìm kiếm..."
+                  />
+                </div>
+                <div class="mb-2" style="margin-bottom: 0rem !important">
+                  <select
+                    class="form-select form-select-sm"
+                    style="padding: 14px 20px; font-size: 1.123rem"
+                  >
+                  <option style="font-weight: bold;
+  color: #000;">Sản phẩm</option>
+                    <option>Môn cảnh</option>
+                    <option>Lưỡi hổ</option>
+                    <option>Lan ý</option>
+                    <option>Chuối cảnh</option>
+                    <option>Trầu bà</option>
+                    <option>Cúc trắng</option>
+                    <option>Ngọc bích</option>
+                    <option>Thường xuân</option>
+                  </select>
+                </div>
+                 <div class="date-filter">
+               <div class="date-filter d-flex align-items-center gap-2">
+            <input
+              type="date"
+              id="startDate"
+              class="form-control"
+              style="min-width: 180px"
+            />
+            <span>đến</span>
+            <input
+              type="date"
+              id="endDate"
+              class="form-control"
+              style="min-width: 180px"
+            />
+          </div>
+                  <div>
+               <button type="button" class="btn btn-success">
+               <i class="fas fa-filter me-1"></i> Lọc
+               </button>
+               </div>
+
+                </div>
+              </div>
+            </div>
+
+            <h2 class="mb-4 text-center text-black">BẢNG NHẬP-XUẤT-TỒN KHO</h2>
+            <div class="p-4 p-lg-5 border bg-white rounded-3">
+              <table class="table table-bordered text-center">
+                <thead class="table-light">
+                  <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Nhập</th>
+                    <th>Xuất</th>
+                    <th>Tồn</th>
+                    <th>Thời gian</th>
+                    <th>Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Môn cảnh</td>
+                    <td>+110</td>
+                    <td>-50</td>
+                    <td>20</td>
+                    <td>11/10/2025</td>
+                    <td><span class="badge bg-success">Đạt</span></td>
+                  </tr>
+
+                  <tr>
+                    <td>Cau tiểu trâm</td>
+                    <td>+10</td>
+                    <td>-</td>
+                    <td>36</td>
+                    <td>09/10/2025</td>
+                    <td><span class="badge bg-success">Đạt</span></td>
+                  </tr>
+
+                  <tr>
+                    <td>Xương rồng</td>
+                    <td>+10</td>
+                    <td>-</td>
+                    <td>12</td>
+                    <td>29/09/2025</td>
+                    <td><span class="badge bg-success">Đạt</span></td>
+                  </tr>
+
+                  <tr>
+                    <td>Lan hồ điệp</td>
+                    <td>+15</td>
+                    <td>-4</td>
+                    <td>25</td>
+                    <td>28/09/2025</td>
+                    <td><span class="badge bg-success">Đạt</span></td>
+                  </tr>
+
+                  <tr>
+                    <td>Ngọc bích</td>
+                    <td>-</td>
+                    <td>-5</td>
+                    <td>55</td>
+                    <td>20/09/2025</td>
+                    <td><span class="badge bg-success">Đạt</span></td>
+                  </tr>
+
+                  <tr>
+                    <td>Trầu bà Pothos</td>
+                    <td>-</td>
+                    <td>-9</td>
+                    <td>2</td>
+                    <td>19/09/2025</td>
+                    <td>
+                      <span class="badge bg-warning text-dark"
+                        >Sắp hết hàng</span
+                      >
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Cúc trắng</td>
+                    <td>+20</td>
+                    <td>-4</td>
+                    <td>12</td>
+                    <td>18/09/2025</td>
+                    <td><span class="badge bg-success">Đạt</span></td>
+                  </tr>
+
+                  <tr>
+                    <td>Lưỡi hổ</td>
+                    <td>-</td>
+                    <td>-8</td>
+                    <td>0</td>
+                    <td>05/09/2025</td>
+                    <td><span class="badge bg-danger">Hết hàng</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row page page330">
+          <!-- Start Column 1 -->
+          <div class="col-md-6" style="width: 100%">
+            <!-- <h2 class="h3 mb-3 text-black">Lịch sử đơn hàng</h2> -->
+            <br />
+            <h2 class="mb-4 text-center text-black">⚠️ CẢNH BÁO</h2>
+            <div class="alert-box">
+    <p class="alert-title">
+      <i class="fas fa-exclamation-triangle"></i>
+      <strong>CẢNH BÁO:</strong> Có <strong>3 sản phẩm sắp hết hàng</strong> và <strong>1 sản phẩm đã hết hàng</strong>
+    </p>
+    <p class="alert-text">
+      Vui lòng kiểm tra và nhập thêm hàng cho các sản phẩm dưới đây để đảm bảo không gián đoạn kinh doanh.
+    </p>
+  </div>
+            <div class="p-4 p-lg-5 border bg-white rounded-3">
+              <table class="table table-bordered text-center">
+                <thead class="table-light">
+                  <tr>
+                    <th>Sản phẩm</th>
+                    <th>Loại</th>
+                    <th>Tổng Số lượng</th>
+                    <th>Size Lớn</th>
+                    <th>Size Vừa</th>
+                    <th>Size Nhỏ</th>
+                    <th>Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Trầu bà Pothos</td>
+                    <td>Treo Tường</td>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>
+                      <span class="badge bg-warning text-dark"
+                        >Sắp hết hàng</span
+                      >
+                    </td>
+                        <td>
+                      <button
+                        onclick="window.location.href='importproduct.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Nhập thêm</span>
+                      </button>
+                    </td>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Lưỡi Hổ</td>
+                    <td>Để Phòng</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td><span class="badge bg-danger">Hết hàng</span></td>
+                       <td>
+                      <button
+                        onclick="window.location.href='importproduct.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Nhập thêm</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Hoa cúc</td>
+                    <td>Treo Tường</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>
+                      <span class="badge bg-warning text-dark"
+                        >Sắp hết hàng</span
+                      >
+                    </td>
+                        <td>
+                      <button
+                        onclick="window.location.href='importproduct.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Nhập thêm</span>
+                      </button>
+                    </td>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Thường xuân</td>
+                    <td>Treo Tường</td>
+                    <td>5</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>
+                      <span class="badge bg-warning text-dark"
+                        >Sắp hết hàng</span
+                      >
+                    </td>
+                        <td>
+                      <button
+                        onclick="window.location.href='importproduct.html'"
+                        class="badge bg-success"
+                      >
+                        <span>Nhập thêm</span>
+                      </button>
+                    </td>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="text-center mt-4">
+</div>
+          </div>
+        </div>
+      </div>
+    <!-- Start Footer -->
+    <footer class="footer-section bg-dark text-light mt-5">
+      <div class="container py-4">
+        <div class="row">
+          <div class="col-lg-8">
+            <h5>Admin - BonSai 🌱</h5>
+          </div>
+        </div>
+        <div class="border-top pt-3 mt-3 text-center">
+          <p class="mb-0">
+            Copyright &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            . All Rights Reserved. — Designed by
+            <a href="group7.html" class="text-light text-decoration-underline"
+              >Group 7</a
+            >
+          </p>
+        </div>
+      </div>
+    </footer>
+
+     
+  </body>
+</html>

@@ -1,0 +1,182 @@
+<!--
+* Bootstrap 5
+* Trang: Phiếu nhập hàng (nhiều sản phẩm)
+* Tác giả: vũ
+-->
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="logo.png" />
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <title>BonSai | Phiếu nhập hàng</title>
+
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+      }
+      h2 {
+        letter-spacing: 0.5px;
+      }
+      .card {
+        border-radius: 1rem;
+      }
+      .form-label {
+        font-weight: 500;
+      }
+      .product-row {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        background-color: #f9f9f9;
+      }
+      .remove-btn {
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-light">
+    <div class="container py-4">
+      <div class="text-center mb-4">
+        <h2 class="fw-bold text-success">
+          <i class="fas fa-file-circle-plus me-2"></i> Phiếu nhập hàng
+        </h2>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white fw-semibold">
+          Thông tin phiếu nhập
+        </div>
+        <div class="card-body">
+          <form id="importForm" action="admin_importproduct.html" method="get">
+            <!-- Ngày nhập -->
+            <div class="mb-3">
+              <label class="form-label">Ngày nhập</label>
+              <input type="date" class="form-control" name="importDate" required />
+            </div>
+
+            <!-- Sản phẩm nhập -->
+            <div class="border rounded p-3 mb-3">
+              <h6 class="text-success mb-3">
+                <i class="fas fa-leaf me-1"></i> Danh sách sản phẩm nhập
+              </h6>
+
+              <div id="productList">
+                <!-- Mẫu dòng sản phẩm -->
+                <div class="row g-3 align-items-center product-row">
+                  <div class="col-md-4">
+                    <label class="form-label">Tên sản phẩm</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="productName[]"
+                      placeholder="VD: Lan ý"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Giá nhập (VNĐ)</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="importPrice[]"
+                      placeholder="VD: 25000"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Số lượng</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="quantity[]"
+                      placeholder="VD: 100"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-1 text-center remove-btn">
+                    <button type="button" class="btn btn-outline-danger btn-sm removeRow">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Nút thêm dòng -->
+              <div class="text-end mt-2">
+                <button type="button" id="addRow" class="btn btn-outline-success btn-sm">
+                  <i class="fas fa-plus"></i> Thêm sản phẩm
+                </button>
+              </div>
+            </div>
+
+            <!-- Nút hành động -->
+            <div class="text-end">
+              <a href="admin_importproduct.html" class="btn btn-secondary me-2">Quay lại</a>
+              <button type="submit" class="btn btn-success">
+                <i class="fas fa-save me-1"></i> Lưu phiếu nhập
+              </button>
+              <button type="reset" class="btn btn-outline-secondary ms-2">
+                <i class="fas fa-undo me-1"></i> Nhập lại
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript nhẹ -->
+    <script>
+      const productList = document.getElementById("productList");
+      const addRowBtn = document.getElementById("addRow");
+
+      // Thêm dòng sản phẩm mới
+      addRowBtn.addEventListener("click", function () {
+        const newRow = document.createElement("div");
+        newRow.classList.add("row", "g-3", "align-items-center", "product-row");
+        newRow.innerHTML = `
+          <div class="col-md-4">
+            <label class="form-label">Tên sản phẩm</label>
+            <input type="text" class="form-control" name="productName[]" placeholder="VD: Lan ý" required />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Giá nhập (VNĐ)</label>
+            <input type="number" class="form-control" name="importPrice[]" placeholder="VD: 25000" required />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Số lượng</label>
+            <input type="number" class="form-control" name="quantity[]" placeholder="VD: 100" required />
+          </div>
+          <div class="col-md-1 text-center remove-btn">
+            <button type="button" class="btn btn-outline-danger btn-sm removeRow">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>`;
+        productList.appendChild(newRow);
+      });
+
+      // Xóa dòng sản phẩm
+      productList.addEventListener("click", function (e) {
+        if (e.target.closest(".removeRow")) {
+          e.target.closest(".product-row").remove();
+        }
+      });
+
+      // Khi lưu phiếu
+      document.getElementById("importForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (confirm("Bạn có chắc muốn lưu phiếu nhập này không?")) {
+          alert("✅ Đã lưu phiếu nhập thành công!");
+          window.location.href = "admin_importproduct.html";
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,434 @@
+<!--
+* Bootstrap 5
+* Trang: Quản lý Nhập sản phẩm
+* Tác giả: vũ
+-->
+
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="author" content="Untree.co" />
+    <link rel="shortcut icon" href="logo.png" />
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <!-- Bootstrap CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="../css/tiny-slider.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/hover.css" rel="stylesheet" />
+    <link href="../css/animation.css" rel="stylesheet" />
+    <link href="../css/page.css" rel="stylesheet" />
+
+    <title>BonSai | Chi tiết sản phẩm</title>
+
+    <style>
+      .edit-container {
+        max-width: 500px;
+        margin: 40px auto;
+        padding: 25px;
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .product-preview {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .product-preview img {
+        width: 200px;
+        border-radius: 10px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+
+  <body class="bg-light">
+    <nav
+      class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
+      aria-label="Bonsai navigation bar"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="../admin.html">ADMIN<span>🌱</span></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarsFurni"
+          aria-controls="navbarsFurni"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+            <li>
+              <a
+                href="customermanage.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >KHÁCH HÀNG</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_type.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >LOẠI SẢN PHẨM</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_product.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >SẢN PHẨM</a
+              >
+            </li>
+
+            <li>
+              <a
+                href="admin_importproduct.html"
+                class="nav-link active-import"
+                style="font-size: 19px"
+                >NHẬP SẢN PHẨM</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_sellingprice.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >GIÁ BÁN</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_order.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >ĐƠN HÀNG</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_stock1.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >KHO</a
+              >
+            </li>
+          </ul>
+
+          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+            <li>
+              <a href="../admin.html" class="nav-link hover-box">
+                <div class="front">
+                  <img src="../images/home.svg" style="scale: 1.3" />
+                </div>
+                <div class="back"><span>TRANG CHỦ</span></div>
+              </a>
+            </li>
+            <li style="margin-left: 10px">
+              <a class="nav-link hover-box" href="admin_login.html">
+                <div class="front"><img src="../images/exit.svg" /></div>
+                <div class="back"><span>Đăng xuất</span></div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Header/Navigation -->
+    <div class="container py-4">
+      <!-- Tiêu đề -->
+      <div
+        class="d-flex justify-content-center align-items-center mb-4 position-relative"
+      >
+        <h2 class="fw-bold text-success text-center" style="padding: 30px">
+          Quản lý Nhập sản phẩm
+        </h2>
+         <a href="importproduct.html" class="btn-add-import position-absolute end-0">
+          <i class="fas fa-plus me-2"></i> Thêm phiếu nhập
+         </a>
+      </div>
+
+      <!-- Thanh tìm kiếm -->
+      <!-- Thanh tìm kiếm & lọc phiếu nhập -->
+      <div class="page-header1 fade-in-up">
+        <div
+          class="search-filter-container d-flex flex-wrap gap-3 align-items-center"
+        >
+          <!-- Ô tìm kiếm -->
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Tìm kiếm mã phiếu"
+            />
+          </div>
+          <!-- Ngày nhập -->
+           <span>Từ</span>
+          <div class="date-filter d-flex align-items-center gap-2">
+            <input
+              type="date"
+              id="startDate"
+              class="form-control"
+              style="min-width: 180px"
+            />
+            <span>đến</span>
+            <input
+              type="date"
+              id="endDate"
+              class="form-control"
+              style="min-width: 180px"
+            />
+          </div>
+
+          <!-- Trạng thái -->
+          <div class="status-filter">
+            <select
+              class="form-select"
+              style="padding: 15px 20px; min-width: 180px; font-size: 1rem"
+            >
+              <option style="font-weight: bold;
+  color: #000;"value="">Tất cả trạng thái</option>
+              <option value="dangnhap">Đang xử lý</option>
+              <option value="hoanthanh">Hoàn thành</option>
+            </select>
+          </div>
+
+          <!-- Nút lọc -->
+          <div>
+            <button type="button" class="btn btn-success">
+              <i class="fas fa-filter me-1"></i> Lọc
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <style>
+        .search-filter-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+        .search-box input:focus {
+          box-shadow: none;
+        }
+        .date-filter input {
+          height: 40px;
+        }
+        
+      </style>
+
+      <!-- Danh sách phiếu nhập -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white fw-semibold">
+          Danh sách phiếu nhập hàng
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-striped mb-0">
+            <thead class="table-success">
+              <tr>
+                <th>Mã phiếu</th>
+                <th>Ngày nhập</th>
+                <th>Tổng giá trị (VNĐ)</th>
+                <th>Số lượng</th>
+                <th>Số sản phẩm</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>PN001</td>
+                <td>2025-10-25</td>
+                <td>12.300.000 </td>
+                <td>450</td>
+                <td>3</td>
+                <td>
+                  <span class="badge bg-warning text-dark">Đang xử lý</span>
+                </td>
+                <td>
+                  <a
+                    href="editimportproduct.html"
+                    class="btn btn-sm btn-outline-success me-1"
+                    ><i class="fas fa-edit"></i> Chi tiết</a
+                  >
+                
+                </td>
+              </tr>
+              <tr>
+                <td>PN002</td>
+                <td>2025-10-26</td>
+                <td>5.600.000</td>
+                <td>250</td>
+                <td>2</td>
+                <td><span class="badge bg-success">Hoàn thành</span></td>
+               <td>
+                  <a
+                    href="1editimportproduct.html"
+                    class="btn btn-sm btn-outline-success me-1"
+                    ><i class="fas fa-edit"></i> Chi tiết</a
+                  >     
+                </td>
+              </tr>
+              <tr>
+                <td>PN003</td>
+                <td>2025-10-11</td>
+                <td>2.300.000</td>
+                <td>100</td>
+                <td>1</td>
+                <td><span class="badge bg-success">Hoàn thành</span></td>
+                <td>
+                  <a
+                    href="1editimportproduct.html"
+                    class="btn btn-sm btn-outline-success me-1"
+                    ><i class="fas fa-edit"></i> Chi tiết</a
+                  >     
+                </td>
+              </tr>
+              <tr>
+                <td>PN004</td>
+                <td>2025-10-26</td>
+                <td>34.200.000</td>
+                <td>250</td>
+                <td>5</td>
+                <td><span class="badge bg-success">Hoàn thành</span></td>
+                <td>
+                  <a
+                    href="1editimportproduct.html"
+                    class="btn btn-sm btn-outline-success me-1"
+                    ><i class="fas fa-edit"></i> Chi tiết</a
+                  >     
+                </td>
+              </tr>
+              <tr>
+                <td>PN005</td>
+                <td>2025-10-25</td>
+                <td>4.600.000</td>
+                <td>100</td>
+                <td>3</td>
+                <td>
+                  <span class="badge bg-warning text-dark">Đang xử lý</span>
+                </td>
+                <td>
+                  <a
+                    href="editimportproduct.html"
+                    class="btn btn-sm btn-outline-success me-1"
+                    ><i class="fas fa-edit"></i> Chi tiết</a
+                  >
+                
+                </td>
+                 <tr>
+                <td>PN006</td>
+                <td>2025-10-26</td>
+                <td>50.300.000</td>
+                <td>150</td>
+                <td>7</td>
+                  <td>
+                  <span class="badge bg-warning text-dark">Đang xử lý</span>
+                </td>
+                <td>
+                  <a
+                    href="editimportproduct.html"
+                    class="btn btn-sm btn-outline-success me-1"
+                    ><i class="fas fa-edit"></i> Chi tiết</a
+                  >
+                
+                </td>
+
+              </tr>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- Start Footer Section -->
+    <footer class="footer-section bg-dark text-light mt-5">
+      <div class="container py-4">
+        <div class="row">
+          <div class="col-lg-8">
+            <h5>Admin - BonSai 🌱</h5>
+          </div>
+        </div>
+        <div class="border-top pt-3 mt-3 text-center">
+          <p class="mb-0">
+            Copyright &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            . All Rights Reserved. — Designed by
+            <a href="group7.html" class="text-light text-decoration-underline"
+              >Group 7</a
+            >
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+      }
+      h2,
+      h4 {
+        letter-spacing: 0.5px;
+      }
+      .table th,
+      .table td {
+        vertical-align: middle;
+      }
+      .btn-add-import {
+        background: linear-gradient(90deg, #28a745, #45c16c);
+        color: #fff !important;
+        font-weight: 600;
+        font-size: 19px;
+        padding: 10px 22px;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(72, 180, 97, 0.3);
+        transition: all 0.25s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .btn-add-import:hover {
+        background: linear-gradient(90deg, #2ecc71, #27ae60);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(39, 174, 96, 0.4);
+      }
+
+      .btn-add-import i {
+        transition: transform 0.3s ease;
+      }
+
+      .btn-add-import:hover i {
+        transform: rotate(180deg);
+      }
+          </style>
+  </body>
+</html>

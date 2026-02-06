@@ -1,0 +1,367 @@
+/* Zoom + Glow Hover */
+.hover-zoom-glow {
+  display: inline-block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-zoom-glow:hover {
+  transform: scale(1.1); /* phóng to 10% */
+  box-shadow: 0 0 20px rgba(84, 74, 226, 0.7), 0 0 40px rgba(84, 74, 226, 0.5);
+}
+
+/* Hover Zoom + Glow cho Text */
+.hover-text-glow {
+  display: inline-block;
+  font-size: 24px;
+  font-weight: 600;
+  color: #09ffb5; /* Màu mặc định */
+  transition: transform 0.3s ease, text-shadow 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-text-glow:hover {
+  transform: scale(1.1); /* Zoom chữ */
+  color: #b5fae3; /* Thay đổi màu chữ khi hover */
+  text-shadow: 0 0 8px #544ae2, 0 0 16px #7b5fff, 0 0 24px #a58fff; /* Glow nhiều lớp */
+}
+
+.hover-text-glow-small {  /* sửa tên cho thống nhất */
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 100;
+  color: #09ffb5; /* Màu mặc định */
+  transition: transform 0.3s ease, text-shadow 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-text-glow-small:hover {
+  transform: scale(1.1); /* Zoom chữ */
+  color: #b5fae3; /* Thay đổi màu chữ khi hover */
+  text-shadow: 0 0 8px #544ae2, 0 0 16px #7b5fff, 0 0 24px #a58fff; /* Glow nhiều lớp */
+}
+
+.hover-div-zoom {
+  display: inline-block; /* hoặc block nếu muốn chiếm toàn bộ width */
+  background-color: #f1f5f3;
+  color: rgb(0, 0, 0);
+  padding: 20px;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* Hover effect */
+.hover-div-zoom:hover {
+  transform: scale(1.05); /* zoom 1.05 lần */
+  box-shadow: 0 8px 20px rgba(74, 226, 107, 0.3); /* optional: thêm nổi bật */
+}
+
+.login-div-btn {
+  display: inline-block;       /* cho phép scale hover */
+  background-color: #544ae2;   /* màu nền */
+  color: white;                /* màu chữ */
+  padding: 20px 28px;          /* padding nút */
+  border-radius: 8px;          /* bo góc */
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.login-div-btn:hover {
+  transform: scale(1.05);      /* zoom 1.05 lần */
+  background-color: #7b5fff;   /* đổi màu nền khi hover */
+  box-shadow: 0 8px 20px rgba(84, 74, 226, 0.4); /* glow nhẹ */
+}
+
+.hover-btn {
+  display: inline-block;
+  background: #58b346;
+  color: white;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 18px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 55px;              /* ban đầu chỉ đủ icon */
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.cell {
+  width: 100px;        /* kích thước cố định của ô */
+  height: 60px;        /* chiều cao ô */
+  display: flex;
+  align-items: center; /* căn giữa dọc */
+  justify-content: center; /* căn giữa ngang */
+  background: #156b03; /* chỉ để nhìn cho rõ */
+}
+
+.hover-btn {
+  width: 60px;
+  height: 40px;
+  background: #198754;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.hover-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.hover-btn img {
+  width: 22px;
+  height: 22px;
+  transform: scale(1);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.hover-btn span {
+  display: inline-block;
+  transform: scale(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+  color: #fff;
+  font-weight: 500;
+}
+
+/* Khi hover */
+.hover-btn:hover {
+  width: 120px;
+  background: #25a00c;
+}
+
+.hover-btn:hover img {
+  transform: scale(0); /* icon thu nhỏ biến mất */
+}
+
+.hover-btn:hover span {
+  transform: scale(1); /* chữ phóng ra từ giữa */
+}
+
+
+
+/* ---- Hover box (giữ nguyên hiệu ứng của Kosmoz) ---- */
+.hover-box {
+  scale: 1.5;
+  margin-left: 50px;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background: #3b5d51;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: width 0.4s ease, background 0.3s ease;
+}
+
+.hover-box:hover {
+  background: #4db339;
+  width: 120px;
+}
+
+/* Hai mặt */
+.hover-box .front,
+.hover-box .back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+  color: white;
+  font-weight: 500;
+}
+
+/* Icon ban đầu */
+.hover-box .front {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Text ẩn ban đầu */
+.hover-box .back {
+  opacity: 0;
+  font-size: 14px;
+  font-weight: bold;
+  transform: scale(0.8);
+}
+
+/* Khi hover – hoán đổi */
+.hover-box:hover .front {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.hover-box:hover .back {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* =============================
+   HOVER-BOX-2 (lật bằng click)
+============================= */
+.hover-box-2 {
+  scale: 1.5;
+  margin-left: 50px;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background: #3b5d51;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: width 0.4s ease, background 0.3s ease;
+}
+
+/* Hai mặt */
+.hover-box-2 .front,
+.hover-box-2 .back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.45s ease;
+  color: white;
+  font-weight: 500;
+  backface-visibility: hidden;
+}
+
+/* Front icon */
+.hover-box-2 .front {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+
+.hover-box-2 .front img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Back text */
+.hover-box-2 .back {
+  opacity: 0;
+  transform: rotateY(-180deg);
+  font-size: 14px;
+  font-weight: bold;
+  pointer-events: none; /* không click khi chưa mở */
+}
+
+/* Khi checkbox được tick → lật sang back */
+input[type="checkbox"]:checked + .hover-box-2 {
+  background: #4db339;
+  width: 120px;
+}
+
+input[type="checkbox"]:checked + .hover-box-2 .front {
+  opacity: 0;
+  transform: rotateY(180deg);
+}
+
+input[type="checkbox"]:checked + .hover-box-2 .back {
+  opacity: 1;
+  transform: rotateY(0deg);
+  pointer-events: auto; /* click được khi mở */
+}
+
+
+/* =============================
+   DROPDOWN MENU (theo click)
+============================= */
+.nav-item {
+  position: relative;
+  list-style: none;
+  display: inline-block;
+  font-family: "Poppins", sans-serif;
+}
+
+.dropdown {
+  position: absolute !important;
+  top: 65px;
+  left: 65%;
+  transform: translateX(-50%) translateY(-10px) scale(0.95);
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  list-style: none;
+  padding: 8px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s ease;
+  backdrop-filter: blur(6px);
+  min-width: 180px;
+  z-index: 20;
+}
+
+.dropdown li a {
+  display: block;
+  padding: 10px 14px;
+  color: #2f3e36;
+  text-decoration: none;
+  font-size: 17px;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+}
+
+.dropdown li a:hover {
+  background: linear-gradient(135deg, #4f8a74, #3b5d51);
+  color: #fff;
+  transform: translateX(4px);
+}
+
+/* ✅ Khi checkbox tick → hiện menu */
+#user-toggle:checked + .hover-box-2 + .dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+svg {
+  stroke-width: 3; /* tăng giá trị lên, ví dụ 3 hoặc 4 */
+}
+
+.hover-div-zoom-a {
+  display: inline-block; /* hoặc block nếu muốn chiếm toàn bộ width */
+  background-color: rgba(74, 226, 107, 0.3);
+  color: rgb(0, 0, 0);
+  padding: 20px;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* Hover effect */
+.hover-div-zoom-a:hover {
+  transform: scale(1.05); /* zoom 1.05 lần */
+  box-shadow: 0 8px 20px rgba(74, 226, 107, 0.3); /* optional: thêm nổi bật */
+}

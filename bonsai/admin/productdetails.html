@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BonSai | Thông Tin Sản Phẩm</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/hover.css" rel="stylesheet" />
+    <link href="../css/animation.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Gỡ bỏ vòng tròn quanh ảnh */
+      .avatar-wrapper img {
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav
+      class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark"
+      aria-label="Bonsai navigation bar"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="../admin.html">ADMIN<span>🌱</span></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarsFurni"
+          aria-controls="navbarsFurni"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+            <li>
+              <a
+                href="customermanage.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >KHÁCH HÀNG</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_type.html"
+                class="nav-link hover-text-glow active"
+                style="font-size: 14px"
+                >LOẠI SẢN PHẨM</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_product.html"
+                class="nav-link active-import"
+                style="font-size: 19px"
+                >SẢN PHẨM</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_importproduct.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >NHẬP SẢN PHẨM</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_sellingprice.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >GIÁ BÁN</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_order.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >ĐƠN HÀNG</a
+              >
+            </li>
+            <li>
+              <a
+                href="admin_stock1.html"
+                class="nav-link hover-text-glow"
+                style="font-size: 14px"
+                >KHO</a
+              >
+            </li>
+          </ul>
+          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-4">
+            <li>
+              <a href="../admin.html" class="nav-link hover-box">
+                <div class="front">
+                  <img src="../images/home.svg" style="scale: 1.3" />
+                </div>
+                <div class="back"><span>Trang chủ</span></div>
+              </a>
+            </li>
+            <li style="margin-left: 10px">
+              <a class="nav-link hover-box" href="admin_login.html">
+                <div class="front"><img src="../images/exit.svg" /></div>
+                <div class="back"><span>Đăng xuất</span></div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Hero -->
+    <div>
+      <div class="center-row text-center">
+        <h2 class="fw-bold text-success" style="padding: 30px">
+          Thông tin sản phẩm
+        </h2>
+      </div>
+    </div>
+    <!-- Product Info -->
+    <div class="untree_co-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
+              <!-- Ảnh sản phẩm -->
+              <div class="text-center mb-4 position-relative d-inline-block">
+                <div class="avatar-wrapper position-relative d-inline-block">
+                  <img
+                    src="../images/rauma.png"
+                    alt="Ảnh sản phẩm"
+                    class="img-fluid rounded-3"
+                    width="200"
+                    height="200"
+                  />
+                </div>
+                <span class="badge bg-success px-3 py-2 mt-2">Còn hàng</span>
+              </div>
+              <!-- Bảng thông tin -->
+              <table class="table table-bordered align-middle text-black">
+                <tbody>
+                  <tr>
+                    <th scope="row" style="width: 220px">Mã sản phẩm</th>
+                    <td>#SP001</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Tên</th>
+                    <td>Rau má</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Phân loại</th>
+                    <td>Cây để phòng</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Giá bán</th>
+                    <td>36.000đ</td>
+                  </tr>
+
+                  <tr>
+                    <th scope="row">Mô tả sản phẩm</th>
+                    <td>
+                      Rau má là loại cây thân thảo, mọc bò lan, thường được sử
+                      dụng để làm nước giải khát hoặc trong các món ăn thanh
+                      mát. Cây dễ trồng, ưa ẩm và có thể sinh trưởng quanh năm.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Ngày thêm vào</th>
+                    <td>10/03/2024</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Lần cập nhật gần nhất</th>
+                    <td>05/10/2025</td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- Nút thao tác -->
+              <div class="text-center mt-4">
+                <a href="admin_product.html" class="btn btn-dark me-2">
+                  <i class="fas fa-arrow-left me-1"></i> Quay lại
+                </a>
+                <a href="updateproduct.html" class="btn btn-success">
+                  <i class="fas fa-edit me-1"></i> Chỉnh sửa
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Start Footer Section -->
+    <footer class="footer-section bg-dark text-light mt-5">
+      <div class="container py-4">
+        <div class="row">
+          <div class="col-lg-8">
+            <h5>Admin - BonSai 🌱</h5>
+          </div>
+        </div>
+        <div class="border-top pt-3 mt-3 text-center">
+          <p class="mb-0">
+            Copyright &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            . All Rights Reserved. — Designed by
+            <a href="group7.html" class="text-light text-decoration-underline"
+              >Group 7</a
+            >
+          </p>
+        </div>
+      </div>
+    </footer>
+    <!-- End Footer Section -->
+    <script src="../js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
