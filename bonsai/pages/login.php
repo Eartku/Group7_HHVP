@@ -33,10 +33,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (password_verify($password, $user['password'])) {
                 $_SESSION['user'] = [
                     'id' => $user['id'],
-                    'username' => $user['username']
+                    'username' => $user['username'],
+                    'role' => $user['username']
                 ];
 
-         header("Location: ../pages/dashboard.php");
+         if ($user['role'] == 'admin') {
+                header("Location: ../admin/dashboard.php");
+            } else {
+                header("Location: ../pages/dashboard.php");
+            }
+            exit();
+
                 exit();
             } else {
                 $errors['password'] = "Mật khẩu không đúng";

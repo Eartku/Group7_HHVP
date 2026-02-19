@@ -13,16 +13,25 @@ function addToCart(id){
     let qtyInput = document.getElementById("qtyInput");
     let qty = qtyInput ? qtyInput.value : 1;
 
+    let sizeSelect = document.getElementById("sizeSelect");
+    let size = sizeSelect ? sizeSelect.value : 'S'; // mặc định S
+
     fetch('../includes/add_to_cart.php',{
         method:'POST',
         headers:{'Content-Type':'application/x-www-form-urlencoded'},
-        body:'id='+id+'&qty='+qty
+        body:'id='+id+'&qty='+qty+'&size='+size
     })
     .then(res=>res.text())
     .then(data=>{
-        showToast("✔ Đã thêm vào giỏ hàng");
+        if(data === "success"){
+            showToast("✔ Đã thêm vào giỏ hàng");
+        } else {
+            showToast("❌ " + data);
+        }
     })
     .catch(()=>{
         showToast("❌ Có lỗi xảy ra");
     });
 }
+
+

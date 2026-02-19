@@ -31,13 +31,20 @@ $totalPages = ceil($totalProducts / $limit);
 /* ===============================
    4. LẤY DANH SÁCH SẢN PHẨM
 ================================ */
-$sql = "SELECT id, name, price, image FROM products";
+$sql = "
+SELECT p.id, p.name, p.price, p.image,
+       IFNULL(SUM(i.quantity),0) as total_stock
+FROM products p
+LEFT JOIN inventory i ON p.id = i.product_id
+";
 
 if ($category_id > 0) {
-    $sql .= " WHERE category_id = $category_id";
+    $sql .= " WHERE p.category_id = $category_id";
 }
 
-$sql .= " ORDER BY id DESC LIMIT $limit OFFSET $offset";
+
+$sql .= " GROUP BY p.id ORDER BY p.id DESC LIMIT $limit OFFSET $offset";
+
 
 $result = $conn->query($sql);
 $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
@@ -53,6 +60,9 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
             $id = (int)$p['id'];
             $name = htmlspecialchars($p['name']);
             $price = number_format((float)$p['price'], 0, ',', '.');
+            $stock = (int)$p['total_stock'];
+            $isOutOfStock = $stock <= 0;
+
 
             $imageList = !empty($p['image']) ? explode(",", $p['image']) : [];
             $firstImage = !empty($imageList[0]) ? trim($imageList[0]) : "";
@@ -75,11 +85,19 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
                 <strong class="product-price d-block mb-3">
                     <?= $price ?>đ
                 </strong>
+                <?php if ($isOutOfStock): ?>
+            <div class="text-danger mb-2">Hết hàng</div>
+        <?php else: ?>
+            <div class="text-success mb-2">Còn hàng</div>
+        <?php endif; ?>
+
 
                 <div class="d-flex justify-content-center gap-2">
 
-                    <button onclick="addToCart(<?= $id ?>)"
-                        class="btn btn-sm btn-dark">
+                    <button 
+                        <?= $isOutOfStock ? 'disabled' : '' ?>
+                        onclick="<?= $isOutOfStock ? '' : "addToCart($id)" ?>"
+                        class="btn btn-sm <?= $isOutOfStock ? 'btn-secondary' : 'btn-dark' ?>">
                         <img src="../images/cart.svg" width="18">
                     </button>
 

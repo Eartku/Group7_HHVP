@@ -1,7 +1,7 @@
 <!-- Start Popular Product Section -->
 <?php
 require_once "../config/db.php";
-$sql = "SELECT id, name, image FROM products ORDER BY id DESC LIMIT 3";
+$sql = "SELECT id, name, image FROM products ORDER BY price DESC LIMIT 3";
 $result = $conn->query($sql);
 ?>
 
@@ -22,7 +22,7 @@ $result = $conn->query($sql);
           <div class="pt-3">
             <h3><?= htmlspecialchars($row['name']) ?></h3>
             <p><?= htmlspecialchars($row['description'] ?? 'Sản phẩm chất lượng cao, được chăm sóc tỉ mỉ.') ?></p>
-            <p><a href="details.php?id=<?= htmlspecialchars($row['id']) ?>">Xem thêm</a></p>
+            <p><a href="../includes/details.php?id=<?= htmlspecialchars($row['id']) ?>">Xem thêm</a></p>
           </div>
         </div>
       </div>
