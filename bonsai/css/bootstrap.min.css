@@ -1678,7 +1678,8 @@ progress {
   border-width: 1px 0;
 }
 .table-bordered > :not(caption) > * > * {
-  border-width: 0 1px;
+  border-width: 1 1px;
+   border-color: black;
 }
 .table-borderless > :not(caption) > * > * {
   border-bottom-width: 0;
@@ -7240,7 +7241,7 @@ fieldset:disabled .btn {
 }
 .bg-dark {
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+  background-color: rgb(65, 76, 87) !important;
 }
 .bg-black {
   --bs-bg-opacity: 1;

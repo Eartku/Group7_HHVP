@@ -142,7 +142,7 @@
 /* Khi hover */
 .hover-btn:hover {
   width: 120px;
-  background: #25a00c;
+  background: #5ea88e;
 }
 
 .hover-btn:hover img {
@@ -162,7 +162,7 @@
   position: relative;
   width: 40px;
   height: 40px;
-  background: #3b5d51;
+  background:  rgb(65, 76, 87);
   border-radius: 8px;
   overflow: hidden;
   display: flex;
@@ -174,7 +174,7 @@
 }
 
 .hover-box:hover {
-  background: #4db339;
+  background: rgb(65, 76, 87);
   width: 120px;
 }
 

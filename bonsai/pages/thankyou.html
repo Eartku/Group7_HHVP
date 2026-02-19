@@ -1,0 +1,327 @@
+<!-- /*
+* Bootstrap 5
+* Template Name: Furni
+* Template Author: Untree.co
+* Template URI: https://untree.co/
+* License: https://creativecommons.org/licenses/by/3.0/
+*/ -->
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi Tiết Sản Phẩm - Tre Cảnh</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
+    <link href="css/tiny-slider.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/hover.css" rel="stylesheet" />
+    <link href="css/animation.css" rel="stylesheet" />
+  </head>
+
+  <body>
+   <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">BonSai<span>🌱</span></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarsFurni"
+      aria-controls="navbarsFurni"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsFurni">
+      <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+        <li><a href="shop1.html" class="hover-text-glow-small">CÂY ĐỂ PHÒNG</a></li>
+        <li><a href="shop2.html" class="hover-text-glow-small">CÂY ĐỂ BÀN</a></li>
+        <li><a href="shop3.html" class="hover-text-glow-small">CÂY TREO TƯỜNG</a></li>
+      </ul>
+
+      <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+
+        <!-- Trang chủ -->
+        <li>
+          <input type="checkbox" id="home-toggle" hidden />
+          <label for="home-toggle" class="hover-box-2">
+            <div class="front"><img src="images/home.svg" /></div>
+            <a href="index.html" class="back" onclick="event.stopPropagation();">Trang chủ</a>
+          </label>
+        </li>
+
+        <!-- Giỏ hàng -->
+        <li>
+          <input type="checkbox" id="cart-toggle" hidden />
+          <label for="cart-toggle" class="hover-box-2">
+            <div class="front"><img src="images/cart.svg" /></div>
+            <a href="cart.html" class="back" onclick="event.stopPropagation();">Giỏ hàng</a>
+          </label>
+        </li>
+
+        <!-- Người dùng -->
+        <li class="nav-item">
+          <input type="checkbox" id="user-toggle" hidden />
+          <label for="user-toggle" class="hover-box-2">
+            <div class="front"><img src="images/user.svg" /></div>
+            <div class="back"><span>Người dùng</span></div>
+          </label>
+          <ul class="dropdown" style="background-color: black; color: white;">
+            <li><a href="profile.html" style="color: white;">Hồ sơ cá nhân</a></li>
+            <li><a href="orders.html" style="color: white;">Lịch sử đơn hàng</a></li>
+            <li><a href="index2.html" style="color: white;"><img src="images/exit.svg" /> Đăng xuất</a></li>
+          </ul>
+        </li>
+
+        <!-- Tìm kiếm -->
+        <li>
+          <input type="checkbox" id="search-toggle" hidden />
+          <label for="search-toggle" class="hover-box-2">
+            <div class="front"><img src="images/search.svg" /></div>
+            <a href="search.html" class="back" onclick="event.stopPropagation();">Tìm kiếm</a>
+          </label>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+        <script>
+    const toggles = document.querySelectorAll('input[type="checkbox"]');
+
+    toggles.forEach(cb => {
+      const label = cb.nextElementSibling; // label liền sau checkbox
+      const parentLi = cb.closest('li');   // lấy cả li bao label + dropdown
+      let timer;
+
+      function startCloseTimer(ms = 1000) {
+        clearTimeout(timer);
+        timer = setTimeout(() => { cb.checked = false; }, ms);
+      }
+
+      // Khi checkbox được tick
+      cb.addEventListener('change', () => {
+        if(cb.checked && !parentLi.matches(':hover')) {
+          startCloseTimer();
+        }
+      });
+
+      // Hover vào vùng li (label + dropdown) → hủy timeout
+      parentLi.addEventListener('mouseenter', () => clearTimeout(timer));
+
+      // Hover ra vùng li → nếu đang mở, tự đóng sau 5 giây
+      parentLi.addEventListener('mouseleave', () => {
+        if(cb.checked) startCloseTimer();
+      });
+    });
+    </script>
+    <!-- End Header/Navigation -->
+
+    <!-- Start Hero Section -->
+    <!-- <div class="hero">
+      <form class="flex-grow-1" action="#" method="get">
+                   <div class="search d-flex align-items-center">
+                     <button type="submit" class="search-btn">
+                       <span class="material-symbols-outlined">search</span>
+                     </button>
+                     <input class="search-input form-control" type="search" placeholder="Search">
+                   </div>
+                 </form> -->
+      <!-- <div class="container">
+        <div class="row justify-content-between">
+          <div class="col-lg-5">
+            <div class="intro-excerpt">
+              <h1>Góc xanh cho ngôi nhà của ban</h1>
+              <p class="mb-4">
+                “Trong mỗi bước đi cùng thiên nhiên, ta nhận được nhiều hơn
+                những gì mình tìm kiếm.” -John Muir
+              </p>
+              <p>
+                <a href="shop.html" class="btn btn-secondary me-2">Mua sắm</a>
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="hero-img-wrap">
+              <img src="images/test2.png" class="img-fluid" />
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <!-- End Hero Section -->
+
+    <div class="untree_co-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center pt-5">
+            <span class="display-3 thankyou-icon text-primary">
+              <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 16 16"
+                class="bi bi-cart-check mb-5"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M11.354 5.646a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708 0z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"
+                />
+              </svg>
+            </span>
+            <h2 class="display-3 text-black">Cảm ơn bạn</h2>
+            <p class="lead">
+              Đơn hàng của bạn đã được hoàn tất thành công.
+            </p>
+            
+            <p>
+              <a href="index.html" class="btn btn-sm btn-outline-black hover-text-glow" style="margin-top:0px;"
+                >Quay về trang chủ</a
+              >
+              <a href="orderdetail2.html" class="btn btn-sm btn-outline-black hover-text-glow" style="margin-top:0px;"
+                >Xem lại đơn hàng</a
+              >
+            </p>
+            <p class="lead mb-5" style="margin-top: 50px;">
+              Đơn hàng của bạn sẽ được giao sớm nhất có thể.
+            </p>
+            <p class="lead mb-5">
+              <img src="images/shipper.gif" style="scale: 1;"/>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start Footer Section -->
+    <footer class="footer-section">
+      <div class="container relative">
+        <div class="sofa-img">
+          <img src="images/senda.png" alt="Image" class="img-fluid" />
+        </div>
+
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="subscription-form">
+              <h3 class="d-flex align-items-center">
+                <span class="me-1"
+                  ><img
+                    src="images/envelope-outline.svg"
+                    alt="Image"
+                    class="img-fluid" /></span
+                ><span>Phản hồi qua Email</span>
+              </h3>
+
+              <form action="#" class="row g-3">
+                <div class="col-auto">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Họ và Tên"
+                  />
+                </div>
+                <div class="col-auto">
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="Email"
+                  />
+                </div>
+                <div class="col-auto">
+                  <button class="btn btn-primary">
+                    <span class="fa fa-paper-plane"></span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-5 mb-5">
+          <div class="col-lg-4">
+            <div class="mb-4 footer-logo-wrap">
+              <a href="#" class="footer-logo">BonSai<span>.</span></a>
+            </div>
+            <p class="mb-4">
+              Mang đến cho bạn trải nghiệm xanh tốt nhất!
+            </p>
+
+            <ul class="list-unstyled custom-social">
+              <li>
+                <a href="#"><span class="fa fa-brands fa-facebook-f"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-brands fa-twitter"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-brands fa-instagram"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-brands fa-linkedin"></span></a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-lg-8">
+            <div class="row links-wrap">
+              <div class="col-6 col-sm-6 col-md-3">
+                <ul class="list-unstyled">
+                  <li><a href="#">Về chúng tôi</a></li>
+                  <li><a href="#">Dịch vụ</a></li>
+                  <li><a href="#">Liên hệ</a></li>
+                </ul>
+              </div>
+
+              <div class="col-6 col-sm-6 col-md-3">
+                <ul class="list-unstyled">
+                  <li><a href="#">Nguyễn Hoàng Phúc</a></li>
+                  <li><a href="#">Phùng Anh Vũ</a></li>
+                  <li><a href="#">Nguyễn Trung Hiếu</a></li>
+                  <li><a href="#">Trần Nhựt Huy</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-top copyright">
+          <div class="row pt-4">
+            <div class="col-lg-6">
+              <p class="mb-2 text-center text-lg-start">
+                Copyright &copy;
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                . All Rights Reserved. &mdash; Designed with love by
+                <a href="https://untree.co">Untree.co</a> Distributed By
+                <a href="https://themewagon.com">ThemeWagon</a>
+                <!-- License information: https://untree.co/license/ -->
+              </p>
+            </div>
+
+            <div class="col-lg-6 text-center text-lg-end">
+              <ul class="list-unstyled d-inline-flex ms-auto">
+                <li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- End Footer Section -->
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/tiny-slider.js"></script>
+    <script src="js/custom.js"></script>
+  </body>
+</html>

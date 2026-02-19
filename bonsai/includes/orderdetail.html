@@ -1,0 +1,243 @@
+<!-- Chi tiết đơn hàng -->
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BonSai | Chi tiết đơn hàng</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="css/tiny-slider.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/hover.css" rel="stylesheet" />
+    <link href="css/animation.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">BonSai<span>🌱</span></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarsFurni"
+      aria-controls="navbarsFurni"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsFurni">
+      <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+        <li><a href="shop1.html" class="hover-text-glow-small">CÂY ĐỂ PHÒNG</a></li>
+        <li><a href="shop2.html" class="hover-text-glow-small">CÂY ĐỂ BÀN</a></li>
+        <li><a href="shop3.html" class="hover-text-glow-small">CÂY TREO TƯỜNG</a></li>
+      </ul>
+
+      <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+
+        <!-- Trang chủ -->
+        <li>
+          <input type="checkbox" id="home-toggle" hidden />
+          <label for="home-toggle" class="hover-box-2">
+            <div class="front"><img src="images/home.svg" /></div>
+            <a href="index.html" class="back" onclick="event.stopPropagation();">Trang chủ</a>
+          </label>
+        </li>
+
+        <!-- Giỏ hàng -->
+        <li>
+          <input type="checkbox" id="cart-toggle" hidden />
+          <label for="cart-toggle" class="hover-box-2">
+            <div class="front"><img src="images/cart.svg" /></div>
+            <a href="cart.html" class="back" onclick="event.stopPropagation();">Giỏ hàng</a>
+          </label>
+        </li>
+
+        <!-- Người dùng -->
+        <li class="nav-item">
+          <input type="checkbox" id="user-toggle" hidden />
+          <label for="user-toggle" class="hover-box-2">
+            <div class="front"><img src="images/user.svg" /></div>
+            <div class="back"><span>Người dùng</span></div>
+          </label>
+          <ul class="dropdown" style="background-color: black; color: white;">
+            <li><a href="profile.html" style="color: white;">Hồ sơ cá nhân</a></li>
+            <li><a href="orders.html" style="color: white;">Lịch sử đơn hàng</a></li>
+            <li><a href="index2.html" style="color: white;"><img src="images/exit.svg" /> Đăng xuất</a></li>
+          </ul>
+        </li>
+
+        <!-- Tìm kiếm -->
+        <li>
+          <input type="checkbox" id="search-toggle" hidden />
+          <label for="search-toggle" class="hover-box-2">
+            <div class="front"><img src="images/search.svg" /></div>
+            <a href="search.html" class="back" onclick="event.stopPropagation();">Tìm kiếm</a>
+          </label>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+        <script>
+    const toggles = document.querySelectorAll('input[type="checkbox"]');
+
+    toggles.forEach(cb => {
+      const label = cb.nextElementSibling; // label liền sau checkbox
+      const parentLi = cb.closest('li');   // lấy cả li bao label + dropdown
+      let timer;
+
+      function startCloseTimer(ms = 1000) {
+        clearTimeout(timer);
+        timer = setTimeout(() => { cb.checked = false; }, ms);
+      }
+
+      // Khi checkbox được tick
+      cb.addEventListener('change', () => {
+        if(cb.checked && !parentLi.matches(':hover')) {
+          startCloseTimer();
+        }
+      });
+
+      // Hover vào vùng li (label + dropdown) → hủy timeout
+      parentLi.addEventListener('mouseenter', () => clearTimeout(timer));
+
+      // Hover ra vùng li → nếu đang mở, tự đóng sau 5 giây
+      parentLi.addEventListener('mouseleave', () => {
+        if(cb.checked) startCloseTimer();
+      });
+    });
+    </script>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="center-row" style="text-align: center">
+        <h1 class="glow">CHI TIẾT ĐƠN HÀNG</h1>
+      </div>
+    </div>
+
+    <!-- ORDER DETAIL -->
+    <div class="untree_co-section">
+      <div class="container">
+        <div class="row">
+          <!-- PRODUCT INFO -->
+          <div class="col-md-7 mb-5 mb-md-0">
+            <h2 class="h3 mb-3 text-black">Sản phẩm trong đơn</h2>
+            <div class="p-3 p-lg-5 border bg-white">
+              <table class="table site-block-order-table mb-5">
+                <thead>
+                  <th>Sản Phẩm</th>
+                  <th>Tổng</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Trầu bà -size vừa<strong class="mx-2">x</strong> 1</td>
+                    <td>39.000đ</td>
+                  </tr>
+                  <tr>
+                    <td>Môn cảnh - size to<strong class="mx-2">x</strong> 1</td>
+                    <td>78.000đ</td>
+                  </tr>
+                  <tr>
+                    <td class="text-black font-weight-bold">
+                      <strong>Ship</strong>
+                    </td>
+                    <td class="text-black">20.000đ</td>
+                  </tr>
+                  <tr>
+                    <td class="text-black font-weight-bold">
+                      <strong>Tổng</strong>
+                    </td>
+                    <td class="text-black font-weight-bold">
+                      <strong>137.000đ</strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <h4 class="text-black mb-3">Trạng thái đơn hàng</h4>
+              <p><span class="badge bg-warning text-dark">Mới đặt</span></p>
+              <p style="margin-bottom: 2.1rem">
+                <span
+                  ><img src="images/truck.svg" style="scale: 100%-5px"
+                /></span>
+              </p>
+            </div>
+          </div>
+
+          <!-- CUSTOMER INFO -->
+          <div class="col-md-5">
+            <h2 class="h3 mb-3 text-black">Thông tin giao hàng</h2>
+            <div class="p-3 p-lg-5 border bg-white">
+              <p><strong>Họ tên:</strong> Trần Nhựt Huy</p>
+              <p><strong>Email:</strong> Huy@gmail.com</p>
+              <p><strong>SĐT:</strong> 0363 636 3636</p>
+              <p>
+                <strong>Địa chỉ:</strong> 135 Trần Bình Trọng, Quận 5, TP.HCM
+              </p>
+              <p>
+                <strong>Phương thức thanh toán:</strong> Tiền mặt khi nhận hàng
+              </p>
+              <p><strong>Mã đơn hàng:</strong> #P001</p>
+              <p><strong>Ngày đặt:</strong> 12/12/2025</p>
+
+              <hr />
+              <h4 class="text-black mb-3">Ghi chú</h4>
+              <p>
+                dự kiến giao đến vào 14/12/2025.Xin hãy chuẩn bị tiền thanh
+                toán.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- BUTTON -->
+        <div class="text-center mt-5">
+          <a href="orders.html" class="btn btn-dark btn-lg px-5"><< Quay lại</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer-section">
+      <div class="container relative">
+        <div class="sofa-img">
+          <img src="images/senda.png" alt="Image" class="img-fluid" />
+        </div>
+        <div class="row g-5 mb-5">
+          <div class="col-lg-4">
+            <div class="mb-4 footer-logo-wrap">
+              <a href="#" class="footer-logo">BonSai<span>.</span></a>
+            </div>
+            <p class="mb-4">Mang đến cho bạn trải nghiệm xanh tốt nhất!</p>
+            <ul class="list-unstyled custom-social">
+              <li>
+                <a href="#"><span class="fa fa-brands fa-facebook-f"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-brands fa-twitter"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-brands fa-instagram"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-brands fa-linkedin"></span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
