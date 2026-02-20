@@ -37,7 +37,7 @@ if (isset($_GET['remove'])) {
     $remove_id = intval($_GET['remove']);
 
     $stmt = $conn->prepare("
-        DELETE FROM cart_items 
+        DELETE FROM cart_items
         WHERE id = ? AND cart_id = ?
     ");
     $stmt->bind_param("ii", $remove_id, $cart_id);
@@ -59,8 +59,8 @@ if (isset($_POST['update'])) {
 
         // Lấy product_id
         $stmt = $conn->prepare("
-            SELECT product_id 
-            FROM cart_items 
+            SELECT product_id
+            FROM cart_items
             WHERE id = ? AND cart_id = ?
         ");
         $stmt->bind_param("ii", $item_id, $cart_id);
@@ -70,9 +70,9 @@ if (isset($_POST['update'])) {
 
         // Lấy tồn kho & adjust theo size
         $stmtStock = $conn->prepare("
-            SELECT quantity, price_adjust 
-            FROM inventory 
-            WHERE product_id = ? 
+            SELECT quantity, price_adjust
+            FROM inventory
+            WHERE product_id = ?
             AND UPPER(TRIM(size)) = ?
         ");
         $stmtStock->bind_param("is", $item['product_id'], $newSize);
@@ -100,7 +100,7 @@ if (isset($_POST['update'])) {
 
         // Update
         $stmtUpdate = $conn->prepare("
-            UPDATE cart_items 
+            UPDATE cart_items
             SET quantity = ?, size = ?, price = ?
             WHERE id = ? AND cart_id = ?
         ");
@@ -123,7 +123,7 @@ if (isset($_POST['update'])) {
    LẤY DANH SÁCH CART
 ======================== */
 $stmt = $conn->prepare("
-    SELECT 
+    SELECT
         ci.id,
         p.name,
         p.price AS base_price,
@@ -135,7 +135,7 @@ $stmt = $conn->prepare("
         IFNULL(i.price_adjust,0) AS adjust
     FROM cart_items ci
     JOIN products p ON p.id = ci.product_id
-    LEFT JOIN inventory i 
+    LEFT JOIN inventory i
         ON i.product_id = ci.product_id
         AND UPPER(TRIM(i.size)) = UPPER(TRIM(ci.size))
     WHERE ci.cart_id = ?
@@ -152,245 +152,235 @@ $canCheckout = true;
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<?php include '../includes/loader.php'; ?>
-<title>BonSai | Cart</title>
+    <?php include '../includes/loader.php'; ?>
+    <title>BonSai | Cart</title>
 </head>
 <body>
-<?php include '../includes/header.php'; ?>
+    <?php include '../includes/header.php'; ?>
 
-<div class="container mt-5">
-<h2 class="mb-4">🛒 Giỏ hàng của bạn</h2>
+    <div class="container mt-5">
+        <h2 class="mb-4">🛒 Giỏ hàng của bạn</h2>
 
-<?php if ($items->num_rows > 0): ?>
+        <?php if ($items->num_rows > 0): ?>
 
-<form method="post">
-<table class="table table-bordered text-center align-middle">
-<thead class="table-dark">
-<tr>
-<th>Ảnh</th>
-<th>Sản phẩm</th>
-<th>Size</th>
-<th>Giá</th>
-<th>Số lượng</th>
-<th>Tổng</th>
-<th>Xóa</th>
-</tr>
-</thead>
-<tbody>
+            <form method="post">
+                <table class="table table-bordered text-center align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>Sản phẩm</th>
+                            <th>Size</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Tổng</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-<?php while ($row = $items->fetch_assoc()): 
+                        <?php while ($row = $items->fetch_assoc()):
 
-    $stock = intval($row['stock']);
-    $qty = min($row['quantity'], $stock);
-    $subtotal = $row['final_price'] * $qty;
-    $total += $subtotal;
+                            $stock = intval($row['stock']);
+                            $qty = min($row['quantity'], $stock);
+                            $subtotal = $row['final_price'] * $qty;
+                            $total += $subtotal;
 
-    if ($stock <= 0) {
-        $canCheckout = false;
-    }
-?>
+                            if ($stock <= 0) {
+                                $canCheckout = false;
+                            }
+                            ?>
 
-<tr>
-<td style="width:100px">
-<img src="../images/<?= htmlspecialchars($row['image']) ?>" 
-     style="width:80px;">
-</td>
+                            <tr>
+                                <td style="width:100px">
+                                    <img src="../images/<?= htmlspecialchars($row['image']) ?>"
+                                         style="width:80px;">
+                                </td>
 
-<td>
-<?= htmlspecialchars($row['name']) ?>
+                                <td>
+                                    <?= htmlspecialchars($row['name']) ?>
 
-<?php if ($stock <= 0): ?>
-<div class="text-danger fw-bold">Hết hàng</div>
-<?php elseif ($stock < $row['quantity']): ?>
-<div class="text-warning">Chỉ còn <?= $stock ?> sản phẩm</div>
-<?php endif; ?>
-</td>
+                                    <?php if ($stock <= 0): ?>
+                                        <div class="text-danger fw-bold">Hết hàng</div>
+                                    <?php elseif ($stock < $row['quantity']): ?>
+                                        <div class="text-warning">Chỉ còn <?= $stock ?> sản phẩm</div>
+                                    <?php endif; ?>
+                                </td>
 
-<td>
-<select name="size[<?= $row['id'] ?>]" 
-        class="form-select size-select">
+                                <td>
+                                    <select name="size[<?= $row['id'] ?>]"
+                                            class="form-select size-select">
 
-<?php
-$stmtSize = $conn->prepare("
-    SELECT size, price_adjust, quantity 
-    FROM inventory 
-    WHERE product_id = (
-        SELECT product_id FROM cart_items WHERE id = ?
-    )
-");
-$stmtSize->bind_param("i", $row['id']);
-$stmtSize->execute();
-$sizes = $stmtSize->get_result();
+                                        <?php
+                                        $stmtSize = $conn->prepare("
+                                            SELECT size, price_adjust, quantity
+                                            FROM inventory
+                                            WHERE product_id = (
+                                                SELECT product_id FROM cart_items WHERE id = ?
+                                            )
+                                        ");
+                                        $stmtSize->bind_param("i", $row['id']);
+                                        $stmtSize->execute();
+                                        $sizes = $stmtSize->get_result();
 
-while($s = $sizes->fetch_assoc()):
+                                        while($s = $sizes->fetch_assoc()):
 
-    $sizeValue = strtoupper(trim($s['size']));
-    $currentSize = strtoupper(trim($row['size']));
-    $stockQty = intval($s['quantity']);
+                                            $sizeValue = strtoupper(trim($s['size']));
+                                            $currentSize = strtoupper(trim($row['size']));
+                                            $stockQty = intval($s['quantity']);
 
-    $disabled = $stockQty <= 0 ? 'disabled' : '';
-?>
+                                            $disabled = $stockQty <= 0 ? 'disabled' : '';
+                                            ?>
 
-<option value="<?= $sizeValue ?>"
-        data-adjust="<?= $s['price_adjust'] ?>"
-        <?= $sizeValue == $currentSize ? 'selected' : '' ?>
-        <?= $disabled ?>>
+                                            <option value="<?= $sizeValue ?>"
+                                                    data-adjust="<?= $s['price_adjust'] ?>"
+                                                    <?= $sizeValue == $currentSize ? 'selected' : '' ?>
+                                                    <?= $disabled ?>>
 
-    <?= $sizeValue ?>
+                                                <?= $sizeValue ?>
 
-    <?php if($stockQty <= 0): ?>
-        (Hết hàng)
-    <?php elseif($s['price_adjust'] > 0): ?>
-        (+<?= number_format($s['price_adjust'],0,",",".") ?>đ)
-    <?php endif; ?>
+                                                <?php if($stockQty <= 0): ?>
+                                                    (Hết hàng)
+                                                <?php elseif($s['price_adjust'] > 0): ?>
+                                                    (+<?= number_format($s['price_adjust'],0,",",".") ?>đ)
+                                                <?php endif; ?>
 
-</option>
+                                            </option>
 
-<?php endwhile; ?>
+                                        <?php endwhile; ?>
 
-</select>
-</td>
+                                    </select>
+                                </td>
 
-</td>
-
-
-<td>
-<?php if($row['adjust'] > 0): ?>
-
-<?php endif; ?>
-
-<div class="fw-bold text-danger">
-<?= number_format($row['final_price'],0,",",".") ?>đ
-</div>
-</td>
+                                <td>
+                                    <div class="fw-bold text-danger">
+                                        <?= number_format($row['final_price'],0,",",".") ?>đ
+                                    </div>
+                                </td>
 
 
-<td style="width:120px">
-<input type="number"
-       name="qty[<?= $row['id'] ?>]"
-       value="<?= $qty ?>"
-       min="1"
-       max="<?= $stock ?>"
-       data-price="<?= $row['base_price'] ?>"
-       class="form-control text-center qty-input"
-       <?= $stock <= 0 ? 'disabled' : '' ?>>
+                                <td style="width:120px">
+                                    <input type="number"
+                                           name="qty[<?= $row['id'] ?>]"
+                                           value="<?= $qty ?>"
+                                           min="1"
+                                           max="<?= $stock ?>"
+                                           data-price="<?= $row['base_price'] ?>"
+                                           class="form-control text-center qty-input"
+                                           <?= $stock <= 0 ? 'disabled' : '' ?>>
 
-</td>
+                                </td>
 
-<td class="subtotal">
-<?= number_format($subtotal,0,",",".") ?>đ
-</td>
+                                <td class="subtotal">
+                                    <?= number_format($subtotal,0,",",".") ?>đ
+                                </td>
 
+                                <td>
+                                    <a href="cart.php?remove=<?= $row['id'] ?>"
+                                       class="btn btn-danger btn-sm">X</a>
+                                </td>
+                            </tr>
 
-<td>
-<a href="cart.php?remove=<?= $row['id'] ?>" 
-   class="btn btn-danger btn-sm">X</a>
-</td>
-</tr>
+                        <?php endwhile; ?>
 
-<?php endwhile; ?>
+                    </tbody>
+                </table>
 
-</tbody>
-</table>
+                <div class="d-flex justify-content-between align-items-center">
 
-<div class="d-flex justify-content-between align-items-center">
+                    <a href="shop.php" class="btn btn-secondary">
+                        Tiếp tục mua sắm
+                    </a>
 
-<a href="shop.php" class="btn btn-secondary">
-Tiếp tục mua sắm
-</a>
+                    <div class="d-flex align-items-center gap-3">
 
-<div class="d-flex align-items-center gap-3">
+                        <strong id="cart-total">
+                            Tổng cộng: <?= number_format($total,0,",",".") ?>đ
+                        </strong>
 
-<strong id="cart-total">
-Tổng cộng: <?= number_format($total,0,",",".") ?>đ
-</strong>
+                        <?php if (isset($_SESSION['updated_time'])): ?>
+                            <span class="text-success">
+                                ✔ Đã cập nhật lúc <?= $_SESSION['updated_time'] ?>
+                            </span>
+                            <?php unset($_SESSION['updated_time']); ?>
+                        <?php endif; ?>
 
+                        <button type="submit"
+                                name="update"
+                                class="btn btn-warning">
+                            Cập nhật
+                        </button>
 
-<?php if (isset($_SESSION['updated_time'])): ?>
-<span class="text-success">
-✔ Đã cập nhật lúc <?= $_SESSION['updated_time'] ?>
-</span>
-<?php unset($_SESSION['updated_time']); ?>
-<?php endif; ?>
+                        <a href="checkout.php"
+                           class="btn btn-success <?= !$canCheckout ? 'disabled' : '' ?>">
+                            Thanh toán
+                        </a>
 
-<button type="submit" 
-        name="update" 
-        class="btn btn-warning">
-Cập nhật
-</button>
+                    </div>
+                </div>
 
-<a href="checkout.php" 
-   class="btn btn-success <?= !$canCheckout ? 'disabled' : '' ?>">
-Thanh toán
-</a>
+            </form>
 
-</div>
-</div>
+        <?php else: ?>
 
-</form>
+            <div class="text-center mt-5">
+                <h4>🛒 Giỏ hàng đang trống</h4>
+                <a href="shop.php" class="btn btn-primary mt-3">
+                    Mua sắm ngay
+                </a>
+            </div>
 
-<?php else: ?>
+        <?php endif; ?>
 
-<div class="text-center mt-5">
-<h4>🛒 Giỏ hàng đang trống</h4>
-<a href="shop.php" class="btn btn-primary mt-3">
-Mua sắm ngay
-</a>
-</div>
+    </div>
 
-<?php endif; ?>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
 
-</div>
-
-<script src="../js/bootstrap.bundle.min.js"></script>
-<?php include '../includes/footer.php'; ?>
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-
-    function formatMoney(number){
-        return number.toLocaleString('vi-VN') + "đ";
-    }
-
-    function updateCartTotal(){
-        let total = 0;
-
-        document.querySelectorAll("tbody tr").forEach(row => {
-
-            const qtyInput = row.querySelector(".qty-input");
-            const sizeSelect = row.querySelector(".size-select");
-
-            if(!qtyInput) return;
-
-            let basePrice = parseFloat(qtyInput.dataset.price);
-            let qty = parseInt(qtyInput.value) || 0;
-
-            let adjust = 0;
-
-            if(sizeSelect){
-                let selected = sizeSelect.options[sizeSelect.selectedIndex];
-                adjust = parseFloat(selected.dataset.adjust) || 0;
+            function formatMoney(number){
+                return number.toLocaleString('vi-VN') + "đ";
             }
 
-            let finalPrice = basePrice + adjust;
-            let subtotal = finalPrice * qty;
+            function updateCartTotal(){
+                let total = 0;
 
-            row.querySelector(".subtotal").innerText = formatMoney(subtotal);
+                document.querySelectorAll("tbody tr").forEach(row => {
 
-            total += subtotal;
+                    const qtyInput = row.querySelector(".qty-input");
+                    const sizeSelect = row.querySelector(".size-select");
+
+                    if(!qtyInput) return;
+
+                    let basePrice = parseFloat(qtyInput.dataset.price);
+                    let qty = parseInt(qtyInput.value) || 0;
+
+                    let adjust = 0;
+
+                    if(sizeSelect){
+                        let selected = sizeSelect.options[sizeSelect.selectedIndex];
+                        adjust = parseFloat(selected.dataset.adjust) || 0;
+                    }
+
+                    let finalPrice = basePrice + adjust;
+                    let subtotal = finalPrice * qty;
+
+                    row.querySelector(".subtotal").innerText = formatMoney(subtotal);
+
+                    total += subtotal;
+                });
+
+                document.getElementById("cart-total").innerText =
+                    "Tổng cộng: " + formatMoney(total);
+            }
+
+            document.querySelectorAll(".qty-input")
+                .forEach(input => input.addEventListener("input", updateCartTotal));
+
+            document.querySelectorAll(".size-select")
+                .forEach(select => select.addEventListener("change", updateCartTotal));
         });
 
-        document.getElementById("cart-total").innerText =
-            "Tổng cộng: " + formatMoney(total);
-    }
-
-    document.querySelectorAll(".qty-input")
-        .forEach(input => input.addEventListener("input", updateCartTotal));
-
-    document.querySelectorAll(".size-select")
-        .forEach(select => select.addEventListener("change", updateCartTotal));
-});
-
-</script>
+    </script>
 
 </body>
 </html>

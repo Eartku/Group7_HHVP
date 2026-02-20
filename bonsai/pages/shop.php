@@ -45,7 +45,7 @@ $totalPages = ceil($totalProducts / $limit);
 /* ===============================
    5. LẤY DANH SÁCH SẢN PHẨM
 ================================ */
-$sql = "SELECT id, name, price, image 
+$sql = "SELECT id, name, price, image
         FROM products
         $where
         ORDER BY id DESC
@@ -59,30 +59,30 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<?php include '../includes/loader.php'; ?>
-<title>
-  BonSai | Shop
-</title>
+    <?php include '../includes/loader.php'; ?>
+    <title>
+        BonSai | Shop
+    </title>
 </head>
 <body>
-      
 
-<?php include '../includes/header.php'; ?>
-<div class="hero">
-    <div class="center-row text-center">
-        <h1 class="glow"><?= htmlspecialchars($cat_name) ?></h1>
-        <span style="color: aliceblue;">
-            Tạo nên một không gian nhỏ xinh!
-        </span>
+
+    <?php include '../includes/header.php'; ?>
+    <div class="hero">
+        <div class="center-row text-center">
+            <h1 class="glow"><?= htmlspecialchars($cat_name) ?></h1>
+            <span style="color: aliceblue;">
+                Tạo nên một không gian nhỏ xinh!
+            </span>
+        </div>
     </div>
-</div>
-<!-- Search Section -->
-<?php include '../includes/products.php'; ?>
+    <!-- Search Section -->
+    <?php include '../includes/products.php'; ?>
 
-<?php include '../includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
 
-<script src="../js/bootstrap.bundle.min.js"></script>
-<script src="../js/custom.js"></script>
-<div id="toast"></div>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/custom.js"></script>
+    <div id="toast"></div>
 </body>
 </html>

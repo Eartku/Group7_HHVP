@@ -54,84 +54,84 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     <div class="container">
         <div class="row">
 
-        <?php if (!empty($products)): ?>
-        <?php foreach ($products as $p): 
+            <?php if (!empty($products)): ?>
+                <?php foreach ($products as $p):
 
-            $id = (int)$p['id'];
-            $name = htmlspecialchars($p['name']);
-            $price = number_format((float)$p['price'], 0, ',', '.');
-            $stock = (int)$p['total_stock'];
-            $isOutOfStock = $stock <= 0;
-
-
-            $imageList = !empty($p['image']) ? explode(",", $p['image']) : [];
-            $firstImage = !empty($imageList[0]) ? trim($imageList[0]) : "";
-
-            $imagePath = !empty($firstImage)
-                ? "../images/" . htmlspecialchars($firstImage)
-                : "https://via.placeholder.com/400x400?text=No+Image";
-        ?>
-
-        <div class="col-12 col-md-6 col-lg-3 mb-5">
-            <div class="product-item text-center h-100">
-
-                <a href="../includes/details.php?id=<?= $id ?>">
-                    <img src="<?= $imagePath ?>"
-                         class="product-thumbnail img-fluid"
-                         loading="lazy">
-                </a>
-
-                <h3 class="product-title mt-3"><?= $name ?></h3>
-                <strong class="product-price d-block mb-3">
-                    <?= $price ?>đ
-                </strong>
-                <?php if ($isOutOfStock): ?>
-            <div class="text-danger mb-2">Hết hàng</div>
-        <?php else: ?>
-            <div class="text-success mb-2">Còn hàng</div>
-        <?php endif; ?>
+                    $id = (int)$p['id'];
+                    $name = htmlspecialchars($p['name']);
+                    $price = number_format((float)$p['price'], 0, ',', '.');
+                    $stock = (int)$p['total_stock'];
+                    $isOutOfStock = $stock <= 0;
 
 
-                <div class="d-flex justify-content-center gap-2">
+                    $imageList = !empty($p['image']) ? explode(",", $p['image']) : [];
+                    $firstImage = !empty($imageList[0]) ? trim($imageList[0]) : "";
 
-                    <button 
-                        <?= $isOutOfStock ? 'disabled' : '' ?>
-                        onclick="<?= $isOutOfStock ? '' : "addToCart($id)" ?>"
-                        class="btn btn-sm <?= $isOutOfStock ? 'btn-secondary' : 'btn-dark' ?>">
-                        <img src="../images/cart.svg" width="18">
-                    </button>
+                    $imagePath = !empty($firstImage)
+                        ? "../images/" . htmlspecialchars($firstImage)
+                        : "https://via.placeholder.com/400x400?text=No+Image";
+                    ?>
 
-                    <a href="../includes/details.php?id=<?= $id ?>"
-                        class="btn btn-sm btn-outline-dark">
-                        Chi tiết
-                    </a>
+                    <div class="col-12 col-md-6 col-lg-3 mb-5">
+                        <div class="product-item text-center h-100">
 
+                            <a href="../includes/details.php?id=<?= $id ?>">
+                                <img src="<?= $imagePath ?>"
+                                     class="product-thumbnail img-fluid"
+                                     loading="lazy">
+                            </a>
+
+                            <h3 class="product-title mt-3"><?= $name ?></h3>
+                            <strong class="product-price d-block mb-3">
+                                <?= $price ?>đ
+                            </strong>
+                            <?php if ($isOutOfStock): ?>
+                                <div class="text-danger mb-2">Hết hàng</div>
+                            <?php else: ?>
+                                <div class="text-success mb-2">Còn hàng</div>
+                            <?php endif; ?>
+
+
+                            <div class="d-flex justify-content-center gap-2">
+
+                                <button
+                                    <?= $isOutOfStock ? 'disabled' : '' ?>
+                                    onclick="<?= $isOutOfStock ? '' : "addToCart($id)" ?>"
+                                    class="btn btn-sm <?= $isOutOfStock ? 'btn-secondary' : 'btn-dark' ?>">
+                                    <img src="../images/cart.svg" width="18">
+                                </button>
+
+                                <a href="../includes/details.php?id=<?= $id ?>"
+                                   class="btn btn-sm btn-outline-dark">
+                                    Chi tiết
+                                </a>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                <?php endforeach; ?>
+            <?php else: ?>
+
+                <div class="col-12 text-center text-muted">
+                    Không có sản phẩm
                 </div>
 
-            </div>
-        </div>
-
-        <?php endforeach; ?>
-        <?php else: ?>
-
-        <div class="col-12 text-center text-muted">
-            Không có sản phẩm
-        </div>
-
-        <?php endif; ?>
+            <?php endif; ?>
 
         </div>
 
         <!-- PHÂN TRANG -->
         <div class="d-flex justify-content-center mt-4">
-        <?php if ($totalPages > 1): ?>
-            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                <a href="?page=<?= $i ?>&category=<?= $category_id ?>"
-                   class="btn btn-sm mx-1 <?= $i == $page ? 'btn-dark' : 'btn-outline-dark' ?>">
-                    <?= $i ?>
-                </a>
-            <?php endfor; ?>
-        <?php endif; ?>
+            <?php if ($totalPages > 1): ?>
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <a href="?page=<?= $i ?>&category=<?= $category_id ?>"
+                       class="btn btn-sm mx-1 <?= $i == $page ? 'btn-dark' : 'btn-outline-dark' ?>">
+                        <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+            <?php endif; ?>
         </div>
 
     </div>

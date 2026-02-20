@@ -34,8 +34,8 @@ if ($result->num_rows > 0) {
 $stmt = $conn->prepare("
     SELECT p.price, i.quantity, i.price_adjust
     FROM products p
-    LEFT JOIN inventory i 
-        ON p.id = i.product_id 
+    LEFT JOIN inventory i
+        ON p.id = i.product_id
         AND UPPER(TRIM(i.size)) = ?
     WHERE p.id = ?
 ");
@@ -58,9 +58,9 @@ if ($stock < $qty) {
 
 /* CHECK TRÙNG PRODUCT + SIZE */
 $stmt = $conn->prepare("
-    SELECT id, quantity 
-    FROM cart_items 
-    WHERE cart_id = ? 
+    SELECT id, quantity
+    FROM cart_items
+    WHERE cart_id = ?
       AND product_id = ?
       AND UPPER(TRIM(size)) = ?
 ");
@@ -78,7 +78,7 @@ if ($exist->num_rows > 0) {
     }
 
     $stmt = $conn->prepare("
-        UPDATE cart_items 
+        UPDATE cart_items
         SET quantity = ?
         WHERE id = ?
     ");
@@ -88,8 +88,8 @@ if ($exist->num_rows > 0) {
 } else {
 
     $stmt = $conn->prepare("
-        INSERT INTO cart_items 
-        (cart_id, product_id, size, quantity, price) 
+        INSERT INTO cart_items
+        (cart_id, product_id, size, quantity, price)
         VALUES (?, ?, ?, ?, ?)
     ");
     $stmt->bind_param("iisid", $cart_id, $product_id, $size, $qty, $price);
