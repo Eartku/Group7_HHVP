@@ -1,0 +1,9 @@
+1. Tìm file bonsai.sql trong folder
+2. Sao chép ra một nơi riêng (nơi A)
+3. lên trình duyệt gõ localhost/phpmyadmin
+4. Với cây database bên trái, nhấn Mới để tạo database Mới
+5. Đặt tên db là bonsai
+6. Trên thanh tiện ích, chọn Nhập
+7. Trong bảng nhập, chọn tập tin import vào (mới sao chép ở nơi A)
+8. Kéo xuống chọn Nhập
+--Hết--
