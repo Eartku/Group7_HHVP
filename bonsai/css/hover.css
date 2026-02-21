@@ -263,8 +263,8 @@
 }
 
 .hover-box-2 .front img {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
 }
 
 /* Back text */
@@ -326,7 +326,7 @@ input[type="checkbox"]:checked + .hover-box-2 .back {
 .dropdown li a {
   display: block;
   padding: 10px 14px;
-  color: #2f3e36;
+  color: #ffffff;
   text-decoration: none;
   font-size: 17px;
   border-radius: 8px;

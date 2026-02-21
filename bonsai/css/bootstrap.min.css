@@ -7258,6 +7258,7 @@ fieldset:disabled .btn {
     var(--bs-bg-opacity)
   ) !important;
 }
+
 .bg-transparent {
   --bs-bg-opacity: 1;
   background-color: transparent !important;

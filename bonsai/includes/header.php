@@ -1,12 +1,31 @@
 <?php
 // header.php
 require_once "../config/db.php";
+/* ===== LẤY DANH MỤC ===== */
 $sql = "SELECT id, name FROM categories";
 $result = $conn->query($sql);
 $categories = [];
+
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $categories[] = $row;
+    }
+}
+
+/* ===== LẤY AVATAR USER ===== */
+$userAvatar = "../images/user.png"; // mặc định
+
+if (isset($_SESSION['user'])) {
+    $userId = $_SESSION['user']['id'];
+
+    $stmt = $conn->prepare("SELECT avatar FROM users WHERE id=?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $u = $res->fetch_assoc();
+
+    if (!empty($u['avatar'])) {
+        $userAvatar = "../uploads/avatars/" . htmlspecialchars($u['avatar']);
     }
 }
 ?>
@@ -54,18 +73,7 @@ if ($result && $result->num_rows > 0) {
                 </li>
 
                 <!-- Người dùng -->
-                <li class="nav-item">
-                    <input type="checkbox" id="user-toggle" hidden />
-                    <label for="user-toggle" class="hover-box-2">
-                        <div class="front"><img src="../images/user.svg" /></div>
-                        <div class="back"><span>Người dùng</span></div>
-                    </label>
-                    <ul class="dropdown" style="background-color:black;">
-                        <li><a href="../pages/profile.php">Hồ sơ cá nhân</a></li>
-                        <li><a href="../pages/orders.php">Lịch sử đơn hàng</a></li>
-                        <li><a href="../pages/logout.php"><img src="../images/exit.svg" /> Đăng xuất</a></li>
-                    </ul>
-                </li>
+                
 
                 <!-- Tìm kiếm -->
                 <li>
@@ -74,6 +82,22 @@ if ($result && $result->num_rows > 0) {
                         <div class="front"><img src="../images/search.svg" /></div>
                         <a href="../pages/search.php" class="back" onclick="event.stopPropagation();">Tìm kiếm</a>
                     </label>
+                </li>
+
+                <li class="nav-item">
+                    <input type="checkbox" id="user-toggle" hidden />
+                    <label for="user-toggle" class="hover-box-2">
+                        <div class="front">
+                            <img src="<?= $userAvatar ?>" 
+                                style="width:30px;height:30px;border-radius:50%;object-fit:cover;" />
+                        </div>
+                        <div class="back"><span>Người dùng</span></div>
+                    </label>
+                    <ul class="dropdown" style="background-color:black;">
+                        <li><a href="../pages/profile.php">Hồ sơ cá nhân</a></li>
+                        <li><a href="../pages/orders.php">Lịch sử đơn hàng</a></li>
+                        <li><a href="../pages/logout.php"><img src="../images/exit.svg" /> Đăng xuất</a></li>
+                    </ul>
                 </li>
 
             </ul>

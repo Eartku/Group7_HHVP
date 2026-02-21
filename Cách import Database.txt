@@ -6,4 +6,18 @@
 6. Trên thanh tiện ích, chọn Nhập
 7. Trong bảng nhập, chọn tập tin import vào (mới sao chép ở nơi A)
 8. Kéo xuống chọn Nhập
---Hết--
+-------------------------------------------------Hết----------------------------------------------------------------
+
+Công thức tính giá bán/nhập cho project
+Do có 3 loại size, S , M , L;
+với S: giá bán + 0%
+với M: giá bán + 20%
+với L: giá bán + 40%
+
+giá bán = giá nhập * (100%+ tỷ lệ lợi nhuận)
+Giá nhập được tính theo quy tắc BÌNH QUÂN: giá nhập của 1 sản phẩm được update khi nhập hàng là giá trị bình quân (số lượng tồn * giá nhập hiện tại + số lượng nhập mới * giá nhập mới) / (số lượng tồn + số lượng nhập).
+Vd: 
+1. Nhập lần đầu: Nhập 10, giá 20  giá nhập = (10*20)/10 = 20
+    Sau đó bán 4 sp, số lượng tồn còn 6, giá nhập 20
+2. Nhập lần hai: Nhập 10, giá 15  giá nhập = (6*20+10*15)/(6+10) = xx
+    Vậy sau thời điểm nhập lần hai, giá nhập của sp đó là xx.

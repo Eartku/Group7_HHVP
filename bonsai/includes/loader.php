@@ -15,3 +15,5 @@
     <link href="../css/animation.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="../css/cartMessage.css"/>
+    <link href="../css/page2.css" rel="stylesheet"/>
+    <link href="../css/search.css" rel="stylesheet"/>

@@ -65,8 +65,6 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     </title>
 </head>
 <body>
-
-
     <?php include '../includes/header.php'; ?>
     <div class="hero">
         <div class="center-row text-center">
@@ -77,7 +75,7 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
         </div>
     </div>
     <!-- Search Section -->
-    <?php include '../includes/products.php'; ?>
+    <?php include '../pages/products.php'; ?>
 
     <?php include '../includes/footer.php'; ?>
 

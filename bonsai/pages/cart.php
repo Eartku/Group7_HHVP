@@ -52,67 +52,144 @@ if (isset($_GET['remove'])) {
 ======================== */
 if (isset($_POST['update'])) {
 
-    foreach ($_POST['qty'] as $item_id => $qty) {
+    $conn->begin_transaction();
 
-        $qty      = max(1, intval($qty));
-        $newSize  = strtoupper(trim($_POST['size'][$item_id] ?? ''));
+    try {
 
-        // Lấy product_id
-        $stmt = $conn->prepare("
-            SELECT product_id
-            FROM cart_items
-            WHERE id = ? AND cart_id = ?
-        ");
-        $stmt->bind_param("ii", $item_id, $cart_id);
-        $stmt->execute();
-        $item = $stmt->get_result()->fetch_assoc();
-        if (!$item) continue;
+        foreach ($_POST['qty'] as $item_id => $qty) {
 
-        // Lấy tồn kho & adjust theo size
-        $stmtStock = $conn->prepare("
-            SELECT quantity, price_adjust
-            FROM inventory
-            WHERE product_id = ?
-            AND UPPER(TRIM(size)) = ?
-        ");
-        $stmtStock->bind_param("is", $item['product_id'], $newSize);
-        $stmtStock->execute();
-        $stockRow = $stmtStock->get_result()->fetch_assoc();
+            $item_id = intval($item_id);
+            $qty     = max(1, intval($qty));
+            $newSize = strtoupper(trim($_POST['size'][$item_id] ?? ''));
 
-        if (!$stockRow || $stockRow['quantity'] <= 0) continue;
+            /* ========================
+               1. LẤY PRODUCT_ID
+            ========================= */
+            $stmtItem = $conn->prepare("
+                SELECT product_id
+                FROM cart_items
+                WHERE id = ? AND cart_id = ?
+            ");
+            $stmtItem->bind_param("ii", $item_id, $cart_id);
+            $stmtItem->execute();
+            $item = $stmtItem->get_result()->fetch_assoc();
 
-        $available = intval($stockRow['quantity']);
-        $adjust    = floatval($stockRow['price_adjust']);
+            if (!$item) continue;
 
-        if ($qty > $available) {
-            $qty = $available;
+            $product_id = $item['product_id'];
+
+            /* ========================
+               2. LẤY STOCK + ADJUST
+            ========================= */
+            $stmtStock = $conn->prepare("
+                SELECT quantity, price_adjust
+                FROM inventory
+                WHERE product_id = ?
+                AND UPPER(TRIM(size)) = ?
+            ");
+            $stmtStock->bind_param("is", $product_id, $newSize);
+            $stmtStock->execute();
+            $stockRow = $stmtStock->get_result()->fetch_assoc();
+
+            if (!$stockRow || $stockRow['quantity'] <= 0) continue;
+
+            $available = intval($stockRow['quantity']);
+            $adjust    = floatval($stockRow['price_adjust']);
+
+            if ($qty > $available) {
+                $qty = $available;
+            }
+
+            /* ========================
+               3. LẤY GIÁ GỐC
+            ========================= */
+            $stmtBase = $conn->prepare("
+                SELECT price FROM products WHERE id = ?
+            ");
+            $stmtBase->bind_param("i", $product_id);
+            $stmtBase->execute();
+            $base_price = $stmtBase->get_result()->fetch_assoc()['price'];
+
+            $final_price = $base_price + $adjust;
+
+            /* ========================
+               4. CHECK DUPLICATE
+            ========================= */
+            $stmtCheck = $conn->prepare("
+                SELECT id, quantity
+                FROM cart_items
+                WHERE cart_id = ?
+                AND product_id = ?
+                AND size = ?
+                AND id != ?
+            ");
+            $stmtCheck->bind_param(
+                "iisi",
+                $cart_id,
+                $product_id,
+                $newSize,
+                $item_id
+            );
+            $stmtCheck->execute();
+            $existing = $stmtCheck->get_result()->fetch_assoc();
+
+            if ($existing) {
+
+                // Merge quantity
+                $mergedQty = $existing['quantity'] + $qty;
+
+                if ($mergedQty > $available) {
+                    $mergedQty = $available;
+                }
+
+                $stmtMerge = $conn->prepare("
+                    UPDATE cart_items
+                    SET quantity = ?, price = ?
+                    WHERE id = ?
+                ");
+                $stmtMerge->bind_param(
+                    "idi",
+                    $mergedQty,
+                    $final_price,
+                    $existing['id']
+                );
+                $stmtMerge->execute();
+
+                // Delete old row
+                $stmtDelete = $conn->prepare("
+                    DELETE FROM cart_items
+                    WHERE id = ?
+                ");
+                $stmtDelete->bind_param("i", $item_id);
+                $stmtDelete->execute();
+
+            } else {
+
+                // Update normally
+                $stmtUpdate = $conn->prepare("
+                    UPDATE cart_items
+                    SET quantity = ?, size = ?, price = ?
+                    WHERE id = ? AND cart_id = ?
+                ");
+                $stmtUpdate->bind_param(
+                    "isdii",
+                    $qty,
+                    $newSize,
+                    $final_price,
+                    $item_id,
+                    $cart_id
+                );
+                $stmtUpdate->execute();
+            }
         }
 
-        // Lấy giá gốc
-        $stmtBase = $conn->prepare("
-            SELECT price FROM products WHERE id = ?
-        ");
-        $stmtBase->bind_param("i", $item['product_id']);
-        $stmtBase->execute();
-        $base_price = $stmtBase->get_result()->fetch_assoc()['price'];
+        $conn->commit();
+        $_SESSION['updated_time'] = date("H:i:s d/m/Y");
 
-        $final_price = $base_price + $adjust;
+    } catch (Exception $e) {
 
-        // Update
-        $stmtUpdate = $conn->prepare("
-            UPDATE cart_items
-            SET quantity = ?, size = ?, price = ?
-            WHERE id = ? AND cart_id = ?
-        ");
-        $stmtUpdate->bind_param(
-            "isdii",
-            $qty,
-            $newSize,
-            $final_price,
-            $item_id,
-            $cart_id
-        );
-        $stmtUpdate->execute();
+        $conn->rollback();
+        die("Update cart failed: " . $e->getMessage());
     }
 
     header("Location: cart.php");
@@ -159,7 +236,7 @@ $canCheckout = true;
     <?php include '../includes/header.php'; ?>
 
     <div class="container mt-5">
-        <h2 class="mb-4">🛒 Giỏ hàng của bạn</h2>
+        <h2 class="mb-4"style="text-align:center" >Giỏ hàng của bạn</h2>
 
         <?php if ($items->num_rows > 0): ?>
 
@@ -189,7 +266,6 @@ $canCheckout = true;
                                 $canCheckout = false;
                             }
                             ?>
-
                             <tr>
                                 <td style="width:100px">
                                     <img src="../images/<?= htmlspecialchars($row['image']) ?>"
@@ -381,6 +457,6 @@ $canCheckout = true;
         });
 
     </script>
-
+<?php include '../includes/footer.php'; ?>
 </body>
 </html>

@@ -1,0 +1,143 @@
+/* =========================
+   SEARCH CONTAINER
+========================= */
+.search-container {
+    background: #548473;
+    padding: 36px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+/* =========================
+   FORM LAYOUT
+========================= */
+.search-form {
+    width: 105%;
+}
+
+.search-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: stretch; /* FIX chiều cao */
+}
+
+/* =========================
+   SEARCH GROUP (QUAN TRỌNG)
+========================= */
+.search-group {
+    flex: 1;
+    min-width: 220px;
+    position: relative; /* dropdown bám đúng */
+}
+
+/* =========================
+   INPUTS
+========================= */
+.search-input,
+.form-select,
+.price-filter input {
+    height: 42px;
+    border-radius: 25px;
+    border: 1px solid #ddd;
+    padding: 0 12px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.search-input:focus,
+.form-select:focus,
+.price-filter input:focus {
+    border-color: #333;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   FILTER GROUP
+========================= */
+.filter-group {
+    min-width: 160px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.price-filter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 200px;
+}
+
+.price-filter input {
+    flex: 1;
+}
+
+.search-results {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+
+    display: none;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    max-height: 320px;
+    overflow-y: auto;
+    z-index: 999;
+
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.search-results.active {
+    display: block;
+}
+
+/* =========================
+   RESULT ITEM
+========================= */
+.result-item {
+    padding: 12px 14px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f1f1;
+    transition: background 0.15s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-item:hover {
+    background: #f5f7fa;
+}
+
+.result-name {
+    font-weight: 500;
+}
+
+.result-price {
+    color: #198754;
+    font-weight: 600;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+
+    .search-wrapper {
+        flex-direction: column;
+    }
+
+    .filter-group,
+    .price-filter {
+        width: 100%;
+    }
+
+}

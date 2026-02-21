@@ -1,6 +1,33 @@
 <!-- Start Footer Section -->
 <footer class="footer-section" style="margin-top: 100px;">
     <div class="container relative">
+        <div class="sofa-img" style="top: -100px">
+          <img src="../images/senda.png" alt="Image" class="img-fluid" />
+        </div>
+        <div class="row g-5 mb-5">
+          <div class="col-lg-4">
+            <div class="mb-4 footer-logo-wrap">
+              <a href="#" class="footer-logo">BonSai<span>.</span></a>
+            </div>
+            <p class="mb-4">Mang đến cho bạn trải nghiệm xanh tốt nhất!</p>
+            <ul class="list-unstyled custom-social">
+              <li>
+                <a href="#"><span class="fa fa-brands fa-facebook-f"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-brands fa-twitter"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-brands fa-instagram"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-brands fa-linkedin"></span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <div class="container relative">
         <div class="sofa-img">
             <img src = "../images/new.gif" style="margin-top:500px;">
         </div>
