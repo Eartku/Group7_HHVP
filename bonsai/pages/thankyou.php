@@ -1,10 +1,13 @@
-<!-- /*
-* Bootstrap 5
-* Template Name: Furni
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
+<?php
+session_start();
+require_once "../config/db.php";
+
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    die("Không tìm thấy đơn hàng");
+}
+
+$order_id = (int)$_GET['id'];
+?>
 <!DOCTYPE html>
 <html lang="vi">
   <head>
@@ -47,9 +50,10 @@
               <a href="dashboard.php" class="btn btn-sm btn-outline-black hover-text-glow" style="margin-top:0px;"
                 >Quay về trang chủ</a
               >
-              <a href="orderdetail.php?id=<?= (int)$order['id'] ?>" " class="btn btn-sm btn-outline-black hover-text-glow" style="margin-top:0px;"
-                >Xem lại đơn hàng</a
-              >
+              <a href="orderdetail.php?id=<?= $order_id ?>"
+                class="btn btn-sm btn-outline-black hover-text-glow">
+                Xem lại đơn hàng
+              </a>
             </p>
             <p class="lead mb-5" style="margin-top: 50px;">
               Đơn hàng của bạn sẽ được giao sớm nhất có thể.

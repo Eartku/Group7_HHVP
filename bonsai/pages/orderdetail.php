@@ -64,34 +64,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
         $stmt->bind_param("i", $order_id);
         $stmt->execute();
         $items = $stmt->get_result();
+        
+// 4️⃣ Trả kho từng sản phẩm
+while ($item = $items->fetch_assoc()) {
 
-        // 4️⃣ Trả kho
-        while ($item = $items->fetch_assoc()) {
+    // Trả kho
+    $stmt2 = $conn->prepare("
+        UPDATE inventory
+        SET quantity = quantity + ?
+        WHERE product_id = ?
+        AND UPPER(TRIM(size)) = UPPER(TRIM(?))
+    ");
 
-            $stmt2 = $conn->prepare("
-                UPDATE inventory
-                SET quantity = quantity + ?
-                WHERE product_id = ? AND size = ?
-            ");
+    $stmt2->bind_param(
+        "iis",
+        $item['quantity'],
+        $item['product_id'],
+        $item['size']
+    );
 
-            $stmt2->bind_param(
-                "iis",
-                $item['quantity'],
-                $item['product_id'],
-                $item['size']
-            );
+    $stmt2->execute();
 
-            $stmt2->execute();
+    if ($stmt2->affected_rows === 0) {
+        throw new Exception(
+            "Không match inventory khi hoàn kho - product_id="
+            . $item['product_id']
+            . " size=" . $item['size']
+        );
+    }
 
-            if ($stmt2->affected_rows === 0) {
-                throw new Exception(
-                    "Không match inventory: product_id="
-                    . $item['product_id']
-                    . " size="
-                    . $item['size']
-                );
-            }
-        }
+    // Ghi log hoàn kho
+    $stmtLog = $conn->prepare("
+        INSERT INTO inventory_logs
+        (product_id, type, quantity, import_price, note, created_at)
+        VALUES (?, 'import', ?, 0, ?, NOW())
+    ");
+
+    $note = "Hoàn kho do hủy đơn #" . $order_id;
+
+    $stmtLog->bind_param(
+        "iis",
+        $item['product_id'],
+        $item['quantity'],
+        $note
+    );
+
+    $stmtLog->execute();
+}
 
         $conn->commit();
 
@@ -118,8 +137,7 @@ $stmt->execute();
 $order = $stmt->get_result()->fetch_assoc();
 
 if (!$order) {
-    header("Location: orders.php");
-    exit();
+    die("Không tìm thấy đơn hàng hoặc đơn không thuộc user hiện tại");
 }
 
 /* ========================= */
@@ -202,7 +220,7 @@ switch ($status) {
     <div class="row">
 
         <!-- PRODUCT INFO -->
-        <div class="col-md-7 mb-4">
+        <div class="mb-4">
             <div class="card p-4 shadow-sm">
 
                 <h4>Sản phẩm trong đơn</h4>
@@ -263,7 +281,7 @@ switch ($status) {
         </div>
 
         <!-- ORDER INFO -->
-        <div class="col-md-5">
+        <div >
             <div class="card p-4 shadow-sm">
 
                 <h4>Thông tin đơn hàng</h4>
@@ -272,6 +290,9 @@ switch ($status) {
 
                 <p><strong>Ngày đặt:</strong>
                     <?= date("d/m/Y H:i", strtotime($order['created_at'])) ?>
+                </p>
+                <p><strong>Địa chỉ giao hàng:</strong>
+                    <?= htmlspecialchars($order['address']) ?>
                 </p>
 
                 <p><strong>Phương thức thanh toán:</strong>

@@ -9,8 +9,21 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 
 $id = (int)$_GET['id'];
 
-/* ===== LẤY SẢN PHẨM ===== */
-$stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
+/* ===== LẤY SẢN PHẨM + GIÁ TỪ INVENTORY ===== */
+$stmt = $conn->prepare("
+    SELECT 
+        p.*,
+        COALESCE(i.avg_import_price,0) AS avg_import_price,
+        ROUND(
+            COALESCE(i.avg_import_price,0) * (1 + p.profit_rate/100)
+        , -3) AS sale_price
+    FROM products p
+    LEFT JOIN inventory i 
+        ON i.product_id = p.id
+    WHERE p.id = ?
+    LIMIT 1
+");
+
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -20,6 +33,7 @@ if ($result->num_rows === 0) {
 }
 
 $product = $result->fetch_assoc();
+$basePrice = (float)$product['sale_price'];
 
 /* ===== LẤY TỒN KHO THEO SIZE ===== */
 $invStmt = $conn->prepare("
@@ -50,13 +64,25 @@ if (!empty($product['image'])) {
 $mainImage = !empty($images[0]) ? trim($images[0]) : "no-image.png";
 
 /* ===== SẢN PHẨM LIÊN QUAN ===== */
-$related = $conn->query("
-    SELECT id, name, price, image
-    FROM products
-    WHERE id != $id
+$relatedStmt = $conn->prepare("
+    SELECT 
+        p.id,
+        p.name,
+        p.image,
+        ROUND(
+            COALESCE(i.avg_import_price,0) * (1 + p.profit_rate/100)
+        , -3) AS sale_price
+    FROM products p
+    LEFT JOIN inventory i 
+        ON i.product_id = p.id
+    WHERE p.id != ?
     ORDER BY RAND()
     LIMIT 4
 ");
+
+$relatedStmt->bind_param("i", $id);
+$relatedStmt->execute();
+$related = $relatedStmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -102,8 +128,8 @@ $related = $conn->query("
 
                 <h4 id="priceDisplay"
                     class="text-danger my-3"
-                    data-base="<?= $product['price'] ?>">
-                    <?= number_format($product['price'], 0, ',', '.') ?> đ
+                    data-base="<?= $basePrice ?>">
+                    <?= number_format($basePrice, 0, ',', '.') ?> đ
                 </h4>
 
                 <p><?= nl2br(htmlspecialchars($product['description'])) ?></p>
@@ -177,8 +203,11 @@ $related = $conn->query("
                         <div class="card-body text-center">
                             <h6><?= htmlspecialchars($row['name']) ?></h6>
                             <p class="text-danger">
-                                <?= number_format($row['price'], 0, ',', '.') ?> đ
+                                <?= number_format($row['sale_price'], 0, ',', '.') ?> đ
                             </p>
+                            <a href="details.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-primary">
+                                Xem chi tiết
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -221,9 +250,8 @@ $related = $conn->query("
 
                 const finalPrice = basePrice + adjust;
 
-                priceDisplay.innerText = formatMoney(finalPrice);
+                priceDisplay.innerText = finalPrice.toLocaleString('vi-VN') + " đ";
 
-                // giới hạn số lượng theo size
                 qtyInput.max = stock;
                 if(parseInt(qtyInput.value) > stock){
                     qtyInput.value = stock;

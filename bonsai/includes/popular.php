@@ -1,7 +1,28 @@
 <!-- Start Popular Product Section -->
 <?php
 require_once "../config/db.php";
-$sql = "SELECT id, name, image FROM products ORDER BY price DESC LIMIT 3";
+
+$sql = "
+    SELECT 
+        p.id,
+        p.name,
+        p.image,
+        p.profit_rate,
+        COALESCE(
+            ROUND(
+                (
+                    SUM(il.import_price * il.quantity) /
+                    NULLIF(SUM(il.quantity),0)
+                ) * (1 + p.profit_rate/100)
+            , -3),0
+        ) AS sale_price
+    FROM products p
+    LEFT JOIN inventory_logs il ON il.product_id = p.id
+    GROUP BY p.id
+    ORDER BY sale_price DESC
+    LIMIT 3
+";
+
 $result = $conn->query($sql);
 ?>
 

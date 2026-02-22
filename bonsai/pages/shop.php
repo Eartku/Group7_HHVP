@@ -30,13 +30,13 @@ $offset = ($page - 1) * $limit;
 ================================ */
 $where = "";
 if ($category_id > 0) {
-    $where = " WHERE category_id = $category_id";
+    $where = " WHERE p.category_id = $category_id";
 }
 
 /* ===============================
    4. ĐẾM TỔNG SẢN PHẨM
 ================================ */
-$countSql = "SELECT COUNT(*) as total FROM products $where";
+$countSql = "SELECT COUNT(*) as total FROM products p $where";
 $countResult = $conn->query($countSql);
 $totalRow = $countResult->fetch_assoc();
 $totalProducts = $totalRow['total'];
@@ -44,12 +44,22 @@ $totalPages = ceil($totalProducts / $limit);
 
 /* ===============================
    5. LẤY DANH SÁCH SẢN PHẨM
+   TÍNH GIÁ TỪ INVENTORY_LOGS
 ================================ */
-$sql = "SELECT id, name, price, image
-        FROM products
-        $where
-        ORDER BY id DESC
-        LIMIT $limit OFFSET $offset";
+$sql = "
+SELECT 
+    p.id,
+    p.name,
+    p.image,
+    COALESCE(ROUND(AVG(il.import_price) * 1.1), 0) AS sale_price
+FROM products p
+LEFT JOIN inventory_logs il 
+    ON il.product_id = p.id
+$where
+GROUP BY p.id
+ORDER BY p.id DESC
+LIMIT $limit OFFSET $offset
+";
 
 $result = $conn->query($sql);
 $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];

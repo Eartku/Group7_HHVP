@@ -2,15 +2,17 @@
 require_once "../config/db.php";
 
 $category_id = isset($category_id) ? (int)$category_id : 0;
-$page = isset($page) ? (int)$page : 1;
+$page        = isset($page) ? (int)$page : 1;
 if ($page < 1) $page = 1;
 
-$limit = 8;
+$limit  = 8;
 $offset = ($page - 1) * $limit;
+
 
 /* ================= ĐẾM TỔNG ================= */
 
 $countSql = "SELECT COUNT(*) as total FROM products";
+
 if ($category_id > 0) {
     $countSql .= " WHERE category_id = ?";
     $stmt = $conn->prepare($countSql);
@@ -20,8 +22,9 @@ if ($category_id > 0) {
 }
 
 $stmt->execute();
-$totalProducts = $stmt->get_result()->fetch_assoc()['total'];
+$totalProducts = $stmt->get_result()->fetch_assoc()['total'] ?? 0;
 $totalPages = ceil($totalProducts / $limit);
+
 
 /* ================= LẤY SẢN PHẨM ================= */
 
@@ -32,14 +35,20 @@ SELECT
     p.image,
     p.profit_rate,
 
-    IFNULL(SUM(i.quantity),0) as total_stock,
+    IFNULL(SUM(i.quantity),0) AS total_stock,
 
-    MAX(i.import_price) as import_price,
+    IFNULL(
+        SUM(i.avg_import_price * i.quantity)
+        / NULLIF(SUM(i.quantity),0)
+    ,0) AS avg_import_price,
 
-    ROUND(MAX(i.import_price) * (1 + p.profit_rate/100)) as sale_price
+    IFNULL(
+        SUM(i.price_adjust * i.quantity)
+        / NULLIF(SUM(i.quantity),0)
+    ,0) AS price_adjust
 
 FROM products p
-LEFT JOIN inventory i ON p.id = i.product_id
+LEFT JOIN inventory i ON i.product_id = p.id
 ";
 
 if ($category_id > 0) {
@@ -62,3 +71,4 @@ if ($category_id > 0) {
 
 $stmt->execute();
 $products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+?>

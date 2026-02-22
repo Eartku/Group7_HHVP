@@ -3,9 +3,6 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 session_start();
 require_once "../config/db.php";
 
-/* ========================
-   CHECK LOGIN
-======================== */
 if (!isset($_SESSION['user'])) {
     header("Location: login.php");
     exit();
@@ -14,7 +11,7 @@ if (!isset($_SESSION['user'])) {
 $user_id = $_SESSION['user']['id'];
 
 /* ========================
-   LẤY HOẶC TẠO CART
+   LẤY / TẠO CART
 ======================== */
 $stmt = $conn->prepare("SELECT id FROM carts WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
@@ -31,26 +28,21 @@ if (!$cart) {
 }
 
 /* ========================
-   XÓA SẢN PHẨM
+   XÓA ITEM
 ======================== */
 if (isset($_GET['remove'])) {
     $remove_id = intval($_GET['remove']);
-
-    $stmt = $conn->prepare("
-        DELETE FROM cart_items
-        WHERE id = ? AND cart_id = ?
-    ");
+    $stmt = $conn->prepare("DELETE FROM cart_items WHERE id = ? AND cart_id = ?");
     $stmt->bind_param("ii", $remove_id, $cart_id);
     $stmt->execute();
-
     header("Location: cart.php");
     exit();
 }
 
 /* ========================
-   CẬP NHẬT CART
+   UPDATE CART (SERVER TÍNH GIÁ)
 ======================== */
-if (isset($_POST['update'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $conn->begin_transaction();
 
@@ -59,28 +51,44 @@ if (isset($_POST['update'])) {
         foreach ($_POST['qty'] as $item_id => $qty) {
 
             $item_id = intval($item_id);
-            $qty     = max(1, intval($qty));
+            $qty = max(1, intval($qty));
             $newSize = strtoupper(trim($_POST['size'][$item_id] ?? ''));
 
-            /* ========================
-               1. LẤY PRODUCT_ID
-            ========================= */
+            // Lấy product_id
             $stmtItem = $conn->prepare("
-                SELECT product_id
-                FROM cart_items
+                SELECT product_id 
+                FROM cart_items 
                 WHERE id = ? AND cart_id = ?
             ");
             $stmtItem->bind_param("ii", $item_id, $cart_id);
             $stmtItem->execute();
             $item = $stmtItem->get_result()->fetch_assoc();
-
             if (!$item) continue;
 
             $product_id = $item['product_id'];
 
-            /* ========================
-               2. LẤY STOCK + ADJUST
-            ========================= */
+            // Lấy giá từ inventory giống details
+            $stmtProduct = $conn->prepare("
+                SELECT 
+                    p.profit_rate,
+                    COALESCE(i.avg_import_price,0) AS avg_import_price
+                FROM products p
+                LEFT JOIN inventory i 
+                    ON i.product_id = p.id
+                WHERE p.id = ?
+                LIMIT 1
+            ");
+            $stmtProduct->bind_param("i", $product_id);
+            $stmtProduct->execute();
+            $product = $stmtProduct->get_result()->fetch_assoc();
+            if (!$product) continue;
+
+            $avg = floatval($product['avg_import_price']);
+            $profit = floatval($product['profit_rate']);
+
+            $base_price = round($avg * (1 + $profit/100), -3);
+
+            // Lấy size adjust
             $stmtStock = $conn->prepare("
                 SELECT quantity, price_adjust
                 FROM inventory
@@ -90,126 +98,54 @@ if (isset($_POST['update'])) {
             $stmtStock->bind_param("is", $product_id, $newSize);
             $stmtStock->execute();
             $stockRow = $stmtStock->get_result()->fetch_assoc();
-
-            if (!$stockRow || $stockRow['quantity'] <= 0) continue;
+            if (!$stockRow) continue;
 
             $available = intval($stockRow['quantity']);
-            $adjust    = floatval($stockRow['price_adjust']);
+            $adjust = floatval($stockRow['price_adjust']);
 
-            if ($qty > $available) {
-                $qty = $available;
-            }
-
-            /* ========================
-               3. LẤY GIÁ GỐC
-            ========================= */
-            $stmtBase = $conn->prepare("
-                SELECT price FROM products WHERE id = ?
-            ");
-            $stmtBase->bind_param("i", $product_id);
-            $stmtBase->execute();
-            $base_price = $stmtBase->get_result()->fetch_assoc()['price'];
+            if ($available <= 0) continue;
+            if ($qty > $available) $qty = $available;
 
             $final_price = $base_price + $adjust;
 
-            /* ========================
-               4. CHECK DUPLICATE
-            ========================= */
-            $stmtCheck = $conn->prepare("
-                SELECT id, quantity
-                FROM cart_items
-                WHERE cart_id = ?
-                AND product_id = ?
-                AND size = ?
-                AND id != ?
+            $stmtUpdate = $conn->prepare("
+                UPDATE cart_items
+                SET quantity = ?, size = ?, price = ?
+                WHERE id = ? AND cart_id = ?
             ");
-            $stmtCheck->bind_param(
-                "iisi",
-                $cart_id,
-                $product_id,
+            $stmtUpdate->bind_param(
+                "isdii",
+                $qty,
                 $newSize,
-                $item_id
+                $final_price,
+                $item_id,
+                $cart_id
             );
-            $stmtCheck->execute();
-            $existing = $stmtCheck->get_result()->fetch_assoc();
-
-            if ($existing) {
-
-                // Merge quantity
-                $mergedQty = $existing['quantity'] + $qty;
-
-                if ($mergedQty > $available) {
-                    $mergedQty = $available;
-                }
-
-                $stmtMerge = $conn->prepare("
-                    UPDATE cart_items
-                    SET quantity = ?, price = ?
-                    WHERE id = ?
-                ");
-                $stmtMerge->bind_param(
-                    "idi",
-                    $mergedQty,
-                    $final_price,
-                    $existing['id']
-                );
-                $stmtMerge->execute();
-
-                // Delete old row
-                $stmtDelete = $conn->prepare("
-                    DELETE FROM cart_items
-                    WHERE id = ?
-                ");
-                $stmtDelete->bind_param("i", $item_id);
-                $stmtDelete->execute();
-
-            } else {
-
-                // Update normally
-                $stmtUpdate = $conn->prepare("
-                    UPDATE cart_items
-                    SET quantity = ?, size = ?, price = ?
-                    WHERE id = ? AND cart_id = ?
-                ");
-                $stmtUpdate->bind_param(
-                    "isdii",
-                    $qty,
-                    $newSize,
-                    $final_price,
-                    $item_id,
-                    $cart_id
-                );
-                $stmtUpdate->execute();
-            }
+            $stmtUpdate->execute();
         }
 
         $conn->commit();
-        $_SESSION['updated_time'] = date("H:i:s d/m/Y");
+        header("Location: cart.php");
+        exit();
 
     } catch (Exception $e) {
-
         $conn->rollback();
-        die("Update cart failed: " . $e->getMessage());
+        die("Update cart failed");
     }
-
-    header("Location: cart.php");
-    exit();
 }
 
 /* ========================
-   LẤY DANH SÁCH CART
+   LOAD CART
 ======================== */
 $stmt = $conn->prepare("
     SELECT
         ci.id,
         p.name,
-        p.price AS base_price,
-        ci.price AS final_price,
         p.image,
         ci.size,
         ci.quantity,
-        IFNULL(i.quantity,0) AS stock,
-        IFNULL(i.price_adjust,0) AS adjust
+        ci.price,
+        IFNULL(i.quantity,0) AS stock
     FROM cart_items ci
     JOIN products p ON p.id = ci.product_id
     LEFT JOIN inventory i
@@ -223,6 +159,29 @@ $items = $stmt->get_result();
 
 $total = 0;
 $canCheckout = true;
+
+$stmtCheck = $conn->prepare("
+    SELECT ci.quantity, IFNULL(i.quantity,0) AS stock
+    FROM cart_items ci
+    LEFT JOIN inventory i
+        ON i.product_id = ci.product_id
+        AND UPPER(TRIM(i.size)) = UPPER(TRIM(ci.size))
+    WHERE ci.cart_id = ?
+");
+$stmtCheck->bind_param("i", $cart_id);
+$stmtCheck->execute();
+$resultCheck = $stmtCheck->get_result();
+
+if ($resultCheck->num_rows == 0) {
+    $canCheckout = false;
+}
+
+while ($r = $resultCheck->fetch_assoc()) {
+    if ($r['stock'] <= 0 || $r['quantity'] > $r['stock']) {
+        $canCheckout = false;
+        break;
+    }
+}
 ?>
 
 
@@ -253,111 +212,89 @@ $canCheckout = true;
                             <th>Xóa</th>
                         </tr>
                     </thead>
-                    <tbody>
+                <tbody>
+                    <?php while ($row = $items->fetch_assoc()):
+                        $stock = intval($row['stock']);
+                        $qty = min(intval($row['quantity']), $stock);
 
-                        <?php while ($row = $items->fetch_assoc()):
+                        $price = floatval($row['price']);
+                        $subtotal = $price * $qty;
+                        $total += $subtotal;
+                    ?>
+                    <tr>
+                        <td style="width:100px">
+                            <img src="../images/<?= htmlspecialchars($row['image']) ?>"
+                                style="width:80px;">
+                        </td>
 
-                            $stock = intval($row['stock']);
-                            $qty = min($row['quantity'], $stock);
-                            $subtotal = $row['final_price'] * $qty;
-                            $total += $subtotal;
+                        <td>
+                            <?= htmlspecialchars($row['name']) ?>
 
-                            if ($stock <= 0) {
-                                $canCheckout = false;
-                            }
-                            ?>
-                            <tr>
-                                <td style="width:100px">
-                                    <img src="../images/<?= htmlspecialchars($row['image']) ?>"
-                                         style="width:80px;">
-                                </td>
+                            <?php if ($stock <= 0): ?>
+                                <div class="text-danger fw-bold">Hết hàng</div>
+                            <?php elseif ($stock < $row['quantity']): ?>
+                                <div class="text-warning">Chỉ còn <?= $stock ?> sản phẩm</div>
+                            <?php endif; ?>
+                        </td>
 
-                                <td>
-                                    <?= htmlspecialchars($row['name']) ?>
+                        <td>
+                            <select name="size[<?= $row['id'] ?>]"
+                                    class="form-select">
 
-                                    <?php if ($stock <= 0): ?>
-                                        <div class="text-danger fw-bold">Hết hàng</div>
-                                    <?php elseif ($stock < $row['quantity']): ?>
-                                        <div class="text-warning">Chỉ còn <?= $stock ?> sản phẩm</div>
-                                    <?php endif; ?>
-                                </td>
+                                <?php
+                                $stmtSize = $conn->prepare("
+                                    SELECT size, quantity
+                                    FROM inventory
+                                    WHERE product_id = (
+                                        SELECT product_id FROM cart_items WHERE id = ?
+                                    )
+                                ");
+                                $stmtSize->bind_param("i", $row['id']);
+                                $stmtSize->execute();
+                                $sizes = $stmtSize->get_result();
 
-                                <td>
-                                    <select name="size[<?= $row['id'] ?>]"
-                                            class="form-select size-select">
+                                while($s = $sizes->fetch_assoc()):
+                                    $sizeValue = strtoupper(trim($s['size']));
+                                    $currentSize = strtoupper(trim($row['size']));
+                                    $stockQty = intval($s['quantity']);
+                                    $disabled = $stockQty <= 0 ? 'disabled' : '';
+                                ?>
+                                    <option value="<?= $sizeValue ?>"
+                                            <?= $sizeValue == $currentSize ? 'selected' : '' ?>
+                                            <?= $disabled ?>>
+                                        <?= $sizeValue ?>
+                                        <?= $stockQty <= 0 ? '(Hết hàng)' : '' ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
+                        </td>
 
-                                        <?php
-                                        $stmtSize = $conn->prepare("
-                                            SELECT size, price_adjust, quantity
-                                            FROM inventory
-                                            WHERE product_id = (
-                                                SELECT product_id FROM cart_items WHERE id = ?
-                                            )
-                                        ");
-                                        $stmtSize->bind_param("i", $row['id']);
-                                        $stmtSize->execute();
-                                        $sizes = $stmtSize->get_result();
+                        <td>
+                            <div class="fw-bold text-danger">
+                                <?= number_format($price,0,",",".") ?>đ
+                            </div>
+                        </td>
 
-                                        while($s = $sizes->fetch_assoc()):
+                        <td style="width:120px">
+                            <input type="number"
+                                name="qty[<?= $row['id'] ?>]"
+                                value="<?= $qty ?>"
+                                min="1"
+                                max="<?= $stock ?>"
+                                data-price="<?= $price ?>"
+                                class="form-control text-center qty-input">
+                        </td>
 
-                                            $sizeValue = strtoupper(trim($s['size']));
-                                            $currentSize = strtoupper(trim($row['size']));
-                                            $stockQty = intval($s['quantity']);
+                        <td class="subtotal">
+                            <?= number_format($subtotal,0,",",".") ?>đ
+                        </td>
 
-                                            $disabled = $stockQty <= 0 ? 'disabled' : '';
-                                            ?>
-
-                                            <option value="<?= $sizeValue ?>"
-                                                    data-adjust="<?= $s['price_adjust'] ?>"
-                                                    <?= $sizeValue == $currentSize ? 'selected' : '' ?>
-                                                    <?= $disabled ?>>
-
-                                                <?= $sizeValue ?>
-
-                                                <?php if($stockQty <= 0): ?>
-                                                    (Hết hàng)
-                                                <?php elseif($s['price_adjust'] > 0): ?>
-                                                    (+<?= number_format($s['price_adjust'],0,",",".") ?>đ)
-                                                <?php endif; ?>
-
-                                            </option>
-
-                                        <?php endwhile; ?>
-
-                                    </select>
-                                </td>
-
-                                <td>
-                                    <div class="fw-bold text-danger">
-                                        <?= number_format($row['final_price'],0,",",".") ?>đ
-                                    </div>
-                                </td>
-
-
-                                <td style="width:120px">
-                                    <input type="number"
-                                           name="qty[<?= $row['id'] ?>]"
-                                           value="<?= $qty ?>"
-                                           min="1"
-                                           max="<?= $stock ?>"
-                                           data-price="<?= $row['base_price'] ?>"
-                                           class="form-control text-center qty-input"
-                                           <?= $stock <= 0 ? 'disabled' : '' ?>>
-
-                                </td>
-
-                                <td class="subtotal">
-                                    <?= number_format($subtotal,0,",",".") ?>đ
-                                </td>
-
-                                <td>
-                                    <a href="cart.php?remove=<?= $row['id'] ?>"
-                                       class="btn btn-danger btn-sm">X</a>
-                                </td>
-                            </tr>
-
-                        <?php endwhile; ?>
-
+                        <td>
+                            <a href="cart.php?remove=<?= $row['id'] ?>"
+                            class="btn btn-danger btn-sm">X</a>
+                        </td>
+                    </tr>
+                    <?php endwhile; ?>
                     </tbody>
                 </table>
 
@@ -411,51 +348,51 @@ $canCheckout = true;
 
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function(){
 
-            function formatMoney(number){
-                return number.toLocaleString('vi-VN') + "đ";
+    function formatMoney(number){
+        return number.toLocaleString('vi-VN') + "đ";
+    }
+
+    function updateCartTotal(){
+
+        let total = 0;
+
+        document.querySelectorAll("tbody tr").forEach(row => {
+
+            const qtyInput = row.querySelector(".qty-input");
+            if(!qtyInput) return;
+
+            // 🔥 Lấy giá đã được backend tính sẵn
+            let price = parseFloat(qtyInput.dataset.price);
+            if(isNaN(price)) price = 0;
+
+            let qty = parseInt(qtyInput.value);
+            if(isNaN(qty) || qty < 0) qty = 0;
+
+            let subtotal = price * qty;
+
+            const subtotalCell = row.querySelector(".subtotal");
+            if(subtotalCell){
+                subtotalCell.innerText = formatMoney(subtotal);
             }
 
-            function updateCartTotal(){
-                let total = 0;
-
-                document.querySelectorAll("tbody tr").forEach(row => {
-
-                    const qtyInput = row.querySelector(".qty-input");
-                    const sizeSelect = row.querySelector(".size-select");
-
-                    if(!qtyInput) return;
-
-                    let basePrice = parseFloat(qtyInput.dataset.price);
-                    let qty = parseInt(qtyInput.value) || 0;
-
-                    let adjust = 0;
-
-                    if(sizeSelect){
-                        let selected = sizeSelect.options[sizeSelect.selectedIndex];
-                        adjust = parseFloat(selected.dataset.adjust) || 0;
-                    }
-
-                    let finalPrice = basePrice + adjust;
-                    let subtotal = finalPrice * qty;
-
-                    row.querySelector(".subtotal").innerText = formatMoney(subtotal);
-
-                    total += subtotal;
-                });
-
-                document.getElementById("cart-total").innerText =
-                    "Tổng cộng: " + formatMoney(total);
-            }
-
-            document.querySelectorAll(".qty-input")
-                .forEach(input => input.addEventListener("input", updateCartTotal));
-
-            document.querySelectorAll(".size-select")
-                .forEach(select => select.addEventListener("change", updateCartTotal));
+            total += subtotal;
         });
 
+        const totalEl = document.getElementById("cart-total");
+        if(totalEl){
+            totalEl.innerText = "Tổng cộng: " + formatMoney(total);
+        }
+    }
+
+    // Khi đổi số lượng
+    document.querySelectorAll(".qty-input")
+        .forEach(input => input.addEventListener("input", updateCartTotal));
+
+    // Chạy khi load trang
+    updateCartTotal();
+});
     </script>
 <?php include '../includes/footer.php'; ?>
 </body>

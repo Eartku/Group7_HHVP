@@ -100,9 +100,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $payment   = $_POST['payment'] ?? 'cod';
     $option    = $_POST['address_option'] ?? 'saved';
 
-    $address = ($option === 'saved')
-        ? trim($_POST['saved_address'] ?? '')
-        : trim($_POST['new_address'] ?? '');
+    if ($option === 'saved') {
+        $address = trim($_POST['saved_address'] ?? '');
+    }
+
 
     if (!$fullname || !$email || !$phone || !$address) {
         $error = "Vui lòng nhập đầy đủ thông tin bắt buộc.";
@@ -144,44 +145,99 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             /* ========================= */
             $stmt = $conn->prepare("
                 INSERT INTO orders
-                (user_id, note, payment_method, total_price, status, created_at, updated_at)
-                VALUES (?, ?, ?, ?, 'processing', NOW(), NOW())
+                (user_id, fullname, email, phone, address, note, payment_method, total_price, status, created_at, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'processing', NOW(), NOW())
             ");
-            $stmt->bind_param("issd", $user_id, $note, $payment, $grand_total);
+
+            $stmt->bind_param(
+                "issssssd",
+                $user_id,
+                $fullname,
+                $email,
+                $phone,
+                $address,
+                $note,
+                $payment,
+                $grand_total
+            );
             $stmt->execute();
             $order_id = $stmt->insert_id;
 
             /* ========================= */
             /* ===== INSERT ITEMS + TRỪ KHO */
             /* ========================= */
-            foreach ($products as $p) {
+            /* ========================= */
+/* ===== INSERT ITEMS + TRỪ KHO + LOG EXPORT */
+/* ========================= */
+foreach ($products as $p) {
 
-                // Insert order item
-              $stmt = $conn->prepare("
-                    INSERT INTO order_items
-                    (order_id, product_id, size, quantity, price)
-                    VALUES (?, ?, ?, ?, ?)
-                ");
+            // 1️⃣ Lấy tồn kho + avg_import_price (đã lock từ trước)
+            $stmt = $conn->prepare("
+                SELECT quantity, avg_import_price
+                FROM inventory
+                WHERE product_id = ? AND size = ?
+                FOR UPDATE
+            ");
+            $stmt->bind_param("is", $p['id'], $p['size']);
+            $stmt->execute();
+            $stockData = $stmt->get_result()->fetch_assoc();
 
-                $stmt->bind_param(
-                    "iisid",
-                    $order_id,
-                    $p['id'],
-                    $p['size'],
-                    $p['quantity'],
-                    $p['price']
-                );
-                $stmt->execute();
-
-                // Trừ kho
-                $stmt = $conn->prepare("
-                    UPDATE inventory
-                    SET quantity = quantity - ?
-                    WHERE product_id = ? AND size = ?
-                ");
-                $stmt->bind_param("iis", $p['quantity'], $p['id'], $p['size']);
-                $stmt->execute();
+            if (!$stockData) {
+                throw new Exception("Không tìm thấy tồn kho khi trừ.");
             }
+
+            $current_stock = $stockData['quantity'];
+            $avg_price     = $stockData['avg_import_price'];
+
+            if ($current_stock < $p['quantity']) {
+                throw new Exception("Sản phẩm '{$p['name']}' không đủ tồn kho.");
+            }
+
+            // 2️⃣ Insert order item
+            $stmt = $conn->prepare("
+                INSERT INTO order_items
+                (order_id, product_id, size, quantity, price)
+                VALUES (?, ?, ?, ?, ?)
+            ");
+            $stmt->bind_param(
+                "iisid",
+                $order_id,
+                $p['id'],
+                $p['size'],
+                $p['quantity'],
+                $p['price']
+            );
+            $stmt->execute();
+
+            // 3️⃣ Trừ kho
+            $stmt = $conn->prepare("
+                UPDATE inventory
+                SET quantity = quantity - ?
+                WHERE product_id = ? AND size = ?
+            ");
+            $stmt->bind_param("iis", $p['quantity'], $p['id'], $p['size']);
+            $stmt->execute();
+
+            // 4️⃣ Ghi log xuất kho
+            $stmt = $conn->prepare("
+                INSERT INTO inventory_logs
+                (product_id, size, type, quantity, import_price, note, created_at)
+                VALUES (?, ?, 'export', ?, ?, ?, NOW())
+            ");
+
+            $note = "Xuất kho cho đơn hàng #$order_id";
+
+            $stmt->bind_param(
+                "isids",
+                $p['id'],
+                $p['size'],
+                $p['quantity'],
+                $avg_price,
+                $note
+            );
+
+            $stmt->execute();
+        }
 
             /* ========================= */
             /* ===== XOÁ CART ========= */

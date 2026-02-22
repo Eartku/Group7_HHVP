@@ -42,13 +42,13 @@ if ($categoryId > 0) {
 }
 
 if ($minPrice > 0) {
-    $conditions[] = "p.price >= ?";
+    $conditions[] = "sale_price >= ?";
     $params[] = $minPrice;
     $types .= "d";
 }
 
 if ($maxPrice > 0) {
-    $conditions[] = "p.price <= ?";
+    $conditions[] = "sale_price <= ?";
     $params[] = $maxPrice;
     $types .= "d";
 }
@@ -78,10 +78,36 @@ $totalPages = ceil($totalProducts / $limit);
    5. GET PRODUCTS
 ================================ */
 $sql = "
-SELECT p.id, p.name, p.price, p.image,
-       IFNULL(SUM(i.quantity),0) as total_stock
+SELECT 
+    p.id, 
+    p.name, 
+    p.image,
+    p.profit_rate,
+    
+    -- Tổng tồn kho
+    IFNULL((
+        SELECT SUM(quantity)
+        FROM inventory
+        WHERE product_id = p.id
+    ), 0) as total_stock,
+
+    -- Giá nhập bình quân
+    IFNULL((
+        SELECT SUM(import_price * quantity) / NULLIF(SUM(quantity), 0)
+        FROM inventory_logs
+        WHERE product_id = p.id
+    ), 0) as avg_import_price,
+
+    -- Giá bán (tính từ giá nhập x tỷ lệ lợi nhuận)
+    ROUND(
+        IFNULL((
+            SELECT SUM(import_price * quantity) / NULLIF(SUM(quantity), 0)
+            FROM inventory_logs
+            WHERE product_id = p.id
+        ), 0) * (1 + p.profit_rate / 100)
+    , -3) as sale_price
+
 FROM products p
-LEFT JOIN inventory i ON p.id = i.product_id
 $whereClause
 GROUP BY p.id
 ORDER BY p.id DESC

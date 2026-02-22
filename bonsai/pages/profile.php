@@ -202,14 +202,28 @@ $avatarPath = !empty($user['avatar'])
 
             <h5 class="text-black mb-3">Đổi mật khẩu</h5>
 
-            <div class="mb-3">
-              <label class="text-black">Mật khẩu hiện tại</label>
-              <input type="password" name="current_password" class="form-control">
+            <div class="mb-3 position-relative">
+            <label class="text-black">Mật khẩu hiện tại</label>
+            <div class="input-group">
+                <input type="password" name="current_password" 
+                    class="form-control" id="currentPassword">
+                <button type="button" class="btn btn-outline-secondary toggle-password"
+                        data-target="currentPassword">
+                    <img src="../images/hide.svg" width="16" height="16">
+                </button>
+            </div>
             </div>
 
-            <div class="mb-3">
-              <label class="text-black">Mật khẩu mới</label>
-              <input type="password" name="new_password" class="form-control">
+            <div class="mb-3 position-relative">
+            <label class="text-black">Mật khẩu mới</label>
+            <div class="input-group">
+                <input type="password" name="new_password" 
+                    class="form-control" id="newPassword">
+                <button type="button" class="btn btn-outline-secondary toggle-password"
+                        data-target="newPassword">
+                    <img src="../images/hide.svg" width="16" height="16">
+                </button>
+            </div>
             </div>
 
             <button type="submit" name="change_password"
@@ -226,7 +240,22 @@ $avatarPath = !empty($user['avatar'])
 </div>
 
 <?php include '../includes/footer.php'?>
-
+<script>
+    // TOGGLE PASSWORD
+    document.querySelectorAll(".toggle-password").forEach(button => {
+        button.addEventListener("click", () => {
+            const targetId = button.getAttribute("data-target");
+            const input = document.getElementById(targetId);
+            if (input.type === "password") {
+                input.type = "text";
+                button.innerHTML = '<img src="../images/show.svg" width="16" height="16">';
+            } else {
+                input.type = "password";
+                button.innerHTML = '<img src="../images/hide.svg" width="16" height="16">';
+            }
+        });
+    });
+</script>
 <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
