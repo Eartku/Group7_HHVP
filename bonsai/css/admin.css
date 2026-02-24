@@ -235,9 +235,11 @@ input[type="password"]:focus {
 .hover-gradient-text {
   font-size: 15px;
   font-weight: 500;
-  background: linear-gradient(90deg, #00ffff, #7b5fff); /* Cyan → Tím */
+  background: linear-gradient(90deg, #00ffff,#7b5fff);
   background-size: 200% 100%;
+   background-clip: text;    
   -webkit-background-clip: text;
+  color: transparent;   
   -webkit-text-fill-color: transparent; /* gradient hiển thị trên chữ */
   display: inline-block;
   transition: transform 0.3s ease, background-position 0.5s ease;

@@ -353,7 +353,8 @@ select:disabled {
 [type="reset"],
 [type="submit"],
 button {
-  -webkit-appearance: button;
+  appearance: button;          /* chuẩn */
+  -webkit-appearance: button;  /* cho Safari / Chrome cũ */
 }
 [type="button"]:not(:disabled),
 [type="reset"]:not(:disabled),
@@ -404,8 +405,10 @@ legend + * {
 }
 [type="search"] {
   outline-offset: -2px;
+  appearance: textfield;          /* thêm chuẩn */
   -webkit-appearance: textfield;
 }
+
 ::-webkit-search-decoration {
   -webkit-appearance: none;
 }
@@ -2144,8 +2147,8 @@ textarea.form-control-lg {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  -webkit-print-color-adjust: exact;
-  color-adjust: exact;
+  print-color-adjust: exact;
+ -webkit-print-color-adjust: exact;
 }
 .form-check-input[type="checkbox"] {
   border-radius: 0.25em;
