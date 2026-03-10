@@ -1,13 +1,17 @@
 /* Zoom + Glow Hover */
 .hover-zoom-glow {
   display: inline-block;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   cursor: pointer;
 }
 
 .hover-zoom-glow:hover {
   transform: scale(1.1); /* phóng to 10% */
-  box-shadow: 0 0 20px rgba(84, 74, 226, 0.7), 0 0 40px rgba(84, 74, 226, 0.5);
+  box-shadow:
+    0 0 20px rgba(84, 74, 226, 0.7),
+    0 0 40px rgba(84, 74, 226, 0.5);
 }
 
 /* Hover Zoom + Glow cho Text */
@@ -16,29 +20,42 @@
   font-size: 24px;
   font-weight: 600;
   color: #09ffb5; /* Màu mặc định */
-  transition: transform 0.3s ease, text-shadow 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    text-shadow 0.3s ease,
+    color 0.3s ease;
   cursor: pointer;
 }
 
 .hover-text-glow:hover {
   transform: scale(1.1); /* Zoom chữ */
   color: #b5fae3; /* Thay đổi màu chữ khi hover */
-  text-shadow: 0 0 8px #544ae2, 0 0 16px #7b5fff, 0 0 24px #a58fff; /* Glow nhiều lớp */
+  text-shadow:
+    0 0 8px #544ae2,
+    0 0 16px #7b5fff,
+    0 0 24px #a58fff; /* Glow nhiều lớp */
 }
 
-.hover-text-glow-small {  /* sửa tên cho thống nhất */
+.hover-text-glow-small {
+  /* sửa tên cho thống nhất */
   display: inline-block;
   font-size: 15px;
   font-weight: 100;
   color: #09ffb5; /* Màu mặc định */
-  transition: transform 0.3s ease, text-shadow 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    text-shadow 0.3s ease,
+    color 0.3s ease;
   cursor: pointer;
 }
 
 .hover-text-glow-small:hover {
   transform: scale(1.1); /* Zoom chữ */
   color: #b5fae3; /* Thay đổi màu chữ khi hover */
-  text-shadow: 0 0 8px #544ae2, 0 0 16px #7b5fff, 0 0 24px #a58fff; /* Glow nhiều lớp */
+  text-shadow:
+    0 0 8px #544ae2,
+    0 0 16px #7b5fff,
+    0 0 24px #a58fff; /* Glow nhiều lớp */
 }
 
 .hover-div-zoom {
@@ -47,7 +64,9 @@
   color: rgb(0, 0, 0);
   padding: 20px;
   border-radius: 12px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   cursor: pointer;
 }
 
@@ -58,21 +77,24 @@
 }
 
 .login-div-btn {
-  display: inline-block;       /* cho phép scale hover */
-  background-color: #544ae2;   /* màu nền */
-  color: white;                /* màu chữ */
-  padding: 20px 28px;          /* padding nút */
-  border-radius: 8px;          /* bo góc */
+  display: inline-block; /* cho phép scale hover */
+  background-color: #544ae2; /* màu nền */
+  color: white; /* màu chữ */
+  padding: 20px 28px; /* padding nút */
+  border-radius: 8px; /* bo góc */
   font-size: 30px;
   font-weight: 600;
   text-align: center;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
 }
 
 .login-div-btn:hover {
-  transform: scale(1.05);      /* zoom 1.05 lần */
-  background-color: #7b5fff;   /* đổi màu nền khi hover */
+  transform: scale(1.05); /* zoom 1.05 lần */
+  background-color: #7b5fff; /* đổi màu nền khi hover */
   box-shadow: 0 8px 20px rgba(84, 74, 226, 0.4); /* glow nhẹ */
 }
 
@@ -86,14 +108,14 @@
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  width: 55px;              /* ban đầu chỉ đủ icon */
+  width: 55px; /* ban đầu chỉ đủ icon */
   overflow: hidden;
   white-space: nowrap;
 }
 
 .cell {
-  width: 100px;        /* kích thước cố định của ô */
-  height: 60px;        /* chiều cao ô */
+  width: 100px; /* kích thước cố định của ô */
+  height: 60px; /* chiều cao ô */
   display: flex;
   align-items: center; /* căn giữa dọc */
   justify-content: center; /* căn giữa ngang */
@@ -153,8 +175,6 @@
   transform: scale(1); /* chữ phóng ra từ giữa */
 }
 
-
-
 /* ---- Hover box (giữ nguyên hiệu ứng của Kosmoz) ---- */
 .hover-box {
   scale: 1.5;
@@ -162,7 +182,7 @@
   position: relative;
   width: 40px;
   height: 40px;
-  background:  rgb(65, 76, 87);
+  background: rgb(65, 76, 87);
   border-radius: 8px;
   overflow: hidden;
   display: flex;
@@ -170,7 +190,9 @@
   justify-content: center;
   text-decoration: none;
   cursor: pointer;
-  transition: width 0.4s ease, background 0.3s ease;
+  transition:
+    width 0.4s ease,
+    background 0.3s ease;
 }
 
 .hover-box:hover {
@@ -236,7 +258,9 @@
   justify-content: center;
   text-decoration: none;
   cursor: pointer;
-  transition: width 0.4s ease, background 0.3s ease;
+  transition:
+    width 0.4s ease,
+    background 0.3s ease;
 }
 
 /* Hai mặt */
@@ -292,7 +316,6 @@ input[type="checkbox"]:checked + .hover-box-2 .back {
   transform: rotateY(0deg);
   pointer-events: auto; /* click được khi mở */
 }
-
 
 /* =============================
    DROPDOWN MENU (theo click)
@@ -356,7 +379,9 @@ svg {
   color: rgb(0, 0, 0);
   padding: 20px;
   border-radius: 12px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   cursor: pointer;
 }
 
@@ -364,4 +389,7 @@ svg {
 .hover-div-zoom-a:hover {
   transform: scale(1.05); /* zoom 1.05 lần */
   box-shadow: 0 8px 20px rgba(74, 226, 107, 0.3); /* optional: thêm nổi bật */
+}
+.nav-link.hover-text-glow {
+  font-size: 13px;
 }
