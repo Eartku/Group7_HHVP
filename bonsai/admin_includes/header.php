@@ -68,7 +68,7 @@ if (isset($_SESSION['user'])) {
               >
             </li>
              <li>
-              <a href="admin/admin_importproduct.html" class="hover-text-glow-small"
+              <a href="admin_importproduct/adminipd.php" class="hover-text-glow-small"
                  style="font-size: 13px"
                 >NHẬP SẢN PHẨM</ax
               >
