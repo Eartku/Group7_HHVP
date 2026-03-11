@@ -75,31 +75,16 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     </title>
 </head>
 <body>
-    <?php include 'header_pd.php'; ?>
-    <div class="hero">
-        <div class="center-row text-center">
-            <h1 class="glow"><?= htmlspecialchars($cat_name) ?></h1>
-            <span style="color: aliceblue;">
-                Tạo nên một không gian nhỏ xinh!
-            </span>
-            </br>
-                <a href="add_product.php"
-                style="
-                background-color:#28a745;
-                color:white;
-                padding:10px 20px;
-                border-radius:8px;
-                text-decoration:none;
-                font-weight:bold;
-                display:inline-block;
-                margin-top:15px;
-                ">
-                + Thêm sản phẩm
-                </a>
+    <?php include '../admin_includes/header.php'; ?>
+        <div class="container mt-4">
+
+        <a href="add_import.php" class="btn btn-primary mb-3">
+        Tạo phiếu nhập
+        </a>
+
+        <?php include "pimports.php"; ?>
+
         </div>
-    </div>
-    <!-- Search Section -->
-    <?php include 'pproducts.php'; ?>
 
     <?php include '../admin_includes/footer.php'; ?>
 

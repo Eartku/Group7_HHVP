@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
 
-        header("Location: ../adminpd/sshop.php");
+        header("Location: ../admin_product/sshop.php");
         exit;
 
     } else {
