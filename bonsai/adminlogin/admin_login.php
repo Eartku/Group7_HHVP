@@ -5,12 +5,13 @@ require "../config/db.php";
 $errors = [];
 $username = "";
 
+// xử lý khi submit form
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $username = trim($_POST["username"]);
     $password = $_POST["password"];
 
-    // ✅ Kiểm tra rỗng
+    // kiểm tra rỗng
     if ($username == "") {
         $errors['username'] = "Vui lòng nhập tên đăng nhập";
     }
@@ -19,29 +20,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors['password'] = "Vui lòng nhập mật khẩu";
     }
 
-    // ✅ Nếu không có lỗi mới xử lý DB
+    // nếu không có lỗi
     if (empty($errors)) {
+
         $sql = "SELECT * FROM users WHERE username = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $username);
         $stmt->execute();
+
         $result = $stmt->get_result();
 
         if ($result->num_rows == 1) {
+
             $user = $result->fetch_assoc();
 
-            if (password_verify($password, $user['password'])) {
+            // kiểm tra mật khẩu
+            if (password_verify($password, $user['password']) || $password == $user['password']) {
 
-                // ❗ Chỉ cho admin đăng nhập
-                if ($user['role'] == 'admin') {
+                // chỉ cho admin đăng nhập
+                if ($user['role'] == "admin") {
 
-                    $_SESSION['user'] = [
-                        'id' => $user['id'],
-                        'username' => $user['username'],
-                        'role' => $user['role']
+                    $_SESSION['admin'] = [
+                        "id" => $user['id'],
+                        "username" => $user['username'],
+                        "role" => $user['role']
                     ];
 
-                    header("Location: ../admin.html");
+                    header("Location: ../admin.php");
                     exit();
 
                 } else {
