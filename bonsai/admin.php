@@ -111,23 +111,31 @@ if (!isset($_SESSION['admin'])) {
             </li>
           </ul>
 
-          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-            <li>
-              <a href="admin.php" class="nav-link hover-box">
-                <div class="front">
-                  <img src="images/home.svg" style="scale: 1.3" />
-                </div>
-                <div class="back"><span>TRANG CHỦ</span></div>
-              </a>
-            </li>
+           <ul class="custom-navbar-cta navbar-nav ms-4">
 
-            <li style="margin-left: 10px">
-              <a class="nav-link hover-box" href="adminlogin/admin_login.php">
-                <div class="front"><img src="images/exit.svg" /></div>
-                <div class="back"><span>Đăng xuất</span></div>
-              </a>
-            </li>
-          </ul>
+                <li>
+                    <a href="admin.php" class="nav-link">
+
+                        <div class="front">
+                            <img src="images/home.svg" style="scale:1.3">
+                        </div>
+
+                    </a>
+                </li>
+
+                <li style="margin-left:10px">
+
+                    <a class="nav-link" href="admin_logout.php">
+
+                        <div class="front">
+                            <img src="images/exit.svg">
+                        </div>
+                    </a>
+
+                </li>
+
+            </ul>
+
         </div>
       </div>
     </nav>

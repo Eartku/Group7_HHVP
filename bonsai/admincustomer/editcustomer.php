@@ -3,8 +3,8 @@ session_start();
 require "../config/db.php";
 
 /* kiểm tra admin */
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'admin') {
-    header("Location: admin_login.php");
+if (!isset($_SESSION['admin'])) {
+    header("Location: ../adminlogin/admin_login.php");
     exit();
 }
 

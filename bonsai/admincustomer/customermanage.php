@@ -24,7 +24,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
 }
 
 /* kiểm tra admin */
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'admin') {
+if (!isset($_SESSION['admin'])) {
     header("Location: ../adminlogin/admin_login.php");
     exit();
 }
@@ -140,39 +140,41 @@ $result = mysqli_query($conn, $sql);
 
             </ul>
 
-            <ul class="custom-navbar-cta navbar-nav ms-4">
+ <ul class="custom-navbar-cta navbar-nav ms-4 align-items-center">
 
-                <li>
-                    <a href="../admin.php" class="nav-link hover-box">
+    <!-- Home -->
+    <li class="nav-item" style="margin-left:10px">
+        <a href="../admin.php" class="nav-link">
+            <img src="../images/home.svg"
+                 style="width:35px;height:35px;object-fit:contain;">
+        </a>
+    </li>
 
-                        <div class="front">
-                            <img src="../images/home.svg" style="scale:1.3">
-                        </div>
+    <!-- Logout -->
+    <li class="nav-item" style="margin-left:10px">
+        <a href="admin_logout.php" class="nav-link">
+            <img src="../images/exit.svg"
+                 style="width:35px;height:35px;object-fit:contain;">
+        </a>
+    </li>
 
-                        <div class="back">
-                            <span>Trang chủ</span>
-                        </div>
+    <!-- Avatar -->
+    <li class="nav-item" style="margin-left:10px">
+        <a href="../adminprofile/profile.php" class="nav-link">
 
-                    </a>
-                </li>
+            <?php
+            $avatar = "../images/avatar.svg";
+            if (!empty($_SESSION['admin']['avatar'])) {
+                $avatar = "../uploads/" . $_SESSION['admin']['avatar'];
+            }
+            ?>
 
-                <li style="margin-left:10px">
+            <img src="<?php echo $avatar; ?>"
+                 style="width:35px;height:35px;border-radius:50%;object-fit:cover;">
+        </a>
+    </li>
 
-                    <a class="nav-link hover-box" href="admin_logout.php">
-
-                        <div class="front">
-                            <img src="../images/exit.svg">
-                        </div>
-
-                        <div class="back">
-                            <span>Đăng xuất</span>
-                        </div>
-
-                    </a>
-
-                </li>
-
-            </ul>
+</ul>
 
         </div>
 
