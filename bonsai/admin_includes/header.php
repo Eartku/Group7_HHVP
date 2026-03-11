@@ -35,7 +35,7 @@ if (isset($_SESSION['user'])) {
 <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark">
 <div class="container">
     <!-- LOGO -->
-    <a class="navbar-brand">Admin BonSai<span>🌱</span></a>
+    <a class="navbar-brand">Addmin BonSai<span>🌱</span></a>
 
     <!-- MOBILE BUTTON -->
     <button
