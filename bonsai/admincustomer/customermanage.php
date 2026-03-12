@@ -25,7 +25,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
 
 /* kiểm tra admin */
 if (!isset($_SESSION['admin'])) {
-    header("Location: ../adminlogin/admin_login.php");
+    header("Location: ../admin_login/admin_login.php");
     exit();
 }
 
@@ -60,7 +60,7 @@ $result = mysqli_query($conn, $sql);
 <body>
 
 <!-- Navbar -->
-<?php include "../admin_includes/header"; ?>
+<?php include "../admin_include/header"; ?>
 <!-- Customer Management -->
 
 <div class="container py-5">

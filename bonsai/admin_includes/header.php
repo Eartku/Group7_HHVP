@@ -13,7 +13,7 @@ if ($result && $result->num_rows > 0) {
     }
 }
 
-
+#avatar
 $avatar = "../images/avatar.svg";
 if (!empty($_SESSION['admin']['avatar'])) {
     $avatar = "../uploads/" . $_SESSION['admin']['avatar'];
@@ -26,7 +26,7 @@ if (!empty($_SESSION['admin']['avatar'])) {
       
 <div class="container">
     <!-- LOGO -->
-    <a class="navbar-brand">BonSai<span>🌱</span></a>
+    <a class="navbar-brand">Admin BonSai<span>🌱</span></a>
 
     <!-- MOBILE BUTTON -->
     <button
@@ -41,7 +41,7 @@ if (!empty($_SESSION['admin']['avatar'])) {
 
       <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
             <li>
-              <a href="admin/customermanage.html" class="hover-text-glow-small"
+              <a href="../admincustomer/customermanage.php" class="hover-text-glow-small"
                   style="font-size: 13px"
                 >KHÁCH HÀNG</a
               >
@@ -53,13 +53,13 @@ if (!empty($_SESSION['admin']['avatar'])) {
               >
             </li>
             <li>
-              <a  href="admin_product/sshop.php" class="hover-text-glow-small"
+              <a href="../admincustomer/customermanage.php" class="hover-text-glow-small"
                  style="font-size: 13px"
                 >SẢN PHẨM</a
               >
             </li>
              <li>
-              <a href="admin_importproduct/adminipd.php" class="hover-text-glow-small"
+              <a href="../admin_importproduct/adminipd.php" class="hover-text-glow-small"
                  style="font-size: 13px"
                 >NHẬP SẢN PHẨM</ax
               >
