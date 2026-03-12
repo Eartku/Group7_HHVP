@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th2 22, 2026 lúc 01:52 PM
+-- Thời gian đã tạo: Th3 12, 2026 lúc 03:09 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.2.12
+-- Phiên bản PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,7 +39,8 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 1, '2026-02-22 11:39:02', '2026-02-22 11:39:02');
+(1, 1, '2026-02-22 11:39:02', '2026-02-22 11:39:02'),
+(2, 2, '2026-03-02 10:23:36', '2026-03-02 10:23:36');
 
 -- --------------------------------------------------------
 
@@ -104,7 +105,8 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`id`, `product_id`, `size`, `quantity`, `price_adjust`, `avg_import_price`) VALUES
-(192, 24, 'S', 78, 0.00, 60357);
+(192, 24, 'S', 78, 0.00, 60357),
+(193, 75, 'L', 0, 0.00, 10000000);
 
 -- --------------------------------------------------------
 
@@ -133,7 +135,13 @@ INSERT INTO `inventory_logs` (`id`, `product_id`, `size`, `type`, `quantity`, `i
 (264, 24, 'S', 'export', 2, 62500.00, 'Xuất kho cho đơn hàng #7', '2026-02-22 11:46:46'),
 (265, 24, 'S', 'export', 8, 62500.00, 'Xuất kho cho đơn hàng #8', '2026-02-22 11:48:48'),
 (266, 24, 'S', 'import', 20, 55000.00, '', '2026-02-22 11:49:59'),
-(267, 24, 'S', 'import', 8, 0.00, 'Hoàn kho do hủy đơn #8', '2026-02-22 12:51:27');
+(267, 24, 'S', 'import', 8, 0.00, 'Hoàn kho do hủy đơn #8', '2026-02-22 12:51:27'),
+(268, 75, 'L', 'import', 2, 10000000.00, 'f u', '2026-03-02 03:23:07'),
+(269, 75, 'L', 'export', 1, 10000000.00, 'Xuất kho cho đơn hàng #9', '2026-03-02 03:24:22'),
+(270, 24, 'S', 'export', 1, 60357.00, 'Xuất kho cho đơn hàng #9', '2026-03-02 03:24:22'),
+(271, 75, 'S', 'import', 1, 0.00, 'Hoàn kho do hủy đơn #9', '2026-03-02 03:25:53'),
+(272, 24, 'S', 'import', 1, 0.00, 'Hoàn kho do hủy đơn #9', '2026-03-02 03:25:53'),
+(273, 75, 'L', 'export', 2, 10000000.00, 'Xuất kho cho đơn hàng #10', '2026-03-02 03:27:20');
 
 -- --------------------------------------------------------
 
@@ -166,7 +174,9 @@ INSERT INTO `orders` (`id`, `user_id`, `note`, `payment_method`, `total_amount`,
 (5, 1, '', 'cod', 0.00, 'cancelled', '2026-02-22 08:30:23', '2026-02-22 15:44:48', 88000.00, 'Huylore', 'trannhuthuy897@gmail.com', '0962713941', 'Còn cái nịt'),
 (6, 1, 'Khỏi giao', 'cod', 0.00, 'processing', '2026-02-22 08:45:55', '2026-02-22 15:45:55', 700000.00, 'Huylore', 'trannhuthuy897@gmail.com', '0962713941', '320/30, Trần Bình Trọng,  p. Chợ Quán, quận 5, TP.HCM'),
 (7, 1, '', 'cod', 0.00, 'processing', '2026-02-22 11:46:46', '2026-02-22 18:46:46', 182000.00, 'Huylore', 'trannhuthuy897@gmail.com', '0962713941', '320/30, Trần Bình Trọng,  p. Chợ Quán, quận 5, TP.HCM'),
-(8, 1, '', 'cod', 0.00, 'cancelled', '2026-02-22 11:48:48', '2026-02-22 19:51:27', 668000.00, 'Huylore', 'trannhuthuy897@gmail.com', '0962713941', '320/30, Trần Bình Trọng,  p. Chợ Quán, quận 5, TP.HCM');
+(8, 1, '', 'cod', 0.00, 'cancelled', '2026-02-22 11:48:48', '2026-02-22 19:51:27', 668000.00, 'Huylore', 'trannhuthuy897@gmail.com', '0962713941', '320/30, Trần Bình Trọng,  p. Chợ Quán, quận 5, TP.HCM'),
+(9, 2, '', 'cod', 0.00, 'cancelled', '2026-03-02 03:24:22', '2026-03-02 10:25:53', 13098000.00, 'Nguyễn Hoàng Phúc', 'hoangphuc20092020@gmail.com', '0839444302', 'bl'),
+(10, 2, '', 'cod', 0.00, 'processing', '2026-03-02 03:27:20', '2026-03-02 10:27:20', 26020000.00, 'Nguyễn Hoàng Phúc', 'hoangphuc20092020@gmail.com', '0839444302', 'bl');
 
 -- --------------------------------------------------------
 
@@ -192,7 +202,10 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `size`, `quantity`, `
 (5, 5, 24, 'S', 1, 68000.00),
 (6, 6, 24, 'S', 10, 68000.00),
 (7, 7, 24, 'S', 2, 81000.00),
-(8, 8, 24, 'S', 8, 81000.00);
+(8, 8, 24, 'S', 8, 81000.00),
+(9, 9, 75, 'L', 1, 13000000.00),
+(10, 9, 24, 'S', 1, 78000.00),
+(11, 10, 75, 'L', 2, 13000000.00);
 
 -- --------------------------------------------------------
 
@@ -306,6 +319,7 @@ CREATE TABLE `users` (
   `phone` varchar(20) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
+  `status` enum('active','inactive','warning') CHARACTER SET armscii8 COLLATE armscii8_general_ci NOT NULL DEFAULT 'active',
   `role` enum('admin','customer') DEFAULT 'customer',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `avatar` varchar(255) DEFAULT NULL
@@ -315,8 +329,10 @@ CREATE TABLE `users` (
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`id`, `fullname`, `username`, `email`, `phone`, `address`, `password`, `role`, `created_at`, `avatar`) VALUES
-(1, 'Huylore', 'Huy', 'trannhuthuy897@gmail.com', '0962713941', '320/30, Trần Bình Trọng,  p. Chợ Quán, quận 5, TP.HCM', '$2y$10$69cs.MuAXNU6X3.pW7S2BeQg3Nyb3c0FnDylTp9TEw7cO0Ie9eG1K', 'customer', '2026-02-22 04:20:02', '1771748739_logo.png');
+INSERT INTO `users` (`id`, `fullname`, `username`, `email`, `phone`, `address`, `password`, `status`, `role`, `created_at`, `avatar`) VALUES
+(1, 'Huylore', 'Huy', 'trannhuthuy897@gmail.com', '0962713941', '320/30, Trần Bình Trọng,  p. Chợ Quán, quận 12,hCM', '$2y$10$Q0eKA8AY9qKGEPh69ijm7uKPa7e6062jC3Y46z5rJunTcm42.9Twq', 'active', 'customer', '2026-02-22 04:20:02', '1773196770_Screenshot 2025-12-06 191243.png'),
+(2, 'Nguyễn Hoàng Phúc', 'Nguyen Hoang Phuc', 'hoangphuc20092020@gmail.com', '0839444302', 'bl', '$2y$10$aVwiS78MnEeQ1VpiyMcU9uVukw4igxizf71zaWL3jBS9gcu03PpIi', 'active', 'customer', '2026-03-02 02:53:23', NULL),
+(3, 'Nguyễn Hoàng Phúc', 'Phuc', 'phuc8386@gmail.com', '0919000291', '12 bạc liêu', '$2y$10$V2I0zi6aV2u7WNZqLcnAReXvnKp4JJhor8sOvjgqlnYQPVvQgwMNe', 'active', 'admin', '2026-03-02 13:59:35', NULL);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -395,13 +411,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -413,25 +429,25 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
 
 --
 -- AUTO_INCREMENT cho bảng `inventory_logs`
 --
 ALTER TABLE `inventory_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=268;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=274;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `products`
@@ -443,7 +459,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
