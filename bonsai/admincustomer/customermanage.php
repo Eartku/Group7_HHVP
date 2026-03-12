@@ -60,7 +60,7 @@ $result = mysqli_query($conn, $sql);
 <body>
 
 <!-- Navbar -->
-<?php include "../adminlayout/navbar.php"; ?>
+<?php include "../admin_includes/header"; ?>
 <!-- Customer Management -->
 
 <div class="container py-5">
