@@ -1,38 +1,25 @@
 <?php
-// header.php
-require_once "../config/db.php";
-
-/* ===== LẤY DANH MỤC ===== */
-$sql = "SELECT id, name FROM categories";
-$result = $conn->query($sql);
-$categories = [];
-
-if ($result && $result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $categories[] = $row;
-    }
-}
-
-/* ===== LẤY AVATAR USER ===== */
-$userAvatar = "../images/user.png";
-
-if (isset($_SESSION['user'])) {
-    $userId = $_SESSION['user']['id'];
-
-    $stmt = $conn->prepare("SELECT avatar FROM users WHERE id=?");
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $res = $stmt->get_result();
-    $u = $res->fetch_assoc();
-
-    if (!empty($u['avatar'])) {
-        $userAvatar = "../uploads/avatars/" . htmlspecialchars($u['avatar']);
-    }
+$avatar = "../images/avatar.svg";
+if (!empty($_SESSION['admin']['avatar'])) {
+    $avatar = "../uploads/" . $_SESSION['admin']['avatar'];
 }
 ?>
 
-<!-- Start Header -->
 <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark">
+
+    <div class="container">
+
+        <a class="navbar-brand" href="../admin.php">
+            ADMIN<span>🌱</span>
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarsFurni">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
         <div class="collapse navbar-collapse" id="navbarsFurni">
 
             <ul class="custom-navbar-nav navbar-nav ms-auto">
@@ -125,7 +112,3 @@ if (isset($_SESSION['user'])) {
     </div>
 
 </nav>
-<!-- End Header -->
-
-<!-- BOOTSTRAP JS (BẮT BUỘC ĐỂ DROPDOWN CHẠY) -->
-<script src="../js/bootstrap.bundle.min.js"></script>
