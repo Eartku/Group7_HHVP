@@ -53,7 +53,7 @@ if (!empty($_SESSION['admin']['avatar'])) {
               >
             </li>
             <li>
-              <a href="../admincustomer/customermanage.php" class="hover-text-glow-small"
+              <a href="../admin_product/sshop.php" class="hover-text-glow-small"
                  style="font-size: 13px"
                 >SẢN PHẨM</a
               >
@@ -89,14 +89,14 @@ if (!empty($_SESSION['admin']['avatar'])) {
             <ul class="custom-navbar-cta navbar-nav ms-4 align-items-center">
 
                 <li class="nav-item">
-                    <a href="../admin.php" class="nav-link">
+                    <a href="../admin/admin.php" class="nav-link">
                         <img src="../images/home.svg"
                         style="width:35px;height:35px;">
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="admin_logout.php" class="nav-link">
+                    <a href="../admin_login/admin_login.php" class="nav-link">
                         <img src="../images/exit.svg"
                         style="width:35px;height:35px;">
                     </a>

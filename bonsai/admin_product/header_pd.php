@@ -13,21 +13,10 @@ if ($result && $result->num_rows > 0) {
     }
 }
 
-/* ===== LẤY AVATAR USER ===== */
-$userAvatar = "../images/user.png";
-
-if (isset($_SESSION['user'])) {
-    $userId = $_SESSION['user']['id'];
-
-    $stmt = $conn->prepare("SELECT avatar FROM users WHERE id=?");
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $res = $stmt->get_result();
-    $u = $res->fetch_assoc();
-
-    if (!empty($u['avatar'])) {
-        $userAvatar = "../uploads/avatars/" . htmlspecialchars($u['avatar']);
-    }
+#avatar
+$avatar = "../images/avatar.svg";
+if (!empty($_SESSION['admin']['avatar'])) {
+    $avatar = "../uploads/" . $_SESSION['admin']['avatar'];
 }
 ?>
 
@@ -64,31 +53,31 @@ if (isset($_SESSION['user'])) {
         </ul>
 
         <!-- ICON -->
-        <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+            <ul class="custom-navbar-cta navbar-nav ms-4 align-items-center">
 
-            <li>
-                <a href="../admin.html" class="nav-link hover-box">
-                    <div class="front">
-                        <img src="../images/home.svg" style="scale:1.3">
-                    </div>
-                    <div class="back">
-                        <span>TRANG CHỦ</span>
-                    </div>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a href="../admin/admin.php" class="nav-link">
+                        <img src="../images/home.svg"
+                        style="width:35px;height:35px;">
+                    </a>
+                </li>
 
-            <li style="margin-left:10px">
-                <a class="nav-link hover-box" href="admin_login.html">
-                    <div class="front">
-                        <img src="../images/exit.svg">
-                    </div>
-                    <div class="back">
-                        <span>Đăng xuất</span>
-                    </div>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a href="admin_logout.php" class="nav-link">
+                        <img src="../images/exit.svg"
+                        style="width:35px;height:35px;">
+                    </a>
+                </li>
 
-        </ul>
+                <li class="nav-item">
+                    <a href="../adminprofile/profile.php" class="nav-link">
+                        <img src="<?php echo $avatar; ?>"
+                        style="width:35px;height:35px;border-radius:50%;">
+                    </a>
+                </li>
+
+            </ul>
+    
 
     </div>
 
