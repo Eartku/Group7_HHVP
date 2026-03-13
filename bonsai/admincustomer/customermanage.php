@@ -1,6 +1,12 @@
 <?php
 session_start();
 require "../config/db.php";
+/* kiểm tra admin */
+if (!isset($_SESSION['admin'])) {
+    header("Location: ../admin_login/admin_login.php");
+    exit();
+}
+
 /* xử lý khóa / mở */
 if (isset($_GET['action']) && isset($_GET['id'])) {
 
@@ -22,16 +28,10 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     header("Location: customermanage.php");
     exit();
 }
-
-/* kiểm tra admin */
-if (!isset($_SESSION['admin'])) {
-    header("Location: ../admin_login/admin_login.php");
-    exit();
-}
-
 /* lấy danh sách khách hàng */
-$sql = "SELECT * FROM users WHERE role='customer'";
-$result = mysqli_query($conn, $sql);
+/* lấy danh sách khách hàng */
+$sql_customers = "SELECT * FROM users WHERE role='customer'";
+$customers = mysqli_query($conn, $sql_customers);
 ?>
 
 <!DOCTYPE html>
@@ -89,82 +89,43 @@ $result = mysqli_query($conn, $sql);
             </thead>
 
             <tbody>
-
-                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-
-                <tr>
-
-                    <td>
-                        #C<?php echo str_pad($row['id'], 4, "0", STR_PAD_LEFT); ?>
-                    </td>
-
-                    <td>
-                        <?php echo htmlspecialchars($row['fullname']); ?>
-                    </td>
-
-                    <td>
-                        <?php echo htmlspecialchars($row['email']); ?>
-                    </td>
-
-                    <td>
-                        <?php echo htmlspecialchars($row['phone']); ?>
-                    </td>
-
-                    <td>
-
-                        <?php
-                            if ($row['status'] == "active") {
-                                echo '<span class="badge bg-success">Hoạt động</span>';
-                            }
-                            elseif ($row['status'] == "warning") {
-                                echo '<span class="badge bg-warning">Cảnh báo</span>';
-                            }
-                            elseif ($row['status'] == "inactive") {
-                                echo '<span class="badge bg-danger">Bị khóa</span>';
-                            }
-                        ?>
-
-                    </td>
-
-                    <td>
-
-                        <a href="editcustomer.php?id=<?php echo $row['id']; ?>"
-                           class="btn btn-sm btn-outline-success me-1">
-
-                            <i class="fas fa-edit"></i>
-                            Chỉnh sửa
-
-                        </a>
-
-                        <?php if ($row['status'] == "active") { ?>
-
-                            <a href="?action=lock&id=<?php echo $row['id']; ?>"
-                               class="btn btn-sm btn-outline-secondary">
-
-                                <i class="fas fa-lock"></i>
-                                Khóa
-
-                            </a>
-
-                        <?php } else { ?>
-
-                            <a href="?action=unlock&id=<?php echo $row['id']; ?>"
-                               class="btn btn-sm btn-outline-primary">
-
-                                <i class="fas fa-unlock"></i>
-                                Mở
-
-                            </a>
-
-                        <?php } ?>
-
-                    </td>
-
-                </tr>
-
-                <?php } ?>
-
-            </tbody>
+    <?php while ($row = mysqli_fetch_assoc($customers)) { ?>
+    <tr>
+        <td>#C<?php echo str_pad($row['id'], 4, "0", STR_PAD_LEFT); ?></td>
+        <td><?php echo htmlspecialchars($row['fullname']); ?></td>
+        <td><?php echo htmlspecialchars($row['email']); ?></td>
+        <td><?php echo htmlspecialchars($row['phone']); ?></td>
+        <td>
+            <?php
+                if ($row['status'] == "active") {
+                    echo '<span class="badge bg-success">Hoạt động</span>';
+                } elseif ($row['status'] == "warning") {
+                    echo '<span class="badge bg-warning">Cảnh báo</span>';
+                } elseif ($row['status'] == "inactive") {
+                    echo '<span class="badge bg-danger">Bị khóa</span>';
+                }
+            ?>
+        </td>
+        <td>
+            <a href="editcustomer.php?id=<?php echo $row['id']; ?>"
+               class="btn btn-sm btn-outline-success me-1">
+                <i class="fas fa-edit"></i> Chỉnh sửa
+            </a>
+            <?php if ($row['status'] == "active") { ?>
+                <a href="?action=lock&id=<?php echo $row['id']; ?>"
+                   class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-lock"></i> Khóa
+                </a>
+            <?php } else { ?>
+                <a href="?action=unlock&id=<?php echo $row['id']; ?>"
+                   class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-unlock"></i> Mở
+                </a>
+            <?php } ?>
+        </td>
+    </tr>
+    <?php } ?>
+</tbody>
 
         </table>
 

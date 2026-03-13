@@ -103,7 +103,7 @@ if (!empty($_SESSION['admin']['avatar'])) {
                 </li>
 
                 <li class="nav-item">
-                    <a href="../adminprofile/profile.php" class="nav-link">
+                    <a href="../adminprofile/admin_profile.php" class="nav-link">
                         <img src="<?php echo $avatar; ?>"
                         style="width:35px;height:35px;border-radius:50%;">
                     </a>

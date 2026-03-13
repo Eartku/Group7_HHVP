@@ -55,65 +55,7 @@ $avatarPath = !empty($user['avatar'])
 <body>
 
     <!-- Navbar -->
-    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark">
-
-        <div class="container">
-
-            <a class="navbar-brand" href="../admin.php">
-                ADMIN<span>🌱</span>
-            </a>
-
-            <ul class="custom-navbar-nav navbar-nav ms-auto">
-
-                <li>
-                    <a href="customermanage.php"
-                       class="nav-link active-import"
-                       style="font-size:19px">
-                        KHÁCH HÀNG
-                    </a>
-                </li>
-
-                <li>
-                    <a href="admin_type.php" class="nav-link hover-text-glow">
-                        LOẠI SẢN PHẨM
-                    </a>
-                </li>
-
-                <li>
-                    <a href="admin_product.php" class="nav-link hover-text-glow">
-                        SẢN PHẨM
-                    </a>
-                </li>
-
-                <li>
-                    <a href="admin_importproduct.php" class="nav-link hover-text-glow">
-                        NHẬP SẢN PHẨM
-                    </a>
-                </li>
-
-                <li>
-                    <a href="admin_sellingprice.php" class="nav-link hover-text-glow">
-                        GIÁ BÁN
-                    </a>
-                </li>
-
-                <li>
-                    <a href="admin_order.php" class="nav-link hover-text-glow">
-                        ĐƠN HÀNG
-                    </a>
-                </li>
-
-                <li>
-                    <a href="admin_stock1.php" class="nav-link hover-text-glow">
-                        KHO
-                    </a>
-                </li>
-
-            </ul>
-
-        </div>
-
-    </nav>
+   <?php include "../admin_includes/header.php"; ?>
 
 
     <!-- Hero -->
