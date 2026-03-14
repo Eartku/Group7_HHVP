@@ -48,9 +48,8 @@ a.more {
   font-weight: 600;
 }
 
-
 .custom-navbar {
-  background-color:#3b5d51 !important;
+  background-color: #3b5d51 !important;
   padding-top: 20px;
   padding-bottom: 20px;
 }
@@ -1190,7 +1189,6 @@ legend {
   color: #555;
 }
 
-
 /* CUSTOM STYLES FOR ALIGNMENT */
 .product-main-content {
   display: flex;
@@ -1360,7 +1358,6 @@ body {
   text-align: center;
   color: #ee4d2d;
   font-weight: bold;
-
 }
 
 .order-footer {
@@ -1867,22 +1864,22 @@ a label {
   text-align: center;
 }
 #toast {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #28a745;
-    color: #fff;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: all 0.3s ease;
-    z-index: 9999;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #28a745;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  z-index: 9999;
 }
 
 #toast.show {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
