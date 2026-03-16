@@ -2,10 +2,10 @@
 session_start();
 require "../config/db.php";
 /* kiểm tra admin */
-if (!isset($_SESSION['admin'])) {
-    header("Location: ../admin_login/admin_login.php");
-    exit();
-}
+// if (!isset($_SESSION['admin'])) {
+//     header("Location: ../admin_login/admin_login.php");
+//     exit();
+// }
 
 /* xử lý khóa / mở */
 if (isset($_GET['action']) && isset($_GET['id'])) {
@@ -74,17 +74,7 @@ if (!$search_done) {
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="../images/logo.png">
-    <title>BonSai | Quản Lý Khách Hàng</title>
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
-    <link href="../css/hover.css" rel="stylesheet">
-    <link href="../css/page2.css" rel="stylesheet">
-    <link href="../css/tiny-slider.css" rel="stylesheet">
-
+    <?php include "../admin_includes/loader.php"; ?>
     <style>
         /* ===== SEARCH BAR ===== */
         .search-wrapper {
@@ -293,19 +283,34 @@ if (!$search_done) {
 <!-- Navbar -->
 <?php include "../admin_includes/header.php"; ?>
 
-<div class="container py-5">
+<div class="hero">
+        <div class="center-row text-center">
+            <h1 class="glow">Quản lý khách hàng</h1>
+            <span style="color: aliceblue;">
+            </span>
+            </br>
+                <a href="add_customer.php"
+                style="
+                background-color:#28a745;
+                color:white;
+                padding:10px 20px;
+                border-radius:8px;
+                text-decoration:none;
+                font-weight:bold;
+                display:inline-block;
+                margin-top:15px;
+                ">
+                + Thêm tài khoản
+                </a>
+        </div>
+    </div>  
+ <div class="container py-5">
 
-    <div class="text-center">
-        <h2 class="fw-bold text-success" style="padding:30px">
-            Quản lý Khách Hàng
-        </h2>
-    </div>
 
     <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
 
         <!-- ===== THANH TÌM KIẾM ===== -->
         <div class="search-wrapper">
-            <div class="search-title"><i class="fas fa-filter me-1"></i> </div>
 
             <form method="GET" action="customermanage.php" id="searchForm" autocomplete="off">
 
@@ -485,7 +490,6 @@ if (!$search_done) {
     </div>
 </div>
 
-<!-- Footer -->
   <?php include '../admin_includes/footer.php'; ?>
 <script>
 const hints = {
