@@ -91,7 +91,7 @@ if (!$search_done) {
             background: linear-gradient(135deg, #f0faf4 0%, #f8fdf8 100%);
             border: 1px solid #c3e6cb;
             border-radius: 16px;
-            padding: 24px 193px 18px;
+            padding: 24px 270px 18px;
             margin-bottom: 28px;
             box-shadow: 0 2px 12px rgba(25,135,84,.06);
         }
@@ -305,7 +305,7 @@ if (!$search_done) {
 
         <!-- ===== THANH TÌM KIẾM ===== -->
         <div class="search-wrapper">
-            <div class="search-title"><i class="fas fa-filter me-1"></i> Bộ lọc tìm kiếm</div>
+            <div class="search-title"><i class="fas fa-filter me-1"></i> </div>
 
             <form method="GET" action="customermanage.php" id="searchForm" autocomplete="off">
 
@@ -486,17 +486,7 @@ if (!$search_done) {
 </div>
 
 <!-- Footer -->
-<footer class="footer-section bg-dark text-light mt-5">
-    <div class="container py-4">
-        <div class="border-top pt-3 mt-3 text-center">
-            <p class="mb-0">
-                Copyright © <?= date("Y") ?> All Rights Reserved — Designed by
-                <a href="group7.php" class="text-light">Group 7</a>
-            </p>
-        </div>
-    </div>
-</footer>
-
+  <?php include '../admin_includes/footer.php'; ?>
 <script>
 const hints = {
     name:  'Nhập tên hoặc một phần họ tên — VD: nguyen → hiện tất cả họ Nguyễn',

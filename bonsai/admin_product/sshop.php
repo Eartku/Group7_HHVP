@@ -80,7 +80,6 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
         <div class="center-row text-center">
             <h1 class="glow"><?= htmlspecialchars($cat_name) ?></h1>
             <span style="color: aliceblue;">
-                Tạo nên một không gian nhỏ xinh!
             </span>
             </br>
                 <a href="add_product.php"

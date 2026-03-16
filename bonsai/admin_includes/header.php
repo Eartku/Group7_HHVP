@@ -41,7 +41,7 @@ if (!empty($_SESSION['admin']['avatar'])) {
 
       <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
             <li>
-              <a href="../admincustomer/customermanage.php" class="hover-text-glow-small"
+              <a href="../admin_customer/customermanage.php" class="hover-text-glow-small"
                   style="font-size: 13px"
                 >KHÁCH HÀNG</a
               >

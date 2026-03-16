@@ -320,7 +320,7 @@ $avatarPath = !empty($user['avatar'])
 
     </div>
 
-
+  <?php include '../admin_includes/footer.php'; ?>
 
 <script>
 

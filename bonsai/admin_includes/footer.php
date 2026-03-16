@@ -1,83 +1,11 @@
 <!-- Start Footer Section -->
-<footer class="footer-section" style="margin-top: 100px;">
-    <div class="container relative">
-        <div class="sofa-img" style="top: -100px">
-          <img src="../images/senda.png" alt="Image" class="img-fluid" />
-        </div>
-        <div class="row g-5 mb-5">
-          <div class="col-lg-4">
-            <div class="mb-4 footer-logo-wrap">
-              <a href="#" class="footer-logo">BonSai<span>.</span></a>
-            </div>
-            <p class="mb-4">Mang đến cho bạn trải nghiệm xanh tốt nhất!</p>
-            <ul class="list-unstyled custom-social">
-              <li>
-                <a href="#"><span class="fa fa-brands fa-facebook-f"></span></a>
-              </li>
-              <li>
-                <a href="#"><span class="fa fa-brands fa-twitter"></span></a>
-              </li>
-              <li>
-                <a href="#"><span class="fa fa-brands fa-instagram"></span></a>
-              </li>
-              <li>
-                <a href="#"><span class="fa fa-brands fa-linkedin"></span></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    <div class="container relative">
-        <div class="sofa-img">
-            <img src = "../images/new.gif" style="margin-top:500px;">
-        </div>
-
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="subscription-form">
-                    <h3 class="d-flex align-items-center">
-                        <span class="me-1">
-                            <img src="../images/envelope-outline.svg" alt="Image" class="img-fluid" />
-                        </span>
-                        <span>Nêu ý kiến cá nhân</span>
-                    </h3>
-
-                    <form id="feedbackForm" class="row g-3" method="POST" action="submit_feedback.php">
-                        <div class="col-12">
-                            <input type="text" class="form-control" name="name" placeholder="Nhập họ và tên" required aria-label="Họ và tên" />
-                        </div>
-                        <div class="col-12">
-                            <input type="email" class="form-control" name="email" placeholder="Nhập email" required aria-label="Email" />
-                        </div>
-                        <div class="col-12">
-                            <textarea class="form-control" name="message" rows="3" placeholder="Nhập ý kiến của bạn..." required aria-label="Ý kiến"></textarea>
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary" aria-label="Gửi phản hồi">
-                                <span class="fa fa-paper-plane"></span> Gửi
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="border-top copyright">
-            <div class="row pt-4">
-                <div class="col-lg-6">
-                    <p class="mb-2 text-center text-lg-start">
-                        Copyright &copy; <span id="year"></span>
-                        — Designed by <a href="group7.html">Group 7</a>
-                    </p>
-                </div>
-
-                <div class="col-lg-6 text-center text-lg-end">
-                    <ul class="list-unstyled d-inline-flex ms-auto">
-                        <li class="me-4"><a href="#">Terms</a></li>
-                        <li><a href="#">Privacy</a></li>
-                    </ul>
-                </div>
-            </div>
+<footer class="footer-section bg-dark text-light mt-5">
+    <div class="container py-4">
+        <div class="border-top pt-3 mt-3 text-center">
+            <p class="mb-0">
+                Copyright © <?= date("Y") ?> All Rights Reserved — Designed by
+                <a href="group7.php" class="text-light">Group 7</a>
+            </p>
         </div>
     </div>
 </footer>
