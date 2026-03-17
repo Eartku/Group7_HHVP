@@ -33,8 +33,8 @@ box-shadow:0 2px 6px rgba(0,0,0,0.05);
 }
 
 .category-title{
-font-weight:700;
-font-size:16px;
+font-weight: 700;
+font-size: 25px;
 color:#198754;
 margin-right:25px;
 white-space:nowrap;
@@ -119,11 +119,11 @@ box-shadow:0 3px 8px rgba(0,0,0,0.15);
               >
             </li>
             <li>
-              <a  href="admin/admin_order.html" class="hover-text-glow-small"
+              <a href="../admin_oder/admin_order.php" class="hover-text-glow-small"
                  style="font-size: 13px"
                 >ĐƠN HÀNG</a
               >
-            </li>
+              </li>
             <li>
               <a href="admin/admin_stock1.html" class="hover-text-glow-small"
                  style="font-size: 13px"

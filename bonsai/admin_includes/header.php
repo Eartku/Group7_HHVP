@@ -71,7 +71,7 @@ if (!empty($_SESSION['admin']['avatar'])) {
               >
             </li>
             <li>
-              <a  href="admin/admin_order.html" class="hover-text-glow-small"
+              <a href="../admin_oder/admin_order.php" class="hover-text-glow-small"
                  style="font-size: 13px"
                 >ĐƠN HÀNG</a
               >
