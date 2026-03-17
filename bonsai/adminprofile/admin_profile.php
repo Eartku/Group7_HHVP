@@ -2,11 +2,11 @@
 session_start();
 require "../config/db.php";
 
-/* ===== KIỂM TRA ADMIN ===== */
-if (!isset($_SESSION['admin'])) {
-    header("Location: ../admin_login/admin_login.php");
-    exit;
-}
+// /* ===== KIỂM TRA ADMIN ===== */
+// if (!isset($_SESSION['admin'])) {
+//     header("Location: ../admin_login/admin_login.php");
+//     exit;
+// }
 
 $adminId = $_SESSION['admin']['id'];
 $errors = [];
