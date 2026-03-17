@@ -1,11 +1,6 @@
 <?php
 session_start();
 require "../config/db.php";
-/* kiểm tra admin */
-if (!isset($_SESSION['admin'])) {
-    header("Location: ../admin_login/admin_login.php");
-    exit();
-}
 
 /* xử lý khóa / mở */
 if (isset($_GET['action']) && isset($_GET['id'])) {
@@ -27,291 +22,109 @@ $search_error  = '';
 $search_done   = false;
 $customers_result = null;
 
+/* ---------- PHÂN TRANG ---------- */
+$limit  = 10;
+$page   = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$offset = ($page - 1) * $limit;
+
+/* ---------- BUILD WHERE ---------- */
+$where_base = "role='customer'";
+
 if (isset($_GET['do_search']) && $search_value !== '') {
     $search_done = true;
     $escaped = mysqli_real_escape_string($conn, $search_value);
 
     if ($search_type === 'id') {
-        /* ID phải là số */
         if (!ctype_digit($search_value)) {
             $search_error = 'ID không hợp lệ. Vui lòng nhập số nguyên.';
         } else {
-            $sql_search = "SELECT * FROM users WHERE role='customer' AND id = $escaped";
-            $customers_result = mysqli_query($conn, $sql_search);
-            if (mysqli_num_rows($customers_result) === 0) {
-                $search_error = "ID #C" . str_pad($escaped, 4, "0", STR_PAD_LEFT) . " không tồn tại trong hệ thống.";
-            }
+            $where_search = "$where_base AND id = $escaped";
         }
     } elseif ($search_type === 'email') {
-        $sql_search = "SELECT * FROM users WHERE role='customer' AND email = '$escaped'";
-        $customers_result = mysqli_query($conn, $sql_search);
-        if (mysqli_num_rows($customers_result) === 0) {
-            $search_error = "Email \"$search_value\" không tồn tại trong hệ thống.";
-        }
+        $where_search = "$where_base AND email = '$escaped'";
     } elseif ($search_type === 'phone') {
-        $sql_search = "SELECT * FROM users WHERE role='customer' AND phone = '$escaped'";
-        $customers_result = mysqli_query($conn, $sql_search);
-        if (mysqli_num_rows($customers_result) === 0) {
-            $search_error = "Số điện thoại \"$search_value\" không tồn tại trong hệ thống.";
-        }
+        $where_search = "$where_base AND phone = '$escaped'";
     } else {
-        /* Tìm theo tên — LIKE */
-        $sql_search = "SELECT * FROM users WHERE role='customer' AND fullname LIKE '%$escaped%'";
-        $customers_result = mysqli_query($conn, $sql_search);
-        if (mysqli_num_rows($customers_result) === 0) {
-            $search_error = "Không tìm thấy khách hàng nào có tên chứa \"$search_value\".";
+        $where_search = "$where_base AND fullname LIKE '%$escaped%'";
+    }
+
+    if (!$search_error && isset($where_search)) {
+        /* đếm tổng */
+        $count_res = mysqli_query($conn, "SELECT COUNT(*) AS total FROM users WHERE $where_search");
+        $total_rows = mysqli_fetch_assoc($count_res)['total'];
+
+        if ($total_rows === 0) {
+            if ($search_type === 'id')
+                $search_error = "ID #C" . str_pad($escaped, 4, "0", STR_PAD_LEFT) . " không tồn tại trong hệ thống.";
+            elseif ($search_type === 'email')
+                $search_error = "Email \"$search_value\" không tồn tại trong hệ thống.";
+            elseif ($search_type === 'phone')
+                $search_error = "Số điện thoại \"$search_value\" không tồn tại trong hệ thống.";
+            else
+                $search_error = "Không tìm thấy khách hàng nào có tên chứa \"$search_value\".";
+        } else {
+            $total_pages   = ceil($total_rows / $limit);
+            $customers_result = mysqli_query($conn,
+                "SELECT * FROM users WHERE $where_search LIMIT $limit OFFSET $offset");
         }
     }
 }
 
 /* lấy toàn bộ khi không tìm kiếm */
 if (!$search_done) {
-    $sql_customers = "SELECT * FROM users WHERE role='customer'";
-    $customers_result = mysqli_query($conn, $sql_customers);
+    $count_res   = mysqli_query($conn, "SELECT COUNT(*) AS total FROM users WHERE $where_base");
+    $total_rows  = mysqli_fetch_assoc($count_res)['total'];
+    $total_pages = ceil($total_rows / $limit);
+
+    $customers_result = mysqli_query($conn,
+        "SELECT * FROM users WHERE $where_base LIMIT $limit OFFSET $offset");
+}
+
+/* helper: giữ query params khi chuyển trang */
+function page_url($p) {
+    $params = $_GET;
+    $params['page'] = $p;
+    return '?' . http_build_query($params);
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="../images/logo.png">
-    <title>BonSai | Quản Lý Khách Hàng</title>
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
-    <link href="../css/hover.css" rel="stylesheet">
-    <link href="../css/page2.css" rel="stylesheet">
-    <link href="../css/tiny-slider.css" rel="stylesheet">
-
-    <style>
+    <?php include "../admin_includes/loader.php"; ?>
+    <!-- <style>
         /* ===== SEARCH BAR ===== */
-        .search-wrapper {
-            background: linear-gradient(135deg, #f0faf4 0%, #f8fdf8 100%);
-            border: 1px solid #c3e6cb;
-            border-radius: 16px;
-            padding: 24px 270px 18px;
-            margin-bottom: 28px;
-            box-shadow: 0 2px 12px rgba(25,135,84,.06);
-        }
-        .search-wrapper .search-title {
-            font-size: 0.82rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .08em;
-            color: #141615;
-            margin-bottom: 34px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* ── PILL TABS ── */
-        .search-type-tabs {
-            display: flex;
-            gap: 0;
-            background: #e8f5ee;
-            border-radius: 10px;
-            padding: 4px;
-            border: 1px solid #c3e6cb;
-            flex-shrink: 0;
-        }
-        .stt-btn {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 7px 16px;
-            border: none;
-            background: transparent;
-            border-radius: 7px;
-            font-size: 0.83rem;
-            font-weight: 500;
-            color: #5a7a65;
-            cursor: pointer;
-            transition: background .18s, color .18s, box-shadow .18s, transform .12s;
-            white-space: nowrap;
-            line-height: 1;
-        }
-        .stt-btn i {
-            font-size: 0.78rem;
-            opacity: .75;
-        }
-        .stt-btn:hover {
-            background: rgba(25,135,84,.1);
-            color: #146c43;
-        }
-        .stt-btn.active {
-            background: #198754;
-            color: #fff;
-            box-shadow: 0 2px 8px rgba(25,135,84,.35);
-            font-weight: 700;
-            transform: translateY(-1px);
-        }
-        .stt-btn.active i {
-            opacity: 1;
-        }
-        /* hidden radio */
-        .stt-radio { display: none; }
-
-        /* ── SEARCH ROW ── */
-        .search-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .search-input-wrap {
-            flex: 1;
-            min-width: 200px;
-            position: relative;
-        }
-        .search-input-wrap .form-control {
-            border-radius: 10px;
-            border: 1.5px solid #ced4da;
-            padding-left: 42px;
-            height: 44px;
-            font-size: 0.93rem;
-            transition: border-color .2s, box-shadow .2s;
-        }
-        .search-input-wrap .form-control:focus {
-            border-color: #198754;
-            box-shadow: 0 0 0 3px rgba(25,135,84,.12);
-        }
-        .search-input-wrap .search-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #adb5bd;
-            pointer-events: none;
-            transition: color .2s;
-        }
-        .search-input-wrap .form-control:focus ~ .search-icon,
-        .search-input-wrap:focus-within .search-icon {
-            color: #198754;
-        }
-        .btn-search {
-            height: 44px;
-            padding: 0 22px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 0.88rem;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            white-space: nowrap;
-            box-shadow: 0 2px 8px rgba(25,135,84,.25);
-            transition: transform .12s, box-shadow .12s;
-        }
-        .btn-search:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 14px rgba(25,135,84,.35);
-        }
-        .btn-reset {
-            height: 44px;
-            padding: 0 16px;
-            border-radius: 10px;
-            font-size: 0.88rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-        }
-
-        /* divider between tabs and input */
-        .search-divider {
-            width: 1px;
-            height: 32px;
-            background: #c3e6cb;
-            flex-shrink: 0;
-            align-self: center;
-        }
-
-        /* placeholder hint */
-        #search_hint {
-            font-size: 0.76rem;
-            color: #6c757d;
-            margin-top: 8px;
-            min-height: 16px;
-            padding-left: 2px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        #search_hint i { color: #198754; font-size: 0.7rem; }
-
-        /* ===== ALERT / RESULT BADGE ===== */
-        .search-alert {
-            border-radius: 10px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 18px;
-        }
-        .result-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #d1e7dd;
-            color: #0f5132;
-            border-radius: 20px;
-            padding: 4px 14px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            margin-bottom: 14px;
-        }
-
-        /* ===== TABLE ===== */
-        .table thead th {
-            background: #f0faf4;
-            color: #157347;
-            font-weight: 700;
-            font-size: 0.88rem;
-            text-transform: uppercase;
-            letter-spacing: .04em;
-        }
-        .table tbody tr:hover {
-            background: #f8fdf8;
-        }
-        .table td {
-            font-size: 0.91rem;
-        }
-
-        /* highlight matched text */
-        mark.hl {
-            background: #fff3cd;
-            padding: 0 2px;
-            border-radius: 3px;
-        }
-    </style>
+        
+    </style> -->
 </head>
 
 <body>
 
-<!-- Navbar -->
 <?php include "../admin_includes/header.php"; ?>
 
-<div class="container py-5">
-
-    <div class="text-center">
-        <h2 class="fw-bold text-success" style="padding:30px">
-            Quản lý Khách Hàng
-        </h2>
+<div class="hero">
+    <div class="center-row text-center">
+        <h1 class="glow">Quản lý khách hàng</h1>
+        <span style="color: aliceblue;"></span>
+        <br>
+        <a href="add_customer.php"
+           style="background-color:#28a745;color:white;padding:10px 20px;
+                  border-radius:8px;text-decoration:none;font-weight:bold;
+                  display:inline-block;margin-top:15px;">
+            + Thêm tài khoản
+        </a>
     </div>
+</div>
 
+<div class="container py-5">
     <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
 
         <!-- ===== THANH TÌM KIẾM ===== -->
         <div class="search-wrapper">
-            <div class="search-title"><i class="fas fa-filter me-1"></i> </div>
-
             <form method="GET" action="customermanage.php" id="searchForm" autocomplete="off">
 
                 <div class="search-row">
-
-                    <!-- ── PILL TABS ── -->
+                    <!-- PILL TABS -->
                     <div class="search-type-tabs" id="searchTypeTabs">
 
                         <input type="radio" class="stt-radio" name="search_type" id="stt_name"
@@ -344,10 +157,9 @@ if (!$search_done) {
 
                     </div>
 
-                    <!-- divider -->
                     <div class="search-divider d-none d-sm-block"></div>
 
-                    <!-- ── Ô nhập ── -->
+                    <!-- Ô nhập -->
                     <div class="search-input-wrap">
                         <i class="fas fa-search search-icon" id="inputIcon"></i>
                         <input type="text"
@@ -358,26 +170,22 @@ if (!$search_done) {
                                value="<?= htmlspecialchars($search_value) ?>">
                     </div>
 
-                    <!-- ── Nút Lọc ── -->
+                    <!-- Nút Lọc -->
                     <button type="submit" name="do_search" value="1" class="btn btn-success btn-search">
                         <i class="fas fa-filter"></i> Lọc
                     </button>
 
-                    <!-- ── Nút Xóa lọc ── -->
+                    <!-- Nút Xóa lọc -->
                     <?php if ($search_done): ?>
                     <a href="customermanage.php" class="btn btn-outline-secondary btn-reset">
                         <i class="fas fa-rotate-left"></i> Xóa
                     </a>
                     <?php endif; ?>
-
                 </div>
 
-                <!-- Gợi ý nhập -->
                 <div id="search_hint"></div>
-
             </form>
         </div>
-        <!-- /THANH TÌM KIẾM -->
 
         <!-- ===== THÔNG BÁO LỖI ===== -->
         <?php if ($search_done && $search_error): ?>
@@ -388,13 +196,10 @@ if (!$search_done) {
         <?php endif; ?>
 
         <!-- ===== BADGE KẾT QUẢ ===== -->
-        <?php
-        $row_count = ($customers_result && !$search_error) ? mysqli_num_rows($customers_result) : 0;
-        if ($search_done && !$search_error):
-        ?>
+        <?php if ($search_done && !$search_error): ?>
         <div class="result-badge">
             <i class="fas fa-check-circle"></i>
-            Tìm thấy <?= $row_count ?> kết quả
+            Tìm thấy <?= $total_rows ?> kết quả
             <?php if ($search_value): ?>
                 cho "<strong><?= htmlspecialchars($search_value) ?></strong>"
             <?php endif; ?>
@@ -424,7 +229,6 @@ if (!$search_done) {
                     $email    = htmlspecialchars($row['email']);
                     $phone    = htmlspecialchars($row['phone']);
 
-                    /* highlight khi tìm theo tên */
                     if ($search_done && $search_type === 'name' && $search_value !== '') {
                         $kw = htmlspecialchars($search_value);
                         $fullname = preg_replace('/(' . preg_quote($kw, '/') . ')/iu',
@@ -438,13 +242,12 @@ if (!$search_done) {
                 <td><?= $phone ?></td>
                 <td>
                     <?php
-                    if ($row['status'] == "active") {
+                    if ($row['status'] == "active")
                         echo '<span class="badge bg-success">Hoạt động</span>';
-                    } elseif ($row['status'] == "warning") {
+                    elseif ($row['status'] == "warning")
                         echo '<span class="badge bg-warning text-dark">Cảnh báo</span>';
-                    } elseif ($row['status'] == "inactive") {
+                    elseif ($row['status'] == "inactive")
                         echo '<span class="badge bg-danger">Bị khóa</span>';
-                    }
                     ?>
                 </td>
                 <td>
@@ -468,25 +271,86 @@ if (!$search_done) {
             <?php
                 }
             }
-            if (!$has_rows && $search_done) {
-                /* đã hiển thị thông báo lỗi ở trên, không cần row riêng */
-            } elseif (!$has_rows) {
-            ?>
+            if (!$has_rows): ?>
             <tr>
                 <td colspan="6" class="text-muted py-4">
                     <i class="fas fa-inbox fa-lg me-2"></i>Chưa có khách hàng nào.
                 </td>
             </tr>
-            <?php } ?>
+            <?php endif; ?>
             </tbody>
         </table>
+
+        <!-- ===== PHÂN TRANG ===== -->
+        <?php if (isset($total_pages) && $total_pages > 1): ?>
+        <nav aria-label="Phân trang khách hàng">
+            <ul class="pagination justify-content-center flex-wrap">
+
+                <!-- Trang đầu -->
+                <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= page_url(1) ?>" title="Trang đầu">
+                        <i class="fas fa-angles-left"></i>
+                    </a>
+                </li>
+
+                <!-- Trang trước -->
+                <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= page_url($page - 1) ?>">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+
+                <!-- Các số trang -->
+                <?php
+                $range = 2; // hiện tối đa 5 nút (page-2 → page+2)
+                $start = max(1, $page - $range);
+                $end   = min($total_pages, $page + $range);
+
+                if ($start > 1): ?>
+                    <li class="page-item disabled"><span class="page-link">…</span></li>
+                <?php endif;
+
+                for ($i = $start; $i <= $end; $i++): ?>
+                    <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                        <a class="page-link" href="<?= page_url($i) ?>"><?= $i ?></a>
+                    </li>
+                <?php endfor;
+
+                if ($end < $total_pages): ?>
+                    <li class="page-item disabled"><span class="page-link">…</span></li>
+                <?php endif; ?>
+
+                <!-- Trang sau -->
+                <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= page_url($page + 1) ?>">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+
+                <!-- Trang cuối -->
+                <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= page_url($total_pages) ?>" title="Trang cuối">
+                        <i class="fas fa-angles-right"></i>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+        <!-- Thông tin trang -->
+        <p class="page-info">
+            Trang <strong><?= $page ?></strong> / <strong><?= $total_pages ?></strong>
+            &nbsp;|&nbsp; Tổng <strong><?= $total_rows ?></strong> khách hàng
+        </p>
         <?php endif; ?>
+
+        <?php endif; // end !$search_error ?>
 
     </div>
 </div>
 
-<!-- Footer -->
-  <?php include '../admin_includes/footer.php'; ?>
+<?php include '../admin_includes/footer.php'; ?>
+
 <script>
 const hints = {
     name:  'Nhập tên hoặc một phần họ tên — VD: nguyen → hiện tất cả họ Nguyễn',
@@ -508,23 +372,19 @@ const icons = {
 };
 
 function selectTab(type) {
-    /* active class */
     document.querySelectorAll('.stt-btn').forEach(b => b.classList.remove('active'));
     const lbl = document.querySelector(`label[for="stt_${type}"]`);
     if (lbl) lbl.classList.add('active');
 
-    /* check the radio */
     const radio = document.getElementById(`stt_${type}`);
     if (radio) radio.checked = true;
 
-    /* update placeholder & hint */
     const inp = document.getElementById('search_value');
     inp.placeholder = placeholders[type] || 'Nhập từ khóa...';
 
-    const hint = document.getElementById('search_hint');
-    hint.innerHTML = `<i class="fas fa-circle-info"></i> ${hints[type] || ''}`;
+    document.getElementById('search_hint').innerHTML =
+        `<i class="fas fa-circle-info"></i> ${hints[type] || ''}`;
 
-    /* update icon */
     const ic = document.getElementById('inputIcon');
     ic.className = `fas ${icons[type] || 'fa-search'} search-icon`;
 

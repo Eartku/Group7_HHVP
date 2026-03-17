@@ -2,11 +2,11 @@
 session_start();
 require "../config/db.php";
 
-/* kiểm tra admin */
-if (!isset($_SESSION['admin'])) {
-    header("Location: ../adminlogin/admin_login.php");
-    exit();
-}
+    // /* kiểm tra admin */
+    // if (!isset($_SESSION['admin'])) {
+    //     header("Location: ../adminlogin/admin_login.php");
+    //     exit();
+    // }
 
 /* lấy id khách hàng */
 if (!isset($_GET['id'])) {
