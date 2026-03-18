@@ -1,0 +1,3 @@
+<?php
+// Validation Helper - Validate email, phone, password...
+

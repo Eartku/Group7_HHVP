@@ -1,0 +1,93 @@
+/* ==============================
+   ORDER PAGE TABS SYSTEM
+================================= */
+
+/* ===== ẨN RADIO & PAGE ===== */
+input[name="order_page"] {
+    display: none;
+}
+
+.page {
+    display: none;
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+/* ===== HIỂN THỊ PAGE THEO RADIO ===== */
+#page_all:checked ~ .book .page_all,
+#page_processing:checked ~ .book .page_processing,
+#page_processed:checked ~ .book .page_processed,
+#page_shipping:checked ~ .book .page_shipping,
+#page_shipped:checked ~ .book .page_shipped,
+#page_cancelled:checked ~ .book .page_cancelled {
+    display: block;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ==============================
+   TAB BUTTON STYLE
+================================= */
+
+.controls1 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.controls1 label {
+    cursor: pointer;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: #f4f4f4;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    transition: all 0.25s ease;
+    border: 1px solid transparent;
+}
+
+/* Hover */
+.controls1 label:hover {
+    background: #e6e6e6;
+    transform: translateY(-2px);
+}
+
+/* Active tab */
+#page_all:checked ~ .controls1 label[for="page_all"],
+#page_processing:checked ~ .controls1 label[for="page_processing"],
+#page_processed:checked ~ .controls1 label[for="page_processed"],
+#page_shipping:checked ~ .controls1 label[for="page_shipping"],
+#page_shipped:checked ~ .controls1 label[for="page_shipped"],
+#page_cancelled:checked ~ .controls1 label[for="page_cancelled"] {
+    background: #198754;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* ==============================
+   STATUS BADGE STYLE
+================================= */
+
+.badge-status {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #fff;
+}
+
+/* Status Colors */
+.status-processing { background: #ffc107; color: #000; }
+.status-processed  { background: #0dcaf0; }
+.status-shipping   { background: #198754; }
+.status-shipped    { background: #6f42c1; }
+.status-cancelled  { background: #dc3545; }
+.status-unknown    { background: #6c757d; }

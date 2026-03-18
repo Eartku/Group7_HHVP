@@ -1,0 +1,9 @@
+{
+    "intelephense.environment.includePaths": [
+        "./app/core",
+        "./app/controllers",
+        "./app/models",
+        "./app/helpers",
+        "./app/middleware"
+    ]
+}

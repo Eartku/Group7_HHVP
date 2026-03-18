@@ -1,0 +1,3 @@
+<?php
+// Auth Helper - isLoggedIn(), isAdmin(), requireLogin()...
+
