@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BonSai | Báo Cáo Tồn Kho</title>
+  <title>Admin | Báo Cáo Tồn Kho</title>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <link href="../css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../css/style.css" rel="stylesheet" />
   <style>
     :root {
       --green-dark:  #1b4332;
@@ -31,30 +33,7 @@
     }
 
     /* ── TOP BAR ── */
-    .topbar {
-      background: var(--green-dark);
-      padding: 14px 32px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 12px rgba(0,0,0,.25);
-    }
-    .topbar .logo { font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: 1px; }
-    .topbar .logo span { color: var(--green-light); }
-    .topbar a {
-      color: #b7e4c7;
-      text-decoration: none;
-      font-size: .85rem;
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color .2s;
-    }
-    .topbar a:hover { color: #fff; }
+
 
     /* ── LAYOUT ── */
     .shell {
@@ -140,7 +119,18 @@
     }
     .form-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 160px; }
     .form-group label { font-size: .82rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
-    .form-group select,
+    .form-group select{
+            padding: 11px 15px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: .95rem;
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s;
+
+    }
     .form-group input {
       padding: 11px 15px;
       border: 1.5px solid var(--border);
@@ -286,11 +276,16 @@
 <body>
 
 <!-- TOP BAR -->
-<div class="topbar">
-  <div class="logo">BON<span>SAI</span> 🌿</div>
-  <a href="admin_stock1.html"><i class="fas fa-arrow-left"></i> Quay lại Quản lý Kho</a>
-</div>
-
+<nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
+  <div class="container">
+    <a class="navbar-brand" href="../admin.html">ADMIN<span>🌱</span></a>
+    <div class="ms-auto">
+      <a href="admin_stock1.html" class="nav-link text-white d-flex align-items-center gap-2">
+        ← Quay lại Quản lý Kho
+      </a>
+    </div>
+  </div>
+</nav>
 <div class="shell">
 
   <div class="page-title">
@@ -331,8 +326,12 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Ngày / Giờ</label>
-          <input type="datetime-local" id="s1-date" />
+          <label>Ngày (dd/mm/yyyy)</label>
+          <input type="text" id="s1-date" placeholder="25/02/2026" maxlength="10" />
+        </div>
+        <div class="form-group">
+          <label>Giờ (hh:mm)</label>
+          <input type="text" id="s1-time" placeholder="23:59" maxlength="5" />
         </div>
         <div class="form-group" style="flex:0; min-width:auto;">
           <label>&nbsp;</label>
@@ -347,14 +346,14 @@
   </div>
 
   <!-- ═══ PANEL 2: BÁO CÁO NHẬP XUẤT ═══ -->
-  <div id="tab-report" class="panel">
+<div id="tab-report" class="panel">
     <div class="card">
       <div class="card-title"><i class="fas fa-chart-bar"></i> Báo cáo nhập – xuất theo khoảng thời gian</div>
       <div class="form-row">
         <div class="form-group" style="flex:2; min-width:220px;">
-          <label>Sản phẩm (tùy chọn)</label>
+          <label>Sản phẩm</label>
           <select id="s2-product">
-            <option value="">-- Tất cả sản phẩm --</option>
+            <option value="">-- Chọn sản phẩm --</option>
           </select>
         </div>
         <div class="form-group">
@@ -368,11 +367,11 @@
         </div>
         <div class="form-group">
           <label>Từ ngày</label>
-          <input type="date" id="s2-from" />
+          <input type="text" id="s2-from" placeholder="dd/mm/yyyy" maxlength="10" />
         </div>
         <div class="form-group">
           <label>Đến ngày</label>
-          <input type="date" id="s2-to" />
+          <input type="text" id="s2-to" placeholder="dd/mm/yyyy" maxlength="10" />
         </div>
         <div class="form-group" style="flex:0; min-width:auto;">
           <label>&nbsp;</label>
@@ -394,7 +393,6 @@
         <div class="form-group">
           <label>Ngưỡng cảnh báo (số lượng ≤)</label>
           <input type="number" id="s3-threshold" value="10" min="0" placeholder="Ví dụ: 10" />
-          <span class="threshold-hint">Sản phẩm có tồn kho ≤ con số này sẽ bị cảnh báo</span>
         </div>
         <div class="form-group">
           <label>Gồm cả hết hàng (= 0)?</label>
@@ -432,19 +430,24 @@
   });
 
   // ─── SET DEFAULTS ────────────────────────────────────────────────────────
-  (() => {
-    const now   = new Date();
-    const pad   = n => String(n).padStart(2,'0');
-    const local = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
-    document.getElementById('s1-date').value = local;
+(() => {
+  const now = new Date();
+  const pad = n => String(n).padStart(2,'0');
 
-    const today = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
-    const mo    = new Date(now); mo.setMonth(mo.getMonth()-1);
-    const moStr = `${mo.getFullYear()}-${pad(mo.getMonth()+1)}-${pad(mo.getDate())}`;
-    document.getElementById('s2-from').value = moStr;
-    document.getElementById('s2-to').value   = today;
-  })();
+  // Tab 1 - hiện dd/mm/yyyy
+  const day   = pad(now.getDate());
+  const month = pad(now.getMonth()+1);
+  const year  = now.getFullYear();
+  document.getElementById('s1-date').value = `${day}/${month}/${year}`;
+  document.getElementById('s1-time').value = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
+  // Tab 2 - khoảng thời gian
+  const today = `${year}-${month}-${day}`;
+  const mo = new Date(now); mo.setMonth(mo.getMonth()-1);
+  const moStr = `${mo.getFullYear()}-${pad(mo.getMonth()+1)}-${pad(mo.getDate())}`;
+  document.getElementById('s2-from').value = moStr;
+  document.getElementById('s2-to').value   = today;
+})();
   // ─── LOAD PRODUCTS ───────────────────────────────────────────────────────
   async function loadProducts() {
     try {
@@ -454,7 +457,7 @@
       ['s1-product','s2-product'].forEach(id => {
         const sel = document.getElementById(id);
         const hasAll = id === 's2-product';
-        sel.innerHTML = hasAll ? '<option value="">-- Tất cả sản phẩm --</option>' : '<option value="">-- Chọn sản phẩm --</option>';
+
         data.products.forEach(p => {
           const opt = document.createElement('option');
           opt.value = p.id;
@@ -491,18 +494,26 @@
   function fmtCurrency(n) { return Number(n).toLocaleString('vi-VN') + ' ₫'; }
 
   // ─── 1. TỒN TẠI THỜI ĐIỂM ────────────────────────────────────────────────
-  async function queryStockAtTime() {
+ async function queryStockAtTime() {
     const pid  = document.getElementById('s1-product').value;
     const size = document.getElementById('s1-size').value;
-    const dt   = document.getElementById('s1-date').value;
+    const date = document.getElementById('s1-date').value;
+    const time = document.getElementById('s1-time').value;
 
     if (!pid)  return alert('Vui lòng chọn sản phẩm!');
     if (!size) return alert('Vui lòng chọn size!');
-    if (!dt)   return alert('Vui lòng chọn ngày giờ!');
+    if (!date) return alert('Vui lòng nhập ngày! (dd/mm/yyyy)');
+    if (!time) return alert('Vui lòng nhập giờ! (hh:mm)');
+
+    // Convert dd/mm/yyyy → yyyy-mm-dd
+    const parts = date.split('/');
+    if (parts.length !== 3) return alert('Ngày không hợp lệ! Nhập theo dạng dd/mm/yyyy');
+    const dateFormatted = `${parts[2]}-${parts[1]}-${parts[0]}`;
+    const dt = dateFormatted + ' ' + time + ':00';
 
     setLoading('s1-btn', true);
     try {
-      const url = `${API}?action=stock_at_time&product_id=${pid}&size=${size}&date=${dt.replace('T',' ')}:00`;
+      const url = `${API}?action=stock_at_time&product_id=${pid}&size=${size}&date=${dt}`;
       const res  = await fetch(url);
       const data = await res.json();
       if (!data.success) { showResult('s1-result', errCard(data.error)); return; }
@@ -510,7 +521,7 @@
       const stockClass = data.stock_at_time <= 0 ? 'red' : data.stock_at_time <= 10 ? 'amber' : '';
 
       const logsHtml = data.logs.length === 0
-        ? '<tr><td colspan="6"><div class="empty-msg"><i class="fas fa-inbox"></i>Không có giao dịch nào trước thời điểm này</div></td></tr>'
+        ? '<tr><td colspan="5"><div class="empty-msg"><i class="fas fa-inbox"></i>Không có giao dịch nào trước thời điểm này</div></td></tr>'
         : data.logs.map(l => `
             <tr>
               <td>${l.created_at_fmt}</td>
@@ -537,7 +548,8 @@
         </div>
         <div class="card" style="margin-bottom:0">
           <div class="card-title"><i class="fas fa-list-alt"></i>
-            ${data.product_name} – Size ${data.size} &nbsp;|&nbsp; <span style="font-weight:400;font-size:.9rem;color:var(--muted)">đến ${formatDT(data.query_datetime)}</span>
+            ${data.product_name} – Size ${data.size} &nbsp;|&nbsp;
+            <span style="font-weight:400;font-size:.9rem;color:var(--muted)">đến ${formatDT(data.query_datetime)}</span>
           </div>
           <div class="tbl-wrap">
             <table>
@@ -560,14 +572,22 @@
   }
 
   // ─── 2. BÁO CÁO NHẬP XUẤT ────────────────────────────────────────────────
-  async function queryReport() {
-    const pid  = document.getElementById('s2-product').value;
-    const size = document.getElementById('s2-size').value;
-    const from = document.getElementById('s2-from').value;
-    const to   = document.getElementById('s2-to').value;
+async function queryReport() {
+    const pid     = document.getElementById('s2-product').value;
+    const size    = document.getElementById('s2-size').value;
+    const fromRaw = document.getElementById('s2-from').value;
+    const toRaw   = document.getElementById('s2-to').value;
 
-    if (!from || !to) return alert('Vui lòng chọn khoảng thời gian!');
-    if (from > to)    return alert('Ngày bắt đầu phải ≤ ngày kết thúc!');
+    if (!pid)              return showToast('Vui lòng chọn sản phẩm!');
+    if (!fromRaw || !toRaw) return showToast('Vui lòng nhập khoảng thời gian!');
+
+    // Convert dd/mm/yyyy → yyyy-mm-dd
+    const [fd, fm, fy] = fromRaw.split('/');
+    const [td, tm, ty] = toRaw.split('/');
+    const from = `${fy}-${fm}-${fd}`;
+    const to   = `${ty}-${tm}-${td}`;
+
+    if (from > to) return showToast('Ngày bắt đầu phải ≤ ngày kết thúc!');
 
     setLoading('s2-btn', true);
     try {
