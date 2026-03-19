@@ -1,355 +1,621 @@
 <?php
+session_start();
 // ============================================================
-//  admin_order.php - Quản Lý Đơn Hàng (kết nối MySQL thật)
+//  admin_order.php - Quản Lý Đơn Hàng
+//  Giao diện đồng bộ với customermanage.php
 // ============================================================
 
-// ---------- CẤU HÌNH DATABASE ----------
-$db_host = 'localhost';
-$db_user = 'root';
-$db_pass = '';
-$db_name = 'bonsai2'; // ← SỬA LẠI đúng tên database trong phpMyAdmin của bạn
-
-$conn = new mysqli($db_host, $db_user, $db_pass);
-if ($conn->connect_error) {
-    die('<div class="alert alert-danger m-4">Kết nối thất bại: ' . htmlspecialchars($conn->connect_error) . '</div>');
-}
-$conn->set_charset('utf8mb4');
-
-// Chọn database, báo lỗi rõ ràng nếu sai tên
-if (!$conn->select_db($db_name)) {
-    // Liệt kê các database đang có để dễ sửa
-    $dbs = [];
-    $r = $conn->query("SHOW DATABASES");
-    while ($row = $r->fetch_row()) $dbs[] = $row[0];
-    die('<div class="alert alert-danger m-4">'
-      . '<strong>Không tìm thấy database "' . htmlspecialchars($db_name) . '".</strong><br>'
-      . 'Các database hiện có: <code>' . implode(', ', $dbs) . '</code><br>'
-      . 'Hãy sửa biến <code>$db_name</code> trong file PHP cho đúng.'
-      . '</div>');
-}
+require "../config/db.php";
 
 // ---------- ĐỌC THAM SỐ LỌC ----------
-$search     = isset($_GET['search'])     ? trim($_GET['search'])     : '';
-$trang_thai = isset($_GET['trang_thai']) ? trim($_GET['trang_thai']) : '';
-$start_date = isset($_GET['start_date']) ? trim($_GET['start_date']) : '';
-$end_date   = isset($_GET['end_date'])   ? trim($_GET['end_date'])   : '';
-$current_page = isset($_GET['page'])     ? max(1, (int)$_GET['page']) : 1;
-$per_page   = 10;
+$search_value = isset($_GET['search_value']) ? trim($_GET['search_value']) : '';
+$search_type  = isset($_GET['search_type'])  ? trim($_GET['search_type'])  : 'id';
+$trang_thai   = isset($_GET['trang_thai'])   ? trim($_GET['trang_thai'])   : '';
+$start_date   = isset($_GET['start_date'])   ? trim($_GET['start_date'])   : '';
+$end_date     = isset($_GET['end_date'])     ? trim($_GET['end_date'])     : '';
+$sort_address = isset($_GET['sort_address']) ? trim($_GET['sort_address']) : ''; // 'asc' | 'desc' | ''
+$search_done  = isset($_GET['do_search']);
+$search_error = '';
 
-// ---------- MAP TRẠNG THÁI ----------
+// Trạng thái mở rộng: pending = Mới đặt/Xử lý, confirmed = Đã xác nhận, delivered = Đã giao, cancelled = Đã huỷ
+
+
+// ---------- PHÂN TRANG ----------
+$limit  = 10;
+$page   = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$offset = ($page - 1) * $limit;
+
+// ---------- MAP TRẠNG THÁI (theo đúng enum DB) ----------
 $status_map = [
-    'pending'    => 'Mới đặt',
-    'processing' => 'Đã xử lý',
-    'completed'  => 'Đã giao',
-    'delivered'  => 'Đã giao',
-    'cancelled'  => 'Hủy',
+    'processing' => 'Đang xử lý',
+    'processed'  => 'Đã xử lý',
+    'shipping'   => 'Đang giao hàng',
+    'shipped'    => 'Đã giao hàng',
+    'cancelled'  => 'Đã hủy',
 ];
-$status_map_reverse = [
-    'Mới đặt'  => ['pending'],
-    'Đã xử lý' => ['processing'],
-    'Đã giao'  => ['completed', 'delivered'],
-    'Hủy'      => ['cancelled'],
+// Mỗi key = giá trị lọc → mảng giá trị DB khớp
+$status_filter_map = [
+    'processing' => ['processing'],
+    'processed'  => ['processed'],
+    'shipping'   => ['shipping'],
+    'shipped'    => ['shipped'],
+    'cancelled'  => ['cancelled'],
+];
+$status_label_map = [
+    'processing' => 'Đang xử lý',
+    'processed'  => 'Đã xử lý',
+    'shipping'   => 'Đang giao hàng',
+    'shipped'    => 'Đã giao hàng',
+    'cancelled'  => 'Đã hủy',
 ];
 
-// ---------- XÂY DỰNG WHERE ----------
-$where  = [];
-$params = [];
-$types  = '';
+// ---------- BUILD WHERE ----------
+$where_parts = [];
 
-if ($search !== '') {
-    $like    = '%' . $search . '%';
-    $where[] = '(o.id LIKE ? OR o.fullname LIKE ? OR o.email LIKE ?)';
-    array_push($params, $like, $like, $like);
-    $types  .= 'sss';
+// -- Bộ lọc tìm kiếm theo tab (chỉ khi nhấn nút Lọc)
+if ($search_done && $search_value !== '') {
+    $escaped = mysqli_real_escape_string($conn, $search_value);
+
+    if ($search_type === 'id') {
+        if (!ctype_digit($search_value)) {
+            $search_error = 'Mã đơn hàng không hợp lệ. Vui lòng nhập số nguyên.';
+        } else {
+            $where_parts[] = "o.id = '$escaped'";
+        }
+    } elseif ($search_type === 'email') {
+        $where_parts[] = "o.email = '$escaped'";
+    } elseif ($search_type === 'phone') {
+        $where_parts[] = "o.phone = '$escaped'";
+    } elseif ($search_type === 'address') {
+        $where_parts[] = "o.address LIKE '%$escaped%'";
+    } else {
+        $where_parts[] = "o.fullname LIKE '%$escaped%'";
+    }
 }
 
-if ($trang_thai !== '' && isset($status_map_reverse[$trang_thai])) {
-    $en_list      = $status_map_reverse[$trang_thai];
-    $placeholders = implode(',', array_fill(0, count($en_list), '?'));
-    $where[]      = "o.status IN ($placeholders)";
-    $params       = array_merge($params, $en_list);
-    $types       .= str_repeat('s', count($en_list));
+// -- Lọc trạng thái (luôn áp dụng khi có giá trị)
+if ($trang_thai !== '' && isset($status_filter_map[$trang_thai])) {
+    $en_list = $status_filter_map[$trang_thai];
+    $placeholders_tt = implode(',', array_map(fn($v) => "'".mysqli_real_escape_string($conn, $v)."'", $en_list));
+    $where_parts[] = "o.status IN ($placeholders_tt)";
 }
 
+// -- Lọc khoảng thời gian đặt hàng (luôn áp dụng khi có giá trị)
 if ($start_date !== '') {
-    $where[]  = 'DATE(o.created_at) >= ?';
-    $params[] = $start_date;
-    $types   .= 's';
+    $escaped_sd    = mysqli_real_escape_string($conn, $start_date);
+    $where_parts[] = "DATE(o.created_at) >= '$escaped_sd'";
 }
 if ($end_date !== '') {
-    $where[]  = 'DATE(o.created_at) <= ?';
-    $params[] = $end_date;
-    $types   .= 's';
+    $escaped_ed    = mysqli_real_escape_string($conn, $end_date);
+    $where_parts[] = "DATE(o.created_at) <= '$escaped_ed'";
 }
 
-$where_sql = $where ? ('WHERE ' . implode(' AND ', $where)) : '';
+$where_sql = $where_parts ? ('WHERE ' . implode(' AND ', $where_parts)) : '';
 
-// ---------- ĐẾM TỔNG ĐỂ PHÂN TRANG ----------
-$count_sql  = "SELECT COUNT(DISTINCT o.id) AS total FROM orders o $where_sql";
-$stmt_count = $conn->prepare($count_sql);
-if ($types) $stmt_count->bind_param($types, ...$params);
-$stmt_count->execute();
-$total = (int)$stmt_count->get_result()->fetch_assoc()['total'];
-$stmt_count->close();
+// -- Xác định ORDER BY
+$order_sql = 'ORDER BY o.created_at DESC'; // mặc định: mới nhất trước
+if ($sort_address === 'asc') {
+    $order_sql = 'ORDER BY o.address ASC, o.created_at DESC';
+} elseif ($sort_address === 'desc') {
+    $order_sql = 'ORDER BY o.address DESC, o.created_at DESC';
+}
 
-$total_pages  = max(1, (int)ceil($total / $per_page));
-$current_page = min($current_page, $total_pages);
-$offset       = ($current_page - 1) * $per_page;
+// ---------- ĐẾM TỔNG ----------
+$count_sql = "
+    SELECT COUNT(DISTINCT o.id) AS total
+    FROM orders o
+    $where_sql
+";
+$count_res  = mysqli_query($conn, $count_sql);
+$total_rows = (int)mysqli_fetch_assoc($count_res)['total'];
+
+// Kiểm tra không có kết quả khi tìm kiếm
+if ($search_done && $search_value !== '' && !$search_error && $total_rows === 0) {
+    if ($search_type === 'id')
+        $search_error = "Mã đơn hàng #" . htmlspecialchars($search_value) . " không tồn tại.";
+    elseif ($search_type === 'email')
+        $search_error = "Email \"" . htmlspecialchars($search_value) . "\" không tồn tại trong hệ thống.";
+    elseif ($search_type === 'phone')
+        $search_error = "Số điện thoại \"" . htmlspecialchars($search_value) . "\" không tồn tại.";
+    elseif ($search_type === 'address')
+        $search_error = "Không tìm thấy đơn hàng nào có địa chỉ chứa \"" . htmlspecialchars($search_value) . "\".";
+    else
+        $search_error = "Không tìm thấy đơn hàng nào với tên chứa \"" . htmlspecialchars($search_value) . "\".";
+}
+
+$total_pages  = max(1, (int)ceil($total_rows / $limit));
+$page         = min($page, $total_pages);
+$offset       = ($page - 1) * $limit;
 
 // ---------- QUERY CHÍNH ----------
-$data_sql = "
-    SELECT
-        o.id,
-        o.fullname,
-        o.email,
-        o.status,
-        o.created_at,
-        o.total_price,
-        o.payment_method,
-        COALESCE(
-            GROUP_CONCAT(DISTINCT
-                COALESCE(p.name, CONCAT('SP#', oi.product_id))
-                ORDER BY oi.id SEPARATOR ', '
-            ),
-            '—'
-        ) AS san_pham
-    FROM orders o
-    LEFT JOIN order_items oi ON oi.order_id = o.id
-    LEFT JOIN products    p  ON p.id        = oi.product_id
-    $where_sql
-    GROUP BY o.id
-    ORDER BY o.created_at DESC
-    LIMIT ? OFFSET ?
-";
-
-$data_params = array_merge($params, [$per_page, $offset]);
-$data_types  = $types . 'ii';
-
-$stmt = $conn->prepare($data_sql);
-$stmt->bind_param($data_types, ...$data_params);
-$stmt->execute();
-$orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
-$conn->close();
+$orders_result = null;
+if (!$search_error) {
+    $data_sql = "
+        SELECT
+            o.id,
+            o.fullname,
+            o.email,
+            o.phone,
+            o.address,
+            o.status,
+            o.created_at,
+            o.total_price,
+            o.payment_method,
+            COALESCE(
+                GROUP_CONCAT(DISTINCT
+                    COALESCE(p.name, CONCAT('SP#', oi.product_id))
+                    ORDER BY oi.id SEPARATOR ', '
+                ), '—'
+            ) AS san_pham
+        FROM orders o
+        LEFT JOIN order_items oi ON oi.order_id = o.id
+        LEFT JOIN products    p  ON p.id        = oi.product_id
+        $where_sql
+        GROUP BY o.id
+        $order_sql
+        LIMIT $limit OFFSET $offset
+    ";
+    $orders_result = mysqli_query($conn, $data_sql);
+}
 
 // ---------- HELPERS ----------
-function statusVi(string $status, array $map): string {
+function statusVi($status, $map) {
     return $map[$status] ?? ucfirst($status);
 }
-function badgeClass(string $status): string {
+function badgeClass($status) {
     return match($status) {
-        'pending'               => 'bg-warning text-dark',
-        'processing'            => 'bg-info text-dark',
-        'completed','delivered' => 'bg-success',
+        'processing'            => 'bg-warning text-dark',
+        'processed'             => 'bg-info text-dark',
+        'shipping'              => 'bg-primary',
+        'shipped'               => 'bg-success',
         'cancelled'             => 'bg-danger',
         default                 => 'bg-secondary',
     };
 }
-function pageLink(int $p): string {
+function page_url_order($p) {
     $params = $_GET;
     $params['page'] = $p;
     return '?' . http_build_query($params);
 }
-function fmtDate(string $dt): string {
+function fmtDate($dt) {
     $ts = strtotime($dt);
     return $ts ? date('d/m/Y', $ts) : $dt;
 }
 ?>
-<!--
-* Bootstrap 5
-* Template Name: Plantaris (Admin - QLKH)
-* Author: Kosmoz
--->
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <link rel="shortcut icon" href="../images/logo.png" />
-  <title>BonSai | Quản Lý Đơn Hàng</title>
-
-  <link href="../css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
-  <link href="../css/style.css" rel="stylesheet" />
-  <link href="../css/hover.css" rel="stylesheet" />
-  <!-- KHÔNG load page2.css nữa vì nó ẩn .page bằng CSS radio-button trick -->
-  <!-- <link href="../css/page2.css" rel="stylesheet" /> -->
-  <link href="../css/tiny-slider.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-
-  <style>
-    /* ===== Override: đảm bảo bảng luôn hiện dù có class .page ===== */
-    .table { display: table !important; }
-    /* Ẩn radio input ảo nếu còn sót trong HTML cũ */
-    input[type="radio"][name="page"] { display: none !important; }
-    /* Ẩn .book / .controls nếu còn sót */
-    .book  { display: block !important; }
-    .controls label { display: none !important; }
-  </style>
+    <?php include "../admin_includes/loader.php"; ?>
+    <link rel="stylesheet" href="../css/admin_order.css">
 </head>
 
 <body>
-  <!-- ===== NAVBAR ===== -->
-  <?php include "../admin_includes/header.php"; ?>
-  <!-- ===== BỘ LỌC ===== -->
-  <div>
-    <div class="center-row" style="scale:1; text-align:center">
-      <h2 class="fw-bold text-success" style="line-height:2.2;">Quản lý đơn hàng</h2>
 
-      <div class="page-header1 fade-in-up">
-        <form method="GET" action="admin_order.php">
-          <div class="search-filter-container">
+<?php include "../admin_includes/header.php"; ?>
 
-            <div class="search-box">
-              <i class="fas fa-search"></i>
-              <input type="text" name="search" id="searchInput"
-                placeholder="Tìm kiếm mã ĐH, tên KH, email..."
-                value="<?= htmlspecialchars($search) ?>" />
-            </div>
-
-            <div class="brand-filter">
-              <div class="mb-2" style="margin-bottom:0rem !important">
-                <select name="trang_thai" class="form-select form-select-sm"
-                  style="padding:14px 20px; font-size:1.123rem">
-                  <option value="">Trạng thái</option>
-                  <?php foreach (['Mới đặt','Đã xử lý','Đã giao','Hủy'] as $tt): ?>
-                    <option value="<?= $tt ?>" <?= $trang_thai === $tt ? 'selected' : '' ?>><?= $tt ?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-            </div>
-
-            <div class="date-filter">
-              <div class="date-filter d-flex align-items-center gap-2">
-                <span>Từ</span>
-                <input type="date" name="start_date" id="startDate"
-                  class="form-control" style="min-width:180px"
-                  value="<?= htmlspecialchars($start_date) ?>" />
-                <span>đến</span>
-                <input type="date" name="end_date" id="endDate"
-                  class="form-control" style="min-width:180px"
-                  value="<?= htmlspecialchars($end_date) ?>" />
-              </div>
-              <div>
-                <button type="submit" class="btn btn-success">
-                  <i class="fas fa-filter me-1"></i> Lọc
-                </button>
-                <a href="admin_order.php" class="btn btn-outline-secondary ms-1">
-                  <i class="fas fa-redo me-1"></i> Reset
-                </a>
-              </div>
-            </div>
-
-          </div>
-        </form>
-      </div>
+<div class="hero">
+    <div class="center-row text-center">
+        <h1 class="glow">Quản lý đơn hàng</h1>
+        <span style="color: aliceblue;"></span>
     </div>
-  </div>
+</div>
 
-  <!-- ===== BẢNG ĐƠN HÀNG ===== -->
-  <div class="container py-5" style="min-height:50px">
+<div class="container py-5">
     <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
 
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <small class="text-muted">
-          Tổng: <strong><?= $total ?></strong> đơn hàng
-          <?= ($search || $trang_thai || $start_date || $end_date)
-              ? '<span class="badge bg-secondary ms-1">đã lọc</span>' : '' ?>
-        </small>
-        <small class="text-muted">Trang <?= $current_page ?> / <?= $total_pages ?></small>
-      </div>
+        <!-- ===== THANH LỌC 1 HÀNG ===== -->
+        <form method="GET" action="admin_order.php" id="searchForm" autocomplete="off">
+        <div class="order-filter-bar">
 
-      <?php if (empty($orders)): ?>
-        <p class="text-center text-muted py-4">
-          <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
-          Không tìm thấy đơn hàng nào.
-        </p>
-      <?php else: ?>
-        <div class="table-responsive">
-          <!-- KHÔNG dùng class "page page1" để tránh bị CSS cũ ẩn đi -->
-          <table class="table table-bordered text-center align-middle" style="display:table !important">
+            <!-- GROUP 1: Tìm kiếm + Ngày đặt + Nút Lọc chung -->
+            <div class="filter-group fg-search">
+
+                <!-- PILL TABS (giống customermanage.php) -->
+                <div class="search-type-tabs" id="searchTypeTabs">
+
+                    <input type="radio" class="stt-radio" name="search_type" id="stt_fullname"
+                           value="fullname" <?= $search_type==='fullname' ? 'checked':'' ?>>
+                    <label class="stt-btn <?= $search_type==='fullname' ? 'active':'' ?>"
+                           for="stt_fullname" onclick="selectTab('fullname')">
+                        <i class="fas fa-user"></i> Họ tên
+                    </label>
+
+                    <input type="radio" class="stt-radio" name="search_type" id="stt_id"
+                           value="id" <?= $search_type==='id' ? 'checked':'' ?>>
+                    <label class="stt-btn <?= $search_type==='id' ? 'active':'' ?>"
+                           for="stt_id" onclick="selectTab('id')">
+                        <i class="fas fa-hashtag"></i> Mã ĐH
+                    </label>
+
+                    <input type="radio" class="stt-radio" name="search_type" id="stt_email"
+                           value="email" <?= $search_type==='email' ? 'checked':'' ?>>
+                    <label class="stt-btn <?= $search_type==='email' ? 'active':'' ?>"
+                           for="stt_email" onclick="selectTab('email')">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+
+                    <input type="radio" class="stt-radio" name="search_type" id="stt_phone"
+                           value="phone" <?= $search_type==='phone' ? 'checked':'' ?>>
+                    <label class="stt-btn <?= $search_type==='phone' ? 'active':'' ?>"
+                           for="stt_phone" onclick="selectTab('phone')">
+                        <i class="fas fa-phone"></i> Số ĐT
+                    </label>
+
+                    <input type="radio" class="stt-radio" name="search_type" id="stt_address"
+                           value="address" <?= $search_type==='address' ? 'checked':'' ?>>
+                    <label class="stt-btn <?= $search_type==='address' ? 'active':'' ?>"
+                           for="stt_address" onclick="selectTab('address')">
+                        <i class="fas fa-map-marker-alt"></i> Địa chỉ
+                    </label>
+
+                </div>
+
+                <div class="search-vdivider"></div>
+
+                <div class="search-input-bar">
+                    <i class="fas fa-search si-icon" id="inputIcon"></i>
+                    <input type="text"
+                           name="search_value"
+                           id="search_value"
+                           placeholder="Nhập tên khách hàng..."
+                           value="<?= htmlspecialchars($search_value) ?>">
+                </div>
+                <div id="search_hint" style="display:none"></div>
+
+                <span class="fg-inner-sep"></span>
+                <i class="fas fa-calendar-alt fg-date-icon"></i>
+
+                <input type="date" name="start_date" class="date-input-inline"
+                       value="<?= htmlspecialchars($start_date) ?>" title="Từ ngày">
+                <span class="date-sep">→</span>
+                <input type="date" name="end_date" class="date-input-inline"
+                       value="<?= htmlspecialchars($end_date) ?>" title="Đến ngày">
+
+                <button type="submit" name="do_search" value="1" class="btn-bar-search">
+                    <i class="fas fa-filter"></i> Lọc
+                </button>
+
+                <?php if ($start_date || $end_date): ?>
+                <a href="<?= '?' . http_build_query(array_merge($_GET, ['start_date'=>'','end_date'=>'','page'=>1])) ?>"
+                   class="btn-date-clear-x" title="Xoá lọc ngày"><i class="fas fa-times"></i></a>
+                <span class="date-chip">
+                    <?= $start_date ? date('d/m/Y', strtotime($start_date)) : '…' ?>
+                    → <?= $end_date ? date('d/m/Y', strtotime($end_date)) : '…' ?>
+                </span>
+                <?php endif; ?>
+            </div>
+
+            <!-- HÀNG 2: Trạng thái + Địa chỉ + Reset — căn giữa -->
+            <div class="filter-row2">
+
+            <!-- GROUP 2: Trạng thái — onclick dropdown -->
+            <div class="filter-group fg-status">
+                <span class="fg-label">Trạng thái</span>
+                <div class="status-dropdown-wrap" id="statusWrap">
+                    <?php
+                    // Xác định nhãn + dot đang chọn
+                    $cur_tt_info = [
+                        ''           => ['dot'=>'dot-all',        'text'=>'Tất cả'],
+                        'processing' => ['dot'=>'dot-processing',  'text'=>'Đang xử lý'],
+                        'processed'  => ['dot'=>'dot-confirmed',   'text'=>'Đã xử lý'],
+                        'shipping'   => ['dot'=>'dot-delivered',   'text'=>'Đang giao hàng'],
+                        'shipped'    => ['dot'=>'dot-delivered',   'text'=>'Đã giao hàng'],
+                        'cancelled'  => ['dot'=>'dot-cancelled',   'text'=>'Đã hủy'],
+                    ];
+                    $cur = $cur_tt_info[$trang_thai] ?? $cur_tt_info[''];
+                    ?>
+                    <button type="button" class="status-dropdown-btn" onclick="toggleStatus(event)">
+                        <span class="status-dot <?= $cur['dot'] ?>"></span>
+                        <span id="statusBtnText"><?= $cur['text'] ?></span>
+                        <i class="fas fa-chevron-down caret" id="statusCaret"></i>
+                    </button>
+
+                    <div class="status-dropdown-menu" id="statusMenu">
+                        <?php
+                        $tt_menu = [
+                            ''           => ['dot'=>'dot-all',        'text'=>'Tất cả',          'icon'=>'fa-list'],
+                            'processing' => ['dot'=>'dot-processing',  'text'=>'Đang xử lý',      'icon'=>'fa-hourglass-half'],
+                            'processed'  => ['dot'=>'dot-confirmed',   'text'=>'Đã xử lý',        'icon'=>'fa-check-circle'],
+                            'shipping'   => ['dot'=>'dot-delivered',   'text'=>'Đang giao hàng',  'icon'=>'fa-truck'],
+                            'shipped'    => ['dot'=>'dot-delivered',   'text'=>'Đã giao hàng',    'icon'=>'fa-box-open'],
+                            'cancelled'  => ['dot'=>'dot-cancelled',   'text'=>'Đã hủy',          'icon'=>'fa-times-circle'],
+                        ];
+                        foreach ($tt_menu as $val => $m):
+                            $lp = $_GET; $lp['trang_thai'] = $val; $lp['page'] = 1;
+                            unset($lp['do_search']);
+                            $link = '?' . http_build_query($lp);
+                            $active_cls = ($trang_thai === $val) ? 'is-active' : '';
+                        ?>
+                        <a href="<?= $link ?>" class="status-menu-item <?= $active_cls ?>">
+                            <span class="sm-dot <?= $m['dot'] ?>"></span>
+                            <i class="fas <?= $m['icon'] ?>" style="font-size:.78rem;opacity:.7"></i>
+                            <?= $m['text'] ?>
+                            <?php if ($trang_thai === $val): ?><i class="fas fa-check ms-auto" style="color:#28a745;font-size:.75rem"></i><?php endif; ?>
+                        </a>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- GROUP 3: Sắp xếp địa chỉ -->
+            <div class="filter-group fg-sort">
+                <span class="fg-label">Địa chỉ</span>
+                <?php
+                $sort_opts = [
+                    ''     => ['icon'=>'fa-clock',          'label'=>'Mặc định'],
+                    'asc'  => ['icon'=>'fa-sort-alpha-down', 'label'=>'A → Z'],
+                    'desc' => ['icon'=>'fa-sort-alpha-up',   'label'=>'Z → A'],
+                ];
+                foreach ($sort_opts as $val => $opt):
+                    $lp = $_GET; $lp['sort_address'] = $val; $lp['page'] = 1;
+                    $active_cls = ($sort_address === $val) ? 'is-active' : '';
+                ?>
+                <a href="<?= '?' . http_build_query($lp) ?>"
+                   class="btn-sort-bar <?= $active_cls ?>">
+                    <i class="fas <?= $opt['icon'] ?>"></i> <?= $opt['label'] ?>
+                </a>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- GROUP 5: Reset toàn bộ -->
+            <?php if ($search_done || $trang_thai || $start_date || $end_date || $sort_address): ?>
+            <div class="filter-group fg-reset">
+                <a href="admin_order.php" class="btn-bar-reset">
+                    <i class="fas fa-rotate-left"></i> Reset
+                </a>
+            </div>
+            <?php endif; ?>
+
+            </div><!-- end .filter-row2 -->
+
+        </div>
+        </form>
+
+        <!-- ===== THÔNG BÁO LỖI ===== -->
+        <?php if ($search_done && $search_error): ?>
+        <div class="alert alert-warning d-flex align-items-center gap-2 mb-3">
+            <i class="fas fa-exclamation-triangle fa-lg"></i>
+            <span><?= htmlspecialchars($search_error) ?></span>
+        </div>
+        <?php endif; ?>
+
+        <!-- ===== BADGE TỔNG KẾT QUẢ ===== -->
+        <?php
+        $has_any_filter = ($search_done && !$search_error && $search_value !== '')
+                        || $trang_thai !== ''
+                        || $start_date !== ''
+                        || $end_date   !== ''
+                        || $sort_address !== '';
+        if ($has_any_filter): ?>
+        <div class="result-summary-badge">
+            <i class="fas fa-check-circle"></i>
+            Hiển thị <strong><?= $total_rows ?></strong> đơn hàng
+            <?php if ($search_value): ?>
+                — tìm: <span class="tag-chip"><i class="fas fa-search"></i> <?= htmlspecialchars($search_value) ?></span>
+            <?php endif; ?>
+            <?php if ($trang_thai): ?>
+                — <span class="tag-chip"><i class="fas fa-tag"></i> <?= htmlspecialchars($status_label_map[$trang_thai] ?? $trang_thai) ?></span>
+            <?php endif; ?>
+            <?php if ($start_date || $end_date): ?>
+                — <span class="tag-chip"><i class="fas fa-calendar"></i>
+                    <?= $start_date ? date('d/m/Y', strtotime($start_date)) : '…' ?>
+                    → <?= $end_date ? date('d/m/Y', strtotime($end_date)) : '…' ?></span>
+            <?php endif; ?>
+            <?php if ($sort_address): ?>
+                — <span class="tag-chip"><i class="fas fa-map-marker-alt"></i> <?= $sort_address === 'asc' ? 'A→Z' : 'Z→A' ?></span>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
+
+        <!-- ===== BẢNG ĐƠN HÀNG ===== -->
+        <?php if (!$search_error): ?>
+        <table class="table table-bordered text-center align-middle">
             <thead class="table-light">
-              <tr>
-                <th>Mã ĐH</th>
-                <th>Tên sản phẩm</th>
-                <th>Tên Khách hàng</th>
-                <th>Ngày Đặt</th>
-                <th>Trạng thái</th>
-                <th>Chi tiết</th>
-              </tr>
+                <tr>
+                    <th>Mã ĐH</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Tên khách hàng</th>
+                    <th>Địa chỉ
+                        <?php if ($sort_address === 'asc'): ?>
+                            <i class="fas fa-sort-alpha-down text-success ms-1" title="Sắp xếp A→Z"></i>
+                        <?php elseif ($sort_address === 'desc'): ?>
+                            <i class="fas fa-sort-alpha-up text-success ms-1" title="Sắp xếp Z→A"></i>
+                        <?php else: ?>
+                            <i class="fas fa-sort text-muted ms-1" style="opacity:.4"></i>
+                        <?php endif; ?>
+                    </th>
+                    <th>Ngày đặt</th>
+                    <th>Trạng thái</th>
+                    <th>Chi tiết</th>
+                </tr>
             </thead>
             <tbody>
-              <?php foreach ($orders as $o): ?>
-              <tr>
-                <td><strong>#<?= htmlspecialchars($o['id']) ?></strong></td>
-                <td class="text-start"><?= htmlspecialchars($o['san_pham']) ?></td>
-                <td><?= htmlspecialchars($o['fullname']) ?></td>
-                <td><?= fmtDate($o['created_at']) ?></td>
+            <?php
+            $has_rows = false;
+            if ($orders_result) {
+                while ($row = mysqli_fetch_assoc($orders_result)) {
+                    $has_rows   = true;
+                    $fullname   = htmlspecialchars($row['fullname']);
+                    $address    = htmlspecialchars($row['address'] ?? '—');
+                    $san_pham   = htmlspecialchars($row['san_pham']);
+
+                    // Highlight tên nếu tìm kiếm theo tên
+                    if ($search_done && $search_type === 'fullname' && $search_value !== '') {
+                        $kw = htmlspecialchars($search_value);
+                        $fullname = preg_replace('/(' . preg_quote($kw, '/') . ')/iu',
+                                    '<mark class="hl">$1</mark>', $fullname);
+                    }
+                    // Highlight địa chỉ nếu tìm kiếm theo địa chỉ
+                    if ($search_done && $search_type === 'address' && $search_value !== '') {
+                        $kw = htmlspecialchars($search_value);
+                        $address = preg_replace('/(' . preg_quote($kw, '/') . ')/iu',
+                                   '<mark class="hl">$1</mark>', $address);
+                    }
+            ?>
+            <tr>
+                <td><strong>#<?= str_pad($row['id'], 4, "0", STR_PAD_LEFT) ?></strong></td>
+                <td class="text-start"><?= $san_pham ?></td>
+                <td><?= $fullname ?></td>
+                <td class="text-start"><?= $address ?></td>
+                <td><?= fmtDate($row['created_at']) ?></td>
                 <td>
-                  <span class="badge <?= badgeClass($o['status']) ?>">
-                    <?= statusVi($o['status'], $status_map) ?>
-                  </span>
+                    <span class="badge <?= badgeClass($row['status']) ?>">
+                        <?= statusVi($row['status'], $status_map) ?>
+                    </span>
                 </td>
                 <td>
-                  <a href="http://localhost/Group7_HHVP/bonsai/admin_oder/orderdetails.html?id=<?= urlencode($o['id']) ?>"
-                     class="badge bg-primary text-decoration-none px-2 py-1">
-                    <i class="fas fa-eye me-1"></i>Xem
-                  </a>
+                    <a href="orderdetails.php?id=<?= urlencode($row['id']) ?>"
+                       class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-eye"></i> Xem
+                    </a>
                 </td>
-              </tr>
-              <?php endforeach; ?>
+            </tr>
+            <?php
+                }
+            }
+            if (!$has_rows): ?>
+            <tr>
+                <td colspan="7" class="text-muted py-4">
+                    <i class="fas fa-inbox fa-lg me-2"></i>Chưa có đơn hàng nào.
+                </td>
+            </tr>
+            <?php endif; ?>
             </tbody>
-          </table>
-        </div>
-      <?php endif; ?>
+        </table>
 
-      <!-- ===== PHÂN TRANG PHP (thay thế CSS radio trick cũ) ===== -->
-      <?php if ($total_pages > 1): ?>
-      <nav class="mt-3">
-        <ul class="pagination justify-content-center">
-          <li class="page-item <?= $current_page <= 1 ? 'disabled' : '' ?>">
-            <a class="page-link" href="<?= pageLink($current_page - 1) ?>">&laquo;</a>
-          </li>
-          <?php
-          $start_p = max(1, $current_page - 2);
-          $end_p   = min($total_pages, $current_page + 2);
-          if ($start_p > 1): ?>
-            <li class="page-item"><a class="page-link" href="<?= pageLink(1) ?>">1</a></li>
-            <?php if ($start_p > 2): ?><li class="page-item disabled"><span class="page-link">…</span></li><?php endif; ?>
-          <?php endif; ?>
-          <?php for ($p = $start_p; $p <= $end_p; $p++): ?>
-          <li class="page-item <?= $p === $current_page ? 'active' : '' ?>">
-            <a class="page-link" href="<?= pageLink($p) ?>"><?= $p ?></a>
-          </li>
-          <?php endfor; ?>
-          <?php if ($end_p < $total_pages): ?>
-            <?php if ($end_p < $total_pages - 1): ?><li class="page-item disabled"><span class="page-link">…</span></li><?php endif; ?>
-            <li class="page-item"><a class="page-link" href="<?= pageLink($total_pages) ?>"><?= $total_pages ?></a></li>
-          <?php endif; ?>
-          <li class="page-item <?= $current_page >= $total_pages ? 'disabled' : '' ?>">
-            <a class="page-link" href="<?= pageLink($current_page + 1) ?>">&raquo;</a>
-          </li>
-        </ul>
-      </nav>
-      <?php endif; ?>
+        <!-- ===== PHÂN TRANG ===== -->
+        <?php if (isset($total_pages) && $total_pages > 1): ?>
+        <nav aria-label="Phân trang đơn hàng">
+            <ul class="pagination justify-content-center flex-wrap">
 
-    </div>
-  </div>
+                <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= page_url_order(1) ?>" title="Trang đầu">
+                        <i class="fas fa-angles-left"></i>
+                    </a>
+                </li>
+                <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= page_url_order($page - 1) ?>">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
 
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer-section bg-dark text-light mt-5">
-    <div class="container py-4">
-      <div class="row">
-        <div class="col-lg-8"><h5>Admin - BonSai 🌱</h5></div>
-      </div>
-      <div class="border-top pt-3 mt-3 text-center">
-        <p class="mb-0">
-          Copyright &copy; <?= date('Y') ?>. All Rights Reserved. — Designed by
-          <a href="group7.html" class="text-light text-decoration-underline">Group 7</a>
+                <?php
+                $range = 2;
+                $start = max(1, $page - $range);
+                $end   = min($total_pages, $page + $range);
+
+                if ($start > 1): ?>
+                    <li class="page-item disabled"><span class="page-link">…</span></li>
+                <?php endif;
+
+                for ($i = $start; $i <= $end; $i++): ?>
+                    <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                        <a class="page-link" href="<?= page_url_order($i) ?>"><?= $i ?></a>
+                    </li>
+                <?php endfor;
+
+                if ($end < $total_pages): ?>
+                    <li class="page-item disabled"><span class="page-link">…</span></li>
+                <?php endif; ?>
+
+                <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= page_url_order($page + 1) ?>">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= page_url_order($total_pages) ?>" title="Trang cuối">
+                        <i class="fas fa-angles-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <p class="page-info">
+            Trang <strong><?= $page ?></strong> / <strong><?= $total_pages ?></strong>
+            &nbsp;|&nbsp; Tổng <strong><?= $total_rows ?></strong> đơn hàng
         </p>
-      </div>
+        <?php endif; ?>
+
+        <?php endif; // end !$search_error ?>
+
     </div>
-  </footer>
+</div>
+
+<?php include '../admin_includes/footer.php'; ?>
+
+<script>
+// ---- Pill tabs — giống customermanage.php ----
+const hints = {
+    fullname: 'Nhập tên hoặc một phần họ tên — VD: nguyen → hiện tất cả họ Nguyễn',
+    id:       'Nhập số mã đơn hàng — VD: 1 hoặc 12',
+    email:    'Nhập đúng địa chỉ email — VD: example@gmail.com',
+    phone:    'Nhập đúng số điện thoại — VD: 0901234567',
+    address:  'Nhập một phần địa chỉ — VD: Quận 5 hoặc TPHCM',
+};
+const placeholders = {
+    fullname: 'Nhập tên khách hàng...',
+    id:       'Nhập mã đơn hàng...',
+    email:    'Nhập địa chỉ email...',
+    phone:    'Nhập số điện thoại...',
+    address:  'Nhập địa chỉ giao hàng...',
+};
+const icons = {
+    fullname: 'fa-user',
+    id:       'fa-hashtag',
+    email:    'fa-envelope',
+    phone:    'fa-phone',
+    address:  'fa-map-marker-alt',
+};
+
+function selectTab(type) {
+    document.querySelectorAll('.stt-btn').forEach(b => b.classList.remove('active'));
+    const lbl = document.querySelector(`label[for="stt_${type}"]`);
+    if (lbl) lbl.classList.add('active');
+
+    const radio = document.getElementById(`stt_${type}`);
+    if (radio) radio.checked = true;
+
+    const inp = document.getElementById('search_value');
+    inp.placeholder = placeholders[type] || 'Nhập từ khóa...';
+
+    const hint = document.getElementById('search_hint');
+    if (hint) hint.innerHTML = `<i class="fas fa-circle-info"></i> ${hints[type] || ''}`;
+
+    const ic = document.getElementById('inputIcon');
+    ic.className = `fas ${icons[type] || 'fa-search'} si-icon`;
+
+    inp.focus();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const checked = document.querySelector('.stt-radio:checked');
+    const type = checked ? checked.value : 'id';
+    const inp = document.getElementById('search_value');
+    inp.placeholder = placeholders[type] || 'Nhập từ khóa...';
+    const hint = document.getElementById('search_hint');
+    if (hint) hint.innerHTML = `<i class="fas fa-circle-info"></i> ${hints[type] || ''}`;
+    const ic = document.getElementById('inputIcon');
+    ic.className = `fas ${icons[type] || 'fa-search'} si-icon`;
+});
+
+// ---- Dropdown trạng thái ----
+function toggleStatus(e) {
+    e.stopPropagation();
+    const menu  = document.getElementById('statusMenu');
+    const caret = document.getElementById('statusCaret');
+    const open  = menu.classList.toggle('open');
+    caret.style.transform = open ? 'rotate(180deg)' : '';
+}
+document.addEventListener('click', () => {
+    const menu  = document.getElementById('statusMenu');
+    const caret = document.getElementById('statusCaret');
+    if (menu)  menu.classList.remove('open');
+    if (caret) caret.style.transform = '';
+});
+</script>
 
 </body>
 </html>

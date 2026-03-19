@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chọn trạng thái</title>
+
+    <style>
+      body {
+        font-family: Arial;
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+      }
+
+      /* Ô chính */
+      .dropdown {
+        position: relative;
+        width: 200px;
+      }
+
+      /* Nút hiển thị */
+      .dropdown-btn {
+        padding: 10px;
+        background: #007bff;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        text-align: center;
+      }
+
+      /* Danh sách */
+      .dropdown-list {
+        display: none;
+        position: absolute;
+        width: 100%;
+        background: #fff;
+        border-radius: 8px;
+        margin-top: 5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+      }
+
+      /* Item */
+      .dropdown-item {
+        padding: 10px;
+        cursor: pointer;
+      }
+
+      .dropdown-item:hover {
+        background: #f1f1f1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="dropdown">
+      <div class="dropdown-btn" onclick="toggleDropdown()" id="selected">
+        Chọn trạng thái
+      </div>
+
+      <div class="dropdown-list" id="dropdownList">
+        <div class="dropdown-item" onclick="selectStatus('Đã đặt')">Đã đặt</div>
+        <div class="dropdown-item" onclick="selectStatus('Đang xử lý')">
+          Đang xử lý
+        </div>
+        <div class="dropdown-item" onclick="selectStatus('Đã hủy')">Đã hủy</div>
+      </div>
+    </div>
+
+    <script>
+      function toggleDropdown() {
+        const list = document.getElementById("dropdownList");
+        list.style.display = list.style.display === "block" ? "none" : "block";
+      }
+
+      function selectStatus(status) {
+        document.getElementById("selected").innerText = status;
+        document.getElementById("dropdownList").style.display = "none";
+      }
+    </script>
+  </body>
+</html>

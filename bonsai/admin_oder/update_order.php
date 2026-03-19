@@ -145,40 +145,7 @@ $total = $order['total_price'] > 0 ? (float)$order['total_price'] : ($subtotal +
 </head>
 <body>
   <!-- ===== NAVBAR ===== -->
-  <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="../admin.html">ADMIN<span>🌱</span></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarsFurni">
-        <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-          <li><a href="customermanage.html"     class="nav-link hover-text-glow" style="font-size:14px">KHÁCH HÀNG</a></li>
-          <li><a href="admin_type.html"          class="nav-link hover-text-glow" style="font-size:14px">LOẠI SẢN PHẨM</a></li>
-          <li><a href="admin_product.html"       class="nav-link hover-text-glow" style="font-size:14px">SẢN PHẨM</a></li>
-          <li><a href="admin_importproduct.html" class="nav-link hover-text-glow" style="font-size:14px">NHẬP SẢN PHẨM</a></li>
-          <li><a href="admin_sellingprice.html"  class="nav-link hover-text-glow" style="font-size:14px">GIÁ BÁN</a></li>
-          <li><a href="admin_order.php"          class="nav-link active-import"   style="font-size:19px">ĐƠN HÀNG</a></li>
-          <li><a href="admin_stock1.html"        class="nav-link hover-text-glow" style="font-size:14px">KHO</a></li>
-        </ul>
-        <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-4">
-          <li>
-            <a href="../admin.html" class="nav-link hover-box">
-              <div class="front"><img src="../images/home.svg" style="scale:1.3" /></div>
-              <div class="back"><span>Trang chủ</span></div>
-            </a>
-          </li>
-          <li style="margin-left:10px">
-            <a class="nav-link hover-box" href="admin_login.html">
-              <div class="front"><img src="../images/exit.svg" /></div>
-              <div class="back"><span>Đăng xuất</span></div>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
+  <?php include = "../"
   <!-- HERO -->
   <div>
     <div class="center-row" style="text-align:center">
