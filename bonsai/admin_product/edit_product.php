@@ -56,13 +56,20 @@ $cats = $conn->query("SELECT * FROM categories");
 <!DOCTYPE html>
 <html>
 <head>
-<title>Sửa sản phẩm</title>
-<link rel="stylesheet" href="../css/bootstrap.min.css">
+<head>
+    <?php include '../admin_includes/loader.php'; ?>
+    <title>
+        BonSai | Shop
+    </title>
 </head>
 
-<body class="container mt-5">
-
-<h2>Sửa sản phẩm</h2>
+<body>
+<div class="hero">
+    <div class="center-row text-center">
+        <h1 class="glow">Sửa sản phẩm</h1>
+    </div>
+</div>
+<div class="container mt-5">
 
 <form method="POST" enctype="multipart/form-data" onsubmit="return confirmUpdate()">
 
@@ -134,6 +141,7 @@ Quay lại
 </a>
 
 </form>
+</div>
 <script>
 function confirmUpdate(){
 
@@ -141,5 +149,6 @@ return confirm("Bạn có chắc muốn cập nhật sản phẩm này không?")
 
 }
 </script>
+<?php include '../admin_includes/footer.php'; ?>
 </body>
 </html>

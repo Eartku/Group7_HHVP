@@ -40,17 +40,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-
-<meta charset="UTF-8">
-<title>Thêm sản phẩm</title>
-
-<link rel="stylesheet" href="../css/bootstrap.min.css">
-
+    <?php include '../admin_includes/loader.php'; ?>
+    
+    <title>
+        BonSai | Shop
+    </title>
 </head>
 
-<body class="container mt-5">
-
-<h2>Thêm sản phẩm</h2>
+<body>
+        <div class="hero">
+        <div class="center-row text-center">
+        <h1 class="glow">Phiếu Thêm sản phẩm</h1>
+        </div>
+        </div>
+<div  class="container mt-5">
 
 <form method="POST" enctype="multipart/form-data">
 
@@ -120,6 +123,7 @@ Quay lại
 </a>
 
 </form>
-
+</div>
+<?php include '../admin_includes/footer.php'; ?>
 </body>
 </html>
