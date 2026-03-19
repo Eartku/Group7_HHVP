@@ -76,12 +76,26 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 </head>
 <body>
     <?php include '../admin_includes/header.php'; ?>
-        <div class="container mt-4">
-
-        <a href="add_import.php" class="btn btn-primary mb-3">
-        Tạo phiếu nhập
-        </a>
-
+        <div class="hero">
+        <div class="center-row text-center">
+                <h1 class="glow">Quản Lý Nhập sản phẩm</h1>
+            </br>
+                <a href="add_import.php"                
+                style="
+                background-color:#28a745;
+                color:white;
+                padding:8px 20px;
+                border-radius:50px;
+                text-decoration:none;
+                font-weight:bold;
+                display:inline-block;
+               
+                ">
+                Tạo phiếu nhập
+                </a>
+        </div>
+    </div>
+      
         <?php include "pimports.php"; ?>
 
         </div>

@@ -78,7 +78,7 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     <?php include 'header_pd.php'; ?>
     <div class="hero">
         <div class="center-row text-center">
-            <h1 style="font-weight: 900;font-size: 54px;"><?= htmlspecialchars($cat_name) ?></h1>
+            <h1 class="glow"><?= htmlspecialchars($cat_name) ?></h1>
             <span style="color: aliceblue;">
             </span>
             </br>
@@ -86,7 +86,7 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
                 style="
                 background-color:#28a745;
                 color:white;
-                padding:3px 20px;
+                padding:8px 20px;
                 border-radius:50px;
                 text-decoration:none;
                 font-weight:bold;

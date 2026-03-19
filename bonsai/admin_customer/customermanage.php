@@ -109,7 +109,7 @@ function page_url($p) {
         <br>
         <a href="add_customer.php"
            style="background-color:#28a745;color:white;padding:10px 20px;
-                  border-radius:8px;text-decoration:none;font-weight:bold;
+                  border-radius:25px;text-decoration:none;font-weight:bold;
                   display:inline-block;margin-top:15px;">
             + Thêm tài khoản
         </a>
