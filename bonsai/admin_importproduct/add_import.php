@@ -172,4 +172,4 @@ document.getElementById("totalValue").value=totalValue;
 
 </script>
 
-<?php include "fffooter.php"; ?>
+<?php include '../admin_includes/footer.php'; ?>
