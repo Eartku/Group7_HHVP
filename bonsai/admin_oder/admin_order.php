@@ -176,6 +176,7 @@ function fmtDate(string $dt): string {
   <!-- <link href="../css/page2.css" rel="stylesheet" /> -->
   <link href="../css/tiny-slider.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <?php include "../admin_includes/loader.php"; ?>
 
   <style>
     /* ===== Override: đảm bảo bảng luôn hiện dù có class .page ===== */
@@ -192,10 +193,13 @@ function fmtDate(string $dt): string {
   <!-- ===== NAVBAR ===== -->
   <?php include "../admin_includes/header.php"; ?>
   <!-- ===== BỘ LỌC ===== -->
+  <div class="hero">
+      <div class="center-row text-center">
+        <h1 class="glow">Quản Lý Đơn Hàng</h1>
+      </div>
+  </div>
   <div>
     <div class="center-row" style="scale:1; text-align:center">
-      <h2 class="fw-bold text-success" style="line-height:2.2;">Quản lý đơn hàng</h2>
-
       <div class="page-header1 fade-in-up">
         <form method="GET" action="admin_order.php">
           <div class="search-filter-container">

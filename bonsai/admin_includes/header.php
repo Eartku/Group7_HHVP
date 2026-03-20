@@ -1,3 +1,4 @@
+<?php $current_page = basename($_SERVER['PHP_SELF']); ?>
 <?php
 // header.php
 require_once "../config/db.php";
@@ -20,6 +21,21 @@ if (!empty($_SESSION['admin']['avatar'])) {
 }
 
 ?>
+<style>
+.active-menu {
+    color: #fff !important;
+    background: linear-gradient(45deg, #28a745, #20c997);
+    padding: 6px 14px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(40,167,69,0.6);
+}
+.custom-navbar-nav a {
+    font-size: 15px !important;   /* tăng size chữ */
+    color: #ddd !important;       /* màu chữ bình thường */
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+</style>
 
 <!-- Start Header -->
 <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark">
@@ -38,51 +54,65 @@ if (!empty($_SESSION['admin']['avatar'])) {
     </button>
 
 
+<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
 
-      <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li>
-              <a href="../admin_customer/customermanage.php" class="hover-text-glow-small"
-                  style="font-size: 13px"
-                >KHÁCH HÀNG</a
-              >
-            </li>
-            <li>
-              <a href="admin/admin_type.html" class="hover-text-glow-small"
-                 style="font-size: 13px"
-                >LOẠI SẢN PHẨM</a
-              >
-            </li>
-            <li>
-              <a href="../admin_product/sshop.php" class="hover-text-glow-small"
-                 style="font-size: 13px"
-                >SẢN PHẨM</a
-              >
-            </li>
-             <li>
-              <a href="../admin_importproduct/adminipd.php" class="hover-text-glow-small"
-                 style="font-size: 13px"
-                >NHẬP SẢN PHẨM</ax
-              >
-            </li>
-             <li>
-              <a href="admin/admin_sellingprice.html" class="hover-text-glow-small"
-                 style="font-size: 13px"
-                >GIÁ BÁN</a
-              >
-            </li>
-            <li>
-              <a href="../admin_oder/admin_order.php" class="hover-text-glow-small"
-                 style="font-size: 13px"
-                >ĐƠN HÀNG</a
-              >
-            </li>
-            <li>
-              <a href="admin/admin_stock1.html" class="hover-text-glow-small"
-                 style="font-size: 13px"
-                >KHO</a
-              >
-            </li>
-          </ul>
+<li>
+<a href="../admin_customer/customermanage.php"
+class="hover-text-glow-small <?= ($current_page == 'customermanage.php') ? 'active-menu' : '' ?>"
+">
+<?= ($current_page == 'customermanage.php') ? '🌱 ' : '' ?>KHÁCH HÀNG
+</a>
+</li>
+
+<li>
+<a href="admin/admin_type.html"
+class="hover-text-glow-small <?= ($current_page == 'admin_type.html') ? 'active-menu' : '' ?>"
+">
+<?= ($current_page == 'admin_type.html') ? '🌱 ' : '' ?>LOẠI SẢN PHẨM
+</a>
+</li>
+
+<li>
+<a href="../admin_product/sshop.php"
+class="hover-text-glow-small <?= ($current_page == 'sshop.php') ? 'active-menu' : '' ?>"
+">
+<?= ($current_page == 'sshop.php') ? '🌱 ' : '' ?>SẢN PHẨM
+</a>
+</li>
+
+<li>
+<a href="../admin_importproduct/adminipd.php"
+class="hover-text-glow-small <?= ($current_page == 'adminipd.php') ? 'active-menu' : '' ?>"
+">
+<?= ($current_page == 'adminipd.php') ? '🌱 ' : '' ?>NHẬP SẢN PHẨM
+</a>
+</li>
+
+<li>
+<a href="admin/admin_sellingprice.html"
+class="hover-text-glow-small <?= ($current_page == 'admin_sellingprice.html') ? 'active-menu' : '' ?>"
+">
+<?= ($current_page == 'admin_sellingprice.html') ? '🌱 ' : '' ?>GIÁ BÁN
+</a>
+</li>
+
+<li>
+<a href="../admin_oder/admin_order.php"
+class="hover-text-glow-small <?= ($current_page == 'admin_order.php') ? 'active-menu' : '' ?>"
+">
+<?= ($current_page == 'admin_order.php') ? '🌱 ' : '' ?>ĐƠN HÀNG
+</a>
+</li>
+
+<li>
+<a href="admin/admin_stock1.html"
+class="hover-text-glow-small <?= ($current_page == 'admin_stock1.html') ? 'active-menu' : '' ?>"
+">
+<?= ($current_page == 'admin_stock1.html') ? '🌱 ' : '' ?>KHO
+</a>
+</li>
+
+</ul>
 
 
         <!-- ICON -->

@@ -108,9 +108,9 @@ function page_url($p) {
         <span style="color: aliceblue;"></span>
         <br>
         <a href="add_customer.php"
-           style="background-color:#28a745;color:white;padding:10px 20px;
+           style="background-color:#28a745;color:white;padding:8px 20px;
                   border-radius:25px;text-decoration:none;font-weight:bold;
-                  display:inline-block;margin-top:15px;">
+                  display:inline-block;">
             + Thêm tài khoản
         </a>
     </div>
