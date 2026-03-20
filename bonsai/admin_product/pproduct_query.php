@@ -1,24 +1,57 @@
 <?php
 require_once "../config/db.php";
 
-$category_id = isset($category_id) ? (int)$category_id : 0;
-$page        = isset($page) ? (int)$page : 1;
+/* ================= NHẬN PARAM ================= */
+$category_id = isset($_GET['category']) ? (int)$_GET['category'] : 0;
+$page        = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if ($page < 1) $page = 1;
+
+$keyword = $_GET['keyword'] ?? '';
+$status  = $_GET['status'] ?? '';
+$stock   = $_GET['stock'] ?? '';
 
 $limit  = 8;
 $offset = ($page - 1) * $limit;
 
 
-/* ================= ĐẾM TỔNG ================= */
+/* ================= WHERE ĐỘNG ================= */
+$where = [];
+$params = [];
+$types = "";
 
-$countSql = "SELECT COUNT(*) as total FROM products";
-
+/* CATEGORY */
 if ($category_id > 0) {
-    $countSql .= " WHERE category_id = ?";
-    $stmt = $conn->prepare($countSql);
-    $stmt->bind_param("i", $category_id);
-} else {
-    $stmt = $conn->prepare($countSql);
+    $where[] = "p.category_id = ?";
+    $params[] = $category_id;
+    $types .= "i";
+}
+
+/* SEARCH */
+if (!empty($keyword)) {
+    $where[] = "p.name LIKE ?";
+    $params[] = "%" . $keyword . "%";
+    $types .= "s";
+}
+
+/* STATUS */
+if ($status !== '') {
+    $where[] = "p.status = ?";
+    $params[] = (int)$status;
+    $types .= "i";
+}
+
+
+/* ================= ĐẾM TỔNG ================= */
+$countSql = "SELECT COUNT(DISTINCT p.id) as total FROM products p";
+
+if (!empty($where)) {
+    $countSql .= " WHERE " . implode(" AND ", $where);
+}
+
+$stmt = $conn->prepare($countSql);
+
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
 }
 
 $stmt->execute();
@@ -27,12 +60,12 @@ $totalPages = ceil($totalProducts / $limit);
 
 
 /* ================= LẤY SẢN PHẨM ================= */
-
 $sql = "
 SELECT 
     p.id,
     p.name,
     p.image,
+    p.status,
     p.profit_rate,
 
     IFNULL(SUM(i.quantity),0) AS total_stock,
@@ -51,23 +84,35 @@ FROM products p
 LEFT JOIN inventory i ON i.product_id = p.id
 ";
 
-if ($category_id > 0) {
-    $sql .= " WHERE p.category_id = ?";
+/* GẮN WHERE */
+if (!empty($where)) {
+    $sql .= " WHERE " . implode(" AND ", $where);
 }
 
-$sql .= "
-GROUP BY p.id
-ORDER BY p.id DESC
-LIMIT ? OFFSET ?
-";
+/* GROUP + FILTER STOCK */
+$sql .= " GROUP BY p.id";
+
+if ($stock !== '') {
+    if ($stock == 1) {
+        $sql .= " HAVING total_stock > 0";
+    } else {
+        $sql .= " HAVING total_stock <= 0";
+    }
+}
+
+/* ORDER + LIMIT */
+$sql .= " ORDER BY p.id DESC LIMIT ? OFFSET ?";
+
+/* PREPARE */
+$params2 = $params;
+$types2 = $types;
+
+$params2[] = $limit;
+$params2[] = $offset;
+$types2 .= "ii";
 
 $stmt = $conn->prepare($sql);
-
-if ($category_id > 0) {
-    $stmt->bind_param("iii", $category_id, $limit, $offset);
-} else {
-    $stmt->bind_param("ii", $limit, $offset);
-}
+$stmt->bind_param($types2, ...$params2);
 
 $stmt->execute();
 $products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);

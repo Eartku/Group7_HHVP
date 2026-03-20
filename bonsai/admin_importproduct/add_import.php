@@ -33,11 +33,11 @@ exit;
 include "../admin_includes/loader.php";
 include "../admin_includes/header.php";
 ?>
-        <div class="hero">
-        <div class="center-row text-center">
-                <h1 class="glow">Phiếu Nhập sản phẩm</h1>
-        </div>
-        </div>
+<div class="hero">
+<div class="center-row text-center">
+<h1 class="glow">Phiếu Nhập sản phẩm</h1>
+</div>
+</div>
 <div class="container">
 <div class="text-end mb-3">
 <button type="button" onclick="addReceipt()" class="btn btn-success">

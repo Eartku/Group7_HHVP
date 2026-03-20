@@ -78,7 +78,7 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     <?php include '../admin_includes/header.php'; ?>
         <div class="hero">
         <div class="center-row text-center">
-                <h1 class="glow">Quản Lý Nhập sản phẩm</h1>
+            <h1 class="glow">Quản Lý Nhập sản phẩm</h1>
             </br>
                 <a href="add_import.php"                
                 style="

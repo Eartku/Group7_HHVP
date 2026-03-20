@@ -51,7 +51,9 @@ SELECT
     p.id,
     p.name,
     p.image,
-    COALESCE(ROUND(AVG(il.import_price) * 1.1), 0) AS sale_price
+    p.status,
+    p.profit_rate,
+    COALESCE(AVG(il.import_price), 0) AS avg_import_price
 FROM products p
 LEFT JOIN inventory_logs il 
     ON il.product_id = p.id
