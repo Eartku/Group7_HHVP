@@ -1,0 +1,647 @@
+=== app/controllers/AuthController.php ===
+<?php
+class AuthController extends Controller {
+
+    public function loginForm(): void {
+        $this->view('auth/login', [
+            'noLayout' => true,
+            'errors'   => [],
+            'username' => ''
+        ]);
+    }
+
+    public function login(): void {
+        $username = trim($_POST['username'] ?? '');
+        $password = $_POST['password'] ?? '';
+        $errors   = [];
+
+        if ($username === '') $errors['username'] = 'Vui lòng nhập tên đăng nhập';
+        if ($password === '') $errors['password'] = 'Vui lòng nhập mật khẩu';
+
+        if (!empty($errors)) {
+            $this->view('auth/login', [
+                'noLayout' => true,
+                'errors'   => $errors,
+                'username' => $username
+            ]);
+            return;
+        }
+
+        $user = UserModel::findByUsername($username);
+
+        if (!$user) {
+            $this->view('auth/login', [
+                'noLayout' => true,
+                'errors'   => ['username' => 'Tài khoản không tồn tại'],
+                'username' => $username
+            ]);
+            return;
+        }
+
+        if (!password_verify($password, $user['password'])) {
+            $this->view('auth/login', [
+                'noLayout' => true,
+                'errors'   => ['password' => 'Mật khẩu không đúng'],
+                'username' => $username
+            ]);
+            return;
+        }
+
+        // Chống Session Fixation
+        session_regenerate_id(true);
+
+        $_SESSION['user'] = [
+            'id'       => $user['id'],
+            'username' => $user['username'],
+            'role'     => $user['role']
+        ];
+
+        $this->redirect(
+            $user['role'] === 'admin'
+                ? BASE_URL . '/index.php?url=admin'
+                : BASE_URL . '/index.php?url=home'
+        );
+    }
+
+    public function registerForm(): void {
+        $this->view('auth/register', [
+            'noLayout' => true,
+            'errors'   => [], 'username' => '',
+            'fullname' => '', 'email'    => '',
+            'phone'    => '', 'address'  => '',
+            'password' => '', 'confirm'  => ''
+        ]);
+    }
+
+    public function register(): void {
+        $username = trim($_POST['username'] ?? '');
+        $fullname = trim($_POST['fullname'] ?? '');
+        $email    = trim($_POST['email']    ?? '');
+        $phone    = trim($_POST['phone']    ?? '');
+        $address  = trim($_POST['address']  ?? '');
+        $password = $_POST['password']         ?? '';
+        $confirm  = $_POST['confirm_password'] ?? '';
+        $errors   = [];
+
+        if ($username === '') $errors['username'] = 'Vui lòng nhập tên đăng nhập';
+        if ($fullname === '') $errors['fullname'] = 'Vui lòng nhập họ tên';
+        if ($email    === '') $errors['email']    = 'Vui lòng nhập email';
+        if ($address  === '') $errors['address']  = 'Vui lòng nhập địa chỉ';
+        if ($password === '') $errors['password'] = 'Vui lòng nhập mật khẩu';
+        if ($password !== $confirm) $errors['confirm'] = 'Mật khẩu không khớp';
+
+        if (!empty($errors)) {
+            $this->view('auth/register', [
+                'noLayout' => true,
+                'errors'   => $errors,
+                'username' => $username, 'fullname' => $fullname,
+                'email'    => $email,    'phone'    => $phone,
+                'address'  => $address
+            ]);
+            return;
+        }
+
+        if (UserModel::findByUsername($username)) {
+            $this->view('auth/register', [
+                'noLayout' => true,
+                'errors'   => ['username' => 'Tên đăng nhập đã tồn tại'],
+                'username' => $username, 'fullname' => $fullname,
+                'email'    => $email,    'phone'    => $phone,
+                'address'  => $address
+            ]);
+            return;
+        }
+
+        $ok = UserModel::create([
+            'username' => $username,
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'fullname' => $fullname,
+            'email'    => $email,
+            'phone'    => $phone,
+            'address'  => $address,
+        ]);
+
+        // Debug log
+        $ok = UserModel::create([
+            'username' => $username,
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'fullname' => $fullname,
+            'email'    => $email,
+            'phone'    => $phone,
+            'address'  => $address,
+        ]);
+
+        if ($ok) {
+            $this->redirect(BASE_LOGIN_PATH . '&register=success');
+        } else {
+            $this->view('auth/register', [
+                'noLayout' => true,
+                'errors'   => ['general' => 'Username hoặc Email đã tồn tại'],
+                'username' => $username, 'fullname' => $fullname,
+                'email'    => $email,    'phone'    => $phone,
+                'address'  => $address
+            ]);
+        }
+    }
+    public function adminLoginForm(): void {
+        if (!empty($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
+            $this->redirect(BASE_URL . '/index.php?url=admin');
+            return;
+        }
+
+        $this->view('auth/admin_login', [
+            'noLayout' => true,
+            'errors'   => [],
+            'username' => '',
+        ]);
+    }
+
+    public function adminLogin(): void {
+        $username = trim($_POST['username'] ?? '');
+        $password = $_POST['password']      ?? '';
+        $errors   = [];
+
+        if ($username === '') $errors['username'] = 'Vui lòng nhập tên đăng nhập';
+        if ($password === '') $errors['password'] = 'Vui lòng nhập mật khẩu';
+
+        if (!empty($errors)) {
+            $this->view('auth/admin_login', [
+                'noLayout' => true,
+                'errors'   => $errors,
+                'username' => $username,
+            ]);
+            return;
+        }
+
+        $user = UserModel::findByUsername($username);
+
+        if (!$user) {
+            $this->view('auth/admin_login', [
+                'noLayout' => true,
+                'errors'   => ['username' => 'Tài khoản không tồn tại'],
+                'username' => $username,
+            ]);
+            return;
+        }
+
+        if (!password_verify($password, $user['password'])) {
+            $this->view('auth/admin_login', [
+                'noLayout' => true,
+                'errors'   => ['password' => 'Mật khẩu không đúng'],
+                'username' => $username,
+            ]);
+            return;
+        }
+
+        if ($user['role'] !== 'admin') {
+            $this->view('auth/admin_login', [
+                'noLayout' => true,
+                'errors'   => ['username' => 'Bạn không có quyền truy cập Admin'],
+                'username' => $username,
+            ]);
+            return;
+        }
+        session_regenerate_id(true);
+
+        $_SESSION['user'] = [
+            'id'       => $user['id'],
+            'username' => $user['username'],
+            'role'     => $user['role'],
+        ];
+
+        $this->redirect(BASE_URL . '/index.php?url=admin');
+    }
+}
+
+=== app/controllers/CartController.php ===
+<?php
+class CartController extends Controller {
+
+    public function index(): void {
+        $this->requireLogin();
+        $userId = $_SESSION['user']['id'];
+        $cartId = CartModel::getOrCreate($userId);
+
+        // Xóa item
+        if (isset($_GET['remove'])) {
+            CartModel::removeItem((int)$_GET['remove'], $cartId);
+            $this->redirect(BASE_URL . '/index.php?url=cart');
+            return;
+        }
+
+        // Cập nhật cart
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $db = Database::getInstance();
+            $db->begin_transaction();
+            try {
+                foreach ($_POST['qty'] ?? [] as $itemId => $qty) {
+                    $itemId = (int)$itemId;
+                    $qty    = max(1, (int)$qty);
+                    $sizeId = (int)($_POST['size_id'][$itemId] ?? 0);
+                    if ($sizeId > 0) {
+                        CartModel::updateItem($itemId, $cartId, $sizeId, $qty);
+                    }
+                }
+                $db->commit();
+            } catch (Exception $e) {
+                $db->rollback();
+            }
+            $this->redirect(BASE_URL . '/index.php?url=cart');
+            return;
+        }
+
+        $items       = CartModel::getItems($cartId);
+        $canCheckout = CartModel::canCheckout($cartId);
+        $total       = array_sum(array_map(
+            fn($i) => $i['price'] * $i['quantity'], $items
+        ));
+
+        $this->view('cart', [
+            'items'       => $items,
+            'total'       => $total,
+            'canCheckout' => $canCheckout,
+            'cartId'      => $cartId,
+        ]);
+    }
+}
+
+=== app/controllers/CheckoutController.php ===
+<?php
+class CheckoutController extends Controller {
+
+    public function index(): void {
+        $this->requireLogin();
+        $userId = $_SESSION['user']['id'];
+
+        // Lấy thông tin user
+        $user   = UserModel::findById($userId);
+        $cartId = CartModel::getOrCreate($userId);
+        $items  = CartModel::getItems($cartId);
+
+        if (empty($items)) {
+            $this->redirect(BASE_URL . '/index.php?url=cart');
+            return;
+        }
+
+        $shippingFee = 20000;
+        $subtotal    = array_sum(array_map(fn($i) => $i['price'] * $i['quantity'], $items));
+        $grandTotal  = $subtotal + $shippingFee;
+        $error       = '';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $fullname = trim($_POST['fullname'] ?? '');
+            $email    = trim($_POST['email']    ?? '');
+            $phone    = trim($_POST['phone']    ?? '');
+            $note     = trim($_POST['note']     ?? '');
+            $payment  = $_POST['payment']       ?? 'cod';
+
+            $address = $_POST['address_option'] === 'new'
+                ? trim($_POST['new_address'] ?? '')
+                : trim($_POST['saved_address'] ?? '');
+
+            if (!$fullname || !$email || !$phone || !$address) {
+                $error = "Vui lòng nhập đầy đủ thông tin bắt buộc.";
+            } else {
+                try {
+                    // Chuẩn bị items với cart_id
+                    $orderItems = array_map(function ($item) use ($cartId) {
+                        return [
+                            'cart_id'    => $cartId,
+                            'product_id' => $item['id'] ?? $item['product_id'] ?? 0,
+                            'size_id'    => $item['size_id'],
+                            'name'       => $item['name'],
+                            'quantity'   => $item['quantity'],
+                            'price'      => $item['price'],
+                            'subtotal'   => $item['price'] * $item['quantity'],
+                        ];
+                    }, $items);
+
+                    $orderId = CheckoutModel::placeOrder(
+                        $userId,
+                        compact('fullname', 'email', 'phone', 'address', 'note', 'payment'),
+                        $orderItems,
+                        $shippingFee
+                    );
+
+                    $this->redirect(BASE_URL . '/index.php?url=thankyou&id=' . $orderId);
+                    return;
+
+                } catch (Exception $e) {
+                    $error = $e->getMessage();
+                }
+            }
+        }
+
+        $this->view('checkout', [
+            'user'        => $user,
+            'items'       => $items,
+            'subtotal'    => $subtotal,
+            'shippingFee' => $shippingFee,
+            'grandTotal'  => $grandTotal,
+            'error'       => $error,
+        ]);
+    }
+}
+
+=== app/controllers/GuestController.php ===
+<?php
+class GuestController extends Controller {
+// GuestController.php
+public function index(): void {
+    $this->view('guest', [
+        'noLayout' => true  // ← truyền từ đây
+    ]);
+}
+}
+
+=== app/controllers/HomeController.php ===
+<?php
+class HomeController extends Controller {
+    public function index() {
+        $popularProducts = ProductModel::getList(0, 3, 0);
+        // Chưa login → redirect về guest
+        if (!isset($_SESSION['user'])) {
+            $this->redirect('../app/index.php');
+            $this->requireLogin();
+            return;
+        }
+
+        $this->view('home', [
+            'user' => $_SESSION['user']
+        ]);
+    }
+}
+// ```
+
+// Luồng hoàn chỉnh:
+// ```
+// Login thành công
+//        ↓
+// role = admin  →  ?url=admin  →  AdminController
+// role = customer  →  ?url=home  →  HomeController
+
+=== app/controllers/OrderController.php ===
+<?php
+class OrderController extends Controller {
+public function index(): void {
+    $this->requireLogin();
+    $userId = $_SESSION['user']['id'];
+    $orders = OrderModel::getByUserId($userId);
+    $pages  = OrderModel::groupByStatus($orders);
+
+    $this->view('order/history', [  // ← không có s
+        'pages' => $pages,
+    ]);
+}
+public function detail(): void {
+    $this->requireLogin();
+    $orderId = (int)($_GET['id'] ?? 0);
+    $userId  = $_SESSION['user']['id'];
+
+    $order = OrderModel::getById($orderId);
+    if (!$order || $order['user_id'] != $userId) {
+        http_response_code(404);
+        include __DIR__ . '/../views/errors/404.php';
+        return;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_order'])) {
+        $ok = OrderModel::cancel($orderId, $userId);
+        $this->redirect(BASE_URL . '/index.php?url=orders-detail&id=' . $orderId
+            . ($ok ? '&cancelled=1' : '&error=1'));
+        return;
+    }
+
+    $items    = OrderModel::getItems($orderId);
+    $subtotal = array_sum(array_column($items, 'row_total'));
+    $badge    = OrderModel::getStatusBadge($order['status']);
+
+    $this->view('order/detail', [  // ← không có s
+        'order' Asc    => $order,
+        'items'    => $items,
+        'subtotal' => $subtotal,
+        'badge'    => $badge,
+    ]);
+}
+}
+
+=== app/controllers/ProductController.php ===
+<?php
+class ProductController extends Controller {
+
+    public function index(): void {
+        $this->requireLogin();
+
+        $categoryId = isset($_GET['category']) ? (int)$_GET['category'] : 0;
+        $page       = isset($_GET['page'])     ? (int)$_GET['page']     : 1;
+        if ($page < 1) $page = 1;
+
+        $limit  = 8;
+        $offset = ($page - 1) * $limit;
+
+        // Lấy tên category
+        $catName = 'Tất cả sản phẩm';
+        if ($categoryId > 0) {
+            $cat = CategoryModel::getById($categoryId);
+            if ($cat) $catName = $cat['name'];
+        }
+
+        // Đếm tổng + lấy sản phẩm
+        $totalProducts = ProductModel::count($categoryId);
+        $totalPages    = ceil($totalProducts / $limit);
+        $products      = ProductModel::getList($categoryId, $limit, $offset);
+
+        $this->view('shop', [
+            'products'   => $products,
+            'catName'    => $catName,
+            'categoryId' => $categoryId,
+            'page'       => $page,
+            'totalPages' => $totalPages,
+        ]);
+    }
+
+    public function detail(): void {
+        $this->requireLogin();
+
+        $id = (int)($_GET['id'] ?? 0);
+        if ($id <= 0) {
+            http_response_code(404);
+            include __DIR__ . '/../views/errors/404.php';
+            return;
+        }
+
+        $product = ProductModel::getDetail($id);
+        if (!$product) {
+            http_response_code(404);
+            include __DIR__ . '/../views/errors/404.php';
+            return;
+        }
+
+        $sizes      = ProductModel::getSizes($id);
+        $images     = ProductModel::getImages($id);
+        $related    = ProductModel::getRelated($id);
+        $totalStock = array_sum(array_column($sizes, 'quantity'));
+        $mainImage  = !empty($images[0]) ? $images[0] : $product['base_img'];
+
+        $this->view('shop/detail', [
+            'product'    => $product,
+            'sizes'      => $sizes,
+            'images'     => $images,
+            'mainImage'  => $mainImage,
+            'related'    => $related,
+            'totalStock' => $totalStock,
+        ]);
+    }
+}
+
+=== app/controllers/ProfileController.php ===
+<?php
+// Profile Controller - Personal info, change password, avatar
+class ProfileController extends Controller {
+
+    public function index(): void {
+        $this->requireLogin();
+        $userId = $_SESSION['user']['id'];
+        $user   = UserModel::findById($userId);
+
+        if (!$user) {
+            include __DIR__ . '/../views/errors/404.php';
+            exit();
+        }
+
+        $this->view('profile', [
+            'user'     => $user
+        ]);
+    }
+
+    public function update(): void {
+        $this->requireLogin();
+        $userId = $_SESSION['user']['id'];
+        $user   = UserModel::findById($userId);
+        $errors = [];
+
+        $fullname = trim($_POST['fullname'] ?? '');
+        $email    = trim($_POST['email']    ?? '');
+        $phone    = trim($_POST['phone']    ?? '');
+        $address  = trim($_POST['address']  ?? '');
+
+        if ($fullname === '') $errors[] = 'Họ tên không được để trống';
+        if ($email    === '') $errors[] = 'Email không được để trống';
+
+        // Xử lý upload avatar
+        $avatarFileName = $user['avatar'] ?? null;
+        if (!empty($_FILES['avatar']['name'])) {
+            $uploadDir = __DIR__ . '/../uploads/avatars/';
+            if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+
+            $ext     = strtolower(pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION));
+            $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+
+            if (!in_array($ext, $allowed)) {
+                $errors[] = 'Chỉ cho phép JPG, JPEG, PNG, GIF';
+            } else {
+                $avatarFileName = time() . '_' . basename($_FILES['avatar']['name']);
+                move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadDir . $avatarFileName);
+            }
+        }
+
+        if (!empty($errors)) {
+            $this->view('profile', [
+                'user'     => $user,
+                'errors'   => $errors
+            ]);
+            return;
+        }
+
+        UserModel::updateProfile($userId, [
+            'fullname' => $fullname,
+            'email'    => $email,
+            'phone'    => $phone,
+            'address'  => $address,
+        ]);
+
+        if ($avatarFileName !== $user['avatar']) {
+            UserModel::updateAvatar($userId, $avatarFileName);
+        }
+
+        $this->redirect('../app/index.php?url=profile&success=1');
+    }
+
+    public function changePassword(): void {
+        $this->requireLogin();
+        $userId  = $_SESSION['user']['id'];
+        $user    = UserModel::findById($userId);
+        $errors  = [];
+
+        $current = $_POST['current_password'] ?? '';
+        $new     = $_POST['new_password']     ?? '';
+
+        if ($current === '' || $new === '') {
+            $errors[] = 'Vui lòng nhập đầy đủ mật khẩu';
+        } elseif (!password_verify($current, $user['password'])) {
+            $errors[] = 'Mật khẩu hiện tại không đúng';
+        }
+
+        if (!empty($errors)) {
+            $this->view('profile', [
+                'user'     => $user,
+                'errors'   => $errors
+            ]);
+            return;
+        }
+
+        UserModel::updatePassword($userId, password_hash($new, PASSWORD_DEFAULT));
+        $this->redirect('../app/index.php?url=profile&success=2');
+    }
+}
+
+=== app/controllers/ShopController.php ===
+<?php
+class ShopController extends Controller {
+
+    public function index(): void {
+        $this->requireLogin();
+
+        $search     = trim($_GET['search'] ?? '');
+        $categoryId = (int)($_GET['category'] ?? 0);
+        $page       = max(1, (int)($_GET['page'] ?? 1));
+        $limit      = 8;
+        $offset     = ($page - 1) * $limit;
+
+        $catName = 'Tất cả sản phẩm';
+        if ($categoryId > 0) {
+            $cat = CategoryModel::getById($categoryId);
+            if ($cat) $catName = $cat['name'];
+        }
+
+        $totalProducts = ProductModel::count($categoryId, $search);
+        $totalPages    = ceil($totalProducts / $limit);
+        $products      = ProductModel::getList($categoryId, $limit, $offset, $search);
+        $categories    = CategoryModel::getAll();
+
+        $this->view('shop', [
+            'products'   => $products,
+            'categories' => $categories,
+            'catName'    => $catName,
+            'categoryId' => $categoryId,
+            'page'       => $page,
+            'totalPages' => $totalPages,
+            'search'     => $search,
+        ]);
+    }
+
+    public function search(): void {
+        $this->index();
+    }
+}
+
+=== app/controllers/admin/AdminCategoryController.php ===
+<?php
+// Admin Category Controller
+
+=== app/controllers/admin/AdminCustomerController.php ===
+<?php
+// Admin Customer Controller
+
+Note: Admin controllers appear to be stubs or not fully implemented. Core files not found on disk.
+All main app controllers from app/controllers/ have been read and concatenated here.

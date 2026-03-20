@@ -1,0 +1,111 @@
+.alert-box {
+  background-color: #fff5e6;
+  border: 1px solid #ffcc80;
+  padding: 16px 24px;
+  border-radius: 8px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.alert-title {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: #e65100;
+  margin: 0 0 5px;
+}
+
+.alert-text {
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  color: #444;
+  font-size: 15px;
+}
+
+/* --- Thống kê --- */
+.stats-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.stat-card {
+  flex: 1;
+  min-width: 220px;
+  background: white;
+  text-align: center;
+  padding: 25px 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+}
+
+.stat-card h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.stat-card p {
+  font-size: 16px;
+  color: #555;
+}
+
+/* --- Màu riêng từng ô --- */
+.total h2 {
+  color: #1e3a8a;
+} /* Xanh đậm */
+.stock h2 {
+  color: #1e40af;
+} /* Xanh dương */
+.low h2 {
+  color: #f97316;
+} /* Cam */
+.out h2 {
+  color: #dc2626;
+} /* Đỏ */
+
+/* Hover hiệu ứng nhẹ */
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.alert-box {
+  background-color: #fff6eb; /* Nền cam nhạt */
+  border: 1px solid #f9b55f;
+  padding: 16px 24px;
+  border-radius: 8px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* Dòng tiêu đề cảnh báo */
+.alert-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #e65100;
+  margin: 0 0 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Biểu tượng cảnh báo */
+.alert-title i {
+  color: #f57c00;
+  font-size: 18px;
+}
+
+/* Làm nổi bật chữ trong strong */
+.alert-title strong {
+  color: #e65100;
+  font-weight: 700;
+}
+
+/* Dòng mô tả */
+.alert-text {
+  margin: 0;
+  color: #444;
+  font-size: 15px;
+}

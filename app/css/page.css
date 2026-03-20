@@ -1,0 +1,346 @@
+/* ================= Page Slide ================= */
+
+/* Container giữ các page */
+.book {
+  position: relative;
+  overflow: hidden;
+  min-height: 1200px; /* điều chỉnh theo nội dung */
+}
+
+/* Tất cả page đều tuyệt đối, che nhau */
+.page {
+  position: absolute;
+  top: 0;
+  left: 100%; /* mặc định nằm ngoài view bên phải */
+  width: 100%;
+  flex-wrap: wrap;
+  transition: all 0.6s ease-in-out;
+  opacity: 0;
+  z-index: 0;
+}
+
+/* Hiển thị page khi radio checked */
+#page1:checked ~ .book .page1,
+#page2:checked ~ .book .page2,
+#page3:checked ~ .book .page3 {
+  left: 0;
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Page cũ trượt ra trái và mờ dần */
+#page1:checked ~ .book .page2,
+#page1:checked ~ .book .page3,
+#page2:checked ~ .book .page1,
+#page2:checked ~ .book .page3,
+#page3:checked ~ .book .page1,
+#page3:checked ~ .book .page2 {
+  left: -100%;
+  opacity: 0;
+  z-index: 0;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+input[type="radio"][name="page"] {
+  display: none !important;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  position: absolute;
+}
+
+.controls label {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #eee;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.controls label:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+#page1:checked ~ .controls label[for="page1"],
+#page2:checked ~ .controls label[for="page2"],
+#page3:checked ~ .controls label[for="page3"] {
+  background-color: #28a745;
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.controls label[for="next"] {
+  width: auto;
+  padding: 0 12px;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+}
+
+.controls label[for="next"]:hover {
+  background-color: #28a745;
+  color: #fff;
+}
+/* --lịch sử đơn hàng */
+
+/* Container giữ các page */
+.book {
+  position: relative;
+  overflow: hidden;
+  min-height: 1200px; /* điều chỉnh theo nội dung */
+}
+
+/* Tất cả page đều tuyệt đối, che nhau */
+.page {
+  position: absolute;
+  top: 0;
+  left: 100%; /* mặc định nằm ngoài view bên phải */
+  width: 100%;
+  flex-wrap: wrap;
+  transition: all 0.6s ease-in-out;
+  opacity: 0;
+  z-index: 0;
+}
+
+/* Hiển thị page khi radio checked */
+#page11:checked ~ .book .page11,
+#page22:checked ~ .book .page22,
+#page33:checked ~ .book .page33,
+#page44:checked ~ .book .page44,
+#page55:checked ~ .book .page55 {
+  left: 0;
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Page cũ trượt ra trái và mờ dần */
+#page11:checked ~ .book .page22,
+#page11:checked ~ .book .page33,
+#page11:checked ~ .book .page44,
+#page11:checked ~ .book .page55,
+#page22:checked ~ .book .page11,
+#page22:checked ~ .book .page33,
+#page22:checked ~ .book .page44,
+#page22:checked ~ .book .page55,
+#page33:checked ~ .book .page11,
+#page33:checked ~ .book .page22,
+#page33:checked ~ .book .page44,
+#page33:checked ~ .book .page55,
+#page44:checked ~ .book .page11,
+#page44:checked ~ .book .page22,
+#page44:checked ~ .book .page33,
+#page44:checked ~ .book .page55,
+#page55:checked ~ .book .page11,
+#page55:checked ~ .book .page22,
+#page55:checked ~ .book .page33,
+#page55:checked ~ .book .page44 {
+  left: -100%;
+  opacity: 0;
+  z-index: 0;
+}
+
+/* Controls */
+.controls1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+input[type="radio"][name="page"] {
+  display: none !important;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  position: absolute;
+}
+
+.controls1 label {
+  display: inline-block;
+  width: 100px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 10%;
+  background-color: #eee;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.controls1 label:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+#page11:checked ~ .controls1 label[for="page11"],
+#page22:checked ~ .controls1 label[for="page22"],
+#page33:checked ~ .controls1 label[for="page33"],
+#page44:checked ~ .controls1 label[for="page44"],
+#page55:checked ~ .controls1 label[for="page55"] {
+  background-color: #166929;
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+.controls1 label[for="next"] {
+  width: auto;
+  padding: 0 12px;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+}
+
+.controls1 label[for="next"]:hover {
+  background-color: #28a745;
+  color: #fff;
+}
+/* --lịch sử đơn hàng */
+
+/* Container giữ các page */
+.book {
+  position: relative;
+  overflow: hidden;
+  min-height: 1200px; /* điều chỉnh theo nội dung */
+}
+
+/* Tất cả page đều tuyệt đối, che nhau */
+.page {
+  position: absolute;
+  top: 0;
+  left: 100%; /* mặc định nằm ngoài view bên phải */
+  width: 100%;
+  flex-wrap: wrap;
+  transition: all 0.6s ease-in-out;
+  opacity: 0;
+  z-index: 0;
+}
+
+/* Hiển thị page khi radio checked */
+#page110:checked ~ .book .page110,
+#page220:checked ~ .book .page220,
+#page330:checked ~ .book .page330 {
+  left: 0;
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Page cũ trượt ra trái và mờ dần */
+#page110:checked ~ .book .page220,
+#page110:checked ~ .book .page330,
+#page220:checked ~ .book .page110,
+#page220:checked ~ .book .page330,
+#page330:checked ~ .book .page110,
+#page330:checked ~ .book .page220 {
+  left: -100%;
+  opacity: 0;
+  z-index: 0;
+}
+
+/* Controls */
+.controls2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -10px;
+  gap: 45px;
+}
+
+input[type="radio"][name="page"] {
+  display: none !important;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  position: absolute;
+}
+
+.controls2 label {
+  display: inline-block;
+  width: 240px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+/* Màu khi hover */
+.controls2 label:hover {
+  background-color: #1b1b1b;
+  color: #fff;
+}
+
+/* =============== Highlight theo từng tab ================= */
+
+/* Khi chọn SỐ LƯỢNG TỒN KHO */
+#page110:checked ~ div .center-row .controls2 label[for="page110"] {
+  background-color: #67eb58;
+  color: #fff;
+  transform: scale(1.05);
+  border-color: #4ccc42;
+  box-shadow: 0 0 10px rgba(76, 204, 66, 0.6);
+}
+
+/* Khi chọn NHẬP-XUẤT-TỒN */
+#page220:checked ~ div .center-row .controls2 label[for="page220"] {
+  background-color: #d5ee37;
+  color: #333;
+  transform: scale(1.05);
+  border-color: #c0d82c;
+  box-shadow: 0 0 10px rgba(192, 216, 44, 0.6);
+}
+
+/* Khi chọn CẢNH BÁO */
+#page330:checked ~ div .center-row .controls2 label[for="page330"] {
+  background-color: #ec3a12;
+  color: #fff;
+  transform: scale(1.05);
+  border-color: #c92e0f;
+  box-shadow: 0 0 10px rgba(233, 77, 39, 0.6);
+}
+
+/* Nút "next" nếu có */
+.controls2 label[for="next"] {
+  width: auto;
+  padding: 0 12px;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+}
+
+.controls2 label[for="next"]:hover {
+  background-color: #28a745;
+  color: #fff;
+}

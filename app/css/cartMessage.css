@@ -1,0 +1,33 @@
+/* Thông báo thêm vào giỏ hàng */
+.cart-message {
+  display: none; /* ẩn mặc định */
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #28a745;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  pointer-events: none; /* tránh chặn click */
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hiện thông báo */
+.cart-message.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ẩn lại sau khi hiển thị */
+.cart-message.hide {
+  opacity: 0;
+  transform: translateY(-20px);
+}
