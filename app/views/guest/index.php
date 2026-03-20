@@ -13,6 +13,7 @@ $noLayout = true;
   <link href="css/hover.css" rel="stylesheet">
   <link href="css/tiny-slider.css" rel="stylesheet" />
   <link href="css/animation.css" rel="stylesheet" />
+  <link href="<?= BASE_URL ?>/css/theme-gradient.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -21,7 +22,7 @@ $noLayout = true;
 <!-- ================= HEADER ================= -->
 <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
   <div class="container">
-    <a class="navbar-brand" href="/app/index.php">BonSai<span>🌱</span></a>
+    <a class="navbar-brand" href="../app/index.php">BonSai<span>🌱</span></a>
 
     <button
       class="navbar-toggler"
@@ -37,12 +38,12 @@ $noLayout = true;
     <div class="collapse navbar-collapse" id="navbarsFurni">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a href="/app/index.php?url=login" class="nav-link d-flex align-items-center gap-2">
+          <a href="../app/index.php?url=login" class="nav-link d-flex align-items-center gap-2">
             <img src="images/login.svg" style="width:30px; height:30px;"/> Đăng nhập
           </a>
         </li>
         <li class="nav-item">
-          <a href="/app/index.php?url=register" class="nav-link d-flex align-items-center gap-2">
+          <a href="../app/index.php?url=register" class="nav-link d-flex align-items-center gap-2">
             <img src="images/register.svg" style="width:25px; height:25px;"/> Đăng ký
           </a>
         </li>
@@ -83,8 +84,8 @@ toggles.forEach(cb => {
       <div class="col-lg-5">
         <h1>BonSai – Không gian xanh cho bạn</h1>
         <p>Đăng nhập để mua sắm và trải nghiệm đầy đủ tính năng.</p>
-        <a href="/app/index.php?url=login" class="btn btn-success me-2">Đăng nhập</a>
-        <a href="/app/index.php?url=register" class="btn btn-outline-light">Đăng ký</a>
+        <a href="../app/index.php?url=login" class="btn btn-success me-2">Đăng nhập</a>
+        <a href="../app/index.php?url=register" class="btn btn-outline-light">Đăng ký</a>
       </div>
       <div class="col-lg-7">
         <img src="images/bluesucc.gif" class="img-fluid">

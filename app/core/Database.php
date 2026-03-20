@@ -11,11 +11,13 @@ class Database {
                 DB_USER,
                 DB_PASS,
                 DB_NAME,
-                3307
+                DB_PORT
             );
 
             if (self::$instance->connect_error) {
-                die("Kết nối thất bại: " . self::$instance->connect_error);
+                http_response_code(500);
+                include __DIR__ . '/../views/errors/500.php';
+                exit();
             }
 
             self::$instance->set_charset("utf8mb4");

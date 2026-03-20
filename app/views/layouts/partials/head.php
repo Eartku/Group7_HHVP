@@ -16,3 +16,5 @@
 <link rel="stylesheet" href="<?= BASE_URL ?>/css/cartMessage.css" />
 <link href="<?= BASE_URL ?>/css/page2.css" rel="stylesheet" />
 <link href="<?= BASE_URL ?>/css/search.css" rel="stylesheet" />
+<link href="<?= BASE_URL ?>/css/theme-gradient.css" rel="stylesheet" />
+<link href="<?= BASE_URL ?>/css/ultil.css" rel="stylesheet" />

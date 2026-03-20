@@ -3,5 +3,6 @@
 
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', '1732050808Root@');
-define('DB_NAME', 'shop');
+define('DB_PASS', '');
+define('DB_NAME', 'bonsai2');
+define('DB_PORT', 3307);

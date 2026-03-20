@@ -1,5 +1,7 @@
 <?php
 require "../config/db.php";
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 $errors = [];
 $username = $email = $fullname = $phone = $address = "";
@@ -61,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: login.php?register=success");
             exit();
         } else {
-            $errors['general'] = "❌ Username hoặc Email đã tồn tại";
+            $errors['general'] = "❌ INSERT FAILED. Stmt error: " . $stmt->error . " | Conn error: " . $conn->error;
         }
     }
 }

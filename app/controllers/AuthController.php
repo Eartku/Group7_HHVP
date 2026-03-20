@@ -46,6 +46,19 @@ class AuthController extends Controller {
             return;
         }
 
+        // Chặn tài khoản bị khóa hoặc chưa kích hoạt
+        if ($user['status'] !== 'active') {
+            $this->view('auth/login', [
+                'noLayout' => true,
+                'errors'   => ['username' => 'Tài khoản đã bị khóa hoặc vô hiệu hóa'],
+                'username' => $username
+            ]);
+            return;
+        }
+
+        // Chống Session Fixation
+        session_regenerate_id(true);
+
         $_SESSION['user'] = [
             'id'       => $user['id'],
             'username' => $user['username'],
@@ -54,8 +67,8 @@ class AuthController extends Controller {
 
         $this->redirect(
             $user['role'] === 'admin'
-                ? '/app/index.php?url=admin'
-                : '/app/index.php?url=home'
+                ? BASE_URL . '/index.php?url=admin'
+                : BASE_URL . '/index.php?url=home'
         );
     }
 
@@ -108,6 +121,7 @@ class AuthController extends Controller {
             return;
         }
 
+        // Chỉ gọi create() MỘT LẦN
         $ok = UserModel::create([
             'username' => $username,
             'password' => password_hash($password, PASSWORD_DEFAULT),
@@ -118,7 +132,7 @@ class AuthController extends Controller {
         ]);
 
         if ($ok) {
-            $this->redirect('/app/index.php?url=login');
+            $this->redirect(BASE_LOGIN_PATH . '&register=success');
         } else {
             $this->view('auth/register', [
                 'noLayout' => true,
@@ -128,5 +142,85 @@ class AuthController extends Controller {
                 'address'  => $address
             ]);
         }
+    }
+
+    public function adminLoginForm(): void {
+        if (!empty($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
+            $this->redirect(BASE_URL . '/index.php?url=admin');
+            return;
+        }
+
+        $this->view('auth/admin_login', [
+            'noLayout' => true,
+            'errors'   => [],
+            'username' => '',
+        ]);
+    }
+
+    public function adminLogin(): void {
+        $username = trim($_POST['username'] ?? '');
+        $password = $_POST['password']      ?? '';
+        $errors   = [];
+
+        if ($username === '') $errors['username'] = 'Vui lòng nhập tên đăng nhập';
+        if ($password === '') $errors['password'] = 'Vui lòng nhập mật khẩu';
+
+        if (!empty($errors)) {
+            $this->view('auth/admin_login', [
+                'noLayout' => true,
+                'errors'   => $errors,
+                'username' => $username,
+            ]);
+            return;
+        }
+
+        $user = UserModel::findByUsername($username);
+
+        if (!$user) {
+            $this->view('auth/admin_login', [
+                'noLayout' => true,
+                'errors'   => ['username' => 'Tài khoản không tồn tại'],
+                'username' => $username,
+            ]);
+            return;
+        }
+
+        if (!password_verify($password, $user['password'])) {
+            $this->view('auth/admin_login', [
+                'noLayout' => true,
+                'errors'   => ['password' => 'Mật khẩu không đúng'],
+                'username' => $username,
+            ]);
+            return;
+        }
+
+        // Chặn tài khoản bị khóa
+        if ($user['status'] !== 'active') {
+            $this->view('auth/admin_login', [
+                'noLayout' => true,
+                'errors'   => ['username' => 'Tài khoản đã bị khóa hoặc vô hiệu hóa'],
+                'username' => $username,
+            ]);
+            return;
+        }
+
+        if ($user['role'] !== 'admin') {
+            $this->view('auth/admin_login', [
+                'noLayout' => true,
+                'errors'   => ['username' => 'Bạn không có quyền truy cập Admin'],
+                'username' => $username,
+            ]);
+            return;
+        }
+
+        session_regenerate_id(true);
+
+        $_SESSION['user'] = [
+            'id'       => $user['id'],
+            'username' => $user['username'],
+            'role'     => $user['role'],
+        ];
+
+        $this->redirect(BASE_URL . '/index.php?url=admin');
     }
 }

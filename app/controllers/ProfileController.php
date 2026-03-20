@@ -31,27 +31,44 @@ class ProfileController extends Controller {
         if ($fullname === '') $errors[] = 'Họ tên không được để trống';
         if ($email    === '') $errors[] = 'Email không được để trống';
 
-        // Xử lý upload avatar
-        $avatarFileName = $user['avatar'] ?? null;
-        if (!empty($_FILES['avatar']['name'])) {
-            $uploadDir = __DIR__ . '/../uploads/avatars/';
-            if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+        $avatarFileName = $user['avatar'] ?? '';
+        // ── Xử lý xóa avatar ──
+        if (($_POST['delete_avatar'] ?? '0') === '1') {
+            // Xóa file vật lý nếu có
+            if (!empty($user['avatar'])) {
+                $oldFile = __DIR__ . '/../uploads/avatars/' . $user['avatar'];
+                if (file_exists($oldFile)) @unlink($oldFile);
+            }
+            $avatarFileName = '';
+        } else {
+            $avatarFileName = $user['avatar'] ?? '';
 
-            $ext     = strtolower(pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION));
-            $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+            // ── Upload avatar mới ──
+            if (!empty($_FILES['avatar']['name'])) {
+                $uploadDir = __DIR__ . '/../uploads/avatars/';
+                if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
 
-            if (!in_array($ext, $allowed)) {
-                $errors[] = 'Chỉ cho phép JPG, JPEG, PNG, GIF';
-            } else {
-                $avatarFileName = time() . '_' . basename($_FILES['avatar']['name']);
-                move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadDir . $avatarFileName);
+                $ext     = strtolower(pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION));
+                $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                if (!in_array($ext, $allowed)) {
+                    $errors[] = 'Chỉ cho phép JPG, JPEG, PNG, GIF, WEBP';
+                } else {
+                    // Xóa ảnh cũ trước khi lưu ảnh mới
+                    if (!empty($user['avatar'])) {
+                        $oldFile = $uploadDir . $user['avatar'];
+                        if (file_exists($oldFile)) @unlink($oldFile);
+                    }
+                    $avatarFileName = time() . '_' . basename($_FILES['avatar']['name']);
+                    move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadDir . $avatarFileName);
+                }
             }
         }
 
         if (!empty($errors)) {
             $this->view('profile', [
-                'user'     => $user,
-                'errors'   => $errors
+                'user'   => $user,
+                'errors' => $errors,
             ]);
             return;
         }
@@ -63,11 +80,12 @@ class ProfileController extends Controller {
             'address'  => $address,
         ]);
 
-        if ($avatarFileName !== $user['avatar']) {
+        // Cập nhật avatar nếu có thay đổi
+        if ($avatarFileName !== ($user['avatar'] ?? '')) {
             UserModel::updateAvatar($userId, $avatarFileName);
         }
 
-        $this->redirect('/app/index.php?url=profile&success=1');
+        $this->redirect(BASE_URL . '/index.php?url=profile&success=1');
     }
 
     public function changePassword(): void {
@@ -94,6 +112,6 @@ class ProfileController extends Controller {
         }
 
         UserModel::updatePassword($userId, password_hash($new, PASSWORD_DEFAULT));
-        $this->redirect('/app/index.php?url=profile&success=2');
+        $this->redirect('../app/index.php?url=profile&success=2');
     }
 }

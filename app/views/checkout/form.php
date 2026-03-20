@@ -1,3 +1,0 @@
-<?php
-// Checkout Form View
-

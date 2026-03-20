@@ -1,15 +1,32 @@
-# CSS Loading Fix Plan
+# TODO: Refactor bonsai/ to app/ MVC
 
-## Steps:
-- [x] 1. Update config/app.php with CSS_URL usage example
-- [x] 2. Fix views/layouts/partials/head.php - standardize all CSS to BASE_URL
-- [x] 3. Fix views/layouts/main.php - replace loader.php with head.php include
-- [x] 4. Create views/layouts/partials/loader.php as alias/redirect if needed
-- [ ] 5. Update views/guest/index.php to use layout (remove inline head)
-- [ ] 6. Update views/home/index.php similarly
-- [x] 7. Modify core/Controller.php view() to use layouts/main.php by default
-- [ ] 8. Test http://localhost/app/ CSS loads
-- [ ] 9. Complete
+**Approved Plan Steps (Breakdown):**
 
-Current progress: Layout system implemented with fixed CSS paths. Updating views to content-only.
+## Phase 1: Config & Core (Done after this)
+- [x] Create TODO.md
+- [ ] Merge bonsai/config/db.php → app/config/database.php
+- [ ] Copy assets (css/js/images từ bonsai)
+
+## Phase 2: Models
+- [ ] Enhance ProductModel.php (bonsai queries: search, pagination, avg_price)
+- [ ] Create/Update CartModel, OrderModel, InventoryModel, CategoryModel
+- [ ] UserModel: add register/forgot logic
+
+## Phase 3: Controllers
+- [ ] AuthController: integrate bonsai login/register
+- [ ] ShopController: bonsai shop/search/paginate
+- [ ] Create AdminProductController.php (bonsai admin_product/* CRUD)
+- [ ] AdminCustomerController.php (bonsai admincustomer/*)
+- [ ] Update index.php routes (/admin/products, /search, /register)
+
+## Phase 4: Views
+- [ ] app/views/shop/search.php from bonsai/pages/search.php
+- [ ] app/views/admin/products/index.php from bonsai/admin_product/pproducts.php
+- [ ] Auth views (login/register/forgot)
+
+## Phase 5: Test & Complete
+- Test all routes
+- attempt_completion
+
+**Progress: FIXED ERRORS** UserModel INSERT bind_param fixed (bonsai2 schema), AdminProductController require_once added. Ready test!
 

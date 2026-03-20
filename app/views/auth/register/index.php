@@ -18,7 +18,7 @@ $nolayout = true;
             <p style="color:red;text-align:center"><?= $errors['general'] ?></p>
         <?php endif; ?>
 
-        <form method="post" action="/app/index.php?url=register" onsubmit="return checkRegisterForm()">
+        <form method="post" action="<?php echo BASE_REGISTER_PATH; ?>" onsubmit="return checkRegisterForm()">
 
             <div class="form-group">
                 <label>

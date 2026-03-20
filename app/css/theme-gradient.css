@@ -1,0 +1,719 @@
+/*
+ * theme-gradient.css
+ * Override màu xanh đậm #3b5d50 thành gradient lime → olive
+ * Nhúng vào partials/head.php SAU style.css:
+ *   <link href="<?= BASE_URL ?>/css/theme-gradient.css" rel="stylesheet">
+ */
+
+/* ── Custom properties ── */
+:root {
+    --brand-start : #a3c639;   /* lime   */
+    --brand-end   : #6b7c2e;   /* olive  */
+    --brand-mid   : #8aa830;   /* giữa   */
+    --brand-grad  : linear-gradient(135deg, #7d9438 0%, #54852d 100%);
+    --brand-grad-h: linear-gradient(135deg, #b8d93f 0%, #7d9235 100%); /* hover  */
+    --brand-text  : #fff;
+}
+/* ═══════════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════════ */
+.custom-navbar {
+    background: var(--brand-grad) !important;
+}
+
+/* gạch dưới nav-link khi hover/active */
+.custom-navbar .custom-navbar-nav li a:before {
+    background: #d4f04a !important;
+}
+
+/* hover-box (icon buttons trong navbar) */
+.hover-box,
+.hover-box-2 {
+    background: rgba(255,255,255,0.12) !important;
+}
+.hover-box:hover,
+.hover-box-2:hover {
+    background: rgba(255,255,255,0.22) !important;
+}
+
+/* dropdown menu dưới avatar */
+.dropdown {
+    background: var(--brand-grad) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   BUTTONS  (btn-primary / btn-success kế thừa brand)
+═══════════════════════════════════════════════ */
+.btn.btn-primary,
+.btn-primary {
+    background: var(--brand-grad) !important;
+    border-color: var(--brand-end) !important;
+    color: var(--brand-text) !important;
+}
+.btn.btn-primary:hover,
+.btn-primary:hover {
+    background: var(--brand-grad-h) !important;
+    border-color: #5a6a22 !important;
+}
+
+/* outline variants */
+.btn-outline-success,
+.btn-outline-primary {
+    color: var(--brand-mid) !important;
+    border-color: var(--brand-mid) !important;
+}
+.btn-outline-success:hover,
+.btn-outline-primary:hover {
+    background: var(--brand-grad) !important;
+    border-color: var(--brand-end) !important;
+    color: #fff !important;
+}
+
+/* login / register button */
+.login-btn {
+    background: var(--brand-grad) !important;
+    background-size: 200% 100% !important;
+}
+.login-btn:hover {
+    background: var(--brand-grad-h) !important;
+}
+
+/* hover-zoom-gradient buttons */
+.hover-zoom-gradient {
+    background: var(--brand-grad) !important;
+    background-size: 200% 100% !important;
+}
+
+/* ═══════════════════════════════════════════════
+   HERO SECTION
+═══════════════════════════════════════════════ */
+.hero {
+    background-image: url("../images/c2.jpg") !important;
+    /* overlay gradient nhẹ phía trên ảnh */
+    background-blend-mode: multiply;
+    background-color: rgba(107,124,46,0.25);
+}
+
+/* ═══════════════════════════════════════════════
+   SECTION TITLE
+═══════════════════════════════════════════════ */
+.section-title {
+    background: var(--brand-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ═══════════════════════════════════════════════
+   FEATURE ICONS (::before dot)
+═══════════════════════════════════════════════ */
+.feature .icon:before {
+    background: linear-gradient(135deg,
+        rgba(163,198,57,.25) 0%,
+        rgba(107,124,46,.25) 100%) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   SERVICE ICON
+═══════════════════════════════════════════════ */
+.service .service-icon {
+    background: var(--brand-grad) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   TABLE (thead dark → brand)
+═══════════════════════════════════════════════ */
+.table-dark,
+thead.table-dark {
+    --bs-table-bg: var(--brand-start) !important;
+    background: var(--brand-grad) !important;
+    color: #fff !important;
+}
+
+.site-blocks-table tbody tr:first-child td {
+    border-top-color: var(--brand-mid) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   FORM FOCUS
+═══════════════════════════════════════════════ */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--brand-mid) !important;
+    box-shadow: 0 0 0 0.2rem rgba(163,198,57,.25) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+.footer-section .footer-logo-wrap .footer-logo {
+    background: var(--brand-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.footer-section .custom-social li a {
+    background: linear-gradient(135deg,
+        rgba(163,198,57,.18) 0%,
+        rgba(107,124,46,.18) 100%) !important;
+    color: var(--brand-mid) !important;
+}
+.footer-section .custom-social li a:hover {
+    background: var(--brand-grad) !important;
+    color: #fff !important;
+}
+
+.footer-section .subscription-form h3 {
+    background: var(--brand-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.footer-section .subscription-form .form-control:focus {
+    border-color: var(--brand-mid) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   PAGINATION (active page)
+═══════════════════════════════════════════════ */
+.page-item.active .page-link {
+    background: var(--brand-grad) !important;
+    border-color: var(--brand-end) !important;
+}
+.page-link {
+    color: var(--brand-mid) !important;
+}
+.page-link:hover {
+    color: var(--brand-end) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   BADGE (bg-success → brand)
+═══════════════════════════════════════════════ */
+.badge.bg-success,
+.bg-success {
+    background: var(--brand-grad) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   PROGRESS BAR
+═══════════════════════════════════════════════ */
+.progress-bar.bg-success {
+    background: var(--brand-grad) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   TEXT / LINK màu xanh brand
+═══════════════════════════════════════════════ */
+.text-primary,
+a.text-primary {
+    color: var(--brand-mid) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   ADMIN - NAVBAR
+═══════════════════════════════════════════════ */
+.custom-navbar .navbar-brand {
+    background: var(--brand-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #fff;
+    background-clip: text;
+}
+
+/* ═══════════════════════════════════════════════
+   ADMIN - CARD HEADERS (inventory create, dashboard)
+═══════════════════════════════════════════════ */
+.card-header[style*="3b5d50"],
+.card-header[style*="background:#3b5d50"],
+.card-header[style*="background: #3b5d50"] {
+    background: var(--brand-grad) !important;
+}
+
+/* Admin inventory tổng kết card */
+.card[style*="3b5d50"],
+.card[style*="background:linear-gradient(135deg,#3b5d50"] {
+    background: linear-gradient(135deg, #5ac639 0%, #6b7c2e 100%) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   HOVER DIV ZOOM (feature boxes)
+═══════════════════════════════════════════════ */
+.hover-div-zoom:hover {
+    box-shadow: 0 8px 20px rgba(163,198,57,.35) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   SEARCH container
+═══════════════════════════════════════════════ */
+.search-container {
+    background: var(--brand-grad) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   TAB active (order history, inventory)
+═══════════════════════════════════════════════ */
+#page_all:checked ~ .controls1 label[for="page_all"],
+#page_processing:checked ~ .controls1 label[for="page_processing"],
+#page_processed:checked ~ .controls1 label[for="page_processed"],
+#page_shipping:checked ~ .controls1 label[for="page_shipping"],
+#page_shipped:checked ~ .controls1 label[for="page_shipped"],
+#page_cancelled:checked ~ .controls1 label[for="page_cancelled"] {
+    background: var(--brand-grad) !important;
+    color: #fff !important;
+}
+
+/* ═══════════════════════════════════════════════
+   TYPE ITEM background (admin type cards)
+═══════════════════════════════════════════════ */
+.type-item,
+.stock-item {
+    background: var(--brand-grad) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   SHOP - product hover
+═══════════════════════════════════════════════ */
+.product-section .product-item:hover {
+    box-shadow: 0 12px 35px rgba(163,198,57,.25) !important;
+}
+.product-section .product-item:hover h3 {
+    color: var(--brand-mid) !important;
+}
+.product-section .product-item:hover strong {
+    color: var(--brand-end) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   LOGIN title underline
+═══════════════════════════════════════════════ */
+.login-title::after {
+    background: var(--brand-grad) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   CSS.CSS - input focus (dark login form)
+═══════════════════════════════════════════════ */
+input:focus,
+textarea:focus {
+    border-color: var(--brand-mid) !important;
+    box-shadow: 0 0 0 3px rgba(163,198,57,.2) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   ADMIN.CSS - login button
+═══════════════════════════════════════════════ */
+/* (admin login page dùng gradient vàng-xanh riêng, giữ nguyên) */
+/* ═══════════════════════════════════════════════
+   CATEGORY TABS (shop page filter buttons)
+═══════════════════════════════════════════════ */
+
+/* Tab đang active (btn-dark) */
+.btn.btn-dark,
+.btn.btn-dark:hover,
+.btn.btn-dark:focus {
+    background: var(--brand-grad) !important;
+    border-color: var(--brand-end) !important;
+    color: #fff !important;
+}
+
+/* Tab không active (btn-outline-dark) */
+.btn.btn-outline-dark {
+    background: #bee466 !important;
+    border-color: var(--brand-end) !important;
+    color: var(--brand-end) !important;
+}
+
+.btn.btn-outline-dark:hover {
+    background: black !important;
+    border-color: var(--brand-end) !important;
+    color: #fff !important;
+}
+
+/* Nút "Xóa tất cả" (btn-outline-secondary) */
+.btn.btn-outline-secondary {
+    border-color: var(--brand-mid) !important;
+    color: var(--brand-mid) !important;
+}
+.btn.btn-outline-secondary:hover {
+    background: var(--brand-grad) !important;
+    color: #fff !important;
+}
+
+/* Override lại btn base (style.css set background:#2f2f2f) */
+.btn {
+    background: #d2fc71 !important;
+    border-color: green !important;
+    color: var(--brand-end) !important;
+}
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap');
+
+.profile-page {
+    min-height: 80vh;
+    padding: 48px 0 80px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+textarea {
+  height: 100px !important;
+}
+/* ── Layout ── */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 28px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ── Left panel: avatar + info ── */
+.profile-left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.avatar-card {
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid #e8f0c8;
+    padding: 32px 24px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(135deg, #a3c639 0%, #6b7c2e 100%);
+    z-index: 0;
+}
+
+.avatar-wrap {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 16px;
+    z-index: 1;
+}
+
+.avatar-img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 16px rgba(107,124,46,.25);
+    display: block;
+}
+
+/* Camera overlay */
+.avatar-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(0,0,0,.45);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity .2s;
+    cursor: pointer;
+}
+.avatar-wrap:hover .avatar-overlay { opacity: 1; }
+.avatar-overlay span {
+    font-size: 11px;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: .5px;
+}
+
+/* Delete avatar badge */
+.btn-del-avatar {
+    position: absolute;
+    top: -2px; right: -2px;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: #e53e3e;
+    border: 2px solid #fff;
+    color: #fff;
+    font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    transition: transform .15s, background .15s;
+    line-height: 1;
+}
+.btn-del-avatar:hover {
+    background: #c53030;
+    transform: scale(1.15);
+}
+/* Hide delete button when default avatar */
+.avatar-wrap.is-default .btn-del-avatar { display: none; }
+
+.avatar-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #2d3a1e;
+    margin-bottom: 4px;
+    z-index: 1;
+    position: relative;
+}
+
+.avatar-role {
+    font-size: 12px;
+    color: #8aa830;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    z-index: 1;
+    position: relative;
+}
+
+/* Info rows in left panel */
+.info-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e8f0c8;
+    padding: 20px;
+}
+
+.info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f4f8e8;
+}
+.info-row:last-child { border-bottom: none; padding-bottom: 0; }
+.info-row:first-child { padding-top: 0; }
+
+.info-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(163,198,57,.15) 0%, rgba(107,124,46,.15) 100%);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+.info-icon svg { width: 15px; height: 15px; stroke: #6b7c2e; }
+
+.info-text .lbl {
+    font-size: 11px;
+    color: #9aaa70;
+    font-weight: 500;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+.info-text .val {
+    font-size: 13px;
+    color: #2d3a1e;
+    font-weight: 400;
+    word-break: break-all;
+}
+
+/* ── Right panel: forms ── */
+.profile-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-card {
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid #e8f0c8;
+    overflow: hidden;
+}
+
+.form-card-head {
+    padding: 18px 28px;
+    background: linear-gradient(135deg, #a3c639 0%, #6b7c2e 100%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.form-card-head svg { width: 18px; height: 18px; stroke: #fff; flex-shrink: 0; }
+.form-card-head h5 {
+    font-size: 16px;
+    color: #fff;
+    margin: 0;
+    font-weight: 600;
+}
+
+.form-card-body { padding: 24px 28px; }
+
+/* Fields */
+.field-group { margin-bottom: 18px; }
+.field-group:last-of-type { margin-bottom: 0; }
+
+.field-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6b7c2e;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.field-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #dde8b0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: #2d3a1e;
+    background: #fafef4;
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+}
+.field-input:focus {
+    border-color: #8aa830;
+    box-shadow: 0 0 0 3px rgba(163,198,57,.18);
+    background: #fff;
+}
+
+.field-input.textarea-field {
+    resize: none;
+    height: 80px;
+    line-height: 1.5;
+}
+
+/* Input group (password + toggle) */
+.input-group-custom {
+    display: flex;
+    border: 1.5px solid #dde8b0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fafef4;
+    transition: border-color .2s, box-shadow .2s;
+}
+.input-group-custom:focus-within {
+    border-color: #8aa830;
+    box-shadow: 0 0 0 3px rgba(163,198,57,.18);
+    background: #fff;
+}
+.input-group-custom input {
+    flex: 1;
+    padding: 10px 14px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: #2d3a1e;
+}
+.toggle-pwd {
+    padding: 0 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    opacity: .5;
+    transition: opacity .2s;
+}
+.toggle-pwd:hover { opacity: 1; }
+.toggle-pwd img { width: 16px; pointer-events: none; }
+
+/* Submit buttons */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #a3c639 0%, #6b7c2e 100%);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 20px;
+    letter-spacing: .3px;
+    transition: opacity .2s, transform .15s;
+}
+.btn-submit:hover { opacity: .92; transform: translateY(-1px); }
+.btn-submit:active { transform: translateY(0); }
+
+/* Alerts */
+.alert-custom {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.alert-success-custom {
+    background: #f0fce8;
+    border: 1px solid #c3e88d;
+    color: #3d6b10;
+}
+.alert-danger-custom {
+    background: #fff5f5;
+    border: 1px solid #fecaca;
+    color: #c53030;
+}
+/* File input hidden */
+#avatarFileInput { display: none; }
+
+/* Confirm modal overlay */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+.modal-overlay.active { display: flex; }
+.modal-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 32px;
+    max-width: 340px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,.15);
+}
+.modal-box h6 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: #2d3a1e;
+    margin-bottom: 8px;
+}
+.modal-box p { font-size: 13px; color: #666; margin-bottom: 20px; }
+.modal-actions { display: flex; gap: 10px; }
+.modal-btn {
+    flex: 1; padding: 10px; border-radius: 8px;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    border: none; font-family: 'DM Sans', sans-serif;
+}
+.modal-btn-cancel {
+    background: #f1f5f9;
+    color: #555;
+}
+.modal-btn-confirm {
+    background: #e53e3e;
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .profile-grid { grid-template-columns: 1fr; }
+    .profile-left { flex-direction: row; flex-wrap: wrap; gap: 12px; }
+    .avatar-card { flex: 1; min-width: 200px; }
+    .info-card { flex: 1; min-width: 200px; }
+}

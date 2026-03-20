@@ -256,8 +256,7 @@
   <div class="desc">Bạn không có quyền truy cập trang này</div>
 
   <div class="btn-group">
-    <a href="/app/index.php" class="btn btn-fire">🌱 Trang chủ</a>
-    <a href="/app/index.php?url=login" class="btn btn-ghost">Đăng nhập</a>
+    <a href="../app/index.php?url=admin-login" class="btn btn-ghost">Đăng nhập</a>
   </div>
 </div>
 

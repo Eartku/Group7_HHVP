@@ -1,3 +1,0 @@
-<?php
-// Order Detail View
-

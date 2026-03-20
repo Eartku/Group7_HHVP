@@ -5,7 +5,7 @@ $nolayout = true;
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <link rel="stylesheet" href="/app/css/css.css">
+    <link rel="stylesheet" href="../app/css/css.css">
     <title>BonSai | Đăng nhập</title>
 </head>
 <body>
@@ -22,7 +22,7 @@ $nolayout = true;
     <div class="login-section">
         <h2 class="login-title">ĐĂNG NHẬP</h2>
 
-        <form method="post" action="/app/index.php?url=login">
+        <form method="post" action="../app/index.php?url=login">
 
             <div class="form-group">
                 <label>Tên người dùng</label>
@@ -54,10 +54,10 @@ $nolayout = true;
 
     <div style="text-align:center; margin-top:20px;">
         <p>Chưa có tài khoản?
-            <a href="/app/index.php?url=register" class="hover-gradient-text">Đăng ký</a>
+            <a href="../app/index.php?url=register" class="hover-gradient-text">Đăng ký</a>
         </p>
         <p>
-            <a href="/app/index.php" class="hover-gradient-text">Quay lại</a>
+            <a href="../app/index.php" class="hover-gradient-text">Quay lại</a>
         </p>
     </div>
 
