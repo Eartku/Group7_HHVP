@@ -108,6 +108,8 @@ function fmtDate($dt) { $ts=strtotime($dt); return $ts ? date('d/m/Y H:i',$ts) :
         .note-area{border-radius:8px;font-size:.88rem;resize:vertical;border:1.5px solid #ced4da;width:100%;padding:10px 12px;transition:border-color .2s}
         .note-area:focus{outline:none;border-color:#28a745;box-shadow:0 0 0 2px rgba(40,167,69,.12)}
 
+        /* THÊM: sticky cột phải */
+        .col-right-sticky { position: sticky; top: 20px; }
 
     </style>
 </head>
@@ -160,7 +162,95 @@ function fmtDate($dt) { $ts=strtotime($dt); return $ts ? date('d/m/Y H:i',$ts) :
 
     <div class="row g-4">
 
-        <!-- ===== CỘT TRÁI: Sản phẩm + Ghi chú ===== -->
+        <!-- ===== CỘT TRÁI: Thông tin giao hàng + Thông tin đơn hàng ===== -->
+        <div class="col-lg-5 col-right-sticky">
+
+            <!-- Thông tin giao hàng -->
+            <div class="info-card">
+                <h5><i class="fas fa-user text-success"></i>Thông tin giao hàng</h5>
+                <div class="info-row">
+                    <span class="lbl"><i class="fas fa-user me-1"></i>Họ tên:</span>
+                    <span class="val"><?= htmlspecialchars($order['fullname']) ?></span>
+                </div>
+                <div class="info-row">
+                    <span class="lbl"><i class="fas fa-envelope me-1"></i>Email:</span>
+                    <span class="val"><?= htmlspecialchars($order['email']) ?></span>
+                </div>
+                <div class="info-row">
+                    <span class="lbl"><i class="fas fa-phone me-1"></i>Số điện thoại:</span>
+                    <span class="val"><?= htmlspecialchars($order['phone']) ?></span>
+                </div>
+                <div class="info-row">
+                    <span class="lbl"><i class="fas fa-map-marker-alt me-1"></i>Địa chỉ:</span>
+                    <span class="val"><?= htmlspecialchars($order['address']) ?></span>
+                </div>
+            </div>
+
+            <!-- Thông tin đơn hàng + TRẠNG THÁI + GHI CHÚ + NÚT -->
+            <div class="info-card">
+                <h5><i class="fas fa-receipt text-success"></i>Thông tin đơn hàng</h5>
+
+                <div class="info-row">
+                    <span class="lbl"><i class="fas fa-hashtag me-1"></i>Mã đơn hàng:</span>
+                    <span class="val"><strong>#<?= str_pad($order['id'],4,'0',STR_PAD_LEFT) ?></strong></span>
+                </div>
+                <div class="info-row">
+                    <span class="lbl"><i class="fas fa-calendar me-1"></i>Ngày đặt:</span>
+                    <span class="val"><?= fmtDate($order['created_at']) ?></span>
+                </div>
+                <div class="info-row">
+                    <span class="lbl"><i class="fas fa-sync me-1"></i>Cập nhật lần cuối:</span>
+                    <span class="val"><?= fmtDate($order['updated_at']) ?></span>
+                </div>
+                <div class="info-row">
+                    <span class="lbl"><i class="fas fa-credit-card me-1"></i>Thanh toán:</span>
+                    <span class="val"><?= htmlspecialchars($payment_map[$order['payment_method']] ?? strtoupper($order['payment_method'])) ?></span>
+                </div>
+
+                <!-- TRẠNG THÁI — DROPDOWN THAY ĐỔI TRỰC TIẾP -->
+                <div class="info-row align-items-center">
+                    <span class="lbl"><i class="fas fa-tag me-1"></i>Trạng thái:</span>
+                    <span class="val w-100">
+                        <div class="status-inline-form">
+                            <select name="status" id="statusSelect">
+                                <?php foreach ($status_map as $v => $info): ?>
+                                <option value="<?= $v ?>" <?= $cur_status===$v ? 'selected':'' ?>>
+                                    <?= $info['label'] ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <!-- Badge hiển thị trạng thái hiện tại -->
+                        <span class="badge <?= $status_map[$cur_status]['badge'] ?? 'bg-secondary' ?> mt-2 d-inline-flex align-items-center gap-1" id="curBadge">
+                            <i class="fas <?= $status_map[$cur_status]['icon'] ?? 'fa-tag' ?>"></i>
+                            <?= htmlspecialchars($status_map[$cur_status]['label'] ?? ucfirst($cur_status)) ?>
+                        </span>
+                    </span>
+                </div>
+
+                <!-- GHI CHÚ — nằm dưới trạng thái, hiện nội dung cũ, click sửa được -->
+                <div class="info-row" style="flex-direction:column;gap:6px;margin-top:4px">
+                    <span class="lbl"><i class="fas fa-sticky-note me-1"></i>Ghi chú / Thông báo cho khách:</span>
+                    <textarea name="note" class="note-area" rows="3"
+                        placeholder="VD: Dự kiến giao đến vào 14/12/2025. Xin hãy chuẩn bị tiền thanh toán."
+                    ><?= htmlspecialchars($order['note'] ?? '') ?></textarea>
+                </div>
+
+                <!-- NÚT HÀNH ĐỘNG — nằm trong card thông tin đơn hàng -->
+                <div class="d-flex gap-2 mt-3">
+                    <a href="admin_order.php" class="btn btn-outline-secondary flex-fill">
+                        <i class="fas fa-arrow-left me-1"></i> Quay lại
+                    </a>
+                    <button type="button" class="btn btn-success flex-fill" onclick="confirmUpdate()">
+                        <i class="fas fa-save me-1"></i> Lưu thay đổi
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===== CỘT PHẢI: Sản phẩm trong đơn ===== -->
         <div class="col-lg-7">
 
             <!-- Bảng sản phẩm (chỉ xem) -->
@@ -210,94 +300,6 @@ function fmtDate($dt) { $ts=strtotime($dt); return $ts ? date('d/m/Y H:i',$ts) :
                     </tfoot>
                 </table>
                 </div>
-            </div>
-
-            <!-- Ghi chú -->
-            <div class="info-card">
-                <h5><i class="fas fa-sticky-note text-success"></i>Ghi chú / Thông báo cho khách</h5>
-                <textarea name="note" class="note-area" rows="4"
-                    placeholder="VD: Dự kiến giao đến vào 14/12/2025. Xin hãy chuẩn bị tiền thanh toán."
-                ><?= htmlspecialchars($order['note'] ?? '') ?></textarea>
-            </div>
-
-            <!-- Nút hành động -->
-            <div class="d-flex gap-2 mt-1 mb-4">
-                <a href="admin_order.php" class="btn btn-outline-secondary">
-                    <i class="fas fa-arrow-left me-1"></i> Quay lại
-                </a>
-                <button type="button" class="btn btn-success" onclick="confirmUpdate()">
-                    <i class="fas fa-save me-1"></i> Lưu thay đổi
-                </button>
-            </div>
-
-        </div>
-
-        <!-- ===== CỘT PHẢI: Thông tin giao hàng + Thông tin đơn hàng ===== -->
-        <div class="col-lg-5">
-
-            <!-- Thông tin giao hàng -->
-            <div class="info-card">
-                <h5><i class="fas fa-user text-success"></i>Thông tin giao hàng</h5>
-                <div class="info-row">
-                    <span class="lbl"><i class="fas fa-user me-1"></i>Họ tên:</span>
-                    <span class="val"><?= htmlspecialchars($order['fullname']) ?></span>
-                </div>
-                <div class="info-row">
-                    <span class="lbl"><i class="fas fa-envelope me-1"></i>Email:</span>
-                    <span class="val"><?= htmlspecialchars($order['email']) ?></span>
-                </div>
-                <div class="info-row">
-                    <span class="lbl"><i class="fas fa-phone me-1"></i>Số điện thoại:</span>
-                    <span class="val"><?= htmlspecialchars($order['phone']) ?></span>
-                </div>
-                <div class="info-row">
-                    <span class="lbl"><i class="fas fa-map-marker-alt me-1"></i>Địa chỉ:</span>
-                    <span class="val"><?= htmlspecialchars($order['address']) ?></span>
-                </div>
-            </div>
-
-            <!-- Thông tin đơn hàng + TRẠNG THÁI INLINE -->
-            <div class="info-card">
-                <h5><i class="fas fa-receipt text-success"></i>Thông tin đơn hàng</h5>
-
-                <div class="info-row">
-                    <span class="lbl"><i class="fas fa-hashtag me-1"></i>Mã đơn hàng:</span>
-                    <span class="val"><strong>#<?= str_pad($order['id'],4,'0',STR_PAD_LEFT) ?></strong></span>
-                </div>
-                <div class="info-row">
-                    <span class="lbl"><i class="fas fa-calendar me-1"></i>Ngày đặt:</span>
-                    <span class="val"><?= fmtDate($order['created_at']) ?></span>
-                </div>
-                <div class="info-row">
-                    <span class="lbl"><i class="fas fa-sync me-1"></i>Cập nhật lần cuối:</span>
-                    <span class="val"><?= fmtDate($order['updated_at']) ?></span>
-                </div>
-                <div class="info-row">
-                    <span class="lbl"><i class="fas fa-credit-card me-1"></i>Thanh toán:</span>
-                    <span class="val"><?= htmlspecialchars($payment_map[$order['payment_method']] ?? strtoupper($order['payment_method'])) ?></span>
-                </div>
-
-                <!-- TRẠNG THÁI — DROPDOWN THAY ĐỔI TRỰC TIẾP -->
-                <div class="info-row align-items-center">
-                    <span class="lbl"><i class="fas fa-tag me-1"></i>Trạng thái:</span>
-                    <span class="val w-100">
-                        <div class="status-inline-form">
-                            <select name="status" id="statusSelect">
-                                <?php foreach ($status_map as $v => $info): ?>
-                                <option value="<?= $v ?>" <?= $cur_status===$v ? 'selected':'' ?>>
-                                    <?= $info['label'] ?>
-                                </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <!-- Badge hiển thị trạng thái hiện tại -->
-                        <span class="badge <?= $status_map[$cur_status]['badge'] ?? 'bg-secondary' ?> mt-2 d-inline-flex align-items-center gap-1" id="curBadge">
-                            <i class="fas <?= $status_map[$cur_status]['icon'] ?? 'fa-tag' ?>"></i>
-                            <?= htmlspecialchars($status_map[$cur_status]['label'] ?? ucfirst($cur_status)) ?>
-                        </span>
-                    </span>
-                </div>
-
             </div>
 
         </div>

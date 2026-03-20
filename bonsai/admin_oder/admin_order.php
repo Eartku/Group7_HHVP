@@ -466,7 +466,7 @@ function fmtDate($dt) {
                     </span>
                 </td>
                 <td>
-                    <a href="orderdetails.php?id=<?= urlencode($row['id']) ?>"
+                    <a href="edit_order.php?id=<?= urlencode($row['id']) ?>"
                        class="btn btn-sm btn-outline-primary">
                         <i class="fas fa-eye"></i> Xem
                     </a>
