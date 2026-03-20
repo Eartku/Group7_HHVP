@@ -8,7 +8,19 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
   <link href="../css/bootstrap.min.css" rel="stylesheet" />
   <link href="../css/style.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.js"></script>
   <style>
+    .flatpickr-current-month {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+    }
+    .flatpickr-current-month .numInputWrapper {
+      width: 60px !important;
+    }
     :root {
       --green-dark:  #1b4332;
       --green-mid:   #2d6a4f;
@@ -289,14 +301,14 @@
 <div class="shell">
 
   <div class="page-title">
-    <h1>📊 Thống Kê & Báo Cáo Kho</h1>
+    <h1>Thống Kê & Báo Cáo Kho</h1>
     <p>Tra cứu tồn kho – Báo cáo nhập xuất – Cảnh báo sắp hết hàng</p>
   </div>
 
   <!-- TABS -->
   <div class="tabs">
     <button class="tab-btn active" data-tab="tab-stock">
-      <i class="fas fa-search"></i> Tồn tại thời điểm
+      <i class="fas fa-search"></i> Tra cứu tồn kho
     </button>
     <button class="tab-btn" data-tab="tab-report">
       <i class="fas fa-exchange-alt"></i> Báo cáo Nhập – Xuất
@@ -307,81 +319,64 @@
   </div>
 
   <!-- ═══ PANEL 1: TỒN TẠI THỜI ĐIỂM ═══ -->
-  <div id="tab-stock" class="panel active">
+ <div id="tab-stock" class="panel active">
     <div class="card">
       <div class="card-title"><i class="fas fa-history"></i> Tra cứu tồn kho tại một thời điểm</div>
       <div class="form-row">
-        <div class="form-group" style="flex:2; min-width:220px;">
+        <div class="form-group" style="flex:2;min-width:220px;">
           <label>Sản phẩm</label>
-          <select id="s1-product">
-            <option value="">-- Đang tải... --</option>
-          </select>
+          <select id="s1-product"><option value="">-- Đang tải... --</option></select>
         </div>
         <div class="form-group">
           <label>Size</label>
-          <select id="s1-size">
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-          </select>
+          <select id="s1-size"><option value="S">S</option><option value="M">M</option><option value="L">L</option></select>
         </div>
         <div class="form-group">
-          <label>Ngày (dd/mm/yyyy)</label>
-          <input type="text" id="s1-date" placeholder="25/02/2026" maxlength="10" />
+          <label>Ngày</label>
+          <input type="text" id="s1-date" placeholder="dd/mm/yyyy" readonly />
         </div>
         <div class="form-group">
-          <label>Giờ (hh:mm)</label>
-          <input type="text" id="s1-time" placeholder="23:59" maxlength="5" />
+          <label>Giờ</label>
+          <input type="text" id="s1-time" placeholder="hh:mm" readonly />
         </div>
-        <div class="form-group" style="flex:0; min-width:auto;">
+        <div class="form-group" style="flex:0;min-width:auto;">
           <label>&nbsp;</label>
-          <button class="btn btn-primary" id="s1-btn" onclick="queryStockAtTime()">
-            <i class="fas fa-search"></i> Tra cứu
-          </button>
+          <button class="btn btn-primary" id="s1-btn" onclick="queryStockAtTime()"><i class="fas fa-search"></i> Tra cứu</button>
         </div>
       </div>
     </div>
-
     <div id="s1-result" class="result-section" style="display:none;"></div>
   </div>
-
-  <!-- ═══ PANEL 2: BÁO CÁO NHẬP XUẤT ═══ -->
-<div id="tab-report" class="panel">
+  <!--  -->
+  <div id="tab-report" class="panel">
     <div class="card">
       <div class="card-title"><i class="fas fa-chart-bar"></i> Báo cáo nhập – xuất theo khoảng thời gian</div>
       <div class="form-row">
-        <div class="form-group" style="flex:2; min-width:220px;">
+        <div class="form-group" style="flex:2;min-width:220px;">
           <label>Sản phẩm</label>
-          <select id="s2-product">
-            <option value="">-- Chọn sản phẩm --</option>
-          </select>
+          <select id="s2-product"><option value="">-- Chọn sản phẩm --</option></select>
         </div>
         <div class="form-group">
           <label>Size (tùy chọn)</label>
           <select id="s2-size">
             <option value="">-- Tất cả --</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
+            <option value="S">S</option><option value="M">M</option><option value="L">L</option>
           </select>
         </div>
         <div class="form-group">
           <label>Từ ngày</label>
-          <input type="text" id="s2-from" placeholder="dd/mm/yyyy" maxlength="10" />
+          <input type="text" id="s2-from" placeholder="dd/mm/yyyy" readonly />
         </div>
         <div class="form-group">
           <label>Đến ngày</label>
-          <input type="text" id="s2-to" placeholder="dd/mm/yyyy" maxlength="10" />
+          <input type="text" id="s2-to" placeholder="dd/mm/yyyy" readonly />
         </div>
-        <div class="form-group" style="flex:0; min-width:auto;">
+        <div class="form-group" style="flex:0;min-width:auto;">
           <label>&nbsp;</label>
-          <button class="btn btn-primary" id="s2-btn" onclick="queryReport()">
-            <i class="fas fa-chart-bar"></i> Xem báo cáo
-          </button>
+          <button class="btn btn-primary" id="s2-btn" onclick="queryReport()"><i class="fas fa-chart-bar"></i> Xem báo cáo</button>
         </div>
       </div>
     </div>
-
     <div id="s2-result" class="result-section" style="display:none;"></div>
   </div>
 
@@ -415,11 +410,11 @@
 
 </div><!-- /shell -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.js"></script>
 <script>
-  // ─── CONFIG ─────────────────────────────────────────────────────────────
-  const API = '../api/inventory_api.php';;
+  const API = '../api/inventory_api.php';
 
-  // ─── TABS ────────────────────────────────────────────────────────────────
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -429,271 +424,176 @@
     });
   });
 
-  // ─── SET DEFAULTS ────────────────────────────────────────────────────────
-(() => {
-  const now = new Date();
-  const pad = n => String(n).padStart(2,'0');
+  flatpickr('#s1-date', { dateFormat: 'd/m/Y', locale: 'vn', defaultDate: new Date(), allowInput: false });
+  flatpickr('#s1-time', { enableTime: true, noCalendar: true, dateFormat: 'H:i', defaultDate: new Date(), time_24hr: true, allowInput: false });
+  const oneMonthAgo = new Date(); oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+  flatpickr('#s2-from', { dateFormat: 'd/m/Y', locale: 'vn', defaultDate: oneMonthAgo, allowInput: false });
+  flatpickr('#s2-to',   { dateFormat: 'd/m/Y', locale: 'vn', defaultDate: new Date(),  allowInput: false });
 
-  // Tab 1 - hiện dd/mm/yyyy
-  const day   = pad(now.getDate());
-  const month = pad(now.getMonth()+1);
-  const year  = now.getFullYear();
-  document.getElementById('s1-date').value = `${day}/${month}/${year}`;
-  document.getElementById('s1-time').value = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
-
-  // Tab 2 - khoảng thời gian
-  const today = `${year}-${month}-${day}`;
-  const mo = new Date(now); mo.setMonth(mo.getMonth()-1);
-  const moStr = `${mo.getFullYear()}-${pad(mo.getMonth()+1)}-${pad(mo.getDate())}`;
-  document.getElementById('s2-from').value = moStr;
-  document.getElementById('s2-to').value   = today;
-})();
-  // ─── LOAD PRODUCTS ───────────────────────────────────────────────────────
   async function loadProducts() {
     try {
-      const res  = await fetch(`${API}?action=products`);
+      const res = await fetch(`${API}?action=products`);
       const data = await res.json();
       if (!data.success) return;
       ['s1-product','s2-product'].forEach(id => {
         const sel = document.getElementById(id);
-        const hasAll = id === 's2-product';
-
         data.products.forEach(p => {
           const opt = document.createElement('option');
           opt.value = p.id;
           opt.textContent = `${p.name} ${p.category ? '['+p.category+']' : ''}`;
-          opt.dataset.sizes = p.available_sizes || '';
           sel.appendChild(opt);
         });
       });
-    } catch(e) {
-      console.error('Failed to load products', e);
-    }
+    } catch(e) { console.error(e); }
   }
   loadProducts();
 
-  // ─── UTILITY ─────────────────────────────────────────────────────────────
+  function showToast(msg, type='error') {
+    const old = document.querySelector('.toast'); if (old) old.remove();
+    const t = document.createElement('div');
+    t.className = `toast ${type}`;
+    t.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${msg}`;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+  }
+
   function setLoading(btnId, on) {
     const btn = document.getElementById(btnId);
     btn.disabled = on;
-    btn.innerHTML = on
-      ? '<span class="spinner"></span> Đang tải...'
-      : (btnId === 's1-btn' ? '<i class="fas fa-search"></i> Tra cứu'
-        : btnId === 's2-btn' ? '<i class="fas fa-chart-bar"></i> Xem báo cáo'
+    btn.innerHTML = on ? '<span class="spinner"></span> Đang tải...'
+      : (btnId==='s1-btn' ? '<i class="fas fa-search"></i> Tra cứu'
+        : btnId==='s2-btn' ? '<i class="fas fa-chart-bar"></i> Xem báo cáo'
         : '<i class="fas fa-bell"></i> Kiểm tra');
   }
 
   function showResult(divId, html) {
     const el = document.getElementById(divId);
-    el.innerHTML = html;
-    el.style.display = 'block';
+    el.innerHTML = html; el.style.display = 'block';
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function fmtNum(n) { return Number(n).toLocaleString('vi-VN'); }
   function fmtCurrency(n) { return Number(n).toLocaleString('vi-VN') + ' ₫'; }
+  function errCard(msg) { return `<div class="alert-banner danger"><i class="fas fa-exclamation-circle"></i> ${msg}</div>`; }
+  function formatDT(dt) {
+    try { const [d,t]=dt.split(' '); const [y,mo,da]=d.split('-'); return `${da}/${mo}/${y} ${t.slice(0,5)}`; }
+    catch { return dt; }
+  }
 
-  // ─── 1. TỒN TẠI THỜI ĐIỂM ────────────────────────────────────────────────
- async function queryStockAtTime() {
+  async function queryStockAtTime() {
     const pid  = document.getElementById('s1-product').value;
     const size = document.getElementById('s1-size').value;
     const date = document.getElementById('s1-date').value;
     const time = document.getElementById('s1-time').value;
-
-    if (!pid)  return alert('Vui lòng chọn sản phẩm!');
-    if (!size) return alert('Vui lòng chọn size!');
-    if (!date) return alert('Vui lòng nhập ngày! (dd/mm/yyyy)');
-    if (!time) return alert('Vui lòng nhập giờ! (hh:mm)');
-
-    // Convert dd/mm/yyyy → yyyy-mm-dd
+    if (!pid)  return showToast('Vui lòng chọn sản phẩm!');
+    if (!date) return showToast('Vui lòng chọn ngày!');
+    if (!time) return showToast('Vui lòng chọn giờ!');
     const parts = date.split('/');
-    if (parts.length !== 3) return alert('Ngày không hợp lệ! Nhập theo dạng dd/mm/yyyy');
-    const dateFormatted = `${parts[2]}-${parts[1]}-${parts[0]}`;
-    const dt = dateFormatted + ' ' + time + ':00';
-
+    const dt = `${parts[2]}-${parts[1]}-${parts[0]} ${time}:00`;
     setLoading('s1-btn', true);
     try {
-      const url = `${API}?action=stock_at_time&product_id=${pid}&size=${size}&date=${dt}`;
-      const res  = await fetch(url);
+      const res  = await fetch(`${API}?action=stock_at_time&product_id=${pid}&size=${size}&date=${dt}`);
       const data = await res.json();
       if (!data.success) { showResult('s1-result', errCard(data.error)); return; }
-
       const stockClass = data.stock_at_time <= 0 ? 'red' : data.stock_at_time <= 10 ? 'amber' : '';
-
       const logsHtml = data.logs.length === 0
         ? '<tr><td colspan="5"><div class="empty-msg"><i class="fas fa-inbox"></i>Không có giao dịch nào trước thời điểm này</div></td></tr>'
-        : data.logs.map(l => `
-            <tr>
-              <td>${l.created_at_fmt}</td>
-              <td><span class="badge badge-${l.type === 'import' ? 'import' : 'export'}">${l.type === 'import' ? 'Nhập' : 'Xuất'}</span></td>
-              <td style="font-weight:700; color:${l.type==='import'?'#065f46':'#991b1b'}">${l.quantity_display}</td>
-              <td class="${l.balance > 0 ? 'balance-pos' : 'balance-neg'}">${fmtNum(l.balance)}</td>
-              <td>${l.note || '—'}</td>
-            </tr>`).join('');
-
+        : data.logs.map(l => `<tr>
+            <td>${l.created_at_fmt}</td>
+            <td><span class="badge badge-${l.type==='import'?'import':'export'}">${l.type==='import'?'Nhập':'Xuất'}</span></td>
+            <td style="font-weight:700;color:${l.type==='import'?'#065f46':'#991b1b'}">${l.quantity_display}</td>
+            <td class="${l.balance>0?'balance-pos':'balance-neg'}">${fmtNum(l.balance)}</td>
+            <td>${l.note||'—'}</td>
+          </tr>`).join('');
       showResult('s1-result', `
         <div class="stat-row">
-          <div class="stat-pill ${stockClass}">
-            <div class="val">${fmtNum(data.stock_at_time)}</div>
-            <div class="lbl">Tồn tại thời điểm</div>
-          </div>
-          <div class="stat-pill blue">
-            <div class="val">${fmtNum(data.total_import)}</div>
-            <div class="lbl">Tổng nhập</div>
-          </div>
-          <div class="stat-pill amber">
-            <div class="val">${fmtNum(data.total_export)}</div>
-            <div class="lbl">Tổng xuất</div>
-          </div>
+          <div class="stat-pill ${stockClass}"><div class="val">${fmtNum(data.stock_at_time)}</div><div class="lbl">Tồn tại thời điểm</div></div>
+          <div class="stat-pill blue"><div class="val">${fmtNum(data.total_import)}</div><div class="lbl">Tổng nhập</div></div>
+          <div class="stat-pill amber"><div class="val">${fmtNum(data.total_export)}</div><div class="lbl">Tổng xuất</div></div>
         </div>
         <div class="card" style="margin-bottom:0">
-          <div class="card-title"><i class="fas fa-list-alt"></i>
-            ${data.product_name} – Size ${data.size} &nbsp;|&nbsp;
-            <span style="font-weight:400;font-size:.9rem;color:var(--muted)">đến ${formatDT(data.query_datetime)}</span>
-          </div>
-          <div class="tbl-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Ngày giờ</th><th>Loại</th><th>Số lượng</th>
-                  <th>Tồn lũy kế</th><th>Ghi chú</th>
-                </tr>
-              </thead>
-              <tbody>${logsHtml}</tbody>
-            </table>
-          </div>
-        </div>
-      `);
-    } catch(e) {
-      showResult('s1-result', errCard('Lỗi kết nối API: ' + e.message));
-    } finally {
-      setLoading('s1-btn', false);
-    }
+          <div class="card-title"><i class="fas fa-list-alt"></i> ${data.product_name} – Size ${data.size} &nbsp;|&nbsp; <span style="font-weight:400;font-size:.9rem;color:var(--muted)">đến ${formatDT(data.query_datetime)}</span></div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Ngày giờ</th><th>Loại</th><th>Số lượng</th><th>Tồn lũy kế</th><th>Ghi chú</th></tr></thead>
+            <tbody>${logsHtml}</tbody>
+          </table></div>
+        </div>`);
+    } catch(e) { showResult('s1-result', errCard('Lỗi kết nối API: ' + e.message)); }
+    finally { setLoading('s1-btn', false); }
   }
 
-  // ─── 2. BÁO CÁO NHẬP XUẤT ────────────────────────────────────────────────
-async function queryReport() {
+  async function queryReport() {
     const pid     = document.getElementById('s2-product').value;
     const size    = document.getElementById('s2-size').value;
     const fromRaw = document.getElementById('s2-from').value;
     const toRaw   = document.getElementById('s2-to').value;
-
-    if (!pid)              return showToast('Vui lòng chọn sản phẩm!');
-    if (!fromRaw || !toRaw) return showToast('Vui lòng nhập khoảng thời gian!');
-
-    // Convert dd/mm/yyyy → yyyy-mm-dd
-    const [fd, fm, fy] = fromRaw.split('/');
-    const [td, tm, ty] = toRaw.split('/');
-    const from = `${fy}-${fm}-${fd}`;
-    const to   = `${ty}-${tm}-${td}`;
-
+    if (!pid)               return showToast('Vui lòng chọn sản phẩm!');
+    if (!fromRaw || !toRaw) return showToast('Vui lòng chọn khoảng thời gian!');
+    const [fd,fm,fy] = fromRaw.split('/'); const [td,tm,ty] = toRaw.split('/');
+    const from = `${fy}-${fm}-${fd}`; const to = `${ty}-${tm}-${td}`;
     if (from > to) return showToast('Ngày bắt đầu phải ≤ ngày kết thúc!');
-
     setLoading('s2-btn', true);
     try {
       let url = `${API}?action=import_export_report&from=${from}&to=${to}`;
       if (pid)  url += `&product_id=${pid}`;
       if (size) url += `&size=${size}`;
-
-      const res  = await fetch(url);
-      const data = await res.json();
+      const res = await fetch(url); const data = await res.json();
       if (!data.success) { showResult('s2-result', errCard(data.error)); return; }
-
       const gt = data.grand_total;
-
       const summaryRows = data.summary.length === 0
-        ? '<tr><td colspan="7"><div class="empty-msg"><i class="fas fa-inbox"></i>Không có dữ liệu trong khoảng thời gian này</div></td></tr>'
-        : data.summary.map(r => `
-            <tr>
-              <td class="left">${r.product_name}</td>
-              <td>${r.category}</td>
-              <td><span class="badge badge-size">${r.size}</span></td>
-              <td style="color:#065f46;font-weight:700">+${fmtNum(r.total_import)}</td>
-              <td style="color:#991b1b;font-weight:700">-${fmtNum(r.total_export)}</td>
-              <td style="font-weight:700;color:${r.net_change>=0?'#065f46':'#991b1b'}">${r.net_change>=0?'+':''}${fmtNum(r.net_change)}</td>
-              <td>${r.transaction_count}</td>
-            </tr>`).join('');
-
+        ? '<tr><td colspan="7"><div class="empty-msg"><i class="fas fa-inbox"></i>Không có dữ liệu</div></td></tr>'
+        : data.summary.map(r => `<tr>
+            <td class="left">${r.product_name}</td><td>${r.category}</td>
+            <td><span class="badge badge-size">${r.size}</span></td>
+            <td style="color:#065f46;font-weight:700">+${fmtNum(r.total_import)}</td>
+            <td style="color:#991b1b;font-weight:700">-${fmtNum(r.total_export)}</td>
+            <td style="font-weight:700;color:${r.net_change>=0?'#065f46':'#991b1b'}">${r.net_change>=0?'+':''}${fmtNum(r.net_change)}</td>
+            <td>${r.transaction_count}</td>
+          </tr>`).join('');
       const detailRows = data.details.length === 0
         ? '<tr><td colspan="7"><div class="empty-msg"><i class="fas fa-inbox"></i>Không có giao dịch</div></td></tr>'
-        : data.details.map(d => `
-            <tr>
-              <td>${d.created_at_fmt}</td>
-              <td class="left">${d.product_name}</td>
-              <td><span class="badge badge-size">${d.size}</span></td>
-              <td><span class="badge badge-${d.type === 'import' ? 'import' : 'export'}">${d.type==='import'?'Nhập':'Xuất'}</span></td>
-              <td style="font-weight:700;color:${d.type==='import'?'#065f46':'#991b1b'}">${d.type==='import'?'+':'-'}${fmtNum(d.quantity)}</td>
-              <td>${d.import_price ? fmtCurrency(d.import_price) : '—'}</td>
-              <td class="left">${d.note || '—'}</td>
-            </tr>`).join('');
-
+        : data.details.map(d => `<tr>
+            <td>${d.created_at_fmt}</td><td class="left">${d.product_name}</td>
+            <td><span class="badge badge-size">${d.size}</span></td>
+            <td><span class="badge badge-${d.type==='import'?'import':'export'}">${d.type==='import'?'Nhập':'Xuất'}</span></td>
+            <td style="font-weight:700;color:${d.type==='import'?'#065f46':'#991b1b'}">${d.type==='import'?'+':'-'}${fmtNum(d.quantity)}</td>
+            <td>${d.import_price?fmtCurrency(d.import_price):'—'}</td>
+            <td class="left">${d.note||'—'}</td>
+          </tr>`).join('');
       showResult('s2-result', `
         <div class="stat-row">
-          <div class="stat-pill blue">
-            <div class="val">${fmtNum(gt.total_import)}</div>
-            <div class="lbl">Tổng nhập</div>
-          </div>
-          <div class="stat-pill amber">
-            <div class="val">${fmtNum(gt.total_export)}</div>
-            <div class="lbl">Tổng xuất</div>
-          </div>
-          <div class="stat-pill ${gt.net_change >= 0 ? '' : 'red'}">
-            <div class="val">${gt.net_change>=0?'+':''}${fmtNum(gt.net_change)}</div>
-            <div class="lbl">Thay đổi ròng</div>
-          </div>
-          <div class="stat-pill">
-            <div class="val">${data.summary.length}</div>
-            <div class="lbl">Dòng sản phẩm</div>
-          </div>
+          <div class="stat-pill blue"><div class="val">${fmtNum(gt.total_import)}</div><div class="lbl">Tổng nhập</div></div>
+          <div class="stat-pill amber"><div class="val">${fmtNum(gt.total_export)}</div><div class="lbl">Tổng xuất</div></div>
+          <div class="stat-pill ${gt.net_change>=0?'':'red'}"><div class="val">${gt.net_change>=0?'+':''}${fmtNum(gt.net_change)}</div><div class="lbl">Thay đổi ròng</div></div>
+          <div class="stat-pill"><div class="val">${data.summary.length}</div><div class="lbl">Dòng sản phẩm</div></div>
         </div>
-
         <div class="card">
           <div class="card-title"><i class="fas fa-table"></i> Tổng hợp theo sản phẩm</div>
-          <div class="tbl-wrap">
-            <table>
-              <thead><tr>
-                <th>Sản phẩm</th><th>Danh mục</th><th>Size</th>
-                <th>Nhập</th><th>Xuất</th><th>Chênh lệch</th><th>Giao dịch</th>
-              </tr></thead>
-              <tbody>${summaryRows}</tbody>
-            </table>
-          </div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Sản phẩm</th><th>Danh mục</th><th>Size</th><th>Nhập</th><th>Xuất</th><th>Chênh lệch</th><th>Giao dịch</th></tr></thead>
+            <tbody>${summaryRows}</tbody>
+          </table></div>
         </div>
-
         <div class="card" style="margin-bottom:0">
           <div class="card-title"><i class="fas fa-list"></i> Chi tiết giao dịch (${data.details.length} dòng)</div>
-          <div class="tbl-wrap">
-            <table>
-              <thead><tr>
-                <th>Ngày giờ</th><th>Sản phẩm</th><th>Size</th>
-                <th>Loại</th><th>Số lượng</th><th>Đơn giá</th><th>Ghi chú</th>
-              </tr></thead>
-              <tbody>${detailRows}</tbody>
-            </table>
-          </div>
-        </div>
-      `);
-    } catch(e) {
-      showResult('s2-result', errCard('Lỗi kết nối API: ' + e.message));
-    } finally {
-      setLoading('s2-btn', false);
-    }
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Ngày giờ</th><th>Sản phẩm</th><th>Size</th><th>Loại</th><th>Số lượng</th><th>Đơn giá</th><th>Ghi chú</th></tr></thead>
+            <tbody>${detailRows}</tbody>
+          </table></div>
+        </div>`);
+    } catch(e) { showResult('s2-result', errCard('Lỗi kết nối API: ' + e.message)); }
+    finally { setLoading('s2-btn', false); }
   }
 
-  // ─── 3. CẢNH BÁO ────────────────────────────────────────────────────────
   async function queryAlerts() {
-    const threshold = parseInt(document.getElementById('s3-threshold').value);
+    const threshold  = parseInt(document.getElementById('s3-threshold').value);
     const includeOut = document.getElementById('s3-include-out').value;
-
-    if (isNaN(threshold) || threshold < 0) return alert('Vui lòng nhập ngưỡng hợp lệ (≥ 0)!');
-
+    if (isNaN(threshold) || threshold < 0) return showToast('Vui lòng nhập ngưỡng hợp lệ (≥ 0)!');
     setLoading('s3-btn', true);
     try {
-      const url = `${API}?action=low_stock_alert&threshold=${threshold}&include_out_of_stock=${includeOut}`;
-      const res  = await fetch(url);
+      const res = await fetch(`${API}?action=low_stock_alert&threshold=${threshold}&include_out_of_stock=${includeOut}`);
       const data = await res.json();
       if (!data.success) { showResult('s3-result', errCard(data.error)); return; }
-
       let bannerHtml = '';
       if (data.total_alerts === 0) {
         bannerHtml = `<div class="alert-banner info"><i class="fas fa-check-circle"></i> Tất cả sản phẩm đều còn hàng trên ngưỡng ${threshold}. Không có cảnh báo!</div>`;
@@ -701,74 +601,33 @@ async function queryReport() {
         if (data.out_of_stock_count > 0) bannerHtml += `<div class="alert-banner danger"><i class="fas fa-times-circle"></i> <strong>${data.out_of_stock_count} sản phẩm đã hết hàng hoàn toàn!</strong></div>`;
         if (data.low_stock_count > 0)   bannerHtml += `<div class="alert-banner warning"><i class="fas fa-exclamation-triangle"></i> <strong>${data.low_stock_count} sản phẩm sắp hết hàng</strong> (tồn kho ≤ ${threshold})</div>`;
       }
-
       const rows = data.alerts.length === 0
         ? '<tr><td colspan="8"><div class="empty-msg"><i class="fas fa-check-circle" style="color:#065f46"></i><br/>Không có sản phẩm nào cần cảnh báo</div></td></tr>'
-        : data.alerts.map(a => `
-            <tr>
-              <td class="left">${a.product_name}</td>
-              <td>${a.category}</td>
-              <td><span class="badge badge-size">${a.size}</span></td>
-              <td>
-                <span style="font-size:1.4rem;font-weight:900;color:${a.current_stock===0?'#e63946':a.current_stock<=5?'#d97706':'#f59e0b'}">
-                  ${fmtNum(a.current_stock)}
-                </span>
-              </td>
-              <td><span class="badge ${a.alert_level==='out_of_stock'?'badge-out':'badge-low'}">${a.alert_level==='out_of_stock'?'Hết hàng':'Sắp hết'}</span></td>
-              <td>${a.avg_import_price ? fmtCurrency(a.avg_import_price) : '—'}</td>
-              <td style="font-size:.82rem;color:var(--muted)">${a.last_import_date || '—'}</td>
-              <td style="font-size:.82rem;color:var(--muted)">${a.last_export_date || '—'}</td>
-            </tr>`).join('');
-
+        : data.alerts.map(a => `<tr>
+            <td class="left">${a.product_name}</td><td>${a.category}</td>
+            <td><span class="badge badge-size">${a.size}</span></td>
+            <td><span style="font-size:1.4rem;font-weight:900;color:${a.current_stock===0?'#e63946':a.current_stock<=5?'#d97706':'#f59e0b'}">${fmtNum(a.current_stock)}</span></td>
+            <td><span class="badge ${a.alert_level==='out_of_stock'?'badge-out':'badge-low'}">${a.alert_level==='out_of_stock'?'Hết hàng':'Sắp hết'}</span></td>
+            <td>${a.avg_import_price?fmtCurrency(a.avg_import_price):'—'}</td>
+            <td style="font-size:.82rem;color:var(--muted)">${a.last_import_date||'—'}</td>
+            <td style="font-size:.82rem;color:var(--muted)">${a.last_export_date||'—'}</td>
+          </tr>`).join('');
       showResult('s3-result', `
         ${bannerHtml}
         <div class="stat-row">
-          <div class="stat-pill red">
-            <div class="val">${data.out_of_stock_count}</div>
-            <div class="lbl">Hết hàng</div>
-          </div>
-          <div class="stat-pill amber">
-            <div class="val">${data.low_stock_count}</div>
-            <div class="lbl">Sắp hết (≤ ${data.threshold})</div>
-          </div>
-          <div class="stat-pill">
-            <div class="val">${data.total_alerts}</div>
-            <div class="lbl">Tổng cảnh báo</div>
-          </div>
+          <div class="stat-pill red"><div class="val">${data.out_of_stock_count}</div><div class="lbl">Hết hàng</div></div>
+          <div class="stat-pill amber"><div class="val">${data.low_stock_count}</div><div class="lbl">Sắp hết (≤ ${data.threshold})</div></div>
+          <div class="stat-pill"><div class="val">${data.total_alerts}</div><div class="lbl">Tổng cảnh báo</div></div>
         </div>
         <div class="card" style="margin-bottom:0">
           <div class="card-title"><i class="fas fa-exclamation-triangle" style="color:#f59e0b"></i> Danh sách cảnh báo – Ngưỡng: ${data.threshold}</div>
-          <div class="tbl-wrap">
-            <table>
-              <thead><tr>
-                <th>Sản phẩm</th><th>Danh mục</th><th>Size</th>
-                <th>Tồn kho</th><th>Mức độ</th>
-                <th>Giá nhập TB</th><th>Nhập cuối</th><th>Xuất cuối</th>
-              </tr></thead>
-              <tbody>${rows}</tbody>
-            </table>
-          </div>
-        </div>
-      `);
-    } catch(e) {
-      showResult('s3-result', errCard('Lỗi kết nối API: ' + e.message));
-    } finally {
-      setLoading('s3-btn', false);
-    }
-  }
-
-  // ─── HELPERS ────────────────────────────────────────────────────────────
-  function errCard(msg) {
-    return `<div class="alert-banner danger"><i class="fas fa-exclamation-circle"></i> ${msg}</div>`;
-  }
-
-  function formatDT(dt) {
-    // "2025-10-25 23:59:59" → "25/10/2025 23:59"
-    try {
-      const [d, t] = dt.split(' ');
-      const [y,mo,da] = d.split('-');
-      return `${da}/${mo}/${y} ${t.slice(0,5)}`;
-    } catch { return dt; }
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Sản phẩm</th><th>Danh mục</th><th>Size</th><th>Tồn kho</th><th>Mức độ</th><th>Giá nhập TB</th><th>Nhập cuối</th><th>Xuất cuối</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table></div>
+        </div>`);
+    } catch(e) { showResult('s3-result', errCard('Lỗi kết nối API: ' + e.message)); }
+    finally { setLoading('s3-btn', false); }
   }
 </script>
 </body>
