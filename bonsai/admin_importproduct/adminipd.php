@@ -91,7 +91,7 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
                 display:inline-block;
                
                 ">
-                Tạo phiếu nhập
+                + Tạo phiếu nhập
                 </a>
         </div>
     </div>
