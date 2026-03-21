@@ -49,8 +49,8 @@ class UserModel extends Model {
     public static function findById(int $userId): ?array {
         $db   = Database::getInstance();
         $stmt = $db->prepare(
-            "SELECT id, username, fullname, address, phone, email, password, role, avatar, status
-             FROM users WHERE id = ?"
+            "SELECT id, username, fullname, address, phone, email, password, role, avatar, status, created_at
+            FROM users WHERE id = ?"
         );
         $stmt->bind_param("i", $userId);
         $stmt->execute();
@@ -163,5 +163,38 @@ class UserModel extends Model {
             $counts[$row['status']] = (int)$row['total'];
         }
         return $counts;
+    }
+    public static function getByID(int $userId): ?array {
+        return self::findById($userId);
+    }
+    public static function getAll(): array {
+        $db     = Database::getInstance();
+        $result = $db->query(
+            "SELECT id, username, fullname, email, phone, address, role, status FROM users"
+        );
+        return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
+    }
+    public static function updateStatus(int $userId, string $status): bool {
+        $db   = Database::getInstance();
+        $stmt = $db->prepare("UPDATE users SET status = ? WHERE id = ?");
+        $stmt->bind_param("si", $status, $userId);
+        return $stmt->execute();
+    }
+    public static function delete(int $userId): bool {
+        $db   = Database::getInstance();
+        $stmt = $db->prepare("DELETE FROM users WHERE id = ?");
+        $stmt->bind_param("i", $userId);
+        return $stmt->execute();
+    }
+    public static function getByRole(string $role): array {
+        $db     = Database::getInstance();
+        $stmt   = $db->prepare(
+            "SELECT id, username, fullname, email, phone, address, role, status
+             FROM users WHERE role = ?"
+        );
+        $stmt->bind_param("s", $role);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
 }

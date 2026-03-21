@@ -1,82 +1,144 @@
 <?php
-// Admin Product Controller - CRUD from bonsai/admin_product/*
 class AdminProductController extends Controller {
+
     public function index(): void {
-        // Bonsai pproducts.php logic: query + pagination (fixed SQLi)
         $this->requireAdmin();
-        $page = (int)($_GET['page'] ?? 1);
-        $limit = 12;
-        $offset = ($page - 1) * $limit;
-
+        $search     = trim($_GET['search']   ?? '');
         $categoryId = (int)($_GET['category'] ?? 0);
-        $search = trim($_GET['search'] ?? '');
+        $page       = max(1, (int)($_GET['page'] ?? 1));
+        $limit      = 8;
+        $offset     = ($page - 1) * $limit;
 
-        $db = Database::getInstance();
-
-        // Prepared where for category/search
-        $whereParams = [];
-        $whereClause = [];
-        if ($categoryId > 0) {
-            $whereClause[] = 'category_id = ?';
-            $whereParams[] = $categoryId;
-        }
-        if ($search) {
-            $whereClause[] = 'name LIKE ?';
-            $whereParams[] = "%$search%";
-        }
-        $whereSql = $whereClause ? 'WHERE ' . implode(' AND ', $whereClause) : '';
-
-        $countSql = "SELECT COUNT(*) as total FROM products $whereSql";
-        $stmt = $db->prepare($countSql);
-        if (!empty($whereParams)) {
-            $types = str_repeat('s', count($whereParams));
-            $stmt->bind_param($types, ...$whereParams);
-        }
-        $stmt->execute();
-        $totalProducts = $stmt->get_result()->fetch_assoc()['total'];
-        $totalPages = ceil($totalProducts / $limit);
-
-        $listSql = "SELECT * FROM products $whereSql ORDER BY id DESC LIMIT ? OFFSET ?";
-        $stmt = $db->prepare($listSql);
-        $types = (str_repeat('s', count($whereParams))) . 'ii';
-        $params = array_merge($whereParams, [$limit, $offset]);
-        $stmt->bind_param($types, ...$params);
-        $stmt->execute();
-        $products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
+        $total      = ProductModel::count($categoryId, $search);
+        $totalPages = (int)ceil($total / $limit);
+        $products   = ProductModel::getList($categoryId, $limit, $offset, $search);
         $categories = CategoryModel::getAll();
 
-        $this->view('admin/products', [
-            'products' => $products,
+        $this->adminView('admin/products/index', [
+            'products'   => $products,
             'categories' => $categories,
-            'page' => $page,
+            'search'     => $search,
+            'categoryId' => $categoryId,
+            'page'       => $page,
             'totalPages' => $totalPages,
-            'search' => $search,
-            'categoryId' => $categoryId
         ]);
     }
 
     public function create(): void {
+        $this->requireAdmin();
+        $error = '';
+        $data  = [];
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['name'];
-            $category_id = $_POST['category_id'];
-            $image = $_POST['image'] ?? ''; // Handle upload later
-            $description = $_POST['description'];
+            $data = [
+                'name'        => trim($_POST['name']        ?? ''),
+                'category_id' => (int)($_POST['category']   ?? 0),
+                'description' => trim($_POST['description'] ?? ''),
+                'profit_rate' => (float)($_POST['profit_rate'] ?? 0),
+                'status'      => $_POST['status'] ?? 'active',
+                'image'       => '',
+            ];
 
-            ProductModel::create([
-                'name' => $name,
-                'category_id' => $category_id,
-                'image' => $image,
-                'description' => $description
-            ]);
+            // Upload ảnh
+            if (!empty($_FILES['image']['name'])) {
+                $imageName = time() . '_' . basename($_FILES['image']['name']);
+                $target    = __DIR__ . '/../../images/' . $imageName;
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
+                    $data['image'] = $imageName;
+                }
+            }
 
-            $this->redirect('/app/index.php?url=admin-products');
+            if (empty($data['name'])) {
+                $error = 'Vui lòng nhập tên sản phẩm.';
+            } else {
+                $ok = ProductModel::create($data);
+                if ($ok) {
+                    $this->redirect(BASE_URL . '/index.php?url=admin-products&created=1');
+                    return;
+                }
+                $error = 'Thêm sản phẩm thất bại. Vui lòng thử lại.';
+            }
         }
 
-        $categories = CategoryModel::getAll();
-        $this->view('admin/products/create', ['categories' => $categories]);
+        $this->adminView('admin/products/create', [
+            'categories' => CategoryModel::getAll(),
+            'data'       => $data,
+            'error'      => $error,
+        ]);
+    }
+
+    public function edit(): void {
+        $this->requireAdmin();
+        $id = (int)($_GET['id'] ?? 0);
+        if ($id <= 0) {
+            http_response_code(404);
+            $this->abort(404);
+            return;
+        }
+
+        $product = ProductModel::getById($id);
+        if (!$product) {
+            http_response_code(404);
+            $this->abort(404);
+            return;
+        }
+
+        $error   = '';
+        $success = '';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = [
+                'name'        => trim($_POST['name']          ?? ''),
+                'category_id' => (int)($_POST['category']     ?? 0),
+                'description' => trim($_POST['description']   ?? ''),
+                'profit_rate' => (float)($_POST['profit_rate'] ?? 0),
+                'status'      => $_POST['status'] ?? 'active',
+            ];
+
+            // Upload ảnh mới
+            if (!empty($_FILES['new_image']['name'])) {
+                $imageName = time() . '_' . basename($_FILES['new_image']['name']);
+                $target    = __DIR__ . '/../../images/' . $imageName;
+                if (move_uploaded_file($_FILES['new_image']['tmp_name'], $target)) {
+                    ProductModel::updateImage($id, $imageName);
+                }
+            }
+
+            $ok = ProductModel::update($id, $data);
+            if ($ok) {
+                $success = 'Cập nhật sản phẩm thành công.';
+                $product = ProductModel::getById($id); // reload
+            } else {
+                $error = 'Cập nhật thất bại. Vui lòng thử lại.';
+            }
+        }
+
+        // Tính tổng tồn kho
+        $sizes = ProductModel::getSizes($id);
+        $stock = array_sum(array_column($sizes, 'stock'));
+
+        $this->adminView('admin/products/edit', [
+            'product'    => $product,
+            'categories' => CategoryModel::getAll(),
+            'stock'      => $stock,
+            'success'    => $success,
+            'error'      => $error,
+        ]);
+    }
+
+    public function delete(): void {
+        $this->requireAdmin();
+        $id = (int)($_GET['id'] ?? 0);
+        if ($id > 0) {
+            ProductModel::updateStatus($id, 'inactive');
+        }
+        $this->redirect(BASE_URL . '/index.php?url=admin-products');
+    }
+    public static function updateStatus(int $id, string $status): bool {
+        $db   = Database::getInstance();
+        $stmt = $db->prepare("UPDATE products SET status = ? WHERE id = ?");
+        $stmt->bind_param("si", $status, $id);
+        return $stmt->execute();
     }
 
 }
-?>
-

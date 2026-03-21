@@ -24,10 +24,10 @@ p, span, a, td, th, li, label, div {
    1. TOKENS
 ═══════════════════════════════════════════════════ */
 :root {
-    --g:          linear-gradient(135deg, #a3c639 0%, #6b7c2e 100%);
-    --g-hover:    linear-gradient(135deg, #b8d93f 0%, #7d9235 100%);
-    --brand:      #6b7c2e;
-    --brand-lt:   #a3c639;
+    --g:          linear-gradient(135deg, #39c65c 0%, #2e7c4c 100%);
+    --g-hover:    linear-gradient(135deg, #2fb36a 0%, #0f4720 100%);
+    --brand:      #34af28;
+    --brand-lt:   #15441d;
     --border:     #e8f0c8;
     --bg-soft:    #fafef4;
     --text-dark:  #2d3a1e;

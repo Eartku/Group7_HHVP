@@ -3,15 +3,17 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
 
-
-require_once __DIR__ . '../config/app.php';
-require_once __DIR__ . '../config/database.php'; 
-require_once __DIR__ . '../core/autoload.php';
-require_once __DIR__ . '../core/Database.php';
+require_once __DIR__ . '/config/app.php';
+require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/core/autoload.php';
+require_once __DIR__ . '/core/Database.php';
 
 $url    = '/' . trim($_GET['url'] ?? '', '/');
 $method = $_SERVER['REQUEST_METHOD'];
+
 switch ($url) {
+
+    // ── Public ──
     case '/':
         $c = new GuestController();
         $c->index();
@@ -28,21 +30,18 @@ switch ($url) {
         break;
 
     case '/logout':
-        // 1. Xóa data session
         $_SESSION = [];
-        // 2. Xóa cookie PHPSESSID trên browser
         if (ini_get('session.use_cookies')) {
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 42000,
                 $params['path'], $params['domain'],
                 $params['secure'], $params['httponly']);
         }
-        // 3. Hủy session trên server
         session_destroy();
-        // 4. Redirect về login — dùng constant, không hardcode
-        header('Location: ../app/index.php');
+        header('Location: ' . BASE_URL . '/index.php');
         exit();
 
+    // ── User ──
     case '/home':
         $c = new HomeController();
         $c->index();
@@ -50,21 +49,13 @@ switch ($url) {
 
     case '/profile':
         $c = new ProfileController();
-        $method === 'POST' && isset($_POST['update_profile'])
-            ? $c->update()
-            : ($method === 'POST' && isset($_POST['change_password'])
-                ? $c->changePassword()
-                : $c->index());
-        break;
-
-    case '/orders-history':
-        $c = new OrderController();
-        $c->index();
-        break;
-
-    case '/cart':
-        $c = new CartController();
-        $c->index();
+        if ($method === 'POST' && isset($_POST['update_profile'])) {
+            $c->update();
+        } elseif ($method === 'POST' && isset($_POST['change_password'])) {
+            $c->changePassword();
+        } else {
+            $c->index();
+        }
         break;
 
     case '/shop':
@@ -72,31 +63,133 @@ switch ($url) {
         $c->index();
         break;
 
-    case '/admin-products':
-        $c = new AdminProductController();
-        $method === 'POST' ? $c->create() : $c->index();
-        break;
-
     case '/search':
         $c = new ShopController();
         $c->search();
         break;
 
-    case '/admin':
-        $c = new AdminDashboardController(); // ✓ sửa từ DashboardController
-        $c->index();
-        break;
     case '/product-detail':
         $c = new ProductController();
         $c->detail();
         break;
+
+    // ── Cart ──
+    case '/cart':
+        $c = new CartController();
+        $c->index();
+        break;
+
+    case '/cart-add':
+        header('Content-Type: application/json');
+        $productId = (int)($_POST['product_id'] ?? 0);
+        $sizeId    = (int)($_POST['size_id']    ?? 0);
+        $qty       = max(1, (int)($_POST['qty'] ?? 1));
+        if ($productId > 0) {
+            $userId = $_SESSION['user']['id'] ?? 0;
+            $cartId = CartModel::getOrCreate($userId);
+            $ok     = CartModel::addItem($cartId, $productId, $sizeId, $qty);
+            echo json_encode([
+                'ok'      => $ok,
+                'success' => $ok,
+                'message' => $ok ? 'Đã thêm vào giỏ hàng!' : 'Thêm thất bại',
+            ]);
+        } else {
+            echo json_encode(['ok' => false, 'success' => false, 'message' => 'Sản phẩm không hợp lệ']);
+        }
+        exit;
+
+    // ── Checkout ──
+    case '/checkout':
+        $c = new CheckoutController();
+        $method === 'POST' ? $c->process() : $c->index();
+        break;
+
+    case '/checkout-thankyou':
+        $c = new CheckoutController();
+        $c->thankyou();
+        break;
+
+    // ── Orders ──
+    case '/orders-history':
+        $c = new OrderController();
+        $c->index();
+        break;
+
+    case '/orders-detail':
+        $c = new OrderController();
+        $c->detail();
+        break;
+
+    // ── API ──
+    case '/api-sizes':
+        header('Content-Type: application/json');
+        $productId = (int)($_GET['product_id'] ?? 0);
+        echo json_encode($productId > 0 ? ProductModel::getSizes($productId) : []);
+        exit;
+
+    // ── Admin Auth ──
+    case '/admin-login':
+        $c = new AuthController();
+        $method === 'POST' ? $c->adminLogin() : $c->adminLoginForm();
+        break;
+
+    // ── Admin Dashboard ──
+    case '/admin':
+        $c = new AdminDashboardController();
+        $c->index();
+        break;
+
+    // ── Admin Customers ──
+    case '/admin-customers':
+        $c = new AdminCustomerController();
+        $c->index();
+        break;
+
+    case '/admin-customers-create':
+        $c = new AdminCustomerController();
+        $method === 'POST' ? $c->create() : $c->create();
+        break;
+
+    case '/admin-customers-edit':
+        $c = new AdminCustomerController();
+        $c->edit();
+        break;
+
+    case '/admin-customers-delete':
+        $c = new AdminCustomerController();
+        $c->delete();
+        break;
+
+    // ── Admin Products ──
+    case '/admin-products':
+        $c = new AdminProductController();
+        $c->index();
+        break;
+
+    case '/admin-products/create':
+        $c = new AdminProductController();
+        $c->create();
+        break;
+
+    case '/admin-products/edit':
+        $c = new AdminProductController();
+        $c->edit();
+        break;
+
+    case '/admin-products/delete':
+        $c = new AdminProductController();
+        $c->delete();
+        break;
+
+    // ── Admin Inventory ──
     case '/admin-inventory':
         $c = new AdminInventoryController();
         $c->index();
         break;
+
     case '/admin-inventory-create':
         $c = new AdminInventoryController();
-        $c->create();
+        $method === 'POST' ? $c->store() : $c->create();
         break;
 
     case '/admin-inventory-detail':
@@ -108,52 +201,35 @@ switch ($url) {
         $c = new AdminInventoryController();
         $c->confirm();
         break;
-    case '/admin-login':
-        $c = new AuthController();
-        $method === 'POST' ? $c->adminLogin() : $c->adminLoginForm();
-        break;
+
     case '/admin-inventory-cancel':
         $c = new AdminInventoryController();
         $c->cancel();
         break;
-    case '/api-sizes':
-        header('Content-Type: application/json');
-        $productId = (int)($_GET['product_id'] ?? 0);
-        echo json_encode($productId > 0 ? ProductModel::getSizes($productId) : []);
-        exit;
-    case '/cart-add':
-        header('Content-Type: application/json');
-        $productId = (int)($_POST['product_id'] ?? 0);
-        $sizeId    = (int)($_POST['size_id']    ?? 0);
-        $qty       = max(1, (int)($_POST['qty'] ?? 1));
-        if ($productId > 0) {
-            $userId = $_SESSION['user']['id'] ?? 0;
-            $cartId = CartModel::getOrCreate($userId);
-            $ok     = CartModel::addItem($cartId, $productId, $sizeId, $qty);
-            echo json_encode([
-                'success' => $ok,
-                'ok'      => $ok,                                          // ← thêm dòng này
-                'message' => $ok ? 'Đã thêm vào giỏ hàng!' : 'Thêm thất bại',  // ← thêm message
-            ]);
-        } else {
-            echo json_encode(['success' => false, 'ok' => false, 'message' => 'Sản phẩm không hợp lệ']);
-        }
-        exit;
-    case '/checkout':
-        $c = new CheckoutController();
-        $method === 'POST' ? $c->process() : $c->index();
+    case '/admin-orders':
+        $c = new AdminOrderController();
+        $c->index();
         break;
-    case '/orders-detail':
-        $c = new OrderController();
+
+    case '/admin-orders-detail':
+        $c = new AdminOrderController();
         $c->detail();
         break;
-    case '/checkout-thankyou':
-        $c = new CheckoutController();
-        $c->thankyou();
+
+    case '/admin-orders-update':
+        $c = new AdminOrderController();
+        $c->updateStatus();
         break;
+
+    case '/admin-sell':
+        $c = new AdminSellController();
+        $method === 'POST' ? $c->update() : $c->index();
+        break;
+
+    // ── 404 ──
     default:
         http_response_code(404);
-        include '../app/views/errors/404.php';
+        include __DIR__ . '/../app/views/errors/404.php';
         break;
-    }
+}
 ?>

@@ -11,3 +11,4 @@ define('BASE_LOGIN_PATH',    '../app/index.php?url=login');
 define('BASE_REGISTER_PATH', '../app/index.php?url=register');
 
 define('APP_NAME', 'BonSai');
+define('VIEWS_PATH', __DIR__ . '/../app/views');

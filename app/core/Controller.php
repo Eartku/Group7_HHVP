@@ -68,4 +68,14 @@ class Controller {
         // ← dùng admin.php cho admin
         include __DIR__ . '/../views/layouts/admin.php';
     }
+    protected function adminRedirect(string $url): void {
+        header("Location: " . $url);
+        exit();
+    }
+    protected function abort(int $code = 404): void {
+        http_response_code($code);
+        include __DIR__ . '/../views/errors/' . $code . '.php';
+        exit();
+    }
+
 }

@@ -139,7 +139,7 @@ class ProductModel extends Model {
         $db          = Database::getInstance();
         $name        = $data['name']        ?? '';
         $category_id = $data['category_id'] ?? 0;
-        $image       = $data['image']       ?? '';
+        $image       = $data['base_img']       ?? '';
         $description = $data['description'] ?? '';
         $profit_rate = $data['profit_rate'] ?? 0;
 
@@ -196,5 +196,79 @@ class ProductModel extends Model {
 
         $result = $stmt->get_result();  
         return $result->fetch_assoc() ?: null;
+    }
+    public static function delete(int $id): bool {
+        $db   = Database::getInstance();
+        $stmt = $db->prepare("DELETE FROM products WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
+    // Đếm có filter search (đã có nhưng kiểm tra lại — dùng cho admin)
+    public static function countAll(int $categoryId = 0, string $search = ''): int {
+        // Giống count() hiện tại nhưng không filter status = 'active'
+        $db     = Database::getInstance();
+        $wheres = ['1=1'];
+        if ($categoryId > 0) $wheres[] = "p.category_id = ?";
+        if ($search !== '')  $wheres[] = "p.name LIKE ?";
+        $where = 'WHERE ' . implode(' AND ', $wheres);
+
+        $stmt       = $db->prepare("SELECT COUNT(*) as total FROM products p $where");
+        $searchLike = $search !== '' ? '%' . $search . '%' : '';
+
+        if ($categoryId > 0 && $search !== '') $stmt->bind_param("is", $categoryId, $searchLike);
+        elseif ($categoryId > 0)               $stmt->bind_param("i",  $categoryId);
+        elseif ($search !== '')                $stmt->bind_param("s",  $searchLike);
+
+        $stmt->execute();
+        return (int)$stmt->get_result()->fetch_assoc()['total'];
+    }
+
+// getList không filter status cho admin
+    public static function getListAdmin(int $categoryId = 0, int $limit = 8, int $offset = 0, string $search = ''): array {
+        $db     = Database::getInstance();
+        $wheres = ['1=1'];
+        if ($categoryId > 0) $wheres[] = "p.category_id = ?";
+        if ($search !== '')  $wheres[] = "p.name LIKE ?";
+        $where  = 'WHERE ' . implode(' AND ', $wheres);
+
+        $sql = "
+            SELECT
+                p.id, p.name,
+                p.base_img AS image,
+                p.description,
+                p.profit_rate,
+                p.status,
+                c.name AS category_name,
+                " . PriceHelper::sqlAvgImport() . ",
+                " . PriceHelper::sqlTotalStock() . ",
+                " . PriceHelper::sqlSalePrice()  . "
+            FROM products p
+            LEFT JOIN categories c ON c.id = p.category_id
+            $where
+            ORDER BY p.id DESC
+            LIMIT ? OFFSET ?
+        ";
+
+        $stmt       = $db->prepare($sql);
+        $searchLike = $search !== '' ? '%' . $search . '%' : '';
+
+        if ($categoryId > 0 && $search !== '') {
+            $stmt->bind_param("isii", $categoryId, $searchLike, $limit, $offset);
+        } elseif ($categoryId > 0) {
+            $stmt->bind_param("iii",  $categoryId, $limit, $offset);
+        } elseif ($search !== '') {
+            $stmt->bind_param("sii",  $searchLike, $limit, $offset);
+        } else {
+            $stmt->bind_param("ii",   $limit, $offset);
+        }
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+    public static function updateStatus(int $id, string $status): bool {
+        $db   = Database::getInstance();
+        $stmt = $db->prepare("UPDATE products SET status = ? WHERE id = ?");
+        $stmt->bind_param("si", $status, $id);
+        return $stmt->execute();
     }
 }
