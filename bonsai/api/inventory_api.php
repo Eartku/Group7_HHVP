@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // ─── DB CONFIG ─────────────────────────────────────────────────────────────
 $host   = 'localhost';
-$dbname = 'inventory';
+$dbname = 'bonsai2';
 $user   = 'root';
 $pass   = '';
 $charset = 'utf8mb4';

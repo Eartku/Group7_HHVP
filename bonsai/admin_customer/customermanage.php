@@ -117,7 +117,7 @@ function page_url($p) {
 </div>
 
 <div class="container py-5">
-    <div class="p-4 p-lg-5 border bg-white rounded-3 shadow-sm">
+<div class="p-4 p-lg-5 border rounded-3 shadow-sm bg-transparent">
 
         <!-- ===== THANH TÌM KIẾM ===== -->
         <div class="search-wrapper">

@@ -141,10 +141,10 @@ if (!empty($_SESSION['admin']['avatar'])) {
         </li>
 
         <li>
-            <a href="admin/admin_type.html"
-            class="hover-text-glow-small <?= ($current_page == 'admin_type.html') ? 'active-menu' : '' ?>"
+            <a href="../admin_type/admin_type.php"s
+            class="hover-text-glow-small <?= ($current_page == 'admin_type.php') ? 'active-menu' : '' ?>"
             >
-                <?= ($current_page == 'admin_type.html') ? '🌱 ' : '' ?>LOẠI SẢN PHẨM
+                <?= ($current_page == 'admin_type.php') ? '🌱 ' : '' ?>LOẠI SẢN PHẨM
             </a>
         </li>
 
