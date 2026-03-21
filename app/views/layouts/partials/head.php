@@ -18,3 +18,4 @@
 <link href="<?= BASE_URL ?>/css/search.css" rel="stylesheet" />
 <link href="<?= BASE_URL ?>/css/theme-gradient.css" rel="stylesheet" />
 <link href="<?= BASE_URL ?>/css/ultil.css" rel="stylesheet" />
+<link href="<?= BASE_URL ?>/css/bonsai-ui.css" rel="stylesheet" />

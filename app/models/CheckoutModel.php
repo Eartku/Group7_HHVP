@@ -35,7 +35,7 @@ class CheckoutModel {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'processing')
             ");
             $stmt->bind_param(
-                "issssssd d",
+                "issssssdd",
                 $userId,
                 $info['fullname'],
                 $info['email'],

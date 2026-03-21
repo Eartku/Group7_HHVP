@@ -52,7 +52,7 @@ class ProductController extends Controller {
         $sizes      = ProductModel::getSizes($id);
         $images     = ProductModel::getImages($id);
         $related    = ProductModel::getRelated($id);
-        $totalStock = array_sum(array_column($sizes, 'quantity'));
+        $totalStock = array_sum(array_column($sizes, 'stock'));
         $mainImage  = !empty($images[0]) ? $images[0] : $product['base_img'];
 
         $this->view('shop/detail', [

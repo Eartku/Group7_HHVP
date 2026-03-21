@@ -47,7 +47,7 @@
 </div>
 
 <!-- Products — dùng đúng class product-section / product-item từ style.css -->
-<div class="product-section">
+<div class="product-section " style="height: 450px;">
     <div class="container">
         <div class="row">
 

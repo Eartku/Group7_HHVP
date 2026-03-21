@@ -19,10 +19,9 @@ class PriceHelper {
     public static function sqlAvgImport(string $alias = 'avg_import_price'): string {
         return "
             IFNULL((
-                SELECT SUM(import_price * quantity) / NULLIF(SUM(quantity), 0)
-                FROM inventory_logs
+                SELECT SUM(avg_import_price * quantity) / NULLIF(SUM(quantity), 0)
+                FROM inventory
                 WHERE product_id = p.id
-                  AND type = 'import'
             ), 0) AS $alias
         ";
     }
@@ -37,16 +36,14 @@ class PriceHelper {
         ";
     }
 
-    // ✅ Bỏ subquery size WHERE product_id — size không còn product_id
-    // Dùng MIN(price_adjust) từ toàn bảng size làm giá khởi điểm
+
     public static function sqlSalePrice(string $alias = 'sale_price'): string {
         return "
             ROUND(
                 IFNULL((
-                    SELECT SUM(import_price * quantity) / NULLIF(SUM(quantity), 0)
-                    FROM inventory_logs
+                    SELECT SUM(avg_import_price * quantity) / NULLIF(SUM(quantity), 0)
+                    FROM inventory
                     WHERE product_id = p.id
-                      AND type = 'import'
                 ), 0)
                 * (1 + p.profit_rate / 100)
                 + IFNULL((

@@ -3,7 +3,7 @@
     <div class="container">
 
         <a class="navbar-brand" href="<?= BASE_URL ?>/index.php?url=admin">
-            Trang Admin
+            Admin
         </a>
 
         <button class="navbar-toggler" type="button"
@@ -24,7 +24,7 @@
                 $navItems = [
                     'admin-customers'        => 'KHÁCH HÀNG',
                     'admin-categories'       => 'LOẠI SẢN PHẨM',
-                    'admin/products'         => 'SẢN PHẨM',
+                    'admin-products'         => 'SẢN PHẨM',
                     'admin-inventory-create' => 'NHẬP SẢN PHẨM',
                     'admin-sell'             => 'GIÁ BÁN',
                     'admin-orders'           => 'ĐƠN HÀNG',
@@ -47,19 +47,11 @@
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
 
                 <!-- Trang chủ admin -->
-                <li>
-                    <a href="<?= BASE_URL ?>/index.php?url=admin" class="nav-link hover-box">
-                        <div class="front">
-                            <img src="<?= BASE_URL ?>/images/home.svg" style="scale:1.3">
-                        </div>
-                        <div class="back"><span>TRANG CHỦ</span></div>
-                    </a>
-                </li>
 
                 <!-- Tên admin đang đăng nhập -->
                 <li class="d-flex align-items-center ms-3">
                     <span class="text-white small">
-                        <?= htmlspecialchars($_SESSION['user']['username'] ?? 'Admin') ?>
+                        <?= 'Admin: '.htmlspecialchars($_SESSION['user']['username'] ?? 'Admin') ?>
                     </span>
                 </li>
 

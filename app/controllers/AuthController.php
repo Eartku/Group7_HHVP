@@ -120,6 +120,16 @@ class AuthController extends Controller {
             ]);
             return;
         }
+        if (UserModel::findByEmail($email)) {
+            $this->view('auth/register', [
+                'noLayout' => true,
+                'errors'   => ['email' => 'Email này đã được sử dụng'],
+                'username' => $username, 'fullname' => $fullname,
+                'email'    => $email,    'phone'    => $phone,
+                'address'  => $address
+            ]);
+            return;
+        }
 
         // Chỉ gọi create() MỘT LẦN
         $ok = UserModel::create([

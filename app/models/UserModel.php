@@ -20,6 +20,14 @@ class UserModel extends Model {
 
         return "images/user.png";
     }
+    // Thêm method mới
+    public static function findByEmail(string $email): ?array {
+        $db   = Database::getInstance();
+        $stmt = $db->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc() ?: null;
+    }
 
     /**
      * Tìm user theo username.

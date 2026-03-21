@@ -46,7 +46,7 @@ class AdminProductController extends Controller {
 
         $categories = CategoryModel::getAll();
 
-        $this->view('admin/products/index', [
+        $this->view('admin/products', [
             'products' => $products,
             'categories' => $categories,
             'page' => $page,
@@ -70,7 +70,7 @@ class AdminProductController extends Controller {
                 'description' => $description
             ]);
 
-            $this->redirect('/app/index.php?url=admin/products');
+            $this->redirect('/app/index.php?url=admin-products');
         }
 
         $categories = CategoryModel::getAll();

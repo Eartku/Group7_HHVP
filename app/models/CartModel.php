@@ -25,6 +25,7 @@ class CartModel extends Model {
                 ci.id,
                 ci.quantity,
                 ci.price,
+                ci.product_id,
                 p.name,
                 p.base_img  AS image,
                 s.size_name AS size,

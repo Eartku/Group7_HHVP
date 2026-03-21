@@ -12,7 +12,7 @@ class AdminDashboardController extends Controller { // ← bỏ __ __
         $categoryStats   = $this->getCategoryStats(); // ← thêm
         $orderStats      = $this->getOrderStats();    // ← thêm
 
-        $this->adminView('../admin/dashboard/', [ // ← sửa đường dẫn
+        $this->adminView('admin/dashboard', [ // ← sửa đường dẫn
             'totalUsers'      => $totalUsers,
             'totalProducts'   => $totalProducts,
             'totalOrders'     => $totalOrders,

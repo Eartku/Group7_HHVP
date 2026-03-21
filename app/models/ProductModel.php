@@ -124,7 +124,6 @@ class ProductModel extends Model {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // ✅ Ảnh phụ — đổi tên otherImgs → getImages cho nhất quán
     public static function getImages(int $productId): array {
         $db   = Database::getInstance();
         $stmt = $db->prepare("SELECT image FROM product_img WHERE product_id = ?");
@@ -174,5 +173,28 @@ class ProductModel extends Model {
         $stmt = $db->prepare("UPDATE products SET base_img = ? WHERE id = ?");
         $stmt->bind_param("si", $image, $id);
         return $stmt->execute();
+    }
+    public static function getStock(int $productId, int $sizeId): int {
+        $db   = Database::getInstance();
+        $stmt = $db->prepare("SELECT quantity FROM inventory WHERE product_id = ? AND size_id = ?");
+        $stmt->bind_param("ii", $productId, $sizeId);
+        $stmt->execute();
+        return (int)($stmt->get_result()->fetch_assoc()['quantity'] ?? 0);
+    }
+    public static function updateStock(int $productId, int $sizeId, int $quantity): bool {
+        $db   = Database::getInstance();
+        $stmt = $db->prepare("UPDATE inventory SET quantity = ? WHERE product_id = ? AND size_id = ?");
+        $stmt->bind_param("iii", $quantity, $productId, $sizeId);
+        return $stmt->execute();
+    }
+    public static function findById($id): ?array {
+    $db = Database::getInstance();
+
+        $stmt = $db->prepare("SELECT * FROM products WHERE id = ?");
+        $stmt->bind_param("i", $id);   
+        $stmt->execute();
+
+        $result = $stmt->get_result();  
+        return $result->fetch_assoc() ?: null;
     }
 }

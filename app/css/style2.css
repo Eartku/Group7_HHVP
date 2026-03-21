@@ -109,3 +109,13 @@
   color: #444;
   font-size: 15px;
 }
+.title {
+    font-family: 'Arial', serif;
+    font-size: 26px;
+    font-weight: 600;
+    background: var(--g);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+}

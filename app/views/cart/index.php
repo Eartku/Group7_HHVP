@@ -2,7 +2,7 @@
 <div class="cart-page">
 <div class="container">
 
-    <h2 class="cart-title">Giỏ hàng của bạn</h2>
+    <h2 class="title" style='text-align:center'>Giỏ hàng của bạn</h2>
 
     <?php if (!empty($items)): ?>
 
@@ -10,8 +10,8 @@
     <div class="cart-layout">
 
         <!-- Items -->
-        <div class="cart-card">
-            <div class="cart-card-head">
+        <div class="ui-card">
+            <div class="ui-card-head">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                      stroke-width="2" stroke-linecap="round">
                     <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
@@ -50,8 +50,8 @@
                     <?= number_format($price, 0, ',', '.') ?>đ
                 </div>
 
-                <div class="qty-stepper">
-                    <button type="button" class="qty-step-btn" data-action="minus"
+                <div class="ui-stepper">
+                    <button type="button" class="ui-stepper-btn" data-action="minus"
                             data-target="qty-<?= $row['id'] ?>">−</button>
                     <input type="number"
                            class="qty-num qty-input"
@@ -62,7 +62,7 @@
                            max="<?= $stock ?>"
                            data-price="<?= $price ?>"
                            data-row="<?= $row['id'] ?>">
-                    <button type="button" class="qty-step-btn" data-action="plus"
+                    <button type="button" class="ui-stepper-btn" data-action="plus"
                             data-target="qty-<?= $row['id'] ?>">+</button>
                 </div>
 
@@ -76,7 +76,7 @@
             <?php endforeach; ?>
 
             <div class="cart-update-bar">
-                <a href="<?= BASE_URL ?>/index.php?url=shop" class="btn-continue">
+                <a href="<?= BASE_URL ?>/index.php?url=shop" class="ui-btn-outline">
                     ← Tiếp tục mua sắm
                 </a>
                 <button type="submit" name="update" class="btn-update">
@@ -116,7 +116,7 @@
                 </div>
 
                 <a href="<?= BASE_URL ?>/index.php?url=checkout"
-                   class="btn-checkout <?= !$canCheckout ? 'disabled' : '' ?>">
+                   class="ui-btn <?= !$canCheckout ? 'disabled' : '' ?>">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                         <polyline points="20 6 9 17 4 12"/>

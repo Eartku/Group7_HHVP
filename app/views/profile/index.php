@@ -21,8 +21,8 @@ $pageTitle = 'Hồ sơ cá nhân';
         <div class="profile-left">
 
             <!-- Avatar card -->
-            <div class="avatar-card">
-                <div class="avatar-wrap <?= $defaultClass ?>" id="avatarWrap">
+            <div class="ui-avatar-card">
+                <div class="ui-avatar-wrap <?= $defaultClass ?>" id="avatarWrap">
 
                     <img src="<?= $avatarSrc ?>"
                          class="avatar-img" id="avatarPreview" alt="Avatar">
@@ -107,7 +107,7 @@ $pageTitle = 'Hồ sơ cá nhân';
 
             <!-- Alerts -->
             <?php if (!empty($errors)): ?>
-            <div class="alert-custom alert-danger-custom">
+            <div class="ui-alert alert-danger-custom">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <circle cx="12" cy="12" r="10"/>
@@ -119,7 +119,7 @@ $pageTitle = 'Hồ sơ cá nhân';
             <?php endif; ?>
 
             <?php if (isset($_GET['success'])): ?>
-            <div class="alert-custom alert-success-custom">
+            <div class="ui-alert alert-success-custom">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <polyline points="20 6 9 17 4 12"/>
@@ -129,15 +129,15 @@ $pageTitle = 'Hồ sơ cá nhân';
             <?php endif; ?>
 
             <!-- Form cập nhật thông tin -->
-            <div class="form-card">
-                <div class="form-card-head">
+            <div class="ui-card">
+                <div class="ui-card-head">
                     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                         <circle cx="12" cy="7" r="4"/>
                     </svg>
                     <h5>Thông tin cá nhân</h5>
                 </div>
-                <div class="form-card-body">
+                <div class="ui-card-body">
                     <form method="POST"
                           enctype="multipart/form-data"
                           action="<?= BASE_URL ?>/index.php?url=profile"
@@ -151,33 +151,33 @@ $pageTitle = 'Hồ sơ cá nhân';
                         <input type="hidden" name="delete_avatar" id="deleteAvatarField" value="0">
 
                         <div class="field-group">
-                            <label class="field-label">Họ và tên</label>
-                            <input type="text" name="fullname" class="field-input"
+                            <label class="ui-label">Họ và tên</label>
+                            <input type="text" name="fullname" class="ui-input"
                                    value="<?= htmlspecialchars($user['fullname'] ?? '') ?>"
                                    placeholder="Nhập họ và tên">
                         </div>
 
                         <div class="field-group">
-                            <label class="field-label">Email</label>
-                            <input type="email" name="email" class="field-input"
+                            <label class="ui-label">Email</label>
+                            <input type="email" name="email" class="ui-input"
                                    value="<?= htmlspecialchars($user['email'] ?? '') ?>"
                                    placeholder="Nhập email">
                         </div>
 
                         <div class="field-group">
-                            <label class="field-label">Số điện thoại</label>
-                            <input type="text" name="phone" class="field-input"
+                            <label class="ui-label">Số điện thoại</label>
+                            <input type="text" name="phone" class="ui-input"
                                    value="<?= htmlspecialchars($user['phone'] ?? '') ?>"
                                    placeholder="Nhập số điện thoại">
                         </div>
 
                         <div class="field-group">
-                            <label class="field-label">Địa chỉ</label>
-                            <textarea name="address" class="field-input textarea-field"
+                            <label class="ui-label">Địa chỉ</label>
+                            <textarea name="address" class="ui-input textarea-field"
                                       placeholder="Nhập địa chỉ"><?= htmlspecialchars($user['address'] ?? '') ?></textarea>
                         </div>
 
-                        <button type="submit" name="update_profile" class="btn-submit">
+                        <button type="submit" name="update_profile" class="ui-btn">
                             Lưu thay đổi
                         </button>
                     </form>
@@ -193,11 +193,11 @@ $pageTitle = 'Hồ sơ cá nhân';
                     </svg>
                     <h5>Đổi mật khẩu</h5>
                 </div>
-                <div class="form-card-body">
+                <div class="ui-card-body">
                     <form method="POST" action="<?= BASE_URL ?>/index.php?url=profile">
 
                         <div class="field-group">
-                            <label class="field-label">Mật khẩu hiện tại</label>
+                            <label class="ui-label">Mật khẩu hiện tại</label>
                             <div class="input-group-custom">
                                 <input type="password" name="current_password" id="currentPassword"
                                        placeholder="Nhập mật khẩu hiện tại">
@@ -208,7 +208,7 @@ $pageTitle = 'Hồ sơ cá nhân';
                         </div>
 
                         <div class="field-group">
-                            <label class="field-label">Mật khẩu mới</label>
+                            <label class="ui-label">Mật khẩu mới</label>
                             <div class="input-group-custom">
                                 <input type="password" name="new_password" id="newPassword"
                                        placeholder="Nhập mật khẩu mới">
@@ -218,7 +218,7 @@ $pageTitle = 'Hồ sơ cá nhân';
                             </div>
                         </div>
 
-                        <button type="submit" name="change_password" class="btn-submit">
+                        <button type="submit" name="change_password" class="ui-btn">
                             Đổi mật khẩu
                         </button>
                     </form>

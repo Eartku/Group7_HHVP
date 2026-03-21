@@ -70,6 +70,7 @@ class OrderModel extends Model {
      */
     public static function groupByStatus(array $orders): array {
         $pages = [
+            'all'      => $orders,
             'processing' => [],
             'processed'  => [],
             'shipping'   => [],
@@ -104,12 +105,12 @@ class OrderModel extends Model {
      */
     public static function getStatusBadge(string $status): array {
         $map = [
-            'processing' => ['class' => 'warning', 'label' => 'Đang xử lý'],
-            'processed'  => ['class' => 'info',    'label' => 'Đã xử lý'],
-            'shipping'   => ['class' => 'primary',  'label' => 'Đang giao'],
-            'shipped'    => ['class' => 'success',  'label' => 'Đã giao'],
-            'cancelled'  => ['class' => 'danger',   'label' => 'Đã huỷ'],
+            'processing' => ['class' => 'processing', 'label' => 'Đang xử lý'],
+            'processed'  => ['class' => 'processed',  'label' => 'Đã xử lý'],
+            'shipping'   => ['class' => 'shipping',   'label' => 'Đang giao'],
+            'shipped'    => ['class' => 'shipped',     'label' => 'Đã giao'],
+            'cancelled'  => ['class' => 'cancelled',   'label' => 'Đã huỷ'],
         ];
-        return $map[$status] ?? ['class' => 'secondary', 'label' => $status];
+        return $map[$status] ?? ['class' => 'neutral', 'label' => $status];
     }
 }

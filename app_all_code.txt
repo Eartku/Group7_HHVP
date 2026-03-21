@@ -21091,4 +21091,4 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-
+TrangClass cũClass mớiTất cảform-card, cart-card, orders-card, detail-cardui-cardTất cả*-card-headui-card-headTất cả*-card-bodyui-card-bodyTất cảbtn-brand, btn-submit, btn-checkoutui-btnTất cảbtn-outline, btn-continue, btn-detail-orderui-btn-outlineTất cảbtn-cancel-order, btn-dangerui-btn-dangerTất cảfield-labelui-labelTất cảfield-inputui-inputTất cảalert-customui-alertOrderorder-badge badge-*ui-badge processing/shipped/...Orderorders-table, items-tableui-tableOrdersummary-rowui-sum-rowOrderinfo-row/icon/textui-info-row/icon-lbl/valOrdertab-bar, orders-book, pageui-tab-bar, ui-tab-book, ui-tab-pageShoppage-btnui-page-btn + wrap ui-paginationShopfilter-tags/tagui-filter-tags/tagCartqty-stepper, qty-step-btnui-stepper, ui-stepper-btnDetailsize-btn, size-gridui-size-btn, ui-size-gridProfileavatar-card, avatar-wrapui-avatar-card, ui-avatar-wrapRegisterpwd-strength-barui-pwd-bar

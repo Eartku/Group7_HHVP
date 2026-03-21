@@ -72,11 +72,11 @@
             <!-- Size -->
             <?php if (!empty($sizes)): ?>
             <div class="mb-4">
-                <label class="field-label">Chọn size</label>
-                <div class="size-grid" id="sizeGrid">
+                <label class="ui-label">Chọn size</label>
+                <div class="ui-size-grid" id="sizeGrid">
                     <?php foreach ($sizes as $s): ?>
                     <button type="button"
-                            class="size-btn <?= $s['stock'] <= 0 ? '' : '' ?>"
+                            class="ui-size-btn"
                             <?= $s['stock'] <= 0 ? 'disabled' : '' ?>
                             data-size-id="<?= $s['size_id'] ?>"
                             data-adjust="<?= (float)$s['price_adjust'] ?>"
@@ -93,7 +93,7 @@
 
             <!-- Quantity -->
             <div class="mb-0">
-                <label class="field-label">Số lượng</label>
+                <label class="ui-label">Số lượng</label>
                 <div class="qty-wrap">
                     <button type="button" class="qty-btn" id="qtyMinus">−</button>
                     <input type="number" id="qtyInput" value="1" min="1"
@@ -114,7 +114,7 @@
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
                     </svg>
                     <?= $totalStock <= 0 ? 'Hết hàng' : 'Thêm vào giỏ' ?>
-                </button>
+                </button><!-- ✅ thêm đóng button -->
                 <button class="btn-wishlist" title="Yêu thích">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                          stroke-width="2" stroke-linecap="round">
@@ -172,27 +172,28 @@
     });
 
     /* ── Size selector ── */
-    let selectedSizeId  = null;
-    let selectedAdjust  = 0;
-    let selectedStock   = <?= $totalStock ?>;
+    let selectedSizeId = null;
+    let selectedAdjust = 0;
+    let selectedStock  = <?= (int)$totalStock ?>;
 
-    const basePrice    = parseFloat(document.getElementById('priceDisplay').dataset.base) || 0;
-    const priceEl      = document.getElementById('priceDisplay');
-    const qtyInput     = document.getElementById('qtyInput');
-    const addCartBtn   = document.getElementById('addCartBtn');
+    const basePrice  = parseFloat(document.getElementById('priceDisplay').dataset.base) || 0;
+    const priceEl    = document.getElementById('priceDisplay');
+    const qtyInput   = document.getElementById('qtyInput');
+    const addCartBtn = document.getElementById('addCartBtn');
 
-    // Auto-select first available size
-    const firstAvail = document.querySelector('.size-btn:not(:disabled)');
+    // ✅ Auto-select first available size
+    const firstAvail = document.querySelector('.ui-size-btn:not(:disabled)');
     if (firstAvail) firstAvail.click();
 
-    document.querySelectorAll('.size-btn').forEach(btn => {
+    // ✅ Đổi .size-btn → .ui-size-btn tất cả chỗ
+    document.querySelectorAll('.ui-size-btn').forEach(btn => {
         btn.addEventListener('click', function () {
-            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.ui-size-btn').forEach(b => b.classList.remove('selected'));
             this.classList.add('selected');
 
             selectedSizeId = this.dataset.sizeId;
             selectedAdjust = parseFloat(this.dataset.adjust) || 0;
-            selectedStock  = parseInt(this.dataset.stock) || 0;
+            selectedStock  = parseInt(this.dataset.stock)  || 0;
 
             priceEl.innerText = (basePrice + selectedAdjust).toLocaleString('vi-VN') + 'đ';
             qtyInput.max = selectedStock;

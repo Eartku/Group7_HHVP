@@ -39,13 +39,13 @@
                     <label for="user-toggle" class="hover-box-2">
                         <div class="front">
                             <?php
-                            $avatarSrc = BASE_URL . '/images/user.png'; // mặc định chưa login
+                            $avatarSrc = BASE_URL . '../images/user.png'; // mặc định chưa login
 
                             if (isset($_SESSION['user'])) {
                                 $raw = UserModel::getAvatar($_SESSION['user']['id']);
                                 // getAvatar trả về "uploads/avatars/xxx.png" hoặc "images/user.png"
                                 // → chỉ cần thêm BASE_URL ở đầu
-                                $avatarSrc = BASE_URL . '/' . $raw;
+                                $avatarSrc = BASE_URL . '../' . $raw;
                             }
                             ?>
                             <img src="<?= htmlspecialchars($avatarSrc) ?>"

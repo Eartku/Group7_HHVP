@@ -124,17 +124,33 @@ switch ($url) {
     case '/cart-add':
         header('Content-Type: application/json');
         $productId = (int)($_POST['product_id'] ?? 0);
-        $sizeId    = (int)($_POST['size_id'] ?? 0);
+        $sizeId    = (int)($_POST['size_id']    ?? 0);
         $qty       = max(1, (int)($_POST['qty'] ?? 1));
         if ($productId > 0) {
             $userId = $_SESSION['user']['id'] ?? 0;
             $cartId = CartModel::getOrCreate($userId);
-            $ok = CartModel::addItem($cartId, $productId, $sizeId, $qty);
-            echo json_encode(['success' => $ok]);
+            $ok     = CartModel::addItem($cartId, $productId, $sizeId, $qty);
+            echo json_encode([
+                'success' => $ok,
+                'ok'      => $ok,                                          // ← thêm dòng này
+                'message' => $ok ? 'Đã thêm vào giỏ hàng!' : 'Thêm thất bại',  // ← thêm message
+            ]);
         } else {
-            echo json_encode(['success' => false]);
+            echo json_encode(['success' => false, 'ok' => false, 'message' => 'Sản phẩm không hợp lệ']);
         }
         exit;
+    case '/checkout':
+        $c = new CheckoutController();
+        $method === 'POST' ? $c->process() : $c->index();
+        break;
+    case '/orders-detail':
+        $c = new OrderController();
+        $c->detail();
+        break;
+    case '/checkout-thankyou':
+        $c = new CheckoutController();
+        $c->thankyou();
+        break;
     default:
         http_response_code(404);
         include '../app/views/errors/404.php';
