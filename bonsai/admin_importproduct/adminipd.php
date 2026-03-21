@@ -65,7 +65,6 @@ $result = $conn->query($sql);
 $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 ?>
 
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -77,29 +76,95 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 <body>
     <?php include '../admin_includes/header.php'; ?>
         <div class="hero">
-        <div class="center-row text-center">
-            <h1 class="glow">Quản Lý Nhập sản phẩm</h1>
-            </br>
-                <a href="add_import.php"                
-                style="
-                background-color:#28a745;
-                color:white;
-                padding:8px 20px;
-                border-radius:50px;
-                text-decoration:none;
-                font-weight:bold;
-                display:inline-block;
-               
-                ">
-                + Tạo phiếu nhập
-                </a>
+            <div class="center-row text-center">
+                <h1 class="glow">Quản Lý Nhập sản phẩm</h1>
+                </br>
+                    <a href="add_import.php"                
+                    style="
+                    background-color:#28a745;
+                    color:white;
+                    padding:8px 20px;
+                    border-radius:50px;
+                    text-decoration:none;
+                    font-weight:bold;
+                    display:inline-block;
+                
+                    ">
+                    + Tạo phiếu nhập
+                    </a>
+            </div>
         </div>
-    </div>
+        
+            <style>
+                .filter-box {
+                    margin-bottom: 20px;
+                    padding: 15px;
+                    border: 1px solid #ddd;
+                    border-radius: 0;
+                    background-color: #f8f9fa;
+
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                /* chỉ ảnh hưởng nút trong form */
+                .filter-box .btn {
+                    border-radius: 35px;
+                    padding: 6px 15px;
+                    min-width: 80px;
+                    font-weight: 500;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                /* chỉ ảnh hưởng input trong form */
+                .filter-box .form-control,
+                .filter-box .form-select {
+                    height: 37px;
+                    border-radius: 20px;
+                    font-family: "Inter", sans-serif;
+                }
+            </style>
       
-        <?php include "pimports.php"; ?>
+            <form method="GET" action="adminipd.php" 
+                class="filter-box d-flex flex-wrap gap-2">
 
-        </div>
+                <!-- TÌM KIẾM -->
+                <input type="text" name="keyword" placeholder="Tìm theo tên sản phẩm..."
+                    value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>"
+                    class="form-control" style="max-width:200px;">
 
+                <!-- TỪ NGÀY -->
+                <input type="date" name="from_date"
+                    value="<?= $_GET['from_date'] ?? '' ?>"
+                    class="form-control" style="max-width:150px;">
+
+                <!-- ĐẾN NGÀY -->
+                <input type="date" name="to_date"
+                    value="<?= $_GET['to_date'] ?? '' ?>"
+                    class="form-control" style="max-width:150px;">
+
+                <!-- TRẠNG THÁI -->
+                <select name="status" class="form-select" style="max-width:150px;">
+                    <option value="">Trạng thái</option>
+                    <option value="pending" <?= (($_GET['status'] ?? '')=='pending')?'selected':'' ?>>Đang xử lý</option>
+                    <option value="completed" <?= (($_GET['status'] ?? '')=='completed')?'selected':'' ?>>Đã hoàn thành</option>
+                    <option value="cancelled" <?= (($_GET['status'] ?? '')=='cancelled')?'selected':'' ?>>Đã hủy</option>
+                </select>
+
+                <!-- BUTTON -->
+                <button class="btn btn-success">Lọc</button>
+                <a href="adminipd.php" class="btn btn-secondary"> Reset</a>
+
+            </form>
+      
+    <?php include "pimports.php"; ?>
     <?php include '../admin_includes/footer.php'; ?>
 
     <script src="../js/bootstrap.bundle.min.js"></script>

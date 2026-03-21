@@ -5,10 +5,19 @@ require_once "../config/db.php";
    0. KIỂM TRA ID
 ====================== */
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-if ($id <= 0) die("Thiếu ID phiếu nhập");
+if ($id <= 0) die("Thiếu ID");
 
 /* ======================
-   1. LẤY DỮ LIỆU (KHÔNG DÙNG get_result)
+   1. LẤY ENUM SIZE
+====================== */
+$size_result = $conn->query("SHOW COLUMNS FROM import_receipts LIKE 'size'");
+$row_size = $size_result->fetch_assoc();
+
+preg_match("/^enum\((.*)\)$/", $row_size['Type'], $matches);
+$sizes = isset($matches[1]) ? explode(",", $matches[1]) : ['S','M','L'];
+
+/* ======================
+   2. LẤY DỮ LIỆU
 ====================== */
 $stmt = $conn->prepare("
     SELECT ir.id, ir.import_date, ir.product_id, ir.size, 
@@ -19,12 +28,11 @@ $stmt = $conn->prepare("
     WHERE ir.id = ?
 ");
 
-if (!$stmt) {
-    die("SQL lỗi: " . $conn->error);
-}
-
 $stmt->bind_param("i", $id);
 $stmt->execute();
+
+$product_name = '';
+$total_value = 0;
 
 $stmt->bind_result(
     $id_db,
@@ -39,20 +47,19 @@ $stmt->bind_result(
 );
 
 if (!$stmt->fetch()) {
-    die("Không tìm thấy phiếu nhập");
+    die("Không tìm thấy phiếu");
 }
-
 $stmt->close();
 
 $can_edit = ($status === 'pending');
 
 /* ======================
-   2. UPDATE
+   3. UPDATE
 ====================== */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_btn'])) {
 
     if (!$can_edit) {
-        die("Phiếu này không được phép chỉnh sửa");
+        die("Không được phép sửa");
     }
 
     $new_size  = $_POST['size'] ?? '';
@@ -66,17 +73,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_btn'])) {
         WHERE id = ? AND status = 'pending'
     ");
 
-    if (!$update_stmt) {
-        die("Lỗi update: " . $conn->error);
-    }
-
     $update_stmt->bind_param("sdidi", $new_size, $new_price, $new_qty, $new_total, $id);
 
     if ($update_stmt->execute()) {
         header("Location: edit_import.php?id=$id&success=1");
         exit;
     } else {
-        die("Update thất bại: " . $update_stmt->error);
+        die("Update lỗi");
     }
 }
 
@@ -84,78 +87,86 @@ include "../admin_includes/loader.php";
 include "../admin_includes/header.php";
 ?>
 
-        <div class="hero">
-        <div class="center-row text-center">
-                <h1 class="glow">Chỉnh sửa phiếu nhập kho</h1>
-        </div>
-        </div>
 <div class="container mt-4">
-    <?php if(isset($_GET['success'])): ?>
-        <div class="alert alert-success">Cập nhật thành công</div>
-    <?php endif; ?>
+
+<?php if(isset($_GET['success'])): ?>
+    <div class="alert alert-success">Cập nhật thành công</div>
+<?php endif; ?>
 
     <form method="POST">
-        <div class="card p-4 mb-3 <?= !$can_edit ? 'bg-light' : '' ?>">
 
-            <h5>Phiếu #<?= $id_db ?></h5>
-            <hr>
+        <div class="card p-4">
 
-            <label class="fw-bold">Sản phẩm</label>
+        <h5>Phiếu #<?= $id_db ?></h5>
+        <hr>
+
+        <label>Sản phẩm</label>
             <input class="form-control mb-2 bg-light"
-                   value="<?= htmlspecialchars($product_name ?? 'Không có') ?>" readonly>
+                value="<?= htmlspecialchars($product_name) ?>" readonly>
 
-            <label class="fw-bold">Size</label>
-            <input name="size" class="form-control mb-2"
-                   value="<?= htmlspecialchars($size) ?>"
-                   <?= !$can_edit ? 'readonly' : '' ?>>
+        <label>Size</label>
+            <select name="size" class="form-control mb-2" <?= !$can_edit ? 'disabled' : '' ?>>
+                <?php foreach($sizes as $s): 
+                    $s = trim($s, "'");
+                    ?>
+                    <option value="<?= $s ?>" <?= ($s == $size) ? 'selected' : '' ?>>
+                        Size <?= $s ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
 
-            <label class="fw-bold">Giá nhập</label>
+        <label>Giá nhập</label>
             <input name="import_price" type="number" class="form-control mb-2"
-                   value="<?= $import_price ?>"
-                   <?= !$can_edit ? 'readonly' : '' ?>>
+                value="<?= $import_price ?>"
+                    <?= !$can_edit ? 'readonly' : '' ?>>
 
-            <label class="fw-bold">Số lượng</label>
+        <label>Số lượng</label>
             <input name="quantity" type="number" class="form-control mb-2"
-                   value="<?= $quantity ?>"
-                   <?= !$can_edit ? 'readonly' : '' ?>>
+                value="<?= $quantity ?>"
+                <?= !$can_edit ? 'readonly' : '' ?>>
 
-            <label class="fw-bold">Tổng tiền</label>
+        <label>Tổng tiền</label>
             <input class="form-control mb-2 bg-light"
-                   value="<?= number_format($total_value) ?> VNĐ" readonly>
+                value="<?= number_format($total_value) ?> VNĐ" readonly>
 
-            <label class="fw-bold">Trạng thái</label>
-            <div class="mb-2">
-                <?php if($status=="pending"): ?>
-                    <span class="badge bg-warning text-dark">Đang chờ</span>
-                <?php elseif($status=="completed"): ?>
-                    <span class="badge bg-success">Đã hoàn thành</span>
-                <?php else: ?>
-                    <span class="badge bg-danger">Đã hủy</span>
-                <?php endif; ?>
-            </div>
-
-        </div>
-
-        <div class="mt-3">
-            <a href="adminipd.php" class="btn btn-secondary">Quay lại</a>
-
-            <?php if($can_edit): ?>
-                <button type="submit" name="update_btn" class="btn btn-primary">
-                    Lưu thay đổi
-                </button>
-
-                <a href="confirm_import.php?id=<?= $id ?>" class="btn btn-success"
-                   onclick="return confirm('Xác nhận nhập kho?')">
-                    Xác nhận
-                </a>
-
-                <a href="cancel_import.php?id=<?= $id ?>" class="btn btn-danger"
-                   onclick="return confirm('Hủy phiếu?')">
-                    Hủy
-                </a>
+        <label>Trạng thái</label>
+        <div class="mb-2">
+            <?php if($status=="pending"): ?>
+                <span class="badge bg-warning">Đang chờ</span>
+            <?php elseif($status=="completed"): ?>
+                <span class="badge bg-success">Đã hoàn thành</span>
+            <?php else: ?>
+                <span class="badge bg-danger">Đã hủy</span>
             <?php endif; ?>
         </div>
+
+        </div>
+
+    <div class="mt-3">
+    <a href="adminipd.php" class="btn btn-secondary">Quay lại</a>
+
+        <?php if($can_edit): ?>
+        <button type="submit" name="update_btn" class="btn btn-primary">
+            Lưu thay đổi
+        </button>
+
+        <a href="confirm_import.php?id=<?= $id ?>" 
+            class="btn btn-success"
+                onclick="return confirm('Xác nhận nhập kho?')">
+                    Xác nhận
+        </a>
+
+        <a href="cancel_import.php?id=<?= $id ?>" 
+            class="btn btn-danger"
+                onclick="return confirm('Hủy phiếu?')">
+                    Hủy
+        </a>
+    <?php endif; ?>
+
+    </div>
+
     </form>
+
 </div>
 
 <?php include '../admin_includes/footer.php'; ?>

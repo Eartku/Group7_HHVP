@@ -33,8 +33,8 @@
         <div class="product-item text-center h-100">
 
             <img src="<?= $imagePath ?>"
-                 class="product-thumbnail img-fluid"
-                 alt="<?= $name ?>">
+                class="product-thumbnail img-fluid"
+                    alt="<?= $name ?>">
 
             <h3 class="product-title mt-3"><?= $name ?></h3>
 
@@ -60,23 +60,18 @@
 
             <!-- ACTION -->
             <div class="d-flex justify-content-center gap-2">
-
                 <a href="edit_product.php?id=<?= $id ?>"
                    class="btn btn-sm btn-warning">
                    Sửa
                 </a>
-
                 <a href="delete_product.php?id=<?= $id ?>"
                    onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')"
                    class="btn btn-sm btn-danger">
                    Xóa
                 </a>
-
             </div>
-
         </div>
     </div>
-
     <?php endforeach; ?>
 <?php else: ?>
     <div class="col-12 text-center text-muted py-5">

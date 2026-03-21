@@ -15,87 +15,69 @@
 
 <tbody>
 
-<?php foreach($imports as $row): ?>
+    <?php foreach($imports as $row): ?>
+    <tr>
+        <td><?= $row['id'] ?></td>
+        <td><?= $row['import_date'] ?></td>
+        <td><?= number_format($row['total_value']) ?></td>
+        <td><?= $row['quantity'] ?></td>
+        <td><?= $row['product_name'] ?></td>
+        <td>
 
-<tr>
+            <?php
+            if($row['status']=='pending'){
+            echo "<span class='badge bg-warning'>Đang xử lý</span>";
+            }
+            elseif($row['status']=='completed'){
+            echo "<span class='badge bg-success'>Đã hoàn thành</span>";
+            }
+            elseif($row['status']=='cancelled'){
+            echo "<span class='badge bg-danger'>Đã hủy</span>";
+            }
+            ?>
 
-<td><?= $row['id'] ?></td>
+        </td>
+        <td>
 
-<td><?= $row['import_date'] ?></td>
+            <a href="edit_import.php?id=<?=$row['id']?>" 
+                class="btn btn-sm btn-primary">
+                Chỉnh sửa
+            </a>
 
-<td><?= number_format($row['total_value']) ?></td>
+        </td>
+        <td>    
 
-<td><?= $row['quantity'] ?></td>
+            <?php if($row['status']=="pending"){ ?>
 
-<td><?= $row['product_name'] ?></td>
+            <a href="confirm_import.php?id=<?=$row['id']?>"
+                class="btn btn-success btn-sm"
+                    onclick="return confirm('Bạn xác nhận hàng đã được nhập vào kho?')">
+                        Xác nhận
+            </a>
 
-<td>
+            <a href="cancel_import.php?id=<?=$row['id']?>"
+                class="btn btn-danger btn-sm"
+                    onclick="return confirm('Bạn có chắc muốn hủy phiếu nhập này?')">
+                        Hủy
+            </a>
 
-<?php
-if($row['status']=='pending'){
-echo "<span class='badge bg-warning'>Đang xử lý</span>";
-}
-elseif($row['status']=='completed'){
-echo "<span class='badge bg-success'>Đã hoàn thành</span>";
-}
-elseif($row['status']=='cancelled'){
-echo "<span class='badge bg-danger'>Đã hủy</span>";
-}
-?>
+            <?php } ?>
+            <?php if($row['status']=="completed"){ ?>
 
-</td>
+                <button class="btn btn-success btn-sm" disabled>
+                    Đã xác nhận
+                </button>
 
-<td>
+            <?php } ?>
+            <?php if($row['status']=="cancelled"){ ?>
 
-<a href="edit_import.php?id=<?=$row['id']?>" 
-class="btn btn-sm btn-primary">
-Chỉnh sửa
-</a>
+                <button class="btn btn-danger btn-sm" disabled>
+                    Đã hủy
+                </button>
 
-</td>
-
-<td>
-
-<?php if($row['status']=="pending"){ ?>
-
-<a href="confirm_import.php?id=<?=$row['id']?>"
-class="btn btn-success btn-sm">
-Xác nhận
-</a>
-
-<a href="cancel_import.php?id=<?=$row['id']?>"
-class="btn btn-danger btn-sm">
-Hủy
-</a>
-
-<?php } ?>
-
-<?php if($row['status']=="completed"){ ?>
-
-<button class="btn btn-success btn-sm" disabled>
-Đã xác nhận
-</button>
-
-
-
-<?php } ?>
-
-<?php if($row['status']=="cancelled"){ ?>
-
-
-
-<button class="btn btn-danger btn-sm" disabled>
-Đã hủy
-</button>
-
-<?php } ?>
-
-</td>
-
-</tr>
-
-<?php endforeach; ?>
-
+            <?php } ?>
+            </td>
+    </tr>
+    <?php endforeach; ?>
 </tbody>
-
 </table>
