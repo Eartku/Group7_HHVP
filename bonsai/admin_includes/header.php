@@ -63,10 +63,10 @@ if (!empty($_SESSION['admin']['avatar'])) {
                 </a>
             </li>
             <li>
-                <a href="admin/admin_type.html"
-                class="hover-text-glow-small <?= ($current_page == 'admin_type.html') ? 'active-menu' : '' ?>"
+                <a href="../admin_type/admin_type.php"
+                class="hover-text-glow-small <?= ($current_page == 'admin_type.php') ? 'active-menu' : '' ?>"
                 ">
-                    <?= ($current_page == 'admin_type.html') ? '🌱 ' : '' ?>LOẠI SẢN PHẨM
+                    <?= ($current_page == 'admin_type.php') ? '🌱 ' : '' ?>LOẠI SẢN PHẨM
                 </a>
             </li>
             <li>
@@ -84,7 +84,7 @@ if (!empty($_SESSION['admin']['avatar'])) {
                 </a>
             </li>
             <li>
-                <a href="admin/admin_sellingprice.html"
+                <a href="admin/admin_sellingprice.php"
                 class="hover-text-glow-small <?= ($current_page == 'admin_sellingprice.html') ? 'active-menu' : '' ?>"
                 ">
                     <?= ($current_page == 'admin_sellingprice.html') ? '🌱 ' : '' ?>GIÁ BÁN
