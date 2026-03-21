@@ -72,70 +72,68 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include '../admin_includes/loader.php'; ?>
     <title>Thêm sản phẩm</title>
 </head>
-
 <body>
 
-<div class="container mt-5">
-<h2 class="text-center mb-4" >Thêm sản phẩm</h2>
+    <div class="container mt-5">
+    <h2 class="text-center mb-4" >Thêm sản phẩm</h2>
+        <form method="POST" enctype="multipart/form-data">
 
-<form method="POST" enctype="multipart/form-data">
+        <!-- Tên -->
+        <div class="mb-3">
+            <label>Tên sản phẩm</label>
+                <input type="text" name="name" class="form-control" required>
+        </div>
 
-<!-- Tên -->
-<div class="mb-3">
-<label>Tên sản phẩm</label>
-<input type="text" name="name" class="form-control" required>
-</div>
+        <!-- Danh mục -->
+        <div class="mb-3">
+            <label>Danh mục</label>
+                <select name="category" class="form-control">
+                    <?php while($row = $categories->fetch_assoc()): ?>
+                        <option value="<?= $row['id'] ?>">
+                            <?= $row['name'] ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+        </div>
 
-<!-- Danh mục -->
-<div class="mb-3">
-<label>Danh mục</label>
-<select name="category" class="form-control">
-<?php while($row = $categories->fetch_assoc()): ?>
-<option value="<?= $row['id'] ?>">
-<?= $row['name'] ?>
-</option>
-<?php endwhile; ?>
-</select>
-</div>
+        <!-- Số lượng -->
+        <div class="mb-3">
+            <label>Số lượng ban đầu</label>
+                <input type="number" name="quantity" class="form-control" value="0">
+        </div>
 
-<!-- Số lượng -->
-<div class="mb-3">
-<label>Số lượng ban đầu</label>
-<input type="number" name="quantity" class="form-control" value="0">
-</div>
+        <!-- Lợi nhuận -->
+        <div class="mb-3">
+            <label>Tỉ lệ lợi nhuận (%)</label>
+                <input type="number" step="0.1" name="profit_rate" class="form-control" value="0">
+        </div>
 
-<!-- Lợi nhuận -->
-<div class="mb-3">
-<label>Tỉ lệ lợi nhuận (%)</label>
-<input type="number" step="0.1" name="profit_rate" class="form-control" value="0">
-</div>
+        <!-- Trạng thái -->
+        <div class="mb-3">
+            <label>Trạng thái</label>
+                <select name="status" class="form-control">
+                    <option value="1">Hiển thị (Đang bán)</option>
+                    <option value="0">Ẩn (Ngừng bán)</option>
+                </select>
+        </div>
 
-<!-- Trạng thái -->
-<div class="mb-3">
-<label>Trạng thái</label>
-<select name="status" class="form-control">
-<option value="1">Hiển thị (Đang bán)</option>
-<option value="0">Ẩn (Ngừng bán)</option>
-</select>
-</div>
+        <!-- Ảnh -->
+        <div class="mb-3">
+            <label>Hình ảnh</label>
+                <input type="file" name="image" class="form-control">
+        </div>
 
-<!-- Ảnh -->
-<div class="mb-3">
-<label>Hình ảnh</label>
-<input type="file" name="image" class="form-control">
-</div>
+        <!-- Mô tả -->
+        <div class="mb-3">
+            <label>Mô tả</label>
+                <textarea name="description" class="form-control" rows="4"></textarea>
+        </div>
 
-<!-- Mô tả -->
-<div class="mb-3">
-<label>Mô tả</label>
-<textarea name="description" class="form-control" rows="4"></textarea>
-</div>
+        <button class="btn btn-success">Thêm sản phẩm</button>
+        <a href="sshop.php" class="btn btn-secondary">Quay lại</a>
 
-<button class="btn btn-success">Thêm sản phẩm</button>
-<a href="sshop.php" class="btn btn-secondary">Quay lại</a>
-
-</form>
-</div>
+        </form>
+    </div>
 
 <?php include '../admin_includes/footer.php'; ?>
 </body>

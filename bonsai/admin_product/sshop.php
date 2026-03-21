@@ -78,34 +78,70 @@ $products = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 </head>
 <body>
     <?php include 'header_pd.php'; ?>
-    <div class="hero">
-        <div class="center-row text-center">
-            <h1 class="glow"><?= htmlspecialchars($cat_name) ?></h1>
-            <span style="color: aliceblue;">
-            </span>
-            </br>
-                <a href="add_product.php"
-                style="
-                background-color:#28a745;
-                color:white;
-                padding:8px 20px;
-                border-radius:50px;
-                text-decoration:none;
-                font-weight:bold;
-                display:inline-block;
-               
-                ">
-                + Thêm sản phẩm
-                </a>
-        </div>
-    </div>
+            <div class="hero">
+                <div class="center-row text-center">
+                    <h1 class="glow"><?= htmlspecialchars($cat_name) ?></h1>
+                        <span style="color: aliceblue;">
+                        </span>
+                            </br>
+                                <a href="add_product.php"
+                                style="
+                                background-color:#28a745;
+                                color:white;
+                                padding:8px 20px;
+                                border-radius:50px;
+                                text-decoration:none;
+                                font-weight:bold;
+                                display:inline-block;
+                            
+                                ">
+                                + Thêm sản phẩm
+                                </a>
+                </div>
+            </div>
+            <nav class="category-bar">
+                <div class="container">
+                <!-- DANH MỤC -->
+                    <div class="d-flex flex-wrap align-items-center mb-3">
+                        <span class="category-title me-3">CÁC LOẠI SẢN PHẨM</span>
+                        <ul class="category-menu">
+                            <?php foreach ($categories as $cat): ?>
+                            <li><a href="sshop.php?category=<?= (int)$cat['id'] ?>"><?= htmlspecialchars($cat['name']) ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                    <!-- FORM TÌM KIẾM & LỌC -->
+                    <form method="GET" action="sshop.php" class="search-filter-form">
+                        <input type="hidden" name="category" value="<?= (int)$category_id ?>">
+
+                        <!-- SEARCH -->
+                        <input type="text" name="keyword" placeholder="Tìm sản phẩm..." value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>" class="form-control">
+
+                        <!-- STATUS -->
+                        <select name="status" class="form-select">
+                            <option value="">Trạng thái</option>
+                            <option value="1" <?= (($_GET['status'] ?? '')==='1')?'selected':'' ?>>Đang bán</option>
+                            <option value="0" <?= (($_GET['status'] ?? '')==='0')?'selected':'' ?>>Ngừng bán</option>
+                        </select>
+
+                        <!-- STOCK -->
+                        <select name="stock" class="form-select">
+                            <option value="">Tồn kho</option>
+                            <option value="1" <?= (($_GET['stock'] ?? '')==='1')?'selected':'' ?>>Còn hàng</option>
+                            <option value="0" <?= (($_GET['stock'] ?? '')==='0')?'selected':'' ?>>Hết hàng</option>
+                        </select>
+
+                        <!-- BUTTONS -->
+                        <button class="btn btn-success">Lọc</button>
+                        <a href="sshop.php" class="btn btn-secondary">Reset</a>
+                    </form>
+                </div>
+            </nav>
     <!-- Search Section -->
     <?php include 'pproducts.php'; ?>
-
     <?php include '../admin_includes/footer.php'; ?>
-
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/custom.js"></script>
+         <script src="../js/bootstrap.bundle.min.js"></script>
+         <script src="../js/custom.js"></script>
     <div id="toast"></div>
 </body>
 </html>

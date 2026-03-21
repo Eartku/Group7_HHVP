@@ -26,6 +26,9 @@ if (!$stmt) {
 $stmt->bind_param("i", $id);
 $stmt->execute();
 
+$size = '';
+$total_value = 0;
+
 $stmt->bind_result(
     $id_db,
     $import_date,
@@ -84,11 +87,11 @@ include "../admin_includes/loader.php";
 include "../admin_includes/header.php";
 ?>
 
-        <div class="hero">
+<div class="hero">
         <div class="center-row text-center">
                 <h1 class="glow">Chỉnh sửa phiếu nhập kho</h1>
         </div>
-        </div>
+ </div>
 <div class="container mt-4">
     <?php if(isset($_GET['success'])): ?>
         <div class="alert alert-success">Cập nhật thành công</div>
@@ -101,26 +104,26 @@ include "../admin_includes/header.php";
             <hr>
 
             <label class="fw-bold">Sản phẩm</label>
-            <input class="form-control mb-2 bg-light"
+                <input class="form-control mb-2 bg-light"
                    value="<?= htmlspecialchars($product_name ?? 'Không có') ?>" readonly>
 
             <label class="fw-bold">Size</label>
-            <input name="size" class="form-control mb-2"
+                <input name="size" class="form-control mb-2"
                    value="<?= htmlspecialchars($size) ?>"
                    <?= !$can_edit ? 'readonly' : '' ?>>
 
             <label class="fw-bold">Giá nhập</label>
-            <input name="import_price" type="number" class="form-control mb-2"
+                <input name="import_price" type="number" class="form-control mb-2"
                    value="<?= $import_price ?>"
                    <?= !$can_edit ? 'readonly' : '' ?>>
 
             <label class="fw-bold">Số lượng</label>
-            <input name="quantity" type="number" class="form-control mb-2"
+                <input name="quantity" type="number" class="form-control mb-2"
                    value="<?= $quantity ?>"
-                   <?= !$can_edit ? 'readonly' : '' ?>>
+                        <?= !$can_edit ? 'readonly' : '' ?>>
 
             <label class="fw-bold">Tổng tiền</label>
-            <input class="form-control mb-2 bg-light"
+                <input class="form-control mb-2 bg-light"
                    value="<?= number_format($total_value) ?> VNĐ" readonly>
 
             <label class="fw-bold">Trạng thái</label>

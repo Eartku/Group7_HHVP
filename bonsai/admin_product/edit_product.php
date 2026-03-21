@@ -92,86 +92,82 @@ $cats = $conn->query("SELECT * FROM categories");
     <?php include '../admin_includes/loader.php'; ?>
     <title>Sửa sản phẩm</title>
 </head>
-
 <body>
+    <div class="container mt-5">
+    <h2 class="text-center mb-4">Sửa sản phẩm</h2>
 
-<div class="container mt-5">
-<h2 class="text-center mb-4">Sửa sản phẩm</h2>
+        <form method="POST" enctype="multipart/form-data" onsubmit="return confirmUpdate()">
+            <!-- ID -->
+            <div class="mb-3">
+                <label>ID sản phẩm</label>
+                    <input type="text" class="form-control" value="SP<?= str_pad($product['id'],3,'0',STR_PAD_LEFT) ?>" disabled>
+            </div>
 
-<form method="POST" enctype="multipart/form-data" onsubmit="return confirmUpdate()">
+            <!-- Tên -->
+            <div class="mb-3">
+                <label>Tên sản phẩm</label>
+                    <input type="text" name="name" class="form-control"
+                        value="<?= htmlspecialchars($product['name']) ?>" required>
+            </div>
 
-<!-- ID -->
-<div class="mb-3">
-<label>ID sản phẩm</label>
-<input type="text" class="form-control" value="SP<?= str_pad($product['id'],3,'0',STR_PAD_LEFT) ?>" disabled>
-</div>
+            <!-- Danh mục -->
+            <div class="mb-3">
+                <label>Danh mục</label>
+                    <select name="category" class="form-control">
+                        <?php while($c=$cats->fetch_assoc()): ?>
+                            <option value="<?= $c['id'] ?>"
+                                <?= $product['category_id']==$c['id']?'selected':'' ?>>
+                                <?= $c['name'] ?>
+                            </option>
+                        <?php endwhile; ?>
+                </select>
+            </div>
 
-<!-- Tên -->
-<div class="mb-3">
-<label>Tên sản phẩm</label>
-<input type="text" name="name" class="form-control"
-value="<?= htmlspecialchars($product['name']) ?>" required>
-</div>
+            <!-- Số lượng -->
+            <div class="mb-3">
+                <label>Số lượng hiện tại</label>
+                    <input type="number" name="quantity" class="form-control" value="<?= $stock ?>">
+            </div>
 
-<!-- Danh mục -->
-<div class="mb-3">
-<label>Danh mục</label>
-<select name="category" class="form-control">
-<?php while($c=$cats->fetch_assoc()): ?>
-<option value="<?= $c['id'] ?>"
-<?= $product['category_id']==$c['id']?'selected':'' ?>>
-<?= $c['name'] ?>
-</option>
-<?php endwhile; ?>
-</select>
-</div>
+            <!-- Lợi nhuận -->
+            <div class="mb-3">
+                <label>Tỉ lệ lợi nhuận (%)</label>
+                    <input type="number" step="0.1" name="profit_rate"
+                        value="<?= $product['profit_rate'] ?>" class="form-control">
+            </div>
 
-<!-- Số lượng -->
-<div class="mb-3">
-<label>Số lượng hiện tại</label>
-<input type="number" name="quantity" class="form-control" value="<?= $stock ?>">
-</div>
+            <!-- Trạng thái -->
+            <div class="mb-3">
+                <label>Trạng thái</label>
+                    <select name="status" class="form-control">
+                        <option value="1" <?= $product['status']==1?'selected':'' ?>>Đang bán</option>
+                        <option value="0" <?= $product['status']==0?'selected':'' ?>>Ngừng bán</option>
+                    </select>
+            </div>
 
-<!-- Lợi nhuận -->
-<div class="mb-3">
-<label>Tỉ lệ lợi nhuận (%)</label>
-<input type="number" step="0.1" name="profit_rate"
-value="<?= $product['profit_rate'] ?>" class="form-control">
-</div>
+            <!-- Ảnh -->
+            <div class="mb-3">
+                <label>Ảnh hiện tại</label><br>
+                    <img src="../images/<?= $product['image'] ?>" width="120" class="mb-2">
+            </div>
 
-<!-- Trạng thái -->
-<div class="mb-3">
-<label>Trạng thái</label>
-<select name="status" class="form-control">
-<option value="1" <?= $product['status']==1?'selected':'' ?>>Đang bán</option>
-<option value="0" <?= $product['status']==0?'selected':'' ?>>Ngừng bán</option>
-</select>
-</div>
+            <div class="mb-3">
+                <label>Ảnh mới</label>
+                    <input type="file" name="new_image" class="form-control">
+            </div>
 
-<!-- Ảnh -->
-<div class="mb-3">
-<label>Ảnh hiện tại</label><br>
-<img src="../images/<?= $product['image'] ?>" width="120" class="mb-2">
-</div>
+            <!-- Mô tả -->
+            <div class="mb-3">
+                <label>Mô tả</label>
+                    <textarea name="description" class="form-control" rows="4">
+                        <?= $product['description'] ?? '' ?>
+                    </textarea>
+            </div>
 
-<div class="mb-3">
-<label>Ảnh mới</label>
-<input type="file" name="new_image" class="form-control">
-</div>
-
-<!-- Mô tả -->
-<div class="mb-3">
-<label>Mô tả</label>
-<textarea name="description" class="form-control" rows="4">
-<?= $product['description'] ?? '' ?>
-</textarea>
-</div>
-
-<button class="btn btn-warning">Cập nhật</button>
-<a href="sshop.php" class="btn btn-secondary">Quay lại</a>
-
-</form>
-</div>
+            <button class="btn btn-warning">Cập nhật</button>
+            <a href="sshop.php" class="btn btn-secondary">Quay lại</a>
+        </form>
+    </div>
 
 <script>
 function confirmUpdate(){
