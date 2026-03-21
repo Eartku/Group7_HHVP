@@ -49,21 +49,23 @@
 
             <?php if($row['status']=="pending"){ ?>
 
-                <a href="confirm_import.php?id=<?=$row['id']?>"
-                class="btn btn-success btn-sm">
-                Xác nhận
-                </a>
+            <a href="confirm_import.php?id=<?=$row['id']?>"
+                class="btn btn-success btn-sm"
+                    onclick="return confirm('Bạn xác nhận hàng đã được nhập vào kho?')">
+                        Xác nhận
+            </a>
 
-                <a href="cancel_import.php?id=<?=$row['id']?>"
-                class="btn btn-danger btn-sm">
-                Hủy
-                </a>
+            <a href="cancel_import.php?id=<?=$row['id']?>"
+                class="btn btn-danger btn-sm"
+                    onclick="return confirm('Bạn có chắc muốn hủy phiếu nhập này?')">
+                        Hủy
+            </a>
 
             <?php } ?>
             <?php if($row['status']=="completed"){ ?>
 
                 <button class="btn btn-success btn-sm" disabled>
-                Đã xác nhận
+                    Đã xác nhận
                 </button>
 
             <?php } ?>

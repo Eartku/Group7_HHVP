@@ -88,6 +88,7 @@ if (!empty($_SESSION['admin']['avatar'])) {
     gap:12px;
     align-items: center;
     margin-top: 12px;
+    justify-content: center; /* 👈 thêm dòng này */
 }
 
 .search-filter-form .form-control,
@@ -96,14 +97,16 @@ if (!empty($_SESSION['admin']['avatar'])) {
     padding: 6px 10px;
     min-width: 150px;
     width: 20%;
+    justify-content: center; /* 👈 thêm dòng này */
 }
 
 .search-filter-form button,
 .search-filter-form a.btn {
     border-radius: 25px;
-    padding: 6px 14px;
+    padding: 8px 14px;
     min-width: 80px;
     font-weight: 500;
+    justify-content: center; /* 👈 thêm dòng này */
 }
 
 @media(max-width:768px){
