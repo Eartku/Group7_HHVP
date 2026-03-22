@@ -197,4 +197,67 @@ class UserModel extends Model {
         $result = $stmt->get_result();
         return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
+    public static function searchCustomers(
+        string $searchType  = 'name',
+        string $searchValue = '',
+        int    $limit       = 15,
+        int    $offset      = 0
+    ): array {
+        $db     = Database::getInstance();
+        $wheres = ["role = 'customer'"];
+        $params = [];
+        $types  = '';
+
+        if ($searchValue !== '') {
+            $like = '%' . $searchValue . '%';
+            switch ($searchType) {
+                case 'id':
+                    $wheres[] = "id = ?";
+                    $params[] = (int)$searchValue;
+                    $types   .= 'i';
+                    break;
+                case 'email':
+                    $wheres[] = "email LIKE ?";
+                    $params[] = $like;
+                    $types   .= 's';
+                    break;
+                case 'phone':
+                    $wheres[] = "phone LIKE ?";
+                    $params[] = $like;
+                    $types   .= 's';
+                    break;
+                default: // name
+                    $wheres[] = "fullname LIKE ?";
+                    $params[] = $like;
+                    $types   .= 's';
+                    break;
+            }
+        }
+
+        $where = 'WHERE ' . implode(' AND ', $wheres);
+
+        // Count
+        $stmtCount = $db->prepare("SELECT COUNT(*) AS total FROM users $where");
+        if ($types) $stmtCount->bind_param($types, ...$params);
+        $stmtCount->execute();
+        $total = (int)$stmtCount->get_result()->fetch_assoc()['total'];
+
+        // Data
+        $params[] = $limit;
+        $params[] = $offset;
+        $types   .= 'ii';
+
+        $stmt = $db->prepare("
+            SELECT id, username, fullname, email, phone, address, status, created_at
+            FROM users
+            $where
+            ORDER BY id DESC
+            LIMIT ? OFFSET ?
+        ");
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+        $rows = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        return ['data' => $rows, 'total' => $total];
+    }
 }

@@ -1,61 +1,109 @@
 <?php
 class ProductModel extends Model {
+    private static function buildPriceHaving(int $priceMin, int $priceMax, array &$params, string &$types): string {
+        // Dùng expression trực tiếp thay vì alias vì HAVING không dùng được alias trong subquery
+        $expr = PriceHelper::sqlSalePrice(''); // không có AS
 
-    public static function count(int $categoryId = 0, string $search = ''): int {
+        if ($priceMin > 0 && $priceMax > 0) {
+            $params[] = $priceMin; $params[] = $priceMax; $types .= 'ii';
+            return "HAVING ($expr) BETWEEN ? AND ?";
+        }
+        if ($priceMin > 0) {
+            $params[] = $priceMin; $types .= 'i';
+            return "HAVING ($expr) >= ?";
+        }
+        if ($priceMax > 0) {
+            $params[] = $priceMax; $types .= 'i';
+            return "HAVING ($expr) <= ?";
+        }
+        return '';
+    }
+
+   public static function count(int $categoryId = 0, string $search = '', int $priceMin = 0, int $priceMax = 0): int {
         $db     = Database::getInstance();
         $wheres = ["p.status = 'active'"];
-        if ($categoryId > 0) $wheres[] = "p.category_id = ?";
-        if ($search !== '')  $wheres[] = "p.name LIKE ?";
+        $params = []; $types = '';
+
+        if ($categoryId > 0) { $wheres[] = "p.category_id = ?"; $params[] = $categoryId; $types .= 'i'; }
+        if ($search !== '')  { $wheres[] = "p.name LIKE ?";     $params[] = '%'.$search.'%'; $types .= 's'; }
+
         $where = 'WHERE ' . implode(' AND ', $wheres);
 
-        $stmt       = $db->prepare("SELECT COUNT(*) as total FROM products p $where");
-        $searchLike = $search !== '' ? '%' . $search . '%' : '';
+        // Filter giá ở outer WHERE thay vì HAVING
+        $outerWhere = '';
+        if ($priceMin > 0 && $priceMax > 0) {
+            $outerWhere   = 'WHERE sale_price BETWEEN ? AND ?';
+            $params[] = $priceMin; $params[] = $priceMax; $types .= 'ii';
+        } elseif ($priceMin > 0) {
+            $outerWhere   = 'WHERE sale_price >= ?';
+            $params[] = $priceMin; $types .= 'i';
+        } elseif ($priceMax > 0) {
+            $outerWhere   = 'WHERE sale_price <= ?';
+            $params[] = $priceMax; $types .= 'i';
+        }
 
-        if ($categoryId > 0 && $search !== '') $stmt->bind_param("is", $categoryId, $searchLike);
-        elseif ($categoryId > 0)               $stmt->bind_param("i",  $categoryId);
-        elseif ($search !== '')                $stmt->bind_param("s",  $searchLike);
-
+        $stmt = $db->prepare("
+            SELECT COUNT(*) AS total
+            FROM (
+                SELECT p.id,
+                    " . PriceHelper::sqlSalePrice('sale_price') . "
+                FROM products p
+                $where
+                GROUP BY p.id, p.profit_rate
+            ) sub
+            $outerWhere
+        ");
+        if ($types) $stmt->bind_param($types, ...$params);
         $stmt->execute();
         return (int)$stmt->get_result()->fetch_assoc()['total'];
     }
 
-    public static function getList(int $categoryId = 0, int $limit = 8, int $offset = 0, string $search = ''): array {
-        $db     = Database::getInstance();
-        $wheres = ["p.status = 'active'"];
-        if ($categoryId > 0) $wheres[] = "p.category_id = ?";
-        if ($search !== '')  $wheres[] = "p.name LIKE ?";
-        $where  = 'WHERE ' . implode(' AND ', $wheres);
+    public static function getList(int $categoryId = 0, int $limit = 8, int $offset = 0, string $search = '', int $priceMin = 0, int $priceMax = 0): array {
+    $db     = Database::getInstance();
+    $wheres = ["p.status = 'active'"];
+    $params = []; $types = '';
 
-        $sql = "
-            SELECT
-                p.id, p.name,
-                p.base_img    AS image,
-                p.description,
-                p.profit_rate,
-                c.name        AS category_name,
-                " . PriceHelper::sqlAvgImport() . ",
-                " . PriceHelper::sqlTotalStock() . ",
-                " . PriceHelper::sqlSalePrice()  . "
-            FROM products p
-            LEFT JOIN categories c ON c.id = p.category_id
-            $where
-            ORDER BY p.id DESC
-            LIMIT ? OFFSET ?
-        ";
+    if ($categoryId > 0) { $wheres[] = "p.category_id = ?"; $params[] = $categoryId; $types .= 'i'; }
+    if ($search !== '')  { $wheres[] = "p.name LIKE ?";     $params[] = '%'.$search.'%'; $types .= 's'; }
 
-        $stmt       = $db->prepare($sql);
-        $searchLike = $search !== '' ? '%' . $search . '%' : '';
+        $where = 'WHERE ' . implode(' AND ', $wheres);
 
-        if ($categoryId > 0 && $search !== '') {
-            $stmt->bind_param("isii", $categoryId, $searchLike, $limit, $offset);
-        } elseif ($categoryId > 0) {
-            $stmt->bind_param("iii",  $categoryId, $limit, $offset);
-        } elseif ($search !== '') {
-            $stmt->bind_param("sii",  $searchLike, $limit, $offset);
-        } else {
-            $stmt->bind_param("ii",   $limit, $offset);
+        $outerWhere = '';
+        if ($priceMin > 0 && $priceMax > 0) {
+            $outerWhere   = 'WHERE sale_price BETWEEN ? AND ?';
+            $params[] = $priceMin; $params[] = $priceMax; $types .= 'ii';
+        } elseif ($priceMin > 0) {
+            $outerWhere   = 'WHERE sale_price >= ?';
+            $params[] = $priceMin; $types .= 'i';
+        } elseif ($priceMax > 0) {
+            $outerWhere   = 'WHERE sale_price <= ?';
+            $params[] = $priceMax; $types .= 'i';
         }
 
+        $params[] = $limit; $params[] = $offset; $types .= 'ii';
+
+        $stmt = $db->prepare("
+            SELECT *
+            FROM (
+                SELECT
+                    p.id, p.name,
+                    p.base_img    AS image,
+                    p.description,
+                    p.profit_rate,
+                    c.name        AS category_name,
+                    " . PriceHelper::sqlAvgImport() . ",
+                    " . PriceHelper::sqlTotalStock() . ",
+                    " . PriceHelper::sqlSalePrice('sale_price') . "
+                FROM products p
+                LEFT JOIN categories c ON c.id = p.category_id
+                $where
+                GROUP BY p.id, p.profit_rate, c.name, p.name, p.base_img, p.description
+            ) sub
+            $outerWhere
+            ORDER BY id DESC
+            LIMIT ? OFFSET ?
+        ");
+        $stmt->bind_param($types, ...$params);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
@@ -87,7 +135,7 @@ class ProductModel extends Model {
         return $stmt->get_result()->fetch_assoc() ?: null;
     }
 
-    // ✅ Bỏ product_id — size dùng chung toàn hệ thống
+    //  Bỏ product_id — size dùng chung toàn hệ thống
     public static function getSizes(int $productId): array {
         $db   = Database::getInstance();
         $stmt = $db->prepare("
@@ -106,7 +154,7 @@ class ProductModel extends Model {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    public static function getRelated(int $productId, int $limit = 4): array {
+    public static function getRelated(int $productId, int $limit = 7): array {
         $db   = Database::getInstance();
         $stmt = $db->prepare("
             SELECT
@@ -204,32 +252,50 @@ class ProductModel extends Model {
         return $stmt->execute();
     }
     // Đếm có filter search (đã có nhưng kiểm tra lại — dùng cho admin)
-    public static function countAll(int $categoryId = 0, string $search = ''): int {
-        // Giống count() hiện tại nhưng không filter status = 'active'
+    public static function countAll(
+        int    $categoryId   = 0,
+        string $search       = '',
+        string $statusFilter = '',
+        string $stockFilter  = ''
+    ): int {
         $db     = Database::getInstance();
         $wheres = ['1=1'];
-        if ($categoryId > 0) $wheres[] = "p.category_id = ?";
-        if ($search !== '')  $wheres[] = "p.name LIKE ?";
+        $params = [];
+        $types  = '';
+
+        if ($categoryId > 0)      { $wheres[] = "p.category_id = ?"; $params[] = $categoryId; $types .= 'i'; }
+        if ($search !== '')        { $wheres[] = "p.name LIKE ?";     $params[] = '%'.$search.'%'; $types .= 's'; }
+        if ($statusFilter !== '')  { $wheres[] = "p.status = ?";      $params[] = $statusFilter; $types .= 's'; }
+        if ($stockFilter === 'instock')    $wheres[] = "(SELECT COALESCE(SUM(quantity),0) FROM inventory WHERE product_id = p.id) > 0";
+        if ($stockFilter === 'outofstock') $wheres[] = "(SELECT COALESCE(SUM(quantity),0) FROM inventory WHERE product_id = p.id) = 0";
+
         $where = 'WHERE ' . implode(' AND ', $wheres);
-
-        $stmt       = $db->prepare("SELECT COUNT(*) as total FROM products p $where");
-        $searchLike = $search !== '' ? '%' . $search . '%' : '';
-
-        if ($categoryId > 0 && $search !== '') $stmt->bind_param("is", $categoryId, $searchLike);
-        elseif ($categoryId > 0)               $stmt->bind_param("i",  $categoryId);
-        elseif ($search !== '')                $stmt->bind_param("s",  $searchLike);
-
+        $stmt  = $db->prepare("SELECT COUNT(*) as total FROM products p $where");
+        if ($types) $stmt->bind_param($types, ...$params);
         $stmt->execute();
         return (int)$stmt->get_result()->fetch_assoc()['total'];
     }
 
-// getList không filter status cho admin
-    public static function getListAdmin(int $categoryId = 0, int $limit = 8, int $offset = 0, string $search = ''): array {
+    public static function getListAdmin(
+        int    $categoryId   = 0,
+        int    $limit        = 8,
+        int    $offset       = 0,
+        string $search       = '',
+        string $statusFilter = '',
+        string $stockFilter  = ''
+    ): array {
         $db     = Database::getInstance();
         $wheres = ['1=1'];
-        if ($categoryId > 0) $wheres[] = "p.category_id = ?";
-        if ($search !== '')  $wheres[] = "p.name LIKE ?";
-        $where  = 'WHERE ' . implode(' AND ', $wheres);
+        $params = [];
+        $types  = '';
+
+        if ($categoryId > 0)      { $wheres[] = "p.category_id = ?"; $params[] = $categoryId; $types .= 'i'; }
+        if ($search !== '')        { $wheres[] = "p.name LIKE ?";     $params[] = '%'.$search.'%'; $types .= 's'; }
+        if ($statusFilter !== '')  { $wheres[] = "p.status = ?";      $params[] = $statusFilter; $types .= 's'; }
+        if ($stockFilter === 'instock')    $wheres[] = "(SELECT COALESCE(SUM(quantity),0) FROM inventory WHERE product_id = p.id) > 0";
+        if ($stockFilter === 'outofstock') $wheres[] = "(SELECT COALESCE(SUM(quantity),0) FROM inventory WHERE product_id = p.id) = 0";
+
+        $where = 'WHERE ' . implode(' AND ', $wheres);
 
         $sql = "
             SELECT
@@ -249,19 +315,12 @@ class ProductModel extends Model {
             LIMIT ? OFFSET ?
         ";
 
-        $stmt       = $db->prepare($sql);
-        $searchLike = $search !== '' ? '%' . $search . '%' : '';
+        $params[] = $limit;
+        $params[] = $offset;
+        $types   .= 'ii';
 
-        if ($categoryId > 0 && $search !== '') {
-            $stmt->bind_param("isii", $categoryId, $searchLike, $limit, $offset);
-        } elseif ($categoryId > 0) {
-            $stmt->bind_param("iii",  $categoryId, $limit, $offset);
-        } elseif ($search !== '') {
-            $stmt->bind_param("sii",  $searchLike, $limit, $offset);
-        } else {
-            $stmt->bind_param("ii",   $limit, $offset);
-        }
-
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param($types, ...$params);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
@@ -271,4 +330,6 @@ class ProductModel extends Model {
         $stmt->bind_param("si", $status, $id);
         return $stmt->execute();
     }
+    // Dùng cho shop/public — chỉ lấy active
+    
 }

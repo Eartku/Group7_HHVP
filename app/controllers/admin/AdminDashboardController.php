@@ -22,6 +22,20 @@ class AdminDashboardController extends Controller { // ← bỏ __ __
         ]);
     }
 
+    public static function getStats(): array {
+        $db     = Database::getInstance();
+        $result = $db->query("
+            SELECT status, COUNT(*) AS total
+            FROM orders
+            GROUP BY status
+        ");
+        $stats = [];
+        while ($row = $result->fetch_assoc()) {
+            $stats[$row['status']] = (int)$row['total'];
+        }
+        return $stats;
+    }
+
     private function getCategoryStats(): array {
         $db     = Database::getInstance();
         $result = $db->query("

@@ -51,7 +51,7 @@
 
         <!-- Thông tin phiếu -->
         <div class="col-md-4">
-            <div class="ui-card mb-0 h-100">
+            <div class="ui-card mb-0 h-100 " style="width:200%">
                 <div class="ui-card-head">
                     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -125,7 +125,7 @@
 
         <!-- Danh sách sản phẩm -->
         <div class="col-md-8">
-            <div class="ui-card mb-0">
+            <div class="ui-card mb-0" style="width:148%">
                 <div class="ui-card-head">
                     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
                         <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>

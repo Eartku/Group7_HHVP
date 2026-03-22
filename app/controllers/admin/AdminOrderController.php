@@ -54,22 +54,17 @@ class AdminOrderController extends Controller {
             'items'    => $items,
             'subtotal' => $subtotal,
             'badge'    => $badge,
+            'updated'  => isset($_GET['updated']),
         ]);
     }
 
     public function updateStatus(): void {
-        $this->requireAdmin();
-
+    $this->requireAdmin();
         $id     = (int)($_GET['id'] ?? 0);
         $status = trim($_POST['status'] ?? '');
 
-        $allowed = ['processing', 'processed', 'shipping', 'shipped', 'cancelled'];
-
-        if ($id > 0 && in_array($status, $allowed)) {
-            $db   = Database::getInstance();
-            $stmt = $db->prepare("UPDATE orders SET status = ? WHERE id = ?");
-            $stmt->bind_param("si", $status, $id);
-            $stmt->execute();
+        if ($id > 0) {
+            OrderModel::updateStatus($id, $status); // ✅
         }
 
         $this->redirect(BASE_URL . '/index.php?url=admin-orders-detail&id=' . $id . '&updated=1');
@@ -149,4 +144,5 @@ class AdminOrderController extends Controller {
 
         return [$orders, $total];
     }
+    
 }

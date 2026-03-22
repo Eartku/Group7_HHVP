@@ -169,4 +169,47 @@ class InventoryModel extends Model {
         $stmt->execute();
         return (int)$stmt->get_result()->fetch_assoc()['total'] > 0;
     }
+    public static function countLogs(string $from = '', string $to = ''): int {
+        $db     = Database::getInstance();
+        $wheres = ['1=1'];
+        $params = []; $types = '';
+
+        if ($from !== '') { $wheres[] = "DATE(l.created_at) >= ?"; $params[] = $from; $types .= 's'; }
+        if ($to   !== '') { $wheres[] = "DATE(l.created_at) <= ?"; $params[] = $to;   $types .= 's'; }
+
+        $where = 'WHERE ' . implode(' AND ', $wheres);
+        $stmt  = $db->prepare("SELECT COUNT(*) AS total FROM inventory_logs l $where");
+        if ($types) $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+        return (int)$stmt->get_result()->fetch_assoc()['total'];
+    }
+
+    public static function getLogs(string $from = '', string $to = '', int $limit = 15, int $offset = 0): array {
+        $db     = Database::getInstance();
+        $wheres = ['1=1'];
+        $params = []; $types = '';
+
+        if ($from !== '') { $wheres[] = "DATE(l.created_at) >= ?"; $params[] = $from; $types .= 's'; }
+        if ($to   !== '') { $wheres[] = "DATE(l.created_at) <= ?"; $params[] = $to;   $types .= 's'; }
+
+        $where = 'WHERE ' . implode(' AND ', $wheres);
+        $params[] = $limit; $params[] = $offset; $types .= 'ii';
+
+        $stmt = $db->prepare("
+            SELECT
+                l.id, l.type, l.quantity, l.import_price,
+                l.note, l.created_at,
+                p.name  AS product_name,
+                s.size_name
+            FROM inventory_logs l
+            LEFT JOIN products p ON p.id = l.product_id
+            LEFT JOIN size s     ON s.id = l.size_id
+            $where
+            ORDER BY l.created_at DESC
+            LIMIT ? OFFSET ?
+        ");
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
 }

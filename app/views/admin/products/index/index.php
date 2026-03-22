@@ -49,6 +49,28 @@
                         </option>
                         <?php endforeach; ?>
                     </select>
+                    <select name="status_filter" class="ui-input" style="width:auto;min-width:140px">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="active"
+                                <?= ($statusFilter ?? '') === 'active' ? 'selected' : '' ?>>
+                            Đang bán
+                        </option>
+                        <option value="inactive"
+                                <?= ($statusFilter ?? '') === 'inactive' ? 'selected' : '' ?>>
+                            Ngừng bán
+                        </option>
+                    </select>
+                    <select name="stock_filter" class="ui-input" style="width:auto;min-width:140px">
+                        <option value="">Tất cả tồn kho</option>
+                        <option value="instock"
+                                <?= ($stockFilter ?? '') === 'instock' ? 'selected' : '' ?>>
+                            Còn hàng
+                        </option>
+                        <option value="outofstock"
+                                <?= ($stockFilter ?? '') === 'outofstock' ? 'selected' : '' ?>>
+                            Hết hàng
+                        </option>
+                    </select>
                     <button type="submit" class="ui-btn sm">Lọc</button>
                     <?php if (!empty($search) || ($categoryId ?? 0) > 0): ?>
                     <a href="<?= BASE_URL ?>/index.php?url=admin-products"
@@ -132,15 +154,27 @@
                         <span class="ui-badge <?= $statusCls ?>"><?= $statusLabel ?></span>
                     </td>
                     <td class="center">
-                        <div class="d-flex justify-content-center gap-2">
-                            <a href="<?= BASE_URL ?>/index.php?url=admin-products/edit&id=<?= $p['id'] ?>"
-                               class="ui-btn-outline sm">Sửa</a>
-                            <a href="<?= BASE_URL ?>/index.php?url=admin-products/delete&id=<?= $p['id'] ?>"
-                               class="ui-btn sm"
-                               style="background:linear-gradient(135deg,#f76f8e,#db2777)"
-                               onclick="return confirm('Xóa sản phẩm này?')">Xóa</a>
-                        </div>
-                    </td>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="<?= BASE_URL ?>/index.php?url=admin-products/edit&id=<?= $p['id'] ?>"
+                        class="ui-btn-outline sm">Chỉnh sửa</a>
+
+                        <?php if (($p['status'] ?? 'active') === 'active'): ?>
+                        <a href="<?= BASE_URL ?>/index.php?url=admin-products/delete&id=<?= $p['id'] ?>"
+                        class="ui-btn sm"
+                        style="background:linear-gradient(135deg,#f76f8e,#db2777)"
+                        onclick="return confirm('Hủy kích hoạt sản phẩm này?')">
+                        Hủy kích hoạt
+                        </a>
+                        <?php else: ?>
+                        <a href="<?= BASE_URL ?>/index.php?url=admin-products/restore&id=<?= $p['id'] ?>"
+                        class="ui-btn sm"
+                        style="background:linear-gradient(135deg,#38d9a9,#0ca678)"
+                        onclick="return confirm('Kích hoạt lại sản phẩm này?')">
+                            Kích hoạt
+                        </a>
+                        <?php endif; ?>
+                    </div>
+                </td>
                 </tr>
                 <?php endforeach; endif; ?>
                 </tbody>

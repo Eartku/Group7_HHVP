@@ -1,10 +1,9 @@
 <?php
 class AdminCustomerController extends Controller{
 
-    public function index(): void {
+        public function index(): void {
         $this->requireAdmin();
 
-        // Tìm kiếm
         $search_type  = $_GET['search_type']  ?? 'name';
         $search_value = trim($_GET['search_value'] ?? '');
         $search_done  = isset($_GET['do_search']);
@@ -13,10 +12,10 @@ class AdminCustomerController extends Controller{
         $limit        = 15;
         $offset       = ($page - 1) * $limit;
 
-        // Xử lý lock/unlock từ list
+        // Xử lý lock/unlock
         if (isset($_GET['action'], $_GET['id'])) {
-            $targetId = (int)$_GET['id'];
-            $action   = $_GET['action'];
+            $targetId  = (int)$_GET['id'];
+            $action    = $_GET['action'];
             if ($targetId > 0 && in_array($action, ['lock', 'unlock'])) {
                 $newStatus = $action === 'lock' ? 'inactive' : 'active';
                 UserModel::updateStatus($targetId, $newStatus);
@@ -25,9 +24,32 @@ class AdminCustomerController extends Controller{
             return;
         }
 
-        $customers  = UserModel::getByRole('customer');
-        $total_rows = count($customers);
-        $total_pages = max(1, (int)ceil($total_rows / $limit));
+        // Validate search
+        if ($search_done) {
+            if ($search_type === 'id' && $search_value !== '' && !ctype_digit($search_value)) {
+                $search_error = 'Mã KH phải là số nguyên dương.';
+            }
+            if ($search_type === 'phone' && $search_value !== ''
+                && !preg_match('/^[0-9]{9,11}$/', $search_value)) {
+                $search_error = 'Số điện thoại không hợp lệ.';
+            }
+            if ($search_type === 'email' && $search_value !== ''
+                && !filter_var($search_value, FILTER_VALIDATE_EMAIL)) {
+                $search_error = 'Email không hợp lệ.';
+            }
+        }
+
+        $customers   = [];
+        $total_rows  = 0;
+        $total_pages = 1;
+
+        if (!$search_error) {
+            // ✅ Dùng search thực sự, không load all rồi filter
+            $result      = UserModel::searchCustomers($search_type, $search_value, $limit, $offset);
+            $customers   = $result['data'];
+            $total_rows  = $result['total'];
+            $total_pages = max(1, (int)ceil($total_rows / $limit));
+        }
 
         $this->adminView('admin/customers/index', [
             'customers'    => $customers,
@@ -104,7 +126,7 @@ class AdminCustomerController extends Controller{
         $customerId = (int)($_GET['id'] ?? 0);
         if ($customerId <= 0) {
             http_response_code(404);
-            include __DIR__ . '/../views/errors/404.php';
+            $this->abort(404);
             return;
         }
 
@@ -112,7 +134,7 @@ class AdminCustomerController extends Controller{
         $user = UserModel::findById($customerId);
         if (!$user || $user['role'] !== 'customer') {
             http_response_code(404);
-            include __DIR__ . '/../views/errors/404.php';
+            $this->abort(404);
             return;
         }
 
@@ -169,5 +191,14 @@ class AdminCustomerController extends Controller{
             'success'    => $success,
             'error'      => $error,
         ]);
+    }
+    public function delete(): void {
+        $this->requireAdmin();
+
+        $customerId = (int)($_GET['id'] ?? 0);
+        if ($customerId > 0) {
+            UserModel::updateStatus($customerId, 'inactive');
+        }
+        $this->redirect(BASE_URL . '/index.php?url=admin-customers');
     }
 }

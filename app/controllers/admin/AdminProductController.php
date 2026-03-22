@@ -3,25 +3,46 @@ class AdminProductController extends Controller {
 
     public function index(): void {
         $this->requireAdmin();
-        $search     = trim($_GET['search']   ?? '');
-        $categoryId = (int)($_GET['category'] ?? 0);
-        $page       = max(1, (int)($_GET['page'] ?? 1));
-        $limit      = 8;
-        $offset     = ($page - 1) * $limit;
+        $search      = trim($_GET['search']        ?? '');
+        $categoryId  = (int)($_GET['category']     ?? 0);
+        $statusFilter = trim($_GET['status_filter'] ?? '');
+        $stockFilter  = trim($_GET['stock_filter']  ?? '');
+        $page        = max(1, (int)($_GET['page']  ?? 1));
+        $limit       = 8;
+        $offset      = ($page - 1) * $limit;
 
-        $total      = ProductModel::count($categoryId, $search);
-        $totalPages = (int)ceil($total / $limit);
-        $products   = ProductModel::getList($categoryId, $limit, $offset, $search);
+        // Lấy tên category đang lọc để hiển thị filter tag
+        $catName = '';
+        if ($categoryId > 0) {
+            $cat     = CategoryModel::getById($categoryId);
+            $catName = $cat['name'] ?? '';
+        }
+
+        $total      = ProductModel::countAll($categoryId, $search, $statusFilter, $stockFilter);
+        $totalPages = max(1, (int)ceil($total / $limit));
+        $products   = ProductModel::getListAdmin($categoryId, $limit, $offset, $search, $statusFilter, $stockFilter);
         $categories = CategoryModel::getAll();
 
         $this->adminView('admin/products/index', [
-            'products'   => $products,
-            'categories' => $categories,
-            'search'     => $search,
-            'categoryId' => $categoryId,
-            'page'       => $page,
-            'totalPages' => $totalPages,
+            'products'     => $products,
+            'categories'   => $categories,
+            'search'       => $search,
+            'categoryId'   => $categoryId,
+            'catName'      => $catName,
+            'statusFilter' => $statusFilter,
+            'stockFilter'  => $stockFilter,
+            'page'         => $page,
+            'totalPages'   => $totalPages,
+            'total'        => $total,
         ]);
+    }
+    public function restore(): void {
+        $this->requireAdmin();
+        $id = (int)($_GET['id'] ?? 0);
+        if ($id > 0) {
+            ProductModel::updateStatus($id, 'active');
+        }
+        $this->redirect(BASE_URL . '/index.php?url=admin-products');
     }
 
     public function create(): void {

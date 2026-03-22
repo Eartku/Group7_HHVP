@@ -24,6 +24,7 @@
                 $navItems = [
                     'admin-customers'        => 'KHÁCH HÀNG',
                     'admin-categories'       => 'LOẠI SẢN PHẨM',
+                    'admin-sizes'            => 'KÍCH CỠ',
                     'admin-products'         => 'SẢN PHẨM',
                     'admin-inventory-create' => 'NHẬP SẢN PHẨM',
                     'admin-sell'             => 'GIÁ BÁN',

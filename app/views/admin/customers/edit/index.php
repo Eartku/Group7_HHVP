@@ -110,8 +110,9 @@
                                class="ui-input" placeholder="Để trống nếu không đổi">
                         <button type="button" class="ui-pwd-toggle" onclick="togglePwd()">
                             <img id="eyeIcon"
-                                 src="<?= BASE_URL ?>/images/eye.svg"
-                                 alt="toggle">
+                                 src="<?= BASE_URL ?>/images/show.svg"
+                                 alt="toggle"
+                                 style ='background-color:green;width:25px;height:25px'>
                         </button>
                     </div>
                 </div>
@@ -150,7 +151,7 @@
                         ← Quay lại
                     </a>
                     <button type="submit" class="ui-btn sm flex-grow-1">
-                        💾 Lưu thay đổi
+                        Lưu thay đổi
                     </button>
                 </div>
 

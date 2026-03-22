@@ -1,21 +1,26 @@
 <?php
-class AdminSellController extends __Controller__ {
+class AdminSellController extends Controller {
 
     public function index(): void {
         $this->requireAdmin();
 
         $search = trim($_GET['search'] ?? '');
+        $page   = max(1, (int)($_GET['page'] ?? 1));
+        $limit  = 10;
+        $offset = ($page - 1) * $limit;
 
-        // Lấy tất cả danh mục
-        $categories = CategoryModel::getAll();
+        $categories  = CategoryModel::getAllActive();
+        $total       = ProductModel::countAll(0, $search); // tổng để tính số trang
+        $totalPages  = max(1, (int)ceil($total / $limit));
+        $products    = ProductModel::getListAdmin(0, $limit, $offset, $search);
 
-        // Lấy sản phẩm kèm avg_import_price từ inventory
-        $products = ProductModel::getListAdmin(0, 999, 0, $search);
-
-        $this->adminView('admin/sell', [
+        $this->adminView('admin/sell/index', [
             'categories' => $categories,
             'products'   => $products,
             'search'     => $search,
+            'page'       => $page,
+            'totalPages' => $totalPages,
+            'total'      => $total,
         ]);
     }
 

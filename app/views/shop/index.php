@@ -17,18 +17,91 @@
     </form>
 
     <!-- Category tabs -->
-    <div class="d-flex gap-2 flex-wrap mb-4">
-        <a href="<?= BASE_URL ?>/index.php?url=shop&category=0<?= $search ? '&search=' . urlencode($search) : '' ?>"
-           class="btn btn-sm <?= $categoryId === 0 ? 'btn-dark' : 'btn-outline-dark' ?>">
-            Tất cả
+<!-- Category tabs + Price filter cùng hàng -->
+<div class="d-flex gap-2 flex-wrap align-items-center mb-4">
+
+    <!-- Category tabs (giữ nguyên) -->
+    <a href="<?= BASE_URL ?>/index.php?url=shop&category=0<?= $search ? '&search='.urlencode($search) : '' ?>"
+       class="btn btn-sm <?= $categoryId === 0 ? 'btn-dark' : 'btn-outline-dark' ?>">
+        Tất cả
+    </a>
+    <?php foreach ($categories as $cat): ?>
+        <a href="<?= BASE_URL ?>/index.php?url=shop&category=<?= (int)$cat['id'] ?><?= $search ? '&search='.urlencode($search) : '' ?><?= $priceMin||$priceMax ? '&price_min='.$priceMin.'&price_max='.$priceMax : '' ?>"
+           class="btn btn-sm <?= $categoryId === (int)$cat['id'] ? 'btn-dark' : 'btn-outline-dark' ?>">
+            <?= htmlspecialchars($cat['name']) ?>
         </a>
-        <?php foreach ($categories as $cat): ?>
-            <a href="<?= BASE_URL ?>/index.php?url=shop&category=<?= (int)$cat['id'] ?><?= $search ? '&search=' . urlencode($search) : '' ?>"
-               class="btn btn-sm <?= $categoryId === (int)$cat['id'] ? 'btn-dark' : 'btn-outline-dark' ?>">
-                <?= htmlspecialchars($cat['name']) ?>
-            </a>
-        <?php endforeach; ?>
+    <?php endforeach; ?>
+
+    <!-- Dropdown lọc giá -->
+    <div class="ms-auto position-relative" id="priceDropdownWrap">
+        <button class="btn btn-sm <?= $priceMin||$priceMax ? 'btn-dark' : 'btn-outline-dark' ?>"
+                type="button"
+                onclick="document.getElementById('priceDropdown').classList.toggle('show')">
+            <?php if ($priceMin || $priceMax): ?>
+                <?= $priceMin ? number_format($priceMin,0,',','.') : '0' ?>đ
+                —
+                <?= $priceMax ? number_format($priceMax,0,',','.') : '∞' ?>đ
+                &nbsp;✕
+            <?php else: ?>
+                Lọc theo giá ▾
+            <?php endif; ?>
+        </button>
+
+        <div id="priceDropdown"
+             style="display:none;position:absolute;right:0;top:calc(100% + 6px);
+                    background:#fff;border:1px solid var(--border);border-radius:10px;
+                    padding:16px;min-width:240px;z-index:999;box-shadow:0 4px 16px rgba(0,0,0,.1)">
+            <form method="GET" action="<?= BASE_URL ?>/index.php">
+                <input type="hidden" name="url"      value="shop">
+                <input type="hidden" name="category" value="<?= $categoryId ?>">
+                <?php if ($search): ?>
+                <input type="hidden" name="search"   value="<?= htmlspecialchars($search) ?>">
+                <?php endif; ?>
+
+                <label class="form-label small fw-semibold mb-1">Giá từ</label>
+                <input type="number" name="price_min" class="form-control form-control-sm mb-2"
+                       placeholder="VD: 50000"
+                       min="0" step="1000"
+                       value="<?= $priceMin ?: '' ?>">
+
+                <label class="form-label small fw-semibold mb-1">Giá đến</label>
+                <input type="number" name="price_max" class="form-control form-control-sm mb-3"
+                       placeholder="VD: 500000"
+                       min="0" step="1000"
+                       value="<?= $priceMax ?: '' ?>">
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-sm btn-dark flex-grow-1">Áp dụng</button>
+                    <?php if ($priceMin || $priceMax): ?>
+                    <a href="<?= BASE_URL ?>/index.php?url=shop&category=<?= $categoryId ?><?= $search ? '&search='.urlencode($search) : '' ?>"
+                       class="btn btn-sm btn-outline-secondary">Xóa</a>
+                    <?php endif; ?>
+                </div>
+            </form>
+        </div>
     </div>
+
+</div>
+
+<script>
+// Đóng dropdown khi click ra ngoài
+document.addEventListener('click', function(e) {
+    const wrap = document.getElementById('priceDropdownWrap');
+    if (wrap && !wrap.contains(e.target)) {
+        document.getElementById('priceDropdown').classList.remove('show');
+    }
+});
+// Toggle show/hide
+const pd = document.getElementById('priceDropdown');
+if (pd) {
+    pd.style.display = '';
+    pd.classList.remove('show');
+    // Dùng CSS class thay style
+    const style = document.createElement('style');
+    style.textContent = '#priceDropdown { display:none } #priceDropdown.show { display:block }';
+    document.head.appendChild(style);
+}
+</script>
 
     <!-- Active filter tags -->
     <?php if ($search !== '' || $categoryId > 0): ?>

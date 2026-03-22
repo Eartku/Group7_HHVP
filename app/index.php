@@ -225,7 +225,46 @@ switch ($url) {
         $c = new AdminSellController();
         $method === 'POST' ? $c->update() : $c->index();
         break;
+    case '/admin-products/restore':
+        $c = new AdminProductController();
+        $c->restore();
+        break;
+    case '/admin-sizes':
+        $c = new AdminSizeController();
+        $method === 'POST' ? $c->create() : $c->index();
+        break;
 
+    case '/admin-sizes-edit':
+        $c = new AdminSizeController();
+        $c->edit();
+        break;
+
+    case '/admin-sizes-delete':
+        $c = new AdminSizeController();
+        $c->delete();
+        break;
+    case '/admin-categories':
+        $c = new AdminCategoryController();
+        $c->index();
+        break;
+    case '/admin-categories-create':
+        $c = new AdminCategoryController();
+        $c->create();
+        break;
+
+    case '/admin-categories-edit':
+        $c = new AdminCategoryController();
+        $c->edit();
+        break;
+
+    case '/admin-categories-delete':
+        $c = new AdminCategoryController();
+        $c->delete();
+        break;
+    case '/admin-categories-restore':
+        $c = new AdminCategoryController();
+        $c->restore();
+        break;
     // ── 404 ──
     default:
         http_response_code(404);

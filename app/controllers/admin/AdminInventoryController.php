@@ -3,16 +3,35 @@ class AdminInventoryController extends Controller{
 
     public function index(): void {
         $this->requireAdmin();
+
+        // Phiếu nhập
         $page       = max(1, (int)($_GET['page'] ?? 1));
         $limit      = 10;
         $offset     = ($page - 1) * $limit;
         $imports    = InventoryModel::getImports($limit, $offset);
         $total      = InventoryModel::countImports();
         $totalPages = (int)ceil($total / $limit);
+
+        // Log xuất/nhập
+        $logFrom  = $_GET['log_from'] ?? '';
+        $logTo    = $_GET['log_to']   ?? '';
+        $logPage  = max(1, (int)($_GET['log_page'] ?? 1));
+        $logLimit = 15;
+
+        $logTotal      = InventoryModel::countLogs($logFrom, $logTo);
+        $logTotalPages = max(1, (int)ceil($logTotal / $logLimit));
+        $logPage       = min($logPage, $logTotalPages);
+        $logs          = InventoryModel::getLogs($logFrom, $logTo, $logLimit, ($logPage - 1) * $logLimit);
+
         $this->adminView('admin/inventory/index', [
-            'imports'    => $imports,
-            'page'       => $page,
-            'totalPages' => $totalPages,
+            'imports'       => $imports,
+            'page'          => $page,
+            'totalPages'    => $totalPages,
+            'logs'          => $logs,
+            'logFrom'       => $logFrom,
+            'logTo'         => $logTo,
+            'logPage'       => $logPage,
+            'logTotalPages' => $logTotalPages,
         ]);
     }
 

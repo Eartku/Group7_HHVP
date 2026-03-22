@@ -165,21 +165,21 @@
                         <div class="d-flex justify-content-center gap-2">
                             <a href="<?= BASE_URL ?>/index.php?url=admin-customers-edit&id=<?= $row['id'] ?>"
                                class="ui-btn-outline sm">
-                                ✏️ Sửa
+                                Chỉnh sửa
                             </a>
                             <?php if ($row['status'] === 'active'): ?>
                             <a href="<?= BASE_URL ?>/index.php?url=admin-customers&action=lock&id=<?= $row['id'] ?>"
                                class="ui-btn sm"
                                style="background:linear-gradient(135deg,#718096,#4a5568)"
                                onclick="return confirm('Khóa tài khoản này?')">
-                                🔒 Khóa
+                                Khóa
                             </a>
                             <?php else: ?>
                             <a href="<?= BASE_URL ?>/index.php?url=admin-customers&action=unlock&id=<?= $row['id'] ?>"
                                class="ui-btn sm"
                                style="background:linear-gradient(135deg,#4f8ef7,#2563eb)"
                                onclick="return confirm('Mở khóa tài khoản này?')">
-                                🔓 Mở
+                                Mở
                             </a>
                             <?php endif; ?>
                         </div>

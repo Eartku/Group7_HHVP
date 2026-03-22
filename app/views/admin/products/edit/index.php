@@ -88,8 +88,8 @@
                         <div class="ui-field mb-0">
                             <label class="ui-label">Trạng thái</label>
                             <select name="status" class="ui-input">
-                                <option value="active"   <?= ($product['status'] ?? '') === 'active'   ? 'selected' : '' ?>>✅ Đang bán</option>
-                                <option value="inactive" <?= ($product['status'] ?? '') === 'inactive' ? 'selected' : '' ?>>🔒 Ngừng bán</option>
+                                <option value="active"   <?= ($product['status'] ?? '') === 'active'   ? 'selected' : '' ?>>Đang bán</option>
+                                <option value="inactive" <?= ($product['status'] ?? '') === 'inactive' ? 'selected' : '' ?>> Ngừng bán</option>
                             </select>
                         </div>
                     </div>
@@ -171,7 +171,7 @@
             <a href="<?= BASE_URL ?>/index.php?url=admin-products"
                class="ui-btn-outline sm">← Quay lại</a>
             <button type="submit" class="ui-btn sm flex-grow-1">
-                💾 Lưu thay đổi
+             Lưu thay đổi
             </button>
         </div>
 

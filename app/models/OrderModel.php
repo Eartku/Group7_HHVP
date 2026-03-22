@@ -113,4 +113,13 @@ class OrderModel extends Model {
         ];
         return $map[$status] ?? ['class' => 'neutral', 'label' => $status];
     }
+    public static function updateStatus(int $orderId, string $status): bool {
+        $allowed = ['processing', 'processed', 'shipping', 'shipped', 'cancelled'];
+        if (!in_array($status, $allowed)) return false;
+
+        $db   = Database::getInstance();
+        $stmt = $db->prepare("UPDATE orders SET status = ? WHERE id = ?");
+        $stmt->bind_param("si", $status, $orderId);
+        return $stmt->execute();
+    }
 }
