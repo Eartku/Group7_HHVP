@@ -20,7 +20,7 @@
                     <input type="checkbox" id="cart-toggle" hidden />
                     <label for="cart-toggle" class="hover-box-2">
                         <div class="front"><img src="<?= BASE_URL ?>/images/cart.png" /></div>
-                        <!-- ✅ link giỏ hàng -->
+                 
                         <a href="<?= BASE_URL ?>/index.php?url=cart" class="back">Giỏ hàng</a>
                     </label>
                 </li>
