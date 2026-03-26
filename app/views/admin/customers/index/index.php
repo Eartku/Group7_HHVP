@@ -62,8 +62,10 @@
                             </svg>
                         </button>
                     </div>
-                    <button type="submit" name="do_search" value="1" class="ui-btn sm">
-                        Lọc
+                    <button type="submit" name="do_search" value="1" class="ui-btn sm" 
+        onclick="var input = document.getElementById('search_value'); if(input.value.trim() === '') { alert('⚠️ Vui lòng nhập nội dung tìm kiếm!'); return false; }">
+    Lọc
+</button>
                     </button>
                     <?php if (!empty($search_done)): ?>
                     <a href="<?= BASE_URL ?>/index.php?url=admin-customers"
@@ -272,4 +274,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('search_value').placeholder = placeholders[type] || '';
     document.getElementById('search_hint').textContent = hints[type] || '';
 });
+document.getElementById('searchForm').onsubmit = function(e) {
+    const searchInput = document.getElementById('search_value');
+    
+    if (searchInput && searchInput.value.trim() === "") {
+        e.preventDefault(); 
+        alert("Vui lòng nhập thông tin");
+        searchInput.focus();
+        return false;
+    }
+    return true;
+}
 </script>
