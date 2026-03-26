@@ -128,9 +128,9 @@
                     <div id="bank-info" style="display:none; background:#f8f9fa; border:1px solid #e0e0e0;
                         border-radius:8px; padding:14px 16px; margin:10px 0 14px; font-size:14px; line-height:2;">
                         <div>🏦 <strong>Ngân hàng:</strong> Vietcombank</div>
-                        <div>💳 <strong>STK:</strong> 123456789</div>
-                        <div>👤 <strong>Chủ TK:</strong> Phúc đẹp trai</div>
-                        <div>💰 <strong>Số tiền:</strong>
+                        <div>💳 <strong>STK nhận:</strong> 123456789</div>
+                        <div>👤 <strong>Tên Người nhận:</strong> Bonsai</div>
+                        <div>💰 <strong>Số tiền cần chuyển:</strong>
                             <span style="color:#e53935; font-weight:600;">
                                 <?= number_format($grandTotal, 0, ',', '.') ?>đ
                             </span>
