@@ -195,4 +195,51 @@
 
     recalc();
 })();
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.ui-stepper-btn');
+    if (!btn) return;
+
+    const action = btn.dataset.action;
+    const targetId = btn.dataset.target;
+    const input = document.getElementById(targetId);
+    if (!input) return;
+
+    let value = parseInt(input.value) || 1;
+    const min = parseInt(input.min) || 1;
+    const max = parseInt(input.max) || Infinity;
+
+    if (action === 'plus') {
+        if (value < max) input.value = value + 1;
+    } else if (action === 'minus') {
+        if (value > min) input.value = value - 1;
+    }
+
+    // Nếu cần trigger event để cập nhật giá/tổng tiền
+    input.dispatchEvent(new Event('change'));
+});
+// Theo dõi thay đổi số lượng
+let cartChanged = false;
+
+document.querySelectorAll('.qty-input').forEach(inp => {
+    inp.addEventListener('change', function () {
+        cartChanged = true;
+    });
+});
+
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.ui-stepper-btn');
+    if (btn) {
+        cartChanged = true;
+    }
+});
+
+// Chặn nút thanh toán nếu chưa cập nhật
+document.querySelector('a[href*="url=checkout"]')?.addEventListener('click', function (e) {
+    if (cartChanged) {
+        e.preventDefault();
+        alert('Quý khách vui lòng cập nhật giỏ hàng trước khi thanh toán!');
+        // Scroll lên nút "Cập nhật giỏ hàng" cho rõ
+        document.querySelector('.btn-update')?.scrollIntoView({ behavior: 'smooth' });
+    }
+});
 </script>
