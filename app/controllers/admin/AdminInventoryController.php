@@ -104,4 +104,66 @@ class AdminInventoryController extends Controller{
         InventoryModel::cancelImport($id);
         $this->redirect(BASE_URL . '/index.php?url=admin-inventory-detail&id=' . $id . '&cancelled=1');
     }
+    public function edit(): void {
+    $this->requireAdmin();
+
+    $id = (int)($_GET['id'] ?? 0);
+
+    $receipt = InventoryModel::getImportById($id);
+    if (!$receipt) {
+        http_response_code(404);
+        include __DIR__ . '/../views/errors/404.php';
+        return;
+    }
+
+    if ($receipt['status'] !== 'pending') {
+        $_SESSION['error'] = "Phiếu đã xác nhận, không thể chỉnh sửa!";
+        $this->redirect(BASE_URL . '/index.php?url=admin-inventory-detail&id=' . $id);
+        return;
+    }
+    $items    = InventoryModel::getImportItems($id);
+    $products = ProductModel::getList(0, 999, 0);
+    $sizes    = SizeModel::getAll();
+
+    $this->adminView('admin/inventory/edit', [
+        'receipt'  => $receipt,
+        'items'    => $items,
+        'products' => $products,
+        'sizes'    => $sizes,
+    ]);
+}
+public function update(): void {
+    $this->requireAdmin();
+
+    $id = (int)($_GET['id'] ?? 0);
+
+    $receipt = InventoryModel::getImportById($id);
+    if (!$receipt || $receipt['status'] !== 'pending') {
+        die("Không thể cập nhật phiếu!");
+    }
+
+    $productIds = $_POST['product_id'] ?? [];
+    $sizeIds    = $_POST['size_id'] ?? [];
+    $prices     = $_POST['price'] ?? [];
+    $qtys       = $_POST['quantity'] ?? [];
+
+    $items = [];
+
+    foreach ($productIds as $i => $productId) {
+        if (empty($productId) || empty($sizeIds[$i])) continue;
+
+        $items[] = [
+            'product_id' => (int)$productId,
+            'size_id'    => (int)$sizeIds[$i],
+            'price'      => (float)$prices[$i],
+            'quantity'   => (int)$qtys[$i],
+        ];
+    }
+
+    if (!empty($items)) {
+        InventoryModel::updateImport($id, $items);
+    }
+
+    $this->redirect(BASE_URL . '/index.php?url=admin-inventory-detail&id=' . $id . '&updated=1');
+}
 }

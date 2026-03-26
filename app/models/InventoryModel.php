@@ -212,4 +212,45 @@ class InventoryModel extends Model {
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+    public static function updateImport(int $receiptId, array $items): bool {
+    $db = Database::getInstance();
+    $db->begin_transaction();
+
+    try {
+        // Xóa item cũ
+        $stmt = $db->prepare("DELETE FROM inventory_logs WHERE receipt_id = ?");
+        $stmt->bind_param("i", $receiptId);
+        $stmt->execute();
+
+        // Insert lại
+        foreach ($items as $item) {
+            $stmt = $db->prepare("
+                INSERT INTO inventory_logs
+                (receipt_id, product_id, size_id, type, quantity, import_price, note)
+                VALUES (?, ?, ?, 'import', ?, ?, ?)
+            ");
+
+            $note = "Cập nhật phiếu #$receiptId";
+
+            $stmt->bind_param(
+                "iiidis",
+                $receiptId,
+                $item['product_id'],
+                $item['size_id'],
+                $item['quantity'],
+                $item['price'],
+                $note
+            );
+
+            $stmt->execute();
+        }
+
+        $db->commit();
+        return true;
+
+    } catch (Exception $e) {
+        $db->rollback();
+        return false;
+    }
+}
 }

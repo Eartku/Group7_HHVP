@@ -197,6 +197,15 @@ switch ($url) {
         $c->detail();
         break;
 
+    case '/admin-inventory-edit':
+        $c = new AdminInventoryController();
+        $c->edit();
+        break;
+
+    case '/admin-inventory-update':
+        $c = new AdminInventoryController();
+        $c->update();
+        break; 
     case '/admin-inventory-confirm':
         $c = new AdminInventoryController();
         $c->confirm();

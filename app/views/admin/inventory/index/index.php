@@ -104,8 +104,17 @@
                     </td>
                     <td class="center">
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-detail&id=<?= $row['id'] ?>"
-                               class="ui-btn-outline sm">Chi tiết</a>
+                            <?php if ($row['status'] === 'pending'): ?>
+                                <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-edit&id=<?= $row['id'] ?>"
+                                class="ui-btn-outline sm">
+                                    Chỉnh sửa
+                                </a>
+                            <?php else: ?>
+                                <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-detail&id=<?= $row['id'] ?>"
+                                class="ui-btn-outline sm">
+                                    Chi tiết
+                                </a>
+                            <?php endif; ?>
                             <?php if ($row['status'] === 'pending'): ?>
                             <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-confirm&id=<?= $row['id'] ?>"
                                class="ui-btn sm"
