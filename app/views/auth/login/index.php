@@ -296,7 +296,7 @@ function togglePwd(id, btn) {
     const ico   = btn.querySelector('img');
     const isHidden = input.type === 'password';
     input.type = isHidden ? 'text' : 'password';
-    ico.src    = isHidden ? '../app/images/show.svg' : '/app/images/hide.svg';
+    ico.src    = isHidden ? '../app/images/show.svg' : '../app/images/hide.svg';
 }
 </script>
 </body>

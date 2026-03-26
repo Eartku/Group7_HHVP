@@ -108,28 +108,52 @@
 
                         <hr>
 
-                        <h5 class="ui-title sm">Phương thức thanh toán</h5>
+                       <h5 class="ui-title sm">Phương thức thanh toán</h5>
 
-                        <div class="ui-sum-row">
-                            <label>
-                                <input type="radio" name="payment" value="cod" checked>
-                                Thanh toán khi nhận hàng
-                            </label>
-                        </div>
+                    <div class="ui-sum-row">
+                        <label>
+                            <input type="radio" name="payment" value="cod" checked>
+                            Thanh toán khi nhận hàng
+                        </label>
+                    </div>
 
-                        <div class="ui-sum-row">
-                            <label>
-                                <input type="radio" name="payment" value="bank">
-                                Chuyển khoản ngân hàng
-                            </label>
-                        </div>
+                    <div class="ui-sum-row">
+                        <label>
+                            <input type="radio" name="payment" value="bank">
+                            Chuyển khoản
+                        </label>
+                    </div>
 
-                        <div class="ui-sum-row">
-                            <label>
-                                <input type="radio" name="payment" value="momo">
-                                Thanh toán MoMo
-                            </label>
+                    <!-- Thông tin chuyển khoản -->
+                    <div id="bank-info" style="display:none; background:#f8f9fa; border:1px solid #e0e0e0;
+                        border-radius:8px; padding:14px 16px; margin:10px 0 14px; font-size:14px; line-height:2;">
+                        <div>🏦 <strong>Ngân hàng:</strong> Vietcombank</div>
+                        <div>💳 <strong>STK nhận:</strong> 123456789</div>
+                        <div>👤 <strong>Tên Người nhận:</strong> Bonsai</div>
+                        <div>💰 <strong>Số tiền cần chuyển:</strong>
+                            <span style="color:#e53935; font-weight:600;">
+                                <?= number_format($grandTotal, 0, ',', '.') ?>đ
+                            </span>
                         </div>
+                        <div>📝 <strong>Nội dung:</strong>
+                            <span id="bank-content" style="color:#e53935; font-weight:600;">
+                                <?php
+                                $parts = [];
+                                foreach ($items as $item) {
+                                    $parts[] = $item['quantity'] . ' ' . $item['name'] . ' ' . $item['size'];
+                                }
+                                echo htmlspecialchars(implode(', ', $parts));
+                                ?>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="ui-sum-row">
+                        <label>
+                            <input type="radio" name="payment" value="momo">
+                            Trực Tuyến
+                        </label>
+                    </div>
 
                         <button type="submit" class="ui-btn full">
                             ĐẶT HÀNG
@@ -138,7 +162,14 @@
                     </div>
                 </div>
             </div>
-
+                <script>
+                document.querySelectorAll('input[name="payment"]').forEach(function(radio) {
+                    radio.addEventListener('change', function() {
+                        document.getElementById('bank-info').style.display =
+                            this.value === 'bank' ? 'block' : 'none';
+                    });
+                });
+                </script>
         </div>
     </form>
 </div>

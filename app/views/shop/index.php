@@ -58,17 +58,17 @@
                 <input type="hidden" name="search"   value="<?= htmlspecialchars($search) ?>">
                 <?php endif; ?>
 
-                <label class="form-label small fw-semibold mb-1">Giá từ</label>
-                <input type="number" name="price_min" class="form-control form-control-sm mb-2"
-                       placeholder="VD: 50000"
-                       min="0" step="1000"
-                       value="<?= $priceMin ?: '' ?>">
+               <label class="form-label small fw-semibold mb-1">Giá từ</label>
+<input type="text" name="price_min" id="price_min_display" class="form-control form-control-sm mb-2"
+       placeholder="VD: 50.000"
+       value="<?= $priceMin ? number_format($priceMin, 0, ',', '.') : '' ?>">
+<input type="hidden" name="price_min" id="price_min_value" value="<?= $priceMin ?: '' ?>">
 
-                <label class="form-label small fw-semibold mb-1">Giá đến</label>
-                <input type="number" name="price_max" class="form-control form-control-sm mb-3"
-                       placeholder="VD: 500000"
-                       min="0" step="1000"
-                       value="<?= $priceMax ?: '' ?>">
+<label class="form-label small fw-semibold mb-1">Giá đến</label>
+<input type="text" name="price_max" id="price_max_display" class="form-control form-control-sm mb-3"
+       placeholder="VD: 500.000"
+       value="<?= $priceMax ? number_format($priceMax, 0, ',', '.') : '' ?>">
+<input type="hidden" name="price_max" id="price_max_value" value="<?= $priceMax ?: '' ?>">
 
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-sm btn-dark flex-grow-1">Áp dụng</button>
@@ -239,4 +239,20 @@ document.querySelectorAll('[data-product-id]').forEach(btn => {
         });
     });
 });
+function formatPriceInput(displayId, hiddenId) {
+    const display = document.getElementById(displayId);
+    const hidden  = document.getElementById(hiddenId);
+    if (!display || !hidden) return;
+
+    display.addEventListener('input', function () {
+        // Chỉ giữ lại số
+        const raw = this.value.replace(/\D/g, '');
+        hidden.value = raw;
+        // Format có dấu chấm ngàn
+        this.value = raw ? Number(raw).toLocaleString('vi-VN') : '';
+    });
+}
+
+formatPriceInput('price_min_display', 'price_min_value');
+formatPriceInput('price_max_display', 'price_max_value');
 </script>

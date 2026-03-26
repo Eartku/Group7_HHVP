@@ -37,16 +37,22 @@ $noLayout = true;
 
     <div class="collapse navbar-collapse" id="navbarsFurni">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a href="../app/index.php?url=login" class="nav-link d-flex align-items-center gap-2">
-            <img src="images/login.svg" style="width:30px; height:30px;"/> Đăng nhập
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="../app/index.php?url=register" class="nav-link d-flex align-items-center gap-2">
-            <img src="images/register.svg" style="width:25px; height:25px;"/> Đăng ký
-          </a>
-        </li>
+          <li class="nav-item">
+              <a href="#" class="nav-link d-flex align-items-center gap-2"
+                onclick="showLoginAlert(event)">
+                  <img src="images/cart.png" style="width:25px; height:25px;"/> Giỏ hàng
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="../app/index.php?url=login" class="nav-link d-flex align-items-center gap-2">
+                  <img src="images/login.svg" style="width:30px; height:30px;"/> Đăng nhập
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="../app/index.php?url=register" class="nav-link d-flex align-items-center gap-2">
+                  <img src="images/register.svg" style="width:25px; height:25px;"/> Đăng ký
+              </a>
+          </li>
       </ul>
     </div>
   </div>
@@ -176,6 +182,43 @@ toggles.forEach(cb => {
     </div>
   </div>
 </footer>
+<!-- Modal thông báo đăng nhập -->
+<div id="loginModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.5);
+     z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:12px; padding:32px 28px;
+                max-width:360px; width:90%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,.2)">
+        <div style="font-size:48px; margin-bottom:12px">🔒</div>
+        <h5 style="margin-bottom:8px">Bạn chưa đăng nhập</h5>
+        <p style="color:#666; font-size:14px; margin-bottom:20px">
+            Vui lòng đăng nhập hoặc đăng ký để sử dụng tính năng này.
+        </p>
+        <div class="d-flex gap-2 justify-content-center">
+            <a href="../app/index.php?url=login"
+               class="btn btn-dark">Đăng nhập</a>
+            <a href="../app/index.php?url=register"
+               class="btn btn-outline-dark">Đăng ký</a>
+        </div>
+        <button onclick="closeLoginModal()"
+                style="margin-top:14px; background:none; border:none;
+                       color:#aaa; font-size:13px; cursor:pointer">
+            Đóng
+        </button>
+    </div>
+</div>
+
+<script>
+function showLoginAlert(e) {
+    if (e) e.preventDefault();
+    document.getElementById('loginModal').style.display = 'flex';
+}
+function closeLoginModal() {
+    document.getElementById('loginModal').style.display = 'none';
+}
+// Bấm ra ngoài modal để đóng
+document.getElementById('loginModal').addEventListener('click', function(e) {
+    if (e.target === this) closeLoginModal();
+});
+</script>
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/tiny-slider.js"></script>
