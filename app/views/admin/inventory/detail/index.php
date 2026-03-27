@@ -185,7 +185,7 @@
 
     <!-- Actions -->
     <div class="d-flex gap-2 mt-4">
-        <a href="<?= BASE_URL ?>/index.php?url=admin-inventory"
+        <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-create"
            class="ui-btn-outline sm">← Quay lại</a>
         <?php if ($receipt['status'] === 'pending'): ?>
         <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-confirm&id=<?= $receipt['id'] ?>"

@@ -1,24 +1,45 @@
 <?php
 class InventoryModel extends Model {
 
-    public static function getImports(int $limit = 10, int $offset = 0): array {
-        $db   = Database::getInstance();
+    public static function getImports(int $limit = 10, int $offset = 0, string $status = '', string $from = '', string $to = ''): array {
+        $db     = Database::getInstance();
+        $wheres = ['1=1'];
+        $params = []; $types = '';
+
+        if ($status !== '') { $wheres[] = "ir.status = ?";              $params[] = $status; $types .= 's'; }
+        if ($from   !== '') { $wheres[] = "DATE(ir.created_at) >= ?";   $params[] = $from;   $types .= 's'; }
+        if ($to     !== '') { $wheres[] = "DATE(ir.created_at) <= ?";   $params[] = $to;     $types .= 's'; }
+
+        $where     = 'WHERE ' . implode(' AND ', $wheres);
+        $params[]  = $limit; $params[] = $offset; $types .= 'ii';
+
         $stmt = $db->prepare("
             SELECT ir.*, u.fullname AS created_by_name
             FROM import_receipts ir
             LEFT JOIN users u ON u.id = ir.created_by
+            $where
             ORDER BY ir.id DESC
             LIMIT ? OFFSET ?
         ");
-        $stmt->bind_param("ii", $limit, $offset);
+        $stmt->bind_param($types, ...$params);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    public static function countImports(): int {
-        $db = Database::getInstance();
-        return (int)$db->query("SELECT COUNT(*) AS total FROM import_receipts")
-                       ->fetch_assoc()['total'];
+        public static function countImports(string $status = '', string $from = '', string $to = ''): int {
+        $db     = Database::getInstance();
+        $wheres = ['1=1'];
+        $params = []; $types = '';
+
+        if ($status !== '') { $wheres[] = "status = ?";            $params[] = $status; $types .= 's'; }
+        if ($from   !== '') { $wheres[] = "DATE(created_at) >= ?"; $params[] = $from;   $types .= 's'; }
+        if ($to     !== '') { $wheres[] = "DATE(created_at) <= ?"; $params[] = $to;     $types .= 's'; }
+
+        $where = 'WHERE ' . implode(' AND ', $wheres);
+        $stmt  = $db->prepare("SELECT COUNT(*) AS total FROM import_receipts $where");
+        if ($types) $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+        return (int)$stmt->get_result()->fetch_assoc()['total'];
     }
 
     public static function getImportById(int $id): ?array {
