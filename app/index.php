@@ -274,10 +274,6 @@ switch ($url) {
         $c = new AdminCategoryController();
         $c->restore();
         break;
-    case '/admin-products/destroy':
-        $c = new AdminProductController();
-        $c->destroy();
-        break;
     // ── 404 ──
     default:
         http_response_code(404);

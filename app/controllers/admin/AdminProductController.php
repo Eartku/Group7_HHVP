@@ -161,28 +161,5 @@ class AdminProductController extends Controller {
         $stmt->bind_param("si", $status, $id);
         return $stmt->execute();
     }
-    public function destroy(): void {
-        $this->requireAdmin();
-
-        $id = (int)($_GET['id'] ?? 0);
-        if ($id <= 0) {
-            $this->redirect(BASE_URL . '/index.php?url=admin-products');
-            return;
-        }
-
-        // Kiểm tra lại stock phía server — tránh bypass URL
-        $sizes      = ProductModel::getSizes($id);
-        $totalStock = array_sum(array_column($sizes, 'stock'));
-
-        if ($totalStock > 0) {
-            // Có hàng trong kho → không cho xóa
-            $this->redirect(BASE_URL . '/index.php?url=admin-products&err=has_stock');
-            return;
-        }
-
-        // Chưa nhập hàng → xóa hẳn khỏi DB
-        ProductModel::delete($id);
-        $this->redirect(BASE_URL . '/index.php?url=admin-products&deleted=1');
-    }
 
 }

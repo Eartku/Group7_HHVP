@@ -153,7 +153,7 @@
                     <td class="center">
                         <span class="ui-badge <?= $statusCls ?>"><?= $statusLabel ?></span>
                     </td>
-                   <td class="center">
+                    <td class="center">
                     <div class="d-flex justify-content-center gap-2">
                         <a href="<?= BASE_URL ?>/index.php?url=admin-products/edit&id=<?= $p['id'] ?>"
                         class="ui-btn-outline sm">Chỉnh sửa</a>
@@ -163,7 +163,7 @@
                         class="ui-btn sm"
                         style="background:linear-gradient(135deg,#f76f8e,#db2777)"
                         onclick="return confirm('Hủy kích hoạt sản phẩm này?')">
-                            Hủy kích hoạt
+                        Hủy kích hoạt
                         </a>
                         <?php else: ?>
                         <a href="<?= BASE_URL ?>/index.php?url=admin-products/restore&id=<?= $p['id'] ?>"
@@ -171,15 +171,6 @@
                         style="background:linear-gradient(135deg,#38d9a9,#0ca678)"
                         onclick="return confirm('Kích hoạt lại sản phẩm này?')">
                             Kích hoạt
-                        </a>
-                        <?php endif; ?>
-
-                        <?php if ($stock === 0): ?>
-                        <a href="<?= BASE_URL ?>/index.php?url=admin-products/destroy&id=<?= $p['id'] ?>"
-                        class="ui-btn sm"
-                        style="background:linear-gradient(135deg,#6b7280,#374151)"
-                        onclick="return confirm('Xóa vĩnh viễn sản phẩm này khỏi hệ thống? Hành động không thể hoàn tác!')">
-                            Xóa
                         </a>
                         <?php endif; ?>
                     </div>
