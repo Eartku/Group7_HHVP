@@ -43,8 +43,7 @@
     </div>
     <?php endif; ?>
 
-    <!-- Bảng phiếu nhập (giữ nguyên) -->
-
+   
     <!-- ═══════════════════════════════════════
          BẢNG LOG XUẤT/NHẬP KHO
     ═══════════════════════════════════════ -->
@@ -107,7 +106,7 @@
             <table class="ui-table admin-head">
                 <thead>
                     <tr>
-                        <th style="width:60px">Mã</th>
+                        <th style="width:80px">Mã</th>
                         <th>Sản phẩm</th>
                         <th>Size</th>
                         <th class="center" style="width:110px">Loại</th>
@@ -115,12 +114,13 @@
                         <th class="right" style="width:140px">Giá nhập</th>
                         <th style="width:180px">Ghi chú</th>
                         <th style="width:140px">Thời gian</th>
+                        <th class="center" style="width:90px">Chi tiết</th>  <!-- thêm vào -->
                     </tr>
                 </thead>
                 <tbody>
                 <?php if (empty($logs)): ?>
                 <tr>
-                    <td colspan="8">
+                    <td colspan="9">
                         <div class="ui-empty py-4">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
                                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
@@ -169,6 +169,32 @@
                         <?= !empty($log['created_at'])
                             ? date('d/m/Y H:i', strtotime($log['created_at']))
                             : '—' ?>
+                    </td>
+
+                    <!-- Thêm cột Chi tiết -->
+                    <td class="center">
+                    <?php if ($log['type'] === 'import' && !empty($log['receipt_id'])): ?>
+                        <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-detail&id=<?= (int)$log['receipt_id'] ?>"
+                        class="ui-btn-outline sm">
+                            Phiếu nhập
+                        </a>
+                    <?php elseif ($log['type'] === 'export'): ?>
+                        <?php
+                        // Parse order ID từ note: "Xuất kho cho đơn hàng #8"
+                        preg_match('/#(\d+)/', $log['note'] ?? '', $m);
+                        $orderId = (int)($m[1] ?? 0);
+                        ?>
+                        <?php if ($orderId > 0): ?>
+                        <a href="<?= BASE_URL ?>/index.php?url=admin-orders-detail&id=<?= $orderId ?>"
+                        class="ui-btn-outline sm">
+                            Đơn hàng
+                        </a>
+                        <?php else: ?>
+                        <span class="muted">—</span>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <span class="muted">—</span>
+                    <?php endif; ?>
                     </td>
                 </tr>
                 <?php endforeach; endif; ?>
