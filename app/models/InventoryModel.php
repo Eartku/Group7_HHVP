@@ -52,13 +52,17 @@ class InventoryModel extends Model {
 
     public static function getImportItems(int $receiptId): array {
         $db   = Database::getInstance();
-        $stmt = $db->prepare("
-            SELECT il.*, p.name AS product_name, s.size_name AS size
-            FROM inventory_logs il
-            JOIN products p ON p.id = il.product_id
-            JOIN size s     ON s.id = il.size_id
-            WHERE il.receipt_id = ?
-        ");
+            $stmt = $db->prepare("
+                SELECT 
+                    il.*, 
+                    p.name AS product_name, 
+                    s.size_name AS size,
+                    il.order_id
+                FROM inventory_logs il
+                JOIN products p ON p.id = il.product_id
+                JOIN size s     ON s.id = il.size_id
+                WHERE il.receipt_id = ?
+            ");
         $stmt->bind_param("i", $receiptId);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -216,19 +220,25 @@ class InventoryModel extends Model {
         $where = 'WHERE ' . implode(' AND ', $wheres);
         $params[] = $limit; $params[] = $offset; $types .= 'ii';
 
-        $stmt = $db->prepare("
-            SELECT
-                l.id, l.type, l.quantity, l.import_price,
-                l.note, l.created_at,
-                p.name  AS product_name,
-                s.size_name
-            FROM inventory_logs l
-            LEFT JOIN products p ON p.id = l.product_id
-            LEFT JOIN size s     ON s.id = l.size_id
-            $where
-            ORDER BY l.created_at DESC
-            LIMIT ? OFFSET ?
-        ");
+            $stmt = $db->prepare("
+                SELECT
+                    l.id,
+                    l.type,
+                    l.quantity,
+                    l.import_price,
+                    l.note,
+                    l.created_at,
+                    l.order_id,
+                    l.receipt_id,
+                    p.name  AS product_name,
+                    s.size_name
+                FROM inventory_logs l
+                LEFT JOIN products p ON p.id = l.product_id
+                LEFT JOIN size s     ON s.id = l.size_id
+                $where
+                ORDER BY l.created_at DESC
+                LIMIT ? OFFSET ?
+            ");
         $stmt->bind_param($types, ...$params);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
