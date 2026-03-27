@@ -65,26 +65,25 @@ class CheckoutController extends Controller {
                         ];
                     }
 
-                    $orderId = CheckoutModel::placeOrder(
-                        $userId,
-                        compact('fullname', 'email', 'phone', 'address', 'note', 'payment'),
-                        $validatedItems,
-                        $shippingFee
-                    );
-                    if ($orderId) {
+                $orderId = CheckoutModel::placeOrder(
+                    $userId,
+                    compact('fullname', 'email', 'phone', 'address', 'note', 'payment'),
+                    $validatedItems,
+                    $shippingFee
+                );
 
-                    // 🔥 THÊM ĐOẠN NÀY
+                // CHỈ TẠO EXPORT KHI ORDER_ID HỢP LỆ
+                if ($orderId && $orderId > 0) {
                     foreach ($validatedItems as $item) {
                         InventoryModel::createExportLog($item, $orderId);
                     }
 
-                    // code cũ
                     CartModel::clear($cartId);
 
                     $this->redirect(BASE_URL . "/index.php?url=checkout-thankyou&id={$orderId}");
                 } else {
-                        throw new Exception("Đặt hàng thất bại. Vui lòng thử lại.");
-                    }
+                    throw new Exception("Đặt hàng thất bại. Vui lòng thử lại.");
+                }
                 } catch (Exception $e) {
                     $error = $e->getMessage();
                 }
