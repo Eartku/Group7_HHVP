@@ -80,17 +80,17 @@ class CheckoutModel {
                 $stmt3->execute();
 
                 // Log xuất kho
-                $note = "Xuất kho cho đơn hàng #$orderId";
-                $stmt4 = $db->prepare("
-                    INSERT INTO inventory_logs
-                        (product_id, size_id, type, quantity, import_price, note)
-                    VALUES (?, ?, 'export', ?, ?, ?)
-                ");
-                $stmt4->bind_param("iiids",
-                    $item['product_id'], $item['size_id'],
-                    $item['quantity'], $inv['avg_import_price'], $note
-                );
-                $stmt4->execute();
+                // $note = "Xuất kho cho đơn hàng #$orderId";
+                // $stmt4 = $db->prepare("
+                //     INSERT INTO inventory_logs
+                //         (product_id, size_id, type, quantity, import_price, note)
+                //     VALUES (?, ?, 'export', ?, ?, ?)
+                // ");
+                // $stmt4->bind_param("iiids",
+                //     $item['product_id'], $item['size_id'],
+                //     $item['quantity'], $inv['avg_import_price'], $note
+                // );
+                // $stmt4->execute();
             }
 
             // 4. Xóa cart

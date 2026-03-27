@@ -77,7 +77,6 @@ class CheckoutController extends Controller {
                     foreach ($validatedItems as $item) {
                         InventoryModel::createExportLog($item, $orderId);
                     }
-
                     CartModel::clear($cartId);
 
                     $this->redirect(BASE_URL . "/index.php?url=checkout-thankyou&id={$orderId}");
