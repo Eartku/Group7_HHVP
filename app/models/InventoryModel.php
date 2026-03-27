@@ -32,7 +32,12 @@ class InventoryModel extends Model {
     public static function getImportItems(int $receiptId): array {
         $db   = Database::getInstance();
         $stmt = $db->prepare("
-            SELECT il.*, p.name AS product_name, s.size_name AS size
+            SELECT
+            l.id, l.type, l.quantity, l.import_price,
+            l.note, l.created_at,
+            l.receipt_id,
+            p.name  AS product_name,
+            s.size_name
             FROM inventory_logs il
             JOIN products p ON p.id = il.product_id
             JOIN size s     ON s.id = il.size_id
