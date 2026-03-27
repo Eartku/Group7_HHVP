@@ -283,5 +283,28 @@ class InventoryModel extends Model {
         $db->rollback();
         return false;
     }
-}
+    }
+    public static function createExportLog(array $item, int $orderId): void {
+        $db = Database::getInstance();
+
+        $stmt = $db->prepare("
+            INSERT INTO inventory_logs
+            (order_id, product_id, size_id, type, quantity, import_price, note)
+            VALUES (?, ?, ?, 'export', ?, ?, ?)
+        ");
+
+        $note = "Xuất kho cho đơn hàng #$orderId";
+
+        $stmt->bind_param(
+            "iiidis",
+            $orderId,
+            $item['product_id'],
+            $item['size_id'],
+            $item['quantity'],
+            $item['price'],
+            $note
+        );
+
+        $stmt->execute();
+    }
 }

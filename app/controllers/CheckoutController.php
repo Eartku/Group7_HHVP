@@ -72,9 +72,17 @@ class CheckoutController extends Controller {
                         $shippingFee
                     );
                     if ($orderId) {
-                        CartModel::clear($cartId);
-                        $this->redirect(BASE_URL . "/index.php?url=checkout-thankyou&id={$orderId}");
-                    } else {
+
+                    // 🔥 THÊM ĐOẠN NÀY
+                    foreach ($validatedItems as $item) {
+                        InventoryModel::createExportLog($item, $orderId);
+                    }
+
+                    // code cũ
+                    CartModel::clear($cartId);
+
+                    $this->redirect(BASE_URL . "/index.php?url=checkout-thankyou&id={$orderId}");
+                } else {
                         throw new Exception("Đặt hàng thất bại. Vui lòng thử lại.");
                     }
                 } catch (Exception $e) {
