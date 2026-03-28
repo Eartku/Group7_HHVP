@@ -72,3 +72,12 @@
         </div>
     </div>
 </nav>
+<style>
+.custom-navbar-nav .active {
+    background-color: #a3b095 !important;
+    color: #000 !important;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+</style>

@@ -96,6 +96,7 @@ class AdminInventoryController extends Controller{
             'outStock'      => $outStock,
             'outPage'       => $outPage,
             'outTotalPages' => $outTotalPages,
+            'outTotal'      => $outTotal,  
             'threshold' => $threshold,
             'lookupResult' => $lookupResult,
             'productId' => $productId,

@@ -148,7 +148,7 @@
                             </tr>
                             <?php else: foreach ($inventory as $inv): ?>
                             <tr>
-                                <td>#<?= $inv['id'] ?: '—' ?></td>
+                                <td>#<?= $inv['product_id'] ?: '—' ?></td>
                                 <td><?= htmlspecialchars($inv['product_name']) ?></td>
 
                                 <td>
@@ -206,8 +206,11 @@
         <div id="tab-out" class="tab-content">
             <div class="ui-card mb-4">
 
-                <div class="ui-card-head">
+                <div class="ui-card-head" style="display:flex;justify-content:space-between;align-items:center">
                     <h5>Sản phẩm hết hàng</h5>
+                    <span style="font-size:13px;color:var(--text-muted)">
+                        Tổng <strong style="color:red"><?= $outTotal ?></strong> sản phẩm hết / sắp hết hàng
+                    </span>
                 </div>
 
                 <!-- Filter (KHÔNG có sort) -->
@@ -294,7 +297,7 @@
                             </tr>
                         <?php else: foreach ($outStock as $inv): ?>
                             <tr>
-                                <td>#<?= $inv['id'] ?></td>
+                                <td>#<?= $inv['product_id'] ?></td>
                                 <td><?= htmlspecialchars($inv['product_name']) ?></td>
                                 <td>
                                     <span class="ui-badge neutral">
@@ -598,8 +601,8 @@
                     </div>
 
                     <div class="col-md-3">
-                        <label class="ui-label">Thời điểm</label>
-                        <input type="datetime-local" name="time"
+                        <label class="ui-label">Ngày tra cứu</label>
+                        <input type="date" name="time"
                             value="<?= htmlspecialchars($time ?? '') ?>"
                             class="ui-input">
                     </div>

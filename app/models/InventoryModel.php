@@ -508,11 +508,9 @@ class InventoryModel extends Model {
     public static function getStockAtTime(
     int $productId,
     int $sizeId,
-    string $time
+    string $date   // chỉ nhận YYYY-MM-DD
 ): int {
-
     $db = Database::getInstance();
-
     $stmt = $db->prepare("
         SELECT 
             COALESCE(SUM(
@@ -524,12 +522,10 @@ class InventoryModel extends Model {
         FROM inventory_logs
         WHERE product_id = ?
         AND size_id = ?
-        AND created_at <= ?
+        AND DATE(created_at) <= ?
     ");
-
-    $stmt->bind_param("iis", $productId, $sizeId, $time);
+    $stmt->bind_param("iis", $productId, $sizeId, $date);
     $stmt->execute();
-
     return (int)$stmt->get_result()->fetch_assoc()['stock'];
 }
 }
