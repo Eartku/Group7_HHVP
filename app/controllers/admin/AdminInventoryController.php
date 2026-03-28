@@ -35,14 +35,21 @@ class AdminInventoryController extends Controller{
         $outLimit = 10;
         $outOffset = ($outPage - 1) * $outLimit;
 
-        $outStock = InventoryModel::getOutOfStock(
-            $outLimit,
-            $outOffset,
-            $categoryId,
-            $status
-        );
+            $threshold = (int)($_GET['threshold'] ?? 0); // 👈 THÊM
 
-        $outTotal = InventoryModel::countOutOfStock($categoryId, $status);
+            $outStock = InventoryModel::getOutOfStock(
+                $outLimit,
+                $outOffset,
+                $categoryId,
+                $status,
+                $threshold
+            );
+
+        $outTotal = InventoryModel::countOutOfStock(
+            $categoryId,
+            $status,
+            $threshold
+        );
         $outTotalPages = (int)ceil($outTotal / $outLimit);
 
         // Log xuất/nhập
@@ -77,6 +84,7 @@ class AdminInventoryController extends Controller{
             'outStock'      => $outStock,
             'outPage'       => $outPage,
             'outTotalPages' => $outTotalPages,
+            'threshold' => $threshold,
         ]);
     }
 

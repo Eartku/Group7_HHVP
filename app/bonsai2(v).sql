@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 27, 2026 lúc 01:59 PM
+-- Thời gian đã tạo: Th3 28, 2026 lúc 09:53 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -80,8 +80,7 @@ INSERT INTO `categories` (`id`, `name`, `description`, `image`, `status`) VALUES
 (1, 'Cây để bàn', NULL, NULL, 'active'),
 (2, 'Cây nội thất', '', NULL, 'active'),
 (3, 'Cây ngoại thất', NULL, NULL, 'active'),
-(4, 'Chậu cây', NULL, NULL, 'active'),
-(6, 'Phùng Anh Vũ', 'be chiếm', '1774162375_Gh-v3U0X0AA2NgR.jpg', 'inactive');
+(4, 'Chậu cây', NULL, NULL, 'active');
 
 -- --------------------------------------------------------
 
@@ -107,7 +106,8 @@ INSERT INTO `import_receipts` (`id`, `note`, `status`, `created_by`, `created_at
 (6, '', 'confirmed', 9, '2026-03-22 09:17:40'),
 (7, '', 'confirmed', 9, '2026-03-27 15:36:41'),
 (8, '', 'confirmed', 9, '2026-03-27 19:34:24'),
-(9, '', 'confirmed', 9, '2026-03-27 19:43:20');
+(9, '', 'confirmed', 9, '2026-03-27 19:43:20'),
+(10, '', 'confirmed', 9, '2026-03-28 11:37:10');
 
 -- --------------------------------------------------------
 
@@ -129,8 +129,9 @@ CREATE TABLE `inventory` (
 
 INSERT INTO `inventory` (`id`, `product_id`, `size_id`, `quantity`, `avg_import_price`) VALUES
 (4, 73, 6, 0, 180714.29),
-(5, 76, 4, 233, 219874.30),
-(6, 62, 4, 1, 25000.00);
+(5, 76, 4, 230, 219874.30),
+(6, 62, 4, 1, 25000.00),
+(7, 60, 6, 24, 25000.00);
 
 -- --------------------------------------------------------
 
@@ -174,8 +175,9 @@ INSERT INTO `inventory_logs` (`id`, `receipt_id`, `order_id`, `product_id`, `siz
 (22, 9, NULL, 76, 4, 'import', 12, 23267.00, 'Nhập kho phiếu #9', '2026-03-27 19:43:20', '2026-03-27 19:43:20'),
 (24, NULL, 11, 76, 4, 'export', 5, 336000.00, 'Xuất kho cho đơn hàng #11', '2026-03-27 19:43:47', '2026-03-27 19:43:47'),
 (26, NULL, 12, 76, 4, 'export', 3, 336000.00, 'Xuất kho cho đơn hàng #12', '2026-03-27 19:51:14', '2026-03-27 19:51:14'),
-(27, NULL, NULL, 76, 4, 'export', 4, 219874.30, 'Xuất kho cho đơn hàng #13', '2026-03-27 19:58:28', '2026-03-27 19:58:28'),
-(28, NULL, 13, 76, 4, 'export', 4, 336000.00, 'Xuất kho cho đơn hàng #13', '2026-03-27 19:58:28', '2026-03-27 19:58:28');
+(28, NULL, 13, 76, 4, 'export', 4, 336000.00, 'Xuất kho cho đơn hàng #13', '2026-03-27 19:58:28', '2026-03-27 19:58:28'),
+(29, NULL, 14, 76, 4, 'export', 3, 336000.00, 'Xuất kho cho đơn hàng #14', '2026-03-28 10:43:50', '2026-03-28 10:43:50'),
+(30, 10, NULL, 60, 6, 'import', 24, 25000.00, 'Nhập kho phiếu #10', '2026-03-28 11:37:10', '2026-03-28 11:37:10');
 
 -- --------------------------------------------------------
 
@@ -216,7 +218,8 @@ INSERT INTO `orders` (`id`, `user_id`, `fullname`, `email`, `phone`, `address`, 
 (10, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 748000.00, 'shipped', '2026-03-27 19:40:33', '2026-03-27 19:41:05'),
 (11, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 1730000.00, 'processing', '2026-03-27 19:43:47', '2026-03-27 19:43:47'),
 (12, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 1058000.00, 'processing', '2026-03-27 19:51:14', '2026-03-27 19:51:14'),
-(13, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 1394000.00, 'processing', '2026-03-27 19:58:28', '2026-03-27 19:58:28');
+(13, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 1394000.00, 'processing', '2026-03-27 19:58:28', '2026-03-27 19:58:28'),
+(14, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 1058000.00, 'processing', '2026-03-28 10:43:50', '2026-03-28 10:43:50');
 
 -- --------------------------------------------------------
 
@@ -251,7 +254,8 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `size_id`, `quantity`
 (10, 10, 76, 4, 2, 349000.00, '2026-03-27 19:40:33'),
 (11, 11, 76, 4, 5, 336000.00, '2026-03-27 19:43:47'),
 (12, 12, 76, 4, 3, 336000.00, '2026-03-27 19:51:14'),
-(13, 13, 76, 4, 4, 336000.00, '2026-03-27 19:58:28');
+(13, 13, 76, 4, 4, 336000.00, '2026-03-27 19:58:28'),
+(14, 14, 76, 4, 3, 336000.00, '2026-03-28 10:43:50');
 
 -- --------------------------------------------------------
 
@@ -530,7 +534,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -542,31 +546,31 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `import_receipts`
 --
 ALTER TABLE `import_receipts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `inventory_logs`
 --
 ALTER TABLE `inventory_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `products`

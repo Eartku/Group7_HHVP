@@ -407,30 +407,31 @@ class InventoryModel extends Model {
 
         return (int)$stmt->get_result()->fetch_assoc()['total'];
     }
-    public static function getOutOfStock(
-        int $limit = 10,
-        int $offset = 0,
-        string $categoryId = '',
-        string $status = ''
-    ): array {
+        public static function getOutOfStock(
+            int $limit = 10,
+            int $offset = 0,
+            string $categoryId = '',
+            string $status = '',
+            int $threshold = 0 // 👈 THÊM
+        ): array {
 
-        $db = Database::getInstance();
+            $db = Database::getInstance();
 
-        $wheres = ['(i.quantity = 0 OR i.quantity IS NULL)'];
-        $params = [];
-        $types  = '';
+            $wheres = ['(i.quantity <= ? OR i.quantity IS NULL)']; // 👈 sửa
+            $params = [$threshold]; // 👈 thêm
+            $types  = 'i';          // 👈 thêm
 
-        if ($categoryId !== '') {
-            $wheres[] = "p.category_id = ?";
-            $params[] = $categoryId;
-            $types .= 'i';
-        }
+            if ($categoryId !== '') {
+                $wheres[] = "p.category_id = ?";
+                $params[] = $categoryId;
+                $types .= 'i';
+            }
 
-        if ($status !== '') {
-            $wheres[] = "p.status = ?";
-            $params[] = $status;
-            $types .= 's';
-        }
+            if ($status !== '') {
+                $wheres[] = "p.status = ?";
+                $params[] = $status;
+                $types .= 's';
+            }
 
         $where = 'WHERE ' . implode(' AND ', $wheres);
 
@@ -460,16 +461,18 @@ class InventoryModel extends Model {
 
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
-    public static function countOutOfStock(
-        string $categoryId = '',
-        string $status = ''
-    ): int {
+
+        public static function countOutOfStock(
+            string $categoryId = '',
+            string $status = '',
+            int $threshold = 0 // 👈 THÊM
+        ): int {
 
         $db = Database::getInstance();
-
-        $wheres = ['(i.quantity = 0 OR i.quantity IS NULL)'];
-        $params = [];
-        $types  = '';
+        
+        $wheres = ['(i.quantity <= ? OR i.quantity IS NULL)'];
+        $params = [$threshold];
+        $types  = 'i';
 
         if ($categoryId !== '') {
             $wheres[] = "p.category_id = ?";
