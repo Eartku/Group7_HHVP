@@ -309,31 +309,195 @@ class InventoryModel extends Model {
 
         $stmt->execute();
     }
-        // ===== DANH SÁCH TỒN KHO =====
-    public static function getInventoryList(int $limit = 10, int $offset = 0): array {
+    public static function getInventoryList(
+        int $limit = 10,
+        int $offset = 0,
+        string $categoryId = '',
+        string $status = '',
+        string $sort = ''
+    ): array {
+
         $db = Database::getInstance();
 
+        $wheres = ['i.quantity > 0'];
+        $params = [];
+        $types  = '';
+
+        if ($categoryId !== '') {
+            $wheres[] = "p.category_id = ?";
+            $params[] = $categoryId;
+            $types .= 'i';
+        }
+
+        if ($status !== '') {
+            $wheres[] = "p.status = ?";
+            $params[] = $status;
+            $types .= 's';
+        }
+
+        $order = "ORDER BY i.id DESC";
+
+        if ($sort === 'asc') {
+            $order = "ORDER BY i.quantity ASC";
+        } elseif ($sort === 'desc') {
+            $order = "ORDER BY i.quantity DESC";
+        }
+
+        $where = 'WHERE ' . implode(' AND ', $wheres);
+
+        $params[] = $limit;
+        $params[] = $offset;
+        $types .= 'ii';
+
         $stmt = $db->prepare("
-            SELECT i.*, p.name AS product_name, s.size_name
+            SELECT i.*, p.name AS product_name, p.status,
+                c.name AS category_name, s.size_name
             FROM inventory i
             LEFT JOIN products p ON p.id = i.product_id
             LEFT JOIN size s ON s.id = i.size_id
-            WHERE i.quantity > 0
-            ORDER BY i.id DESC
+            LEFT JOIN categories c ON c.id = p.category_id
+            $where
+            $order
             LIMIT ? OFFSET ?
         ");
 
-        $stmt->bind_param("ii", $limit, $offset);
+        $stmt->bind_param($types, ...$params);
         $stmt->execute();
 
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    public static function countInventory(): int {
+    public static function countInventory(
+        string $categoryId = '',
+        string $status = ''
+    ): int {
+
         $db = Database::getInstance();
 
-        $stmt = $db->query("SELECT COUNT(*) AS total FROM inventory WHERE quantity > 0");
+        $wheres = ['i.quantity > 0'];
+        $params = [];
+        $types  = '';
 
-        return (int)$stmt->fetch_assoc()['total'];
+        if ($categoryId !== '') {
+            $wheres[] = "p.category_id = ?";
+            $params[] = $categoryId;
+            $types .= 'i';
+        }
+
+        if ($status !== '') {
+            $wheres[] = "p.status = ?";
+            $params[] = $status;
+            $types .= 's';
+        }
+
+        $where = 'WHERE ' . implode(' AND ', $wheres);
+
+        $stmt = $db->prepare("
+            SELECT COUNT(*) AS total
+            FROM inventory i
+            LEFT JOIN products p ON p.id = i.product_id
+            $where
+        ");
+
+        if ($types) {
+            $stmt->bind_param($types, ...$params);
+        }
+
+        $stmt->execute();
+
+        return (int)$stmt->get_result()->fetch_assoc()['total'];
+    }
+    public static function getOutOfStock(
+        int $limit = 10,
+        int $offset = 0,
+        string $categoryId = '',
+        string $status = ''
+    ): array {
+
+        $db = Database::getInstance();
+
+        $wheres = ['(i.quantity = 0 OR i.quantity IS NULL)'];
+        $params = [];
+        $types  = '';
+
+        if ($categoryId !== '') {
+            $wheres[] = "p.category_id = ?";
+            $params[] = $categoryId;
+            $types .= 'i';
+        }
+
+        if ($status !== '') {
+            $wheres[] = "p.status = ?";
+            $params[] = $status;
+            $types .= 's';
+        }
+
+        $where = 'WHERE ' . implode(' AND ', $wheres);
+
+        $params[] = $limit;
+        $params[] = $offset;
+        $types .= 'ii';
+
+        $stmt = $db->prepare("
+            SELECT 
+                i.id,
+                p.name AS product_name,
+                p.status,
+                c.name AS category_name,
+                s.size_name,
+                IFNULL(i.quantity, 0) AS quantity
+            FROM products p
+            LEFT JOIN inventory i ON i.product_id = p.id
+            LEFT JOIN size s ON s.id = i.size_id
+            LEFT JOIN categories c ON c.id = p.category_id
+            $where
+            ORDER BY p.id DESC
+            LIMIT ? OFFSET ?
+        ");
+
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+    public static function countOutOfStock(
+        string $categoryId = '',
+        string $status = ''
+    ): int {
+
+        $db = Database::getInstance();
+
+        $wheres = ['(i.quantity = 0 OR i.quantity IS NULL)'];
+        $params = [];
+        $types  = '';
+
+        if ($categoryId !== '') {
+            $wheres[] = "p.category_id = ?";
+            $params[] = $categoryId;
+            $types .= 'i';
+        }
+
+        if ($status !== '') {
+            $wheres[] = "p.status = ?";
+            $params[] = $status;
+            $types .= 's';
+        }
+
+        $where = 'WHERE ' . implode(' AND ', $wheres);
+
+        $stmt = $db->prepare("
+            SELECT COUNT(*) AS total
+            FROM products p
+            LEFT JOIN inventory i ON i.product_id = p.id
+            $where
+        ");
+
+        if ($types) {
+            $stmt->bind_param($types, ...$params);
+        }
+
+        $stmt->execute();
+
+        return (int)$stmt->get_result()->fetch_assoc()['total'];
     }
 }

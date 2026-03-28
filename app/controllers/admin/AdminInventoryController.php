@@ -5,6 +5,7 @@ class AdminInventoryController extends Controller{
         $this->requireAdmin();
 
         // Phiếu nhập
+
         $page       = max(1, (int)($_GET['page'] ?? 1));
         $limit      = 10;
         $offset     = ($page - 1) * $limit;
@@ -12,13 +13,37 @@ class AdminInventoryController extends Controller{
         $total      = InventoryModel::countImports();              // giữ nguyên
         $totalPages = (int)ceil($total / $limit);
         // ===== TỒN KHO =====
+        
         $invPage  = max(1, (int)($_GET['inv_page'] ?? 1));
+        $categoryId = $_GET['category_id'] ?? '';
+        $status     = $_GET['status'] ?? '';
+        $sort       = $_GET['sort'] ?? '';
         $invLimit = 10;
         $invOffset = ($invPage - 1) * $invLimit;
-
-        $inventory = InventoryModel::getInventoryList($invLimit, $invOffset);
-        $invTotal  = InventoryModel::countInventory();
+        $inventory = InventoryModel::getInventoryList(
+            $invLimit,
+            $invOffset,
+            $categoryId,
+            $status,
+            $sort
+        );
+        $invTotal  = InventoryModel::countInventory($categoryId, $status);;
         $invTotalPages = (int)ceil($invTotal / $invLimit);
+
+        // ===== HẾT HÀNG =====
+        $outPage  = max(1, (int)($_GET['out_page'] ?? 1));
+        $outLimit = 10;
+        $outOffset = ($outPage - 1) * $outLimit;
+
+        $outStock = InventoryModel::getOutOfStock(
+            $outLimit,
+            $outOffset,
+            $categoryId,
+            $status
+        );
+
+        $outTotal = InventoryModel::countOutOfStock($categoryId, $status);
+        $outTotalPages = (int)ceil($outTotal / $outLimit);
 
         // Log xuất/nhập
         $logFrom  = $_GET['log_from'] ?? '';
@@ -45,6 +70,13 @@ class AdminInventoryController extends Controller{
             'inventory'     => $inventory,
             'invPage'       => $invPage,
             'invTotalPages' => $invTotalPages,
+            'categoryId' => $categoryId,
+            'status'     => $status,
+            'sort'       => $sort,
+            'categories' => CategoryModel::getAll(),
+            'outStock'      => $outStock,
+            'outPage'       => $outPage,
+            'outTotalPages' => $outTotalPages,
         ]);
     }
 

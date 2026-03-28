@@ -53,6 +53,10 @@
                 <button class="tab-btn" data-tab="logs">
                     <i class="fa fa-exchange-alt"></i> Xuất / Nhập
                 </button>
+
+                <button class="tab-btn" data-tab="out">
+                    <i class="fa fa-exclamation-triangle"></i> Hết hàng
+                </button>
             </div>
 
         <!-- ═══════════════════════════════════════
@@ -65,27 +69,97 @@
                 </div>
 
                 <div style="overflow-x:auto">
+                    <!-- Filter tồn kho -->
+                <div class="ui-card-body" style="border-bottom:1px solid var(--border)">
+                    <form method="GET" action="<?= BASE_URL ?>/index.php">
+                        <input type="hidden" name="url" value="admin-inventory">
+                        <input type="hidden" name="tab" value="inventory">
+
+                        <div class="row g-3 align-items-end">
+
+                            <div class="col-md-3">
+                                <label>Danh mục</label>
+                                <select name="category_id" class="ui-input">
+                                    <option value="">Tất cả</option>
+                                    <?php foreach ($categories as $c): ?>
+                                        <option value="<?= $c['id'] ?>"
+                                            <?= ($categoryId ?? '') == $c['id'] ? 'selected' : '' ?>>
+                                            <?= $c['name'] ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Trạng thái</label>
+                                <select name="status" class="ui-input">
+                                    <option value="">Tất cả</option>
+                                    <option value="active" <?= ($status ?? '') === 'active' ? 'selected' : '' ?>>Đang bán</option>
+                                    <option value="inactive" <?= ($status ?? '') === 'inactive' ? 'selected' : '' ?>>Ngừng bán</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Sắp xếp</label>
+                                <select name="sort" class="ui-input">
+                                    <option value="">Mặc định</option>
+                                        <option value="desc">Số lượng cao → thấp</option>
+                                        <option value="asc">Số lượng thấp → cao</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3 d-flex gap-2">
+                                <button class="ui-btn sm">Lọc</button>
+
+                                <?php if (!empty($categoryId) || !empty($status) || !empty($sort)): ?>
+                                    <a href="<?= BASE_URL ?>/index.php?url=admin-inventory"
+                                    class="ui-btn-outline sm">✕ Xóa</a>
+                                <?php endif; ?>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
                     <table class="ui-table admin-head">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Sản phẩm</th>
-                                <th>Size</th>
-                                <th class="right">Số lượng</th>
-                                <th class="right">Giá TB</th>
-                            </tr>
-                        </thead>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Danh mục</th>
+                        <th>Size</th>
+                        <th>Trạng thái</th>
+                        <th>Số lượng</th>
+                        <th class="right">Giá Bán</th>
+                    </tr>
+                    </thead>
                         <tbody>
                             <?php if (empty($inventory)): ?>
                             <tr>
-                                <td colspan="5" class="text-center">Không có dữ liệu</td>
+                                <td colspan="7" class="text-center">Không có dữ liệu</td>
                             </tr>
                             <?php else: foreach ($inventory as $inv): ?>
                             <tr>
                                 <td>#<?= $inv['id'] ?></td>
                                 <td><?= htmlspecialchars($inv['product_name']) ?></td>
+
+                                <td>
+                                    <span class="ui-badge neutral">
+                                        <?= htmlspecialchars($inv['category_name'] ?? '—') ?>
+                                    </span>
+                                </td>
+
                                 <td><?= htmlspecialchars($inv['size_name']) ?></td>
-                                <td class="right"><?= number_format($inv['quantity']) ?></td>
+
+                                <td>
+                                    <?php if (($inv['status'] ?? 'inactive') === 'active'): ?>
+                                        <span class="ui-badge success">Đang bán</span>
+                                    <?php else: ?>
+                                        <span class="ui-badge danger">Ngừng bán</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td style="<?= $inv['quantity'] == 0 ? 'color:red;font-weight:700' : '' ?>">
+                                    <?= number_format($inv['quantity']) ?>
+                                </td>
                                 <td class="right"><?= number_format($inv['avg_import_price']) ?>đ</td>
                             </tr>
                             <?php endforeach; endif; ?>
@@ -116,6 +190,126 @@
             <?php endif; ?>
             </div>
         </div> <!-- END tab inventory -->
+        <!-- ═══════════════════════════════════════
+            BẢNG HẾT HÀNG
+        ═══════════════════════════════════════ -->
+        <div id="tab-out" class="tab-content">
+            <div class="ui-card mb-4">
+
+                <div class="ui-card-head">
+                    <h5>Sản phẩm hết hàng</h5>
+                </div>
+
+                <!-- Filter (KHÔNG có sort) -->
+                <div class="ui-card-body" style="border-bottom:1px solid var(--border)">
+                    <form method="GET" action="<?= BASE_URL ?>/index.php">
+                        <input type="hidden" name="url" value="admin-inventory">
+                         <input type="hidden" name="tab" value="out"> <!-- ✅ THÊM DÒNG NÀY -->
+
+                        <div class="row g-3 align-items-end">
+
+                            <div class="col-md-3">
+                                <label>Danh mục</label>
+                                <select name="category_id" class="ui-input">
+                                    <option value="">Tất cả</option>
+                                    <?php foreach ($categories as $c): ?>
+                                        <option value="<?= $c['id'] ?>"
+                                            <?= ($categoryId ?? '') == $c['id'] ? 'selected' : '' ?>>
+                                            <?= $c['name'] ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Trạng thái</label>
+                                <select name="status" class="ui-input">
+                                    <option value="">Tất cả</option>
+                                    <option value="active" <?= ($status ?? '') === 'active' ? 'selected' : '' ?>>Đang bán</option>
+                                    <option value="inactive" <?= ($status ?? '') === 'inactive' ? 'selected' : '' ?>>Ngừng bán</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 d-flex gap-2">
+                                <button class="ui-btn sm">Lọc</button>
+                                <a href="<?= BASE_URL ?>/index.php?url=admin-inventory"
+                                class="ui-btn-outline sm">✕ Xóa</a>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Table -->
+                <div style="overflow-x:auto">
+                    <table class="ui-table admin-head">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Danh mục</th>
+                                <th>Size</th>
+                                <th>Trạng thái</th>
+                                <th>Số lượng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php if (empty($outStock)): ?>
+                            <tr>
+                                <td colspan="6" class="text-center">Không có sản phẩm hết hàng</td>
+                            </tr>
+                        <?php else: foreach ($outStock as $inv): ?>
+                            <tr>
+                                <td>#<?= $inv['id'] ?></td>
+                                <td><?= htmlspecialchars($inv['product_name']) ?></td>
+                                <td><?= htmlspecialchars($inv['category_name']) ?></td>
+                                <td><?= htmlspecialchars($inv['size_name']) ?></td>
+                                <td>
+                                    <?= $inv['status'] === 'active'
+                                        ? '<span class="ui-badge success">Đang bán</span>'
+                                        : '<span class="ui-badge danger">Ngừng bán</span>' ?>
+                                </td>
+                                <td style="color:red;font-weight:700">0</td>
+                            </tr>
+                        <?php endforeach; endif; ?>
+                        </tbody>
+                    </table>
+             </div>
+
+        <?php if (!empty($outTotalPages) && $outTotalPages > 1): ?>
+        <div class="ui-card-body">
+            <div class="ui-pagination">
+
+                <?php
+                $qs = '?url=admin-inventory&tab=out'
+                    . '&category_id=' . urlencode($categoryId ?? '')
+                    . '&status=' . urlencode($status ?? '')
+                    . '&out_page=';
+                ?>
+
+                <?php if ($outPage > 1): ?>
+                    <a href="<?= BASE_URL ?>/index.php<?= $qs . ($outPage - 1) ?>"
+                    class="ui-page-btn">‹</a>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $outTotalPages; $i++): ?>
+                    <a href="<?= BASE_URL ?>/index.php<?= $qs . $i ?>"
+                    class="ui-page-btn <?= $i == $outPage ? 'active' : '' ?>">
+                        <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+
+                <?php if ($outPage < $outTotalPages): ?>
+                    <a href="<?= BASE_URL ?>/index.php<?= $qs . ($outPage + 1) ?>"
+                    class="ui-page-btn">›</a>
+                <?php endif; ?>
+
+            </div>
+        </div>
+        <?php endif; ?>
+
+        </div>
+        </div>
 
         <!-- ═══════════════════════════════════════
             BẢNG LOG XUẤT/NHẬP KHO
@@ -323,6 +517,26 @@
 
 </div>
 <script>
+// Lấy tab từ URL
+const params = new URLSearchParams(window.location.search);
+const currentTab = params.get('tab') || 'inventory';
+
+// Active tab theo URL
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.tab === currentTab) {
+        btn.classList.add('active');
+    }
+});
+
+document.querySelectorAll('.tab-content').forEach(c => {
+    c.classList.remove('active');
+});
+
+const activeTab = document.getElementById('tab-' + currentTab);
+if (activeTab) activeTab.classList.add('active');
+
+// Click tab (giữ nguyên nhưng thêm push URL)
 document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
 
@@ -331,6 +545,11 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+
+        // ✅ cập nhật URL (quan trọng)
+        const url = new URL(window.location);
+        url.searchParams.set('tab', btn.dataset.tab);
+        window.history.replaceState({}, '', url);
     });
 });
 </script>
@@ -375,5 +594,32 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 /* icon */
 .tab-btn i {
     font-size: 13px;
+}
+.ui-pagination {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.ui-page-btn {
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: #f1f1f1;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.ui-page-btn:hover {
+    background: #e0e0e0;
+}
+
+.ui-page-btn.active {
+    background: linear-gradient(135deg, #4CAF50, #2e7d32);
+    color: #fff;
+    font-weight: 600;
 }
 </style>
