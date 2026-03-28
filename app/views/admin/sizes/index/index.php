@@ -97,18 +97,18 @@
             <?php foreach ($sizes as $s): ?>
             <div class="d-flex align-items-center gap-3 px-4 py-3"
                  style="border-bottom:1px solid var(--border)"
-                 id="row-<?= $s['id'] ?>">
+                 id="row-<?= $s['size_id'] ?>">
 
                 <!-- Tên size -->
                 <div style="min-width:80px;font-weight:700;font-size:15px;color:var(--brand)">
-                    <?= htmlspecialchars($s['size_name']) ?>
+                    <?= htmlspecialchars($s['size']) ?>
                 </div>
 
                 <!-- Inline edit price_adjust -->
                 <form method="POST"
-                      action="<?= BASE_URL ?>/index.php?url=admin-sizes-edit&id=<?= $s['id'] ?>"
+                      action="<?= BASE_URL ?>/index.php?url=admin-sizes-edit&id=<?= $s['size_id'] ?>"
                       class="d-flex align-items-center gap-2 flex-grow-1">
-                    <input type="hidden" name="size_name" value="<?= htmlspecialchars($s['size_name']) ?>">
+                    <input type="hidden" name="size_name" value="<?= htmlspecialchars($s['size']) ?>">
                     <label class="ui-label mb-0" style="white-space:nowrap;font-size:11px">
                         Điều chỉnh giá:
                     </label>
@@ -135,10 +135,10 @@
                 <?php endif; ?>
 
                 <!-- Xóa -->
-                <a href="<?= BASE_URL ?>/index.php?url=admin-sizes-delete&id=<?= $s['id'] ?>"
+                <a href="<?= BASE_URL ?>/index.php?url=admin-sizes-delete&id=<?= $s['size_id'] ?>"
                    class="ui-btn sm"
                    style="background:linear-gradient(135deg,#f76f8e,#db2777);flex-shrink:0"
-                   onclick="return confirm('Xóa size <?= htmlspecialchars($s['size_name']) ?>?')">
+                   onclick="return confirm('Xóa size <?= htmlspecialchars($s['size']) ?>?')">
                     Xóa
                 </a>
             </div>

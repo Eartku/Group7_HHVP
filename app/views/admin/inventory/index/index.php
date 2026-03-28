@@ -589,9 +589,9 @@
                         <select name="size_id" class="ui-input">
                             <option value="">Chọn size</option>
                             <?php foreach ($sizes as $s): ?>
-                                <option value="<?= $s['id'] ?? '' ?>"
-                                    <?= ($sizeId ?? '') == ($s['id'] ?? '') ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($s['size_name'] ?? '—') ?>
+                                <option value="<?= $s['size_id'] ?? '' ?>"
+                                    <?= ($sizeId ?? '') == ($s['size_id'] ?? '') ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($s['size'] ?? '—') ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
