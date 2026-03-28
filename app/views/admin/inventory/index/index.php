@@ -66,6 +66,16 @@
                     <div class="row g-3 align-items-end">
                         <div class="col-md-3">
                             <div class="ui-field mb-0">
+                                <label class="ui-label">Loại</label>
+                                <select name="log_type" class="ui-input">
+                                    <option value="">Tất cả</option>
+                                    <option value="import" <?= ($logType ?? '') === 'import' ? 'selected' : '' ?>>Nhập</option>
+                                    <option value="export" <?= ($logType ?? '') === 'export' ? 'selected' : '' ?>>Xuất</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="ui-field mb-0">
                                 <label class="ui-label">Từ ngày</label>
                                 <input type="date" name="log_from" class="ui-input"
                                     value="<?= htmlspecialchars($logFrom ?? '') ?>">
@@ -86,15 +96,15 @@
                                 </svg>
                                 Lọc
                             </button>
-                            <?php if (!empty($logFrom) || !empty($logTo)): ?>
+                            <?php if (!empty($logFrom) || !empty($logTo) || !empty($logType)): ?>
                             <a href="<?= BASE_URL ?>/index.php?url=admin-inventory"
                             class="ui-btn-outline sm">✕ Xóa</a>
                             <?php endif; ?>
                         </div>
-                        <div class="col-md-3 text-end">
+                        <div class="col-md-2 text-end">
                             <span style="font-size:13px;color:var(--text-muted)">
                                 Tổng <strong><?= count($logs ?? []) ?></strong> bản ghi
-                                <?php if (!empty($logFrom) || !empty($logTo)): ?>
+                                <?php if (!empty($logFrom) || !empty($logTo) || !empty($logType)): ?>
                                 <span class="ui-badge info" style="margin-left:6px">Đang lọc</span>
                                 <?php endif; ?>
                             </span>
@@ -203,11 +213,12 @@
                     </span>
                     <div class="ui-pagination mb-0" style="margin:0">
                         <?php
-                        $logQp = array_filter([
-                            'url'      => 'admin-inventory',
-                            'log_from' => $logFrom ?? '',
-                            'log_to'   => $logTo   ?? '',
-                        ]);
+                    $logQp = array_filter([
+                        'url'      => 'admin-inventory',
+                        'log_from' => $logFrom ?? '',
+                        'log_to'   => $logTo   ?? '',
+                        'log_type' => $logType ?? '',
+                    ]);
                         $logQs = '?' . http_build_query($logQp) . '&';
                         $logStart = max(1, $logPage - 2);
                         $logEnd   = min($logTotalPages, $logStart + 4);

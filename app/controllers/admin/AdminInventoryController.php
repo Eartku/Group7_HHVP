@@ -15,13 +15,14 @@ class AdminInventoryController extends Controller{
         // Log xuất/nhập
         $logFrom  = $_GET['log_from'] ?? '';
         $logTo    = $_GET['log_to']   ?? '';
+        $logType  = $_GET['log_type'] ?? '';
         $logPage  = max(1, (int)($_GET['log_page'] ?? 1));
         $logLimit = 15;
 
-        $logTotal      = InventoryModel::countLogs($logFrom, $logTo);
+        $logTotal = InventoryModel::countLogs($logFrom, $logTo, $logType);
         $logTotalPages = max(1, (int)ceil($logTotal / $logLimit));
         $logPage       = min($logPage, $logTotalPages);
-        $logs          = InventoryModel::getLogs($logFrom, $logTo, $logLimit, ($logPage - 1) * $logLimit);
+        $logs = InventoryModel::getLogs($logFrom, $logTo, $logType, $logLimit, ($logPage - 1) * $logLimit);
 
         $this->adminView('admin/inventory/index', [
             'imports'       => $imports,
@@ -30,6 +31,7 @@ class AdminInventoryController extends Controller{
             'logs'          => $logs,
             'logFrom'       => $logFrom,
             'logTo'         => $logTo,
+            'logType'       => $logType,
             'logPage'       => $logPage,
             'logTotalPages' => $logTotalPages,
         ]);

@@ -194,13 +194,14 @@ class InventoryModel extends Model {
         $stmt->execute();
         return (int)$stmt->get_result()->fetch_assoc()['total'] > 0;
     }
-    public static function countLogs(string $from = '', string $to = ''): int {
+    public static function countLogs(string $from = '', string $to = '', string $type = ''): int {
         $db     = Database::getInstance();
         $wheres = ['1=1'];
         $params = []; $types = '';
 
         if ($from !== '') { $wheres[] = "DATE(l.created_at) >= ?"; $params[] = $from; $types .= 's'; }
         if ($to   !== '') { $wheres[] = "DATE(l.created_at) <= ?"; $params[] = $to;   $types .= 's'; }
+        if ($type !== '') { $wheres[] = "l.type = ?"; $params[] = $type; $types .= 's'; }
 
         $where = 'WHERE ' . implode(' AND ', $wheres);
         $stmt  = $db->prepare("SELECT COUNT(*) AS total FROM inventory_logs l $where");
@@ -209,13 +210,14 @@ class InventoryModel extends Model {
         return (int)$stmt->get_result()->fetch_assoc()['total'];
     }
 
-    public static function getLogs(string $from = '', string $to = '', int $limit = 15, int $offset = 0): array {
+    public static function getLogs(string $from = '', string $to = '', string $type = '', int $limit = 15, int $offset = 0): array {
         $db     = Database::getInstance();
         $wheres = ['1=1'];
         $params = []; $types = '';
 
         if ($from !== '') { $wheres[] = "DATE(l.created_at) >= ?"; $params[] = $from; $types .= 's'; }
         if ($to   !== '') { $wheres[] = "DATE(l.created_at) <= ?"; $params[] = $to;   $types .= 's'; }
+        if ($type !== '') { $wheres[] = "l.type = ?"; $params[] = $type; $types .= 's'; }
 
         $where = 'WHERE ' . implode(' AND ', $wheres);
         $params[] = $limit; $params[] = $offset; $types .= 'ii';
