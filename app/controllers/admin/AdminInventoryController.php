@@ -63,6 +63,18 @@ class AdminInventoryController extends Controller{
         $logTotalPages = max(1, (int)ceil($logTotal / $logLimit));
         $logPage       = min($logPage, $logTotalPages);
         $logs = InventoryModel::getLogs($logFrom, $logTo, $logType, $logLimit, ($logPage - 1) * $logLimit);
+        // ===== TRA CỨU =====
+            $productId = (int)($_GET['product_id'] ?? 0);
+            $sizeId    = (int)($_GET['size_id'] ?? 0);
+            $time      = $_GET['time'] ?? '';
+
+            $lookupResult = null;
+
+            if (isset($_GET['product_id'])) {
+                if ($productId && $sizeId && $time) {
+                    $lookupResult = InventoryModel::getStockAtTime($productId, $sizeId, $time);
+                }
+            }
 
         $this->adminView('admin/inventory/index', [
             'imports'       => $imports,
@@ -85,6 +97,12 @@ class AdminInventoryController extends Controller{
             'outPage'       => $outPage,
             'outTotalPages' => $outTotalPages,
             'threshold' => $threshold,
+            'lookupResult' => $lookupResult,
+            'productId' => $productId,
+            'sizeId' => $sizeId,
+            'time' => $time,
+            'products' => ProductModel::getList(0, 999, 0),
+            'sizes' => SizeModel::getAll(),
         ]);
     }
 

@@ -441,11 +441,12 @@ class InventoryModel extends Model {
 
         $stmt = $db->prepare("
             SELECT 
-                i.id,
+                IFNULL(i.id, 0) AS id,
+                p.id AS product_id,
                 p.name AS product_name,
                 p.status,
                 c.name AS category_name,
-                s.size_name,
+                IFNULL(s.size_name, '—') AS size_name,
                 IFNULL(i.quantity, 0) AS quantity
             FROM products p
             LEFT JOIN inventory i ON i.product_id = p.id
@@ -503,4 +504,32 @@ class InventoryModel extends Model {
 
         return (int)$stmt->get_result()->fetch_assoc()['total'];
     }
+
+    public static function getStockAtTime(
+    int $productId,
+    int $sizeId,
+    string $time
+): int {
+
+    $db = Database::getInstance();
+
+    $stmt = $db->prepare("
+        SELECT 
+            COALESCE(SUM(
+                CASE 
+                    WHEN type = 'import' THEN quantity
+                    WHEN type = 'export' THEN -quantity
+                END
+            ), 0) AS stock
+        FROM inventory_logs
+        WHERE product_id = ?
+        AND size_id = ?
+        AND created_at <= ?
+    ");
+
+    $stmt->bind_param("iis", $productId, $sizeId, $time);
+    $stmt->execute();
+
+    return (int)$stmt->get_result()->fetch_assoc()['stock'];
+}
 }

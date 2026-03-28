@@ -4,7 +4,7 @@ class SizeModel extends Model {
     public static function getAll(): array {
         $db     = Database::getInstance();
         $result = $db->query("
-            SELECT id AS size_id, size_name AS size, price_adjust
+            SELECT id, size_name, price_adjust
             FROM size
             ORDER BY id ASC
         ");
@@ -14,7 +14,7 @@ class SizeModel extends Model {
     public static function getById(int $sizeId): ?array {
         $db   = Database::getInstance();
         $stmt = $db->prepare("
-            SELECT id AS size_id, size_name AS size, price_adjust
+            SELECT id, size_name, price_adjust
             FROM size WHERE id = ?
         ");
         $stmt->bind_param("i", $sizeId);

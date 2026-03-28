@@ -57,6 +57,9 @@
                 <button class="tab-btn" data-tab="out">
                     <i class="fa fa-exclamation-triangle"></i> Hết hàng
                 </button>
+                <button class="tab-btn" data-tab="lookup">
+                    <i class="fa fa-search"></i> Tra cứu
+                </button>
             </div>
 
         <!-- ═══════════════════════════════════════
@@ -145,7 +148,7 @@
                             </tr>
                             <?php else: foreach ($inventory as $inv): ?>
                             <tr>
-                                <td>#<?= $inv['id'] ?></td>
+                                <td>#<?= $inv['id'] ?: '—' ?></td>
                                 <td><?= htmlspecialchars($inv['product_name']) ?></td>
 
                                 <td>
@@ -154,7 +157,7 @@
                                     </span>
                                 </td>
 
-                                <td><?= htmlspecialchars($inv['size_name']) ?></td>
+                                <td><?= htmlspecialchars($inv['size_name'] ?? '—') ?></td>
 
                                 <td>
                                     <?php if (($inv['status'] ?? 'inactive') === 'active'): ?>
@@ -554,6 +557,75 @@
             </div><!-- /log card -->
         </div> <!-- END tab logs -->
 
+    <div id="tab-lookup" class="tab-content">
+    <div class="ui-card mb-4">
+
+        <div class="ui-card-head">
+            <h5>Tra cứu tồn kho theo thời điểm</h5>
+        </div>
+
+        <div class="ui-card-body">
+            <form method="GET" action="<?= BASE_URL ?>/index.php">
+                <input type="hidden" name="url" value="admin-inventory">
+                <input type="hidden" name="tab" value="lookup">
+
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+                        <label class="ui-label">Sản phẩm</label>
+                        <select name="product_id" class="ui-input">
+                            <option value="">Chọn sản phẩm</option>
+                            <?php foreach ($products as $p): ?>
+                                <option value="<?= $p['id'] ?>"
+                                    <?= ($productId ?? '') == $p['id'] ? 'selected' : '' ?>>
+                                    <?= $p['name'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="ui-label">Size</label>
+                        <select name="size_id" class="ui-input">
+                            <option value="">Chọn size</option>
+                            <?php foreach ($sizes as $s): ?>
+                                <option value="<?= $s['id'] ?? '' ?>"
+                                    <?= ($sizeId ?? '') == ($s['id'] ?? '') ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($s['size_name'] ?? '—') ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="ui-label">Thời điểm</label>
+                        <input type="datetime-local" name="time"
+                            value="<?= htmlspecialchars($time ?? '') ?>"
+                            class="ui-input">
+                    </div>
+
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button class="ui-btn sm w-100">Tra cứu</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <!-- Kết quả -->
+        <?php if ($lookupResult !== null): ?>
+            <div class="ui-card-body">
+                <h4>
+                    Tồn kho: 
+                    <span style="color:var(--brand)">
+                        <?= number_format($lookupResult) ?>
+                    </span>
+                </h4>
+            </div>
+        <?php endif; ?>
+
+    </div>
+</div>
 </div>
 <script>
     // Lấy tab từ URL
