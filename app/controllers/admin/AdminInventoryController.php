@@ -11,6 +11,14 @@ class AdminInventoryController extends Controller{
         $imports    = InventoryModel::getImports($limit, $offset); // giữ nguyên, mặc định rỗng
         $total      = InventoryModel::countImports();              // giữ nguyên
         $totalPages = (int)ceil($total / $limit);
+        // ===== TỒN KHO =====
+        $invPage  = max(1, (int)($_GET['inv_page'] ?? 1));
+        $invLimit = 10;
+        $invOffset = ($invPage - 1) * $invLimit;
+
+        $inventory = InventoryModel::getInventoryList($invLimit, $invOffset);
+        $invTotal  = InventoryModel::countInventory();
+        $invTotalPages = (int)ceil($invTotal / $invLimit);
 
         // Log xuất/nhập
         $logFrom  = $_GET['log_from'] ?? '';
@@ -34,6 +42,9 @@ class AdminInventoryController extends Controller{
             'logType'       => $logType,
             'logPage'       => $logPage,
             'logTotalPages' => $logTotalPages,
+            'inventory'     => $inventory,
+            'invPage'       => $invPage,
+            'invTotalPages' => $invTotalPages,
         ]);
     }
 

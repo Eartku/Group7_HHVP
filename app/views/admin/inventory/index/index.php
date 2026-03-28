@@ -45,9 +45,82 @@
 
         <!-- Bảng phiếu nhập (giữ nguyên) -->
 
+            <div class="ui-tabs mb-3">
+                <button class="tab-btn active" data-tab="inventory">
+                    <i class="fa fa-box"></i> Tồn kho
+                </button>
+
+                <button class="tab-btn" data-tab="logs">
+                    <i class="fa fa-exchange-alt"></i> Xuất / Nhập
+                </button>
+            </div>
+
+        <!-- ═══════════════════════════════════════
+            BẢNG TỒN KHO
+        ═══════════════════════════════════════ -->
+        <div id="tab-inventory" class="tab-content active">
+            <div class="ui-card mb-4">
+                <div class="ui-card-head">
+                    <h5>Danh sách tồn kho</h5>
+                </div>
+
+                <div style="overflow-x:auto">
+                    <table class="ui-table admin-head">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Sản phẩm</th>
+                                <th>Size</th>
+                                <th class="right">Số lượng</th>
+                                <th class="right">Giá TB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($inventory)): ?>
+                            <tr>
+                                <td colspan="5" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                            <?php else: foreach ($inventory as $inv): ?>
+                            <tr>
+                                <td>#<?= $inv['id'] ?></td>
+                                <td><?= htmlspecialchars($inv['product_name']) ?></td>
+                                <td><?= htmlspecialchars($inv['size_name']) ?></td>
+                                <td class="right"><?= number_format($inv['quantity']) ?></td>
+                                <td class="right"><?= number_format($inv['avg_import_price']) ?>đ</td>
+                            </tr>
+                            <?php endforeach; endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <?php if (!empty($invTotalPages) && $invTotalPages > 1): ?>
+                <div class="ui-card-body">
+                    <div class="ui-pagination">
+
+                    <?php if ($invPage > 1): ?>
+                        <a href="<?= BASE_URL ?>/index.php?url=admin-inventory&inv_page=<?= $invPage - 1 ?>">‹</a>
+                    <?php endif; ?>
+
+                    <?php for ($i = 1; $i <= $invTotalPages; $i++): ?>
+                        <a href="<?= BASE_URL ?>/index.php?url=admin-inventory&inv_page=<?= $i ?>"
+                        class="<?= $i == $invPage ? 'active' : '' ?>">
+                            <?= $i ?>
+                        </a>
+                    <?php endfor; ?>
+
+                    <?php if ($invPage < $invTotalPages): ?>
+                        <a href="<?= BASE_URL ?>/index.php?url=admin-inventory&inv_page=<?= $invPage + 1 ?>">›</a>
+                    <?php endif; ?>
+
+                     </div>
+                </div>
+            <?php endif; ?>
+            </div>
+        </div> <!-- END tab inventory -->
+
         <!-- ═══════════════════════════════════════
             BẢNG LOG XUẤT/NHẬP KHO
         ═══════════════════════════════════════ -->
+    <div id="tab-logs" class="tab-content">
         <div class="ui-card mb-0">
             <div class="ui-card-head">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
@@ -246,5 +319,61 @@
             <?php endif; ?>
 
         </div><!-- /log card -->
+    </div> <!-- END tab logs -->
 
-    </div>
+</div>
+<script>
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+});
+</script>
+
+<style>
+/* Ẩn / hiện tab */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+/* wrapper */
+.ui-tabs {
+    display: flex;
+    gap: 10px;
+}
+
+/* nút tab */
+.tab-btn {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 999px; /* 🔥 làm tròn full */
+    background: #f1f1f1;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+/* hover */
+.tab-btn:hover {
+    background: #e2e2e2;
+    transform: translateY(-1px);
+}
+
+/* active */
+.tab-btn.active {
+    background: linear-gradient(135deg, #4CAF50, #2e7d32);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* icon */
+.tab-btn i {
+    font-size: 13px;
+}
+</style>

@@ -309,4 +309,31 @@ class InventoryModel extends Model {
 
         $stmt->execute();
     }
+        // ===== DANH SÁCH TỒN KHO =====
+    public static function getInventoryList(int $limit = 10, int $offset = 0): array {
+        $db = Database::getInstance();
+
+        $stmt = $db->prepare("
+            SELECT i.*, p.name AS product_name, s.size_name
+            FROM inventory i
+            LEFT JOIN products p ON p.id = i.product_id
+            LEFT JOIN size s ON s.id = i.size_id
+            WHERE i.quantity > 0
+            ORDER BY i.id DESC
+            LIMIT ? OFFSET ?
+        ");
+
+        $stmt->bind_param("ii", $limit, $offset);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public static function countInventory(): int {
+        $db = Database::getInstance();
+
+        $stmt = $db->query("SELECT COUNT(*) AS total FROM inventory WHERE quantity > 0");
+
+        return (int)$stmt->fetch_assoc()['total'];
+    }
 }
