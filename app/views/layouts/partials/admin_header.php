@@ -73,6 +73,15 @@
     </div>
 </nav>
 <style>
+.custom-navbar .custom-navbar-nav li a {
+    font-weight: 500;
+    color: #ffffff !important;
+    opacity: 8.5;
+    transition: 0.3s all ease;
+    position: relative;
+}
+
+
 .custom-navbar-nav .active {
     background-color: #a3b095 !important;
     color: #000 !important;
