@@ -508,24 +508,59 @@ class InventoryModel extends Model {
     public static function getStockAtTime(
     int $productId,
     int $sizeId,
-    string $date   // chỉ nhận YYYY-MM-DD
+    string $date
 ): int {
     $db = Database::getInstance();
     $stmt = $db->prepare("
         SELECT 
             COALESCE(SUM(
                 CASE 
-                    WHEN type = 'import' THEN quantity
-                    WHEN type = 'export' THEN -quantity
+                    WHEN l.type = 'import' THEN l.quantity
+                    WHEN l.type = 'export' THEN -l.quantity
                 END
             ), 0) AS stock
-        FROM inventory_logs
-        WHERE product_id = ?
-        AND size_id = ?
-        AND DATE(created_at) <= ?
+        FROM inventory_logs l
+        LEFT JOIN import_receipts ir ON ir.id = l.receipt_id
+        WHERE l.product_id = ?
+          AND l.size_id    = ?
+          AND DATE(l.created_at) <= ?
+          AND (
+              l.type = 'export'                          -- xuất kho luôn tính
+              OR (l.type = 'import' AND ir.status = 'confirmed')  -- nhập chỉ tính khi đã xác nhận
+          )
     ");
     $stmt->bind_param("iis", $productId, $sizeId, $date);
     $stmt->execute();
     return (int)$stmt->get_result()->fetch_assoc()['stock'];
 }
+// Thêm vào cuối class, trước dấu }
+   public static function getStockAllSizesAtTime(int $productId, string $date): array {
+        $db   = Database::getInstance();
+        $stmt = $db->prepare("
+            SELECT
+                s.size_name AS size,
+                COALESCE(SUM(
+                    CASE
+                        WHEN l.type = 'import' THEN l.quantity
+                        WHEN l.type = 'export' THEN -l.quantity
+                    END
+                ), 0) AS quantity
+            FROM size s
+            LEFT JOIN inventory_logs l
+                ON l.size_id     = s.id
+                AND l.product_id = ?
+                AND DATE(l.created_at) <= ?
+            LEFT JOIN import_receipts ir ON ir.id = l.receipt_id
+            WHERE (
+                l.id IS NULL
+                OR l.type = 'export'
+                OR (l.type = 'import' AND ir.status = 'confirmed')
+            )
+            GROUP BY s.id, s.size_name
+            ORDER BY s.id ASC
+        ");
+        $stmt->bind_param("is", $productId, $date);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
 }

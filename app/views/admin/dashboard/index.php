@@ -5,9 +5,6 @@
     <!-- Tiêu đề -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="ui-title mb-0">Dashboard</h2>
-        <span class="ui-badge neutral" style="font-size:13px;padding:6px 14px">
-            📅 <?= date('d/m/Y — H:i') ?>
-        </span>
     </div>
 
     <!-- ── Stat Cards ── -->

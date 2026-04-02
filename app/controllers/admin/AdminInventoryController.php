@@ -68,13 +68,19 @@ class AdminInventoryController extends Controller{
             $sizeId    = (int)($_GET['size_id'] ?? 0);
             $time      = $_GET['time'] ?? '';
 
-            $lookupResult = null;
+        $lookupResult  = null;
+        $lookupDetails = []; // tất cả size
 
-            if (isset($_GET['product_id'])) {
-                if ($productId && $sizeId && $time) {
-                    $lookupResult = InventoryModel::getStockAtTime($productId, $sizeId, $time);
-                }
+        if (isset($_GET['product_id']) && $productId && $time) {
+            if ($sizeId > 0) {
+                // Tra cứu 1 size cụ thể
+                $lookupResult = InventoryModel::getStockAtTime($productId, $sizeId, $time);
+            } else {
+                // Tất cả size → bảng từng size + tổng
+                $lookupDetails = InventoryModel::getStockAllSizesAtTime($productId, $time);
+                $lookupResult  = array_sum(array_column($lookupDetails, 'quantity'));
             }
+        }
 
         $this->adminView('admin/inventory/index', [
             'imports'       => $imports,
@@ -258,4 +264,5 @@ class AdminInventoryController extends Controller{
             'filterTo'      => $filterTo,
         ]);
     }
+    
 }

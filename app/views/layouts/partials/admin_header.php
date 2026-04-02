@@ -32,7 +32,7 @@
                     'admin-inventory'        => 'KHO',
                 ];
                 foreach ($navItems as $url => $label):
-                    $isActive = str_starts_with($currentUrl, $url);
+                    $isActive = ($currentUrl === $url);
                 ?>
                 <li>
                     <a href="<?= BASE_URL ?>/index.php?url=<?= $url ?>"

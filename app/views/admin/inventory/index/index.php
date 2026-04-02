@@ -590,7 +590,7 @@
                     <div class="col-md-2">
                         <label class="ui-label">Size</label>
                         <select name="size_id" class="ui-input">
-                            <option value="">Chọn size</option>
+                            <option value="">-- Tất cả size --</option>
                             <?php foreach ($sizes as $s): ?>
                                 <option value="<?= $s['size_id'] ?? '' ?>"
                                     <?= ($sizeId ?? '') == ($s['size_id'] ?? '') ? 'selected' : '' ?>>
@@ -618,14 +618,47 @@
         <!-- Kết quả -->
         <?php if ($lookupResult !== null): ?>
             <div class="ui-card-body">
-                <h4>
-                    Tồn kho: 
-                    <span style="color:var(--brand)">
-                        <?= number_format($lookupResult) ?>
-                    </span>
-                </h4>
+
+                <?php if (!empty($lookupDetails)): ?>
+                    <!-- Tất cả size -->
+                    <table class="ui-table" style="max-width:360px">
+                        <thead>
+                            <tr>
+                                <th>Size</th>
+                                <th class="right">Tồn kho</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($lookupDetails as $row): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($row['size']) ?></td>
+                                <td class="right"
+                                    style="<?= $row['quantity'] == 0 ? 'color:red;font-weight:700' : 'font-weight:600' ?>">
+                                    <?= number_format($row['quantity']) ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr style="border-top:2px solid var(--border);font-weight:700">
+                                <td>Tổng cộng</td>
+                                <td class="right" style="color:var(--brand);font-size:16px">
+                                    <?= number_format($lookupResult) ?>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                <?php else: ?>
+                    <!-- 1 size cụ thể -->
+                    <h4>
+                        Tồn kho:
+                        <span style="color:var(--brand)"><?= number_format($lookupResult) ?></span>
+                    </h4>
+                <?php endif; ?>
+
             </div>
-        <?php endif; ?>
+            <?php endif; ?>
 
     </div>
 </div>

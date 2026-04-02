@@ -187,15 +187,17 @@ class ProductModel extends Model {
         $db          = Database::getInstance();
         $name        = $data['name']        ?? '';
         $category_id = $data['category_id'] ?? 0;
-        $image       = $data['base_img']       ?? '';
+        $image       = $data['image']       ?? '';  // ✅ sửa 'base_img' → 'image'
         $description = $data['description'] ?? '';
         $profit_rate = $data['profit_rate'] ?? 0;
+        $status      = $data['status']      ?? 'active'; // ✅ thêm status
 
         $stmt = $db->prepare("
-            INSERT INTO products (name, category_id, base_img, description, profit_rate)
-            VALUES (?, ?, ?, ?, ?)
-        ");
-        $stmt->bind_param("sissd", $name, $category_id, $image, $description, $profit_rate);
+            INSERT INTO products (name, category_id, base_img, description, profit_rate, status)
+            VALUES (?, ?, ?, ?, ?, ?)
+        "); // ✅ thêm status vào SQL
+        $stmt->bind_param("sissds", $name, $category_id, $image, $description, $profit_rate, $status);
+        // ✅ thêm 's' cho status ở cuối
         return $stmt->execute();
     }
 
