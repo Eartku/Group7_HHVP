@@ -71,7 +71,7 @@
                             <span class="ui-info-lbl">Ngày tạo</span>
                             <span class="ui-info-val">
                                 <?= !empty($receipt['created_at'])
-                                    ? date('d/m/Y H:i', strtotime($receipt['created_at']))
+                                    ? date('d/m/Y', strtotime($receipt['created_at']))
                                     : '—' ?>
                             </span>
                         </div>
@@ -188,11 +188,16 @@
         <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-create"
            class="ui-btn-outline sm">← Quay lại</a>
         <?php if ($receipt['status'] === 'pending'): ?>
+        <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-edit&id=<?= $receipt['id'] ?>"
+            class="ui-btn sm"
+            style="background: linear-gradient(135deg, #d7d938, #2b2d2d);">
+            Tiếp tục chỉnh sửa
+        </a>
         <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-confirm&id=<?= $receipt['id'] ?>"
            class="ui-btn sm"
-           style="background:linear-gradient(135deg,#38d9a9,#0ca678)"
+           style="background: linear-gradient(135deg, #23231e, #0ca678"
            onclick="return confirm('Xác nhận nhập kho phiếu này?')">
-            ✅ Xác nhận nhập kho
+            Xác nhận nhập kho
         </a>
         <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-cancel&id=<?= $receipt['id'] ?>"
            class="ui-btn sm"
