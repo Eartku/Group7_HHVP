@@ -1,117 +1,124 @@
     <?php /* app/views/admin/inventory/index.php */ ?>
 
-    <div class="container-fluid py-4">
+        <div class="container-fluid py-4">
 
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="ui-title mb-0">Quản lý nhập kho</h2>
-            <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-create" class="ui-btn sm">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <line x1="12" y1="5" x2="12" y2="19"/>
-                    <line x1="5" y1="12" x2="19" y2="12"/>
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="ui-title mb-0">Quản lý nhập kho</h2>
+                <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-create" class="ui-btn sm">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    Tạo phiếu nhập
+                </a>
+            </div>
+
+            <!-- Alerts -->
+            <?php if (isset($_GET['confirmed'])): ?>
+            <div class="ui-alert success mb-4">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                    <polyline points="20 6 9 17 4 12"/>
                 </svg>
-                Tạo phiếu nhập
-            </a>
-        </div>
-
-        <!-- Alerts (giữ nguyên) -->
-        <?php if (isset($_GET['confirmed'])): ?>
-        <div class="ui-alert success mb-4">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
-                <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            Đã xác nhận phiếu nhập kho thành công.
-        </div>
-        <?php elseif (isset($_GET['cancelled'])): ?>
-        <div class="ui-alert warning mb-4">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="12" y1="8" x2="12" y2="12"/>
-                <line x1="12" y1="16" x2="12.01" y2="16"/>
-            </svg>
-            Đã hủy phiếu nhập.
-        </div>
-        <?php elseif (isset($_GET['error'])): ?>
-        <div class="ui-alert danger mb-4">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="15" y1="9" x2="9" y2="15"/>
-                <line x1="9" y1="9" x2="15" y2="15"/>
-            </svg>
-            Thao tác thất bại. Vui lòng thử lại.
-        </div>
-        <?php endif; ?>
-
-        <!-- Bảng phiếu nhập (giữ nguyên) -->
+                Đã xác nhận phiếu nhập kho thành công.
+            </div>
+            <?php elseif (isset($_GET['cancelled'])): ?>
+            <div class="ui-alert warning mb-4">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                Đã hủy phiếu nhập.
+            </div>
+            <?php elseif (isset($_GET['error'])): ?>
+            <div class="ui-alert danger mb-4">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="15" y1="9" x2="9" y2="15"/>
+                    <line x1="9" y1="9" x2="15" y2="15"/>
+                </svg>
+                Thao tác thất bại. Vui lòng thử lại.
+            </div>
+            <?php endif; ?>
 
             <div class="ui-tabs mb-3">
                 <button class="tab-btn active" data-tab="inventory">
                     <i class="fa fa-box"></i> Tồn kho
                 </button>
-
                 <button class="tab-btn" data-tab="logs">
                     <i class="fa fa-exchange-alt"></i> Xuất / Nhập
                 </button>
-
                 <button class="tab-btn" data-tab="out">
                     <i class="fa fa-exclamation-triangle"></i> Hết hàng
                 </button>
-                <button class="tab-btn" data-tab="lookup">
-                    <i class="fa fa-search"></i> Tra cứu
-                </button>
             </div>
 
-        <!-- ═══════════════════════════════════════
-            BẢNG TỒN KHO
-        ═══════════════════════════════════════ -->
-        <div id="tab-inventory" class="tab-content active">
-            <div class="ui-card mb-4">
-                <div class="ui-card-head">
-                    <h5>Danh sách tồn kho</h5>
-                </div>
+            <!-- ═══════════════════════════════════════
+                BẢNG TỒN KHO
+            ═══════════════════════════════════════ -->
+            <div id="tab-inventory" class="tab-content active">
+                <div class="ui-card mb-4">
+                    <div class="ui-card-head">
+                        <h5>Danh sách tồn kho</h5>
+                    </div>
 
-                <div style="overflow-x:auto">
-                    <!-- Filter tồn kho -->
-                <div class="ui-card-body" style="border-bottom:1px solid var(--border)">
-                    <form method="GET" action="<?= BASE_URL ?>/index.php">
-                        <input type="hidden" name="url" value="admin-inventory">
-                        <input type="hidden" name="tab" value="inventory">
+                    <div style="overflow-x:auto">
+                        <!-- Filter tồn kho -->
+                        <!-- Filter tồn kho -->
+                        <div class="ui-card-body" style="border-bottom:1px solid var(--border)">
+                            <form method="GET" action="<?= BASE_URL ?>/index.php" id="inv-filter-form">
+                                <input type="hidden" name="url" value="admin-inventory">
+                                <input type="hidden" name="tab" value="inventory">
 
-                            <div class="row g-3 align-items-end">
+                                <div class="row g-3 align-items-end">
+                                    <!-- Tìm kiếm sản phẩm (có autocomplete + dropdown) -->
+                                    <div class="col-md-4">
+                                        <label class="ui-label">Sản phẩm</label>
+                                        <div class="product-search-wrapper" style="position:relative">
+                                            <!-- Ô tìm kiếm - bỏ nút mũi tên -->
+                                            <input type="text" id="inv-product-search"
+                                                class="ui-input"
+                                                placeholder=" tên sản phẩm "
+                                                autocomplete="off"
+                                                value="<?= htmlspecialchars($invProductName ?? '') ?>"
+                                                style="padding-right: 10px;">
+                                            
+                                            <input type="hidden" name="inv_product_id" id="inv-product-id"
+                                                value="<?= htmlspecialchars($invProductId ?? '') ?>">
+                                            
+                                            <!-- Autocomplete dropdown -->
+                                            <div id="inv-product-dropdown" class="inv-autocomplete-list"></div>
+                                            
+                                            <!-- Danh sách sản phẩm dạng select box -->
+                                            <div id="product-list-dropdown" class="product-select-dropdown" style="display: none;">
+                                                <div class="product-select-header">
+                                                    <input type="text" id="product-search-input" 
+                                                        class="ui-input" 
+                                                        placeholder="Tìm kiếm sản phẩm..."
+                                                        style="margin: 10px; width: calc(100% - 20px);">
+                                                </div>
+                                                <div class="product-select-body" id="product-select-body">
+                                                    <?php foreach ($products as $product): ?>
+                                                    <div class="product-select-item" data-id="<?= $product['id'] ?>" data-name="<?= htmlspecialchars($product['name']) ?>">
+                                                        <span class="product-name"><?= htmlspecialchars($product['name']) ?></span>
+                                                        <span class="product-id">#<?= $product['id'] ?></span>
+                                                    </div>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <div class="col-md-3">
-                                    <label class="ui-label">Danh mục</label>
-                                    <select name="category_id" class="ui-input">
-                                        <option value="">Tất cả</option>
-                                        <?php foreach ($categories as $c): ?>
-                                            <option value="<?= $c['id'] ?>"
-                                                <?= ($categoryId ?? '') == $c['id'] ? 'selected' : '' ?>>
-                                                <?= $c['name'] ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
+                                    <!-- Tra cứu tại thời điểm -->
+                                    <div class="col-md-3">
+                                        <label class="ui-label">Tại thời điểm</label>
+                                        <input type="date" name="inv_time" class="ui-input"
+                                            value="<?= htmlspecialchars($invTime ?? '') ?>">
+                                    </div>
 
-                                <div class="col-md-3">
-                                    <label class="ui-label">Trạng thái</label>
-                                    <select name="status" class="ui-input">
-                                        <option value="">Tất cả</option>
-                                        <option value="active" <?= ($status ?? '') === 'active' ? 'selected' : '' ?>>Đang bán</option>
-                                        <option value="inactive" <?= ($status ?? '') === 'inactive' ? 'selected' : '' ?>>Ngừng bán</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label class="ui-label">Sắp xếp</label>
-                                    <select name="sort" class="ui-input">
-                                        <option value="">Mặc định</option>
-                                            <option value="desc">Số lượng cao → thấp</option>
-                                            <option value="asc">Số lượng thấp → cao</option>
-                                    </select>
-                                </div>
-                                
-                                    <div class="col-md-2 d-flex gap-2">
+                                    <div class="col-md-3 d-flex gap-2 align-items-end">
                                         <button class="ui-btn sm flex-grow-1">
                                             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
                                                 style="width:14px;height:14px;stroke:#fff">
@@ -119,656 +126,716 @@
                                             </svg>
                                             Lọc
                                         </button>
-
-                                        <?php if (!empty($categoryId) || !empty($status) || !empty($sort)): ?>
+                                        <?php if (!empty($invProductId) || !empty($invTime)): ?>
                                             <a href="<?= BASE_URL ?>/index.php?url=admin-inventory&tab=inventory"
                                             class="ui-btn-outline sm">✕ Xóa</a>
                                         <?php endif; ?>
                                     </div>
 
-                            </div>
-                        </form>
-                    </div>
-                    <table class="ui-table admin-head">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên sản phẩm</th>
-                        <th>Danh mục</th>
-                        <th>Size</th>
-                        <th>Trạng thái</th>
-                        <th>Số lượng</th>
-                        <th class="right">Giá Bán</th>
-                    </tr>
-                    </thead>
-                        <tbody>
-                            <?php if (empty($inventory)): ?>
-                            <tr>
-                                <td colspan="7" class="text-center">Không có dữ liệu</td>
-                            </tr>
-                            <?php else: foreach ($inventory as $inv): ?>
-                            <tr>
-                                <td>#<?= $inv['product_id'] ?: '—' ?></td>
-                                <td><?= htmlspecialchars($inv['product_name']) ?></td>
-
-                                <td>
-                                    <span class="ui-badge neutral">
-                                        <?= htmlspecialchars($inv['category_name'] ?? '—') ?>
-                                    </span>
-                                </td>
-
-                                <td><?= htmlspecialchars($inv['size_name'] ?? '—') ?></td>
-
-                                <td>
-                                    <?php if (($inv['status'] ?? 'inactive') === 'active'): ?>
-                                        <span class="ui-badge success">Đang bán</span>
-                                    <?php else: ?>
-                                        <span class="ui-badge danger">Ngừng bán</span>
-                                    <?php endif; ?>
-                                </td>
-
-                                <td style="<?= $inv['quantity'] == 0 ? 'color:red;font-weight:700' : '' ?>">
-                                    <?= number_format($inv['quantity']) ?>
-                                </td>
-                                <td class="right"><?= number_format($inv['avg_import_price']) ?>đ</td>
-                            </tr>
-                            <?php endforeach; endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-                <?php if (!empty($invTotalPages) && $invTotalPages > 1): ?>
-                    <div class="ui-card-body">
-                        <div class="ui-pagination">
-
-                        <?php if ($invPage > 1): ?>
-                            <a href="<?= BASE_URL ?>/index.php?url=admin-inventory&inv_page=<?= $invPage - 1 ?>">‹</a>
-                        <?php endif; ?>
-
-                        <?php for ($i = 1; $i <= $invTotalPages; $i++): ?>
-                            <a href="<?= BASE_URL ?>/index.php?url=admin-inventory&inv_page=<?= $i ?>"
-                            class="<?= $i == $invPage ? 'active' : '' ?>">
-                                <?= $i ?>
-                            </a>
-                        <?php endfor; ?>
-
-                        <?php if ($invPage < $invTotalPages): ?>
-                            <a href="<?= BASE_URL ?>/index.php?url=admin-inventory&inv_page=<?= $invPage + 1 ?>">›</a>
-                        <?php endif; ?>
-
+                                </div>
+                            </form>
                         </div>
+
+                        <table class="ui-table admin-head">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Danh mục</th>
+                            <th>Size</th>
+                            <?php if (!empty($invTime)): ?>
+                            <th>Tại thời điểm</th>
+                            <th class="right">Số lượng</th>
+                            <?php else: ?>
+                            <th class="right">Số lượng</th>
+                            <?php endif; ?>
+                            <th class="right">Giá nhập TB</th>
+                        </tr>
+                        </thead>
+                            <tbody>
+                                <?php if (empty($inventory)): ?>
+                                <tr>
+                                    <td colspan="7" class="text-center">Không có dữ liệu</td>
+                                </tr>
+                                <?php else: foreach ($inventory as $inv): ?>
+                                <tr>
+                                    <td>#<?= $inv['product_id'] ?: '—' ?></td>
+                                    <td><?= htmlspecialchars($inv['product_name']) ?></td>
+                                    <td>
+                                        <span class="ui-badge neutral">
+                                            <?= htmlspecialchars($inv['category_name'] ?? '—') ?>
+                                        </span>
+                                    </td>
+                                    <td><?= htmlspecialchars($inv['size_name'] ?? '—') ?></td>
+                                    <?php if (!empty($invTime)): ?>
+                                    <td style="font-size:13px;color:var(--text-muted)">
+                                        <?= date('d/m/Y', strtotime($invTime)) ?>
+                                        <small style="display:block; font-size:11px;">
+                                        </small>
+                                    </td>
+                                    <?php endif; ?>
+                                    <td class="right" style="<?= $inv['quantity'] == 0 ? 'color:red;font-weight:700' : 'font-weight:600' ?>">
+                                        <?= number_format($inv['quantity']) ?>
+                                    </td>
+                                    <td class="right"><?= number_format($inv['avg_import_price']) ?>đ</td>
+                                </tr>
+                                <?php endforeach; endif; ?>
+                            </tbody>
+                        </table>
                     </div>
-                <?php endif; ?>
-            </div>
-        </div> <!-- END tab inventory -->
-        <!-- ═══════════════════════════════════════
-            BẢNG HẾT HÀNG
-        ═══════════════════════════════════════ -->
-        <div id="tab-out" class="tab-content">
-            <div class="ui-card mb-4">
 
-                <div class="ui-card-head" style="display:flex;justify-content:space-between;align-items:center">
-                    <h5>Sản phẩm hết hàng</h5>
-                    <span style="font-size:13px;color:var(--text-muted)">
-                        Tổng <strong style="color:red"><?= $outTotal ?></strong> sản phẩm hết / sắp hết hàng
-                    </span>
+                    <?php if (!empty($invTotalPages) && $invTotalPages > 1): ?>
+                        <div class="ui-card-body">
+                            <div class="ui-pagination">
+                            <?php
+                                $invQs = '?url=admin-inventory&tab=inventory'
+                                    . '&inv_product_id=' . urlencode($invProductId ?? '')
+                                    . '&inv_time=' . urlencode($invTime ?? '')
+                                    . '&inv_page=';
+                            ?>
+                            <?php if ($invPage > 1): ?>
+                                <a href="<?= BASE_URL ?>/index.php<?= $invQs . ($invPage - 1) ?>" class="ui-page-btn">‹</a>
+                            <?php endif; ?>
+                            <?php for ($i = 1; $i <= $invTotalPages; $i++): ?>
+                                <a href="<?= BASE_URL ?>/index.php<?= $invQs . $i ?>"
+                                class="ui-page-btn <?= $i == $invPage ? 'active' : '' ?>">
+                                    <?= $i ?>
+                                </a>
+                            <?php endfor; ?>
+                            <?php if ($invPage < $invTotalPages): ?>
+                                <a href="<?= BASE_URL ?>/index.php<?= $invQs . ($invPage + 1) ?>" class="ui-page-btn">›</a>
+                            <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
+            </div> <!-- END tab inventory -->
 
-                <!-- Filter (KHÔNG có sort) -->
-                <div class="ui-card-body" style="border-bottom:1px solid var(--border)">
-                    <form method="GET" action="<?= BASE_URL ?>/index.php">
-                        <input type="hidden" name="url" value="admin-inventory">
-                        <input type="hidden" name="tab" value="out">
+            <!-- ═══════════════════════════════════════
+                BẢNG HẾT HÀNG
+            ═══════════════════════════════════════ -->
+            <div id="tab-out" class="tab-content">
+                <div class="ui-card mb-4">
 
-                        <div class="row g-3 align-items-end">
+                    <div class="ui-card-head" style="display:flex;justify-content:space-between;align-items:center">
+                        <h5>Sản phẩm hết hàng / sắp hết</h5>
+                        <span style="font-size:13px;color:var(--text-muted)">
+                            Tổng <strong style="color:red"><?= $outTotal ?></strong> sản phẩm hết / sắp hết hàng
+                        </span>
+                    </div>
+                    <!-- Filter chỉ còn threshold -->
+                    <div class="ui-card-body" style="border-bottom:1px solid var(--border)">
+                        <form method="GET" action="<?= BASE_URL ?>/index.php" id="out-filter-form">
+                            <input type="hidden" name="url" value="admin-inventory">
+                            <input type="hidden" name="tab" value="out">
 
-                            <div class="col-md-3">
-                                <div class="ui-field mb-0">
-                                    <label class="ui-label">Cảnh báo dưới</label>
+                            <div class="row g-3 align-items-end">
+                                <div class="col-md-3">
+                                    <label class="ui-label">Cảnh báo dưới (số lượng)</label>
                                     <input type="number"
                                         name="threshold"
                                         class="ui-input"
                                         min="0"
                                         value="<?= htmlspecialchars($threshold ?? 0) ?>">
                                 </div>
-                            </div>
 
-                            <div class="col-md-3">
-                           
-                                    <label class="ui-label">Danh mục</label>
-                                    <select name="category_id" class="ui-input">
-                                        <option value="">Tất cả</option>
-                                        <?php foreach ($categories as $c): ?>
-                                            <option value="<?= $c['id'] ?>"
-                                                <?= ($categoryId ?? '') == $c['id'] ? 'selected' : '' ?>>
-                                                <?= $c['name'] ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                          
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="ui-field mb-0">
-                                    <label class="ui-label">Trạng thái</label>
-                                    <select name="status" class="ui-input">
-                                        <option value="">Tất cả</option>
-                                        <option value="active" <?= ($status ?? '') === 'active' ? 'selected' : '' ?>>Đang bán</option>
-                                        <option value="inactive" <?= ($status ?? '') === 'inactive' ? 'selected' : '' ?>>Ngừng bán</option>
-                                    </select>
+                                <div class="col-md-3 d-flex gap-2 align-items-end">
+                                    <button class="ui-btn sm flex-grow-1">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                                            style="width:14px;height:14px;stroke:#fff">
+                                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                                        </svg>
+                                        Lọc
+                                    </button>
+                                    <?php if (!empty($threshold)): ?>
+                                        <a href="<?= BASE_URL ?>/index.php?url=admin-inventory&tab=out"
+                                        class="ui-btn-outline sm">✕ Xóa</a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
+                        </form>
+                    </div>
 
-                            <div class="col-md-2 d-flex gap-2">
-                                <button class="ui-btn sm flex-grow-1">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
-                                        style="width:14px;height:14px;stroke:#fff">
-                                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
-                                    </svg>
-                                    Lọc
-                                </button>
-
-                                <?php if (!empty($categoryId) || !empty($status) || !empty($threshold)): ?>
-                                    <a href="<?= BASE_URL ?>/index.php?url=admin-inventory&tab=out"
-                                    class="ui-btn-outline sm">✕ xóa</a>
-                                <?php endif; ?>
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Table -->
-                <div style="overflow-x:auto">
-                    <table class="ui-table admin-head">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Danh mục</th>
-                                <th>Size</th>
-                                <th>Trạng thái</th>
-                                <th>Số lượng</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php if (empty($outStock)): ?>
-                            <tr>
-                                <td colspan="6" class="text-center">Không có sản phẩm hết hàng</td>
-                            </tr>
-                        <?php else: foreach ($outStock as $inv): ?>
-                            <tr>
-                                <td>#<?= $inv['product_id'] ?></td>
-                                <td><?= htmlspecialchars($inv['product_name']) ?></td>
-                                <td>
-                                    <span class="ui-badge neutral">
-                                    <?= htmlspecialchars($inv['category_name']) ?>
-                                    </span>
-                                </td>
-                                <td><?= htmlspecialchars($inv['size_name']) ?></td>
-                                <td>
-                                    <?= $inv['status'] === 'active'
-                                        ? '<span class="ui-badge success">Đang bán</span>'
-                                        : '<span class="ui-badge danger">Ngừng bán</span>' ?>
-                                </td>
-                                <td style="color:red;font-weight:700">
-                                    <?= number_format($inv['quantity']) ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; endif; ?>
-                        </tbody>
-                    </table>
-                </div>
+                    <!-- Table: sắp xếp số lượng cao → thấp, bỏ cột trạng thái -->
+                    <div style="overflow-x:auto">
+                        <table class="ui-table admin-head">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Danh mục</th>
+                                    <th>Size</th>
+                                    <th class="right">Số lượng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php if (empty($outStock)): ?>
+                                <tr>
+                                    <td colspan="5" class="text-center">Không có sản phẩm hết hàng</td>
+                                </tr>
+                            <?php else: foreach ($outStock as $inv): ?>
+                                <tr>
+                                    <td>#<?= $inv['product_id'] ?></td>
+                                    <td><?= htmlspecialchars($inv['product_name']) ?></td>
+                                    <td>
+                                        <span class="ui-badge neutral">
+                                        <?= htmlspecialchars($inv['category_name']) ?>
+                                        </span>
+                                    </td>
+                                    <td><?= htmlspecialchars($inv['size_name']) ?></td>
+                                    <td class="right" style="color:red;font-weight:700">
+                                        <?= number_format($inv['quantity']) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <?php if (!empty($outTotalPages) && $outTotalPages > 1): ?>
                         <div class="ui-card-body">
                             <div class="ui-pagination">
-
                                 <?php
                                 $qs = '?url=admin-inventory&tab=out'
-                                    . '&category_id=' . urlencode($categoryId ?? '')
-                                    . '&status=' . urlencode($status ?? '')
                                     . '&threshold=' . urlencode($threshold ?? 0)
                                     . '&out_page=';
                                 ?>
-
                                 <?php if ($outPage > 1): ?>
-                                    <a href="<?= BASE_URL ?>/index.php<?= $qs . ($outPage - 1) ?>"
-                                    class="ui-page-btn">‹</a>
+                                    <a href="<?= BASE_URL ?>/index.php<?= $qs . ($outPage - 1) ?>" class="ui-page-btn">‹</a>
                                 <?php endif; ?>
-
                                 <?php for ($i = 1; $i <= $outTotalPages; $i++): ?>
                                     <a href="<?= BASE_URL ?>/index.php<?= $qs . $i ?>"
                                     class="ui-page-btn <?= $i == $outPage ? 'active' : '' ?>">
                                         <?= $i ?>
                                     </a>
                                 <?php endfor; ?>
-
                                 <?php if ($outPage < $outTotalPages): ?>
-                                    <a href="<?= BASE_URL ?>/index.php<?= $qs . ($outPage + 1) ?>"
-                                    class="ui-page-btn">›</a>
+                                    <a href="<?= BASE_URL ?>/index.php<?= $qs . ($outPage + 1) ?>" class="ui-page-btn">›</a>
                                 <?php endif; ?>
-
                             </div>
                         </div>
                     <?php endif; ?>
-            </div>
-        </div>
-
-        <!-- ═══════════════════════════════════════
-            BẢNG LOG XUẤT/NHẬP KHO
-        ═══════════════════════════════════════ -->
-        <div id="tab-logs" class="tab-content">
-            <div class="ui-card mb-0">
-                <div class="ui-card-head">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                        <line x1="16" y1="13" x2="8" y2="13"/>
-                        <line x1="16" y1="17" x2="8" y2="17"/>
-                    </svg>
-                    <h5>Lịch sử xuất / nhập kho</h5>
                 </div>
+            </div>
 
-                <!-- Filter ngày -->
-                <div class="ui-card-body" style="border-bottom:1px solid var(--border)">
-                    <form method="GET" action="<?= BASE_URL ?>/index.php">
-                        <input type="hidden" name="url" value="admin-inventory">
-                        <input type="hidden" name="tab" value="logs">
-                        <div class="row g-3 align-items-end">
-                            <div class="col-md-3">
-                                <div class="ui-field mb-0">
-                                    <label class="ui-label">Loại</label>
-                                    <select name="log_type" class="ui-input">
-                                        <option value="">Tất cả</option>
-                                        <option value="import" <?= ($logType ?? '') === 'import' ? 'selected' : '' ?>>Nhập</option>
-                                        <option value="export" <?= ($logType ?? '') === 'export' ? 'selected' : '' ?>>Xuất</option>
-                                    </select>
+            <!-- ═══════════════════════════════════════
+                BẢNG LOG XUẤT/NHẬP KHO (nhóm theo ngày)
+            ═══════════════════════════════════════ -->
+            <!-- ═══════════════════════════════════════
+                BẢNG LOG XUẤT/NHẬP KHO
+            ═══════════════════════════════════════ -->
+            <div id="tab-logs" class="tab-content">
+                <div class="ui-card mb-0">
+                    <div class="ui-card-head">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                        </svg>
+                        <h5>Lịch sử xuất / nhập kho</h5>
+                    </div>
+
+                    <!-- Filter: từ ngày - đến ngày -->
+                    <div class="ui-card-body" style="border-bottom:1px solid var(--border)">
+                        <form method="GET" action="<?= BASE_URL ?>/index.php" id="logs-filter-form">
+                            <input type="hidden" name="url" value="admin-inventory">
+                            <input type="hidden" name="tab" value="logs">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-md-3">
+                                    <div class="ui-field mb-0">
+                                        <label class="ui-label">Từ ngày</label>
+                                        <input type="date" name="log_from" class="ui-input"
+                                            value="<?= htmlspecialchars($logFrom ?? '') ?>">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="ui-field mb-0">
-                                    <label class="ui-label">Từ ngày</label>
-                                    <input type="date" name="log_from" class="ui-input"
-                                        value="<?= htmlspecialchars($logFrom ?? '') ?>">
+                                <div class="col-md-3">
+                                    <div class="ui-field mb-0">
+                                        <label class="ui-label">Đến ngày</label>
+                                        <input type="date" name="log_to" class="ui-input"
+                                            value="<?= htmlspecialchars($logTo ?? '') ?>">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="ui-field mb-0">
-                                    <label class="ui-label">Đến ngày</label>
-                                    <input type="date" name="log_to" class="ui-input"
-                                        value="<?= htmlspecialchars($logTo ?? '') ?>">
-                                </div>
-                            </div>
-                            <div class="col-md-2 d-flex gap-2">
-                                <button type="submit" class="ui-btn sm flex-grow-1">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
-                                        style="width:14px;height:14px;stroke:#fff">
-                                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
-                                    </svg>
-                                    Lọc
-                                </button>
-                                <?php if (!empty($logFrom) || !empty($logTo) || !empty($logType)): ?>
-                                <a href="<?= BASE_URL ?>/index.php?url=admin-inventory&tab=logs"
-                                class="ui-btn-outline sm">✕ Xóa</a>
-                                <?php endif; ?>
-                            </div>
-                            <div class="col-md-2 text-end">
-                                <span style="font-size:13px;color:var(--text-muted)">
-                                    Tổng <strong><?= count($logs ?? []) ?></strong> bản ghi
-                                    <?php if (!empty($logFrom) || !empty($logTo) || !empty($logType)): ?>
-                                    <span class="ui-badge info" style="margin-left:6px">Đang lọc</span>
+                                <div class="col-md-3 d-flex gap-2">
+                                    <button type="submit" class="ui-btn sm flex-grow-1">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                                            style="width:14px;height:14px;stroke:#fff">
+                                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                                        </svg>
+                                        Lọc
+                                    </button>
+                                    <?php if (!empty($logFrom) || !empty($logTo)): ?>
+                                        <a href="<?= BASE_URL ?>/index.php?url=admin-inventory&tab=logs"
+                                        class="ui-btn-outline sm">✕ Xóa</a>
                                     <?php endif; ?>
-                                </span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div style="overflow-x:auto">
-                    <table class="ui-table admin-head">
-                        <thead>
-                            <tr>
-                                <th style="width:60px">Mã</th>
-                                <th>Sản phẩm</th>
-                                <th>Size</th>
-                                <th class="center" style="width:110px">Loại</th>
-                                <th class="right" style="width:100px">Số lượng</th>
-                                <th class="right" style="width:140px">Giá nhập</th>
-                                <th style="width:180px">Ghi chú</th>
-                                <th style="width:140px">Thời gian</th>
-                                <th style="width:160px" class="center">Chi tiết</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php if (empty($logs)): ?>
-                        <tr>
-                            <td colspan="8">
-                                <div class="ui-empty py-4">
-                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                    </svg>
-                                    <h4>Không có bản ghi nào</h4>
-                                    <p>Thử thay đổi khoảng ngày lọc</p>
                                 </div>
-                            </td>
-                        </tr>
-                        <?php else: foreach ($logs as $log): ?>
-                        <tr>
-                            <td>
-                                <span style="font-family:monospace;font-weight:700;color:var(--brand)">
-                                    #<?= (int)$log['id'] ?>
-                                </span>
-                            </td>
-                            <td style="font-weight:600">
-                                <?= htmlspecialchars($log['product_name'] ?? '—') ?>
-                            </td>
-                            <td>
-                                <span class="ui-badge neutral">
-                                    <?= htmlspecialchars($log['size_name'] ?? '—') ?>
-                                </span>
-                            </td>
-                            <td class="center">
-                                <?php if ($log['type'] === 'import'): ?>
-                                <span class="ui-badge success">↓ Nhập</span>
-                                <?php else: ?>
-                                <span class="ui-badge warning">↑ Xuất</span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Hiển thị logs -->
+                    <!-- Hiển thị logs -->
+                    <div style="overflow-x:auto; padding: 16px">
+                        <?php if (empty($logs) && empty($logsByDate)): ?>
+                            <div class="ui-empty py-4">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                </svg>
+                                <h4>Không có bản ghi nào</h4>
+                                <p>Chưa có dữ liệu xuất nhập kho</p>
+                            </div>
+                        <?php else: ?>
+                            
+                            <?php if (!empty($logFrom) || !empty($logTo)): ?>
+                                <!-- CHẾ ĐỘ TÌM KIẾM: Hiển thị nhóm theo ngày -->
+                                <?php foreach ($logsByDate as $dateKey => $dateData): ?>
+                                <div class="log-day-group mb-4">
+                                    <div class="log-day-header">
+                                        <span class="log-day-label">
+                                            <i class="fa fa-calendar-alt"></i>
+                                            Ngày <?= date('d/m/Y', strtotime($dateKey)) ?>
+                                        </span>
+                                    </div>
+                                    <table class="ui-table admin-head" style="margin-bottom:0">
+                                        <thead>
+                                            <tr>
+                                                <th>Sản phẩm</th>
+                                                <th>Size</th>
+                                                <th class="center" style="width:100px">Loại</th>
+                                                <th class="right" style="width:100px">Số lượng</th>
+                                                <th style="width:220px">Ghi chú</th>
+                                                <th style="width:140px">Thời gian</th>
+                                                <th style="width:140px" class="center">Chi tiết</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach ($dateData['rows'] as $log): ?>
+                                        <tr>
+                                            <td style="font-weight:600"><?= htmlspecialchars($log['product_name'] ?? '—') ?></td>
+                                            <td><span class="ui-badge neutral"><?= htmlspecialchars($log['size_name'] ?? '—') ?></span></td>
+                                            <td class="center">
+                                                <?php if ($log['type'] === 'import'): ?>
+                                                <span class="ui-badge success">↓ Nhập</span>
+                                                <?php else: ?>
+                                                <span class="ui-badge warning">↑ Xuất</span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td class="right" style="font-weight:700">
+                                                <?= $log['type'] === 'import' ? '+' : '-' ?>
+                                                <?= number_format((int)$log['quantity'], 0, ',', '.') ?>
+                                            </td>
+                                            <td class="muted" style="font-size:13px"><?= htmlspecialchars($log['note'] ?? '—') ?></td>
+                                            <td class="muted" style="font-size:13px">
+                                                <?= !empty($log['created_at']) ? date('d/m/Y H:i', strtotime($log['created_at'])) : '—' ?>
+                                            </td>
+                                            <td class="center">
+                                                <?php if ($log['type'] === 'export' && !empty($log['order_id'])): ?>
+                                                    <a href="<?= BASE_URL ?>/index.php?url=admin-orders-detail&id=<?= (int)$log['order_id'] ?>"
+                                                        class="ui-btn-outline sm">📦 Đơn hàng</a>
+                                                <?php elseif ($log['type'] === 'import' && !empty($log['receipt_id'])): ?>
+                                                    <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-detail&id=<?= (int)$log['receipt_id'] ?>"
+                                                        class="ui-btn sm">📥 Phiếu nhập</a>
+                                                <?php else: ?>
+                                                    <span class="muted">—</span>
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                    <div class="log-day-summary">
+                                        <span class="summary-import">↓ Tổng nhập: <strong>+<?= number_format($dateData['total_import']) ?></strong></span>
+                                        <span class="summary-export">↑ Tổng xuất: <strong>-<?= number_format($dateData['total_export']) ?></strong></span>
+                                    </div>
+                                </div>
+                                <?php endforeach; ?>
+                                
+                            <?php else: ?>
+                                <!-- CHẾ ĐỘ MẶC ĐỊNH: Bảng thường + phân trang -->
+                                <table class="ui-table admin-head">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Sản phẩm</th>
+                                            <th>Size</th>
+                                            <th class="center">Loại</th>
+                                            <th class="right">Số lượng</th>
+                                            <th>Giá nhập</th>
+                                            <th>Ghi chú</th>
+                                            <th>Thời gian</th>
+                                            <th class="center">Chi tiết</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (empty($logs)): ?>
+                                        <tr>
+                                            <td colspan="9" class="text-center">Không có dữ liệu</td>
+                                        </tr>
+                                        <?php else: foreach ($logs as $log): ?>
+                                        <tr>
+                                            <td>#<?= $log['id'] ?></td>
+                                            <td style="font-weight:600"><?= htmlspecialchars($log['product_name'] ?? '—') ?></td>
+                                            <td><span class="ui-badge neutral"><?= htmlspecialchars($log['size_name'] ?? '—') ?></span></td>
+                                            <td class="center">
+                                                <?php if ($log['type'] === 'import'): ?>
+                                                <span class="ui-badge success">↓ Nhập</span>
+                                                <?php else: ?>
+                                                <span class="ui-badge warning">↑ Xuất</span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td class="right" style="font-weight:700">
+                                                <?= $log['type'] === 'import' ? '+' : '-' ?>
+                                                <?= number_format((int)$log['quantity'], 0, ',', '.') ?>
+                                            </td>
+                                            <td class="right"><?= number_format($log['import_price'] ?? 0) ?>đ</td>
+                                            <td class="muted" style="font-size:13px"><?= htmlspecialchars($log['note'] ?? '—') ?></td>
+                                            <td class="muted" style="font-size:13px">
+                                                <?= !empty($log['created_at']) ? date('d/m/Y H:i', strtotime($log['created_at'])) : '—' ?>
+                                            </td>
+                                            <td class="center">
+                                                <?php if ($log['type'] === 'export' && !empty($log['order_id'])): ?>
+                                                    <a href="<?= BASE_URL ?>/index.php?url=admin-orders-detail&id=<?= (int)$log['order_id'] ?>"
+                                                        class="ui-btn-outline sm">📦 Đơn</a>
+                                                <?php elseif ($log['type'] === 'import' && !empty($log['receipt_id'])): ?>
+                                                    <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-detail&id=<?= (int)$log['receipt_id'] ?>"
+                                                        class="ui-btn sm">📥 Phiếu</a>
+                                                <?php else: ?>
+                                                    <span class="muted">—</span>
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; endif; ?>
+                                    </tbody>
+                                </table>
+                                
+                                <!-- Phân trang cho chế độ mặc định -->
+                                <?php if (isset($logTotalPages) && $logTotalPages > 1): ?>
+                                <div class="ui-pagination" style="margin-top: 20px;">
+                                    <?php
+                                    $logQs = '?url=admin-inventory&tab=logs&log_page=';
+                                    ?>
+                                    <?php if ($logCurrentPage > 1): ?>
+                                        <a href="<?= BASE_URL ?>/index.php<?= $logQs . ($logCurrentPage - 1) ?>" class="ui-page-btn">‹</a>
+                                    <?php endif; ?>
+                                    <?php for ($i = 1; $i <= $logTotalPages; $i++): ?>
+                                        <a href="<?= BASE_URL ?>/index.php<?= $logQs . $i ?>"
+                                        class="ui-page-btn <?= $i == $logCurrentPage ? 'active' : '' ?>">
+                                            <?= $i ?>
+                                        </a>
+                                    <?php endfor; ?>
+                                    <?php if ($logCurrentPage < $logTotalPages): ?>
+                                        <a href="<?= BASE_URL ?>/index.php<?= $logQs . ($logCurrentPage + 1) ?>" class="ui-page-btn">›</a>
+                                    <?php endif; ?>
+                                </div>
                                 <?php endif; ?>
-                            </td>
-                            <td class="right" style="font-weight:700">
-                                <?= $log['type'] === 'import' ? '+' : '-' ?>
-                                <?= number_format((int)$log['quantity'], 0, ',', '.') ?>
-                            </td>
-                            <td class="right price">
-                                <?= $log['import_price'] > 0
-                                    ? number_format((float)$log['import_price'], 0, ',', '.') . 'đ'
-                                    : '<span class="muted">—</span>' ?>
-                            </td>
-                            <td class="muted" style="font-size:13px;max-width:180px">
-                                <?= htmlspecialchars($log['note'] ?? '—') ?>
-                            </td>
-                            <td class="muted" style="font-size:13px">
-                                <?= !empty($log['created_at'])
-                                    ? date('d/m/Y H:i', strtotime($log['created_at']))
-                                    : '—' ?>
-                            </td>
-                            <td class="center">
-                                <?php if ($log['type'] === 'export' && !empty($log['order_id'])): ?>
-                                    <a href="<?= BASE_URL ?>/index.php?url=admin-orders-detail&id=<?= (int)$log['order_id'] ?>"
-                                        class="ui-btn-outline sm">
-                                        📦 Đơn hàng
-                                    </a>
-
-                                    <?php elseif ($log['type'] === 'import' && !empty($log['receipt_id'])): ?>
-
-                                    <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-detail&id=<?= (int)$log['receipt_id'] ?>"
-                                    class="ui-btn sm">
-                                    📥 Phiếu nhập
-                                    </a>
-                                <?php else: ?>
-                                    <span class="muted">—</span>
-                                <?php endif; ?>
-                                </td>
-                        </tr>
-                        <?php endforeach; endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Log pagination -->
-                <?php if (!empty($logTotalPages) && $logTotalPages > 1): ?>
-                <div class="ui-card-body pt-0">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                        <span style="font-size:13px;color:var(--text-muted)">
-                            Trang <?= $logPage ?> / <?= $logTotalPages ?>
-                        </span>
-                        <div class="ui-pagination mb-0" style="margin:0">
-                            <?php
-                        $logQp = array_filter([
-                            'url'      => 'admin-inventory',
-                            'tab'      => 'logs', // ✅ THÊM DÒNG NÀY
-                            'log_from' => $logFrom ?? '',
-                            'log_to'   => $logTo   ?? '',
-                            'log_type' => $logType ?? '',
-                        ]);
-                            $logQs = '?' . http_build_query($logQp) . '&';
-                            $logStart = max(1, $logPage - 2);
-                            $logEnd   = min($logTotalPages, $logStart + 4);
-                            $logStart = max(1, $logEnd - 4);
-                            ?>
-                            <?php if ($logPage > 1): ?>
-                            <a href="<?= BASE_URL ?>/index.php<?= $logQs ?>log_page=<?= $logPage - 1 ?>"
-                            class="ui-page-btn">‹</a>
+                                
                             <?php endif; ?>
-
-                            <?php for ($i = $logStart; $i <= $logEnd; $i++): ?>
-                            <a href="<?= BASE_URL ?>/index.php<?= $logQs ?>log_page=<?= $i ?>"
-                            class="ui-page-btn <?= $i === $logPage ? 'active' : '' ?>">
-                                <?= $i ?>
-                            </a>
-                            <?php endfor; ?>
-
-                            <?php if ($logPage < $logTotalPages): ?>
-                            <a href="<?= BASE_URL ?>/index.php<?= $logQs ?>log_page=<?= $logPage + 1 ?>"
-                            class="ui-page-btn">›</a>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-                <?php endif; ?>
-
-            </div><!-- /log card -->
-        </div> <!-- END tab logs -->
-
-    <div id="tab-lookup" class="tab-content">
-    <div class="ui-card mb-4">
-
-        <div class="ui-card-head">
-            <h5>Tra cứu tồn kho theo thời điểm</h5>
-        </div>
-
-        <div class="ui-card-body">
-            <form method="GET" action="<?= BASE_URL ?>/index.php">
-                <input type="hidden" name="url" value="admin-inventory">
-                <input type="hidden" name="tab" value="lookup">
-
-                <div class="row g-3">
-
-                    <div class="col-md-3">
-                        <label class="ui-label">Sản phẩm</label>
-                        <select name="product_id" class="ui-input">
-                            <option value="">Chọn sản phẩm</option>
-                            <?php foreach ($products as $p): ?>
-                                <option value="<?= $p['id'] ?>"
-                                    <?= ($productId ?? '') == $p['id'] ? 'selected' : '' ?>>
-                                    <?= $p['name'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="col-md-2">
-                        <label class="ui-label">Size</label>
-                        <select name="size_id" class="ui-input">
-                            <option value="">-- Tất cả size --</option>
-                            <?php foreach ($sizes as $s): ?>
-                                <option value="<?= $s['size_id'] ?? '' ?>"
-                                    <?= ($sizeId ?? '') == ($s['size_id'] ?? '') ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($s['size'] ?? '—') ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="ui-label">Ngày tra cứu</label>
-                        <input type="date" name="time"
-                            value="<?= htmlspecialchars($time ?? '') ?>"
-                            class="ui-input">
-                    </div>
-
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button class="ui-btn sm w-100">Tra cứu</button>
+                        <?php endif; ?>
                     </div>
 
                 </div>
-            </form>
-        </div>
-
-        <!-- Kết quả -->
-        <?php if ($lookupResult !== null): ?>
-            <div class="ui-card-body">
-
-                <?php if (!empty($lookupDetails)): ?>
-                    <!-- Tất cả size -->
-                    <table class="ui-table" style="max-width:360px">
-                        <thead>
-                            <tr>
-                                <th>Size</th>
-                                <th class="right">Tồn kho</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($lookupDetails as $row): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($row['size']) ?></td>
-                                <td class="right"
-                                    style="<?= $row['quantity'] == 0 ? 'color:red;font-weight:700' : 'font-weight:600' ?>">
-                                    <?= number_format($row['quantity']) ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                        <tfoot>
-                            <tr style="border-top:2px solid var(--border);font-weight:700">
-                                <td>Tổng cộng</td>
-                                <td class="right" style="color:var(--brand);font-size:16px">
-                                    <?= number_format($lookupResult) ?>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-
-                <?php else: ?>
-                    <!-- 1 size cụ thể -->
-                    <h4>
-                        Tồn kho:
-                        <span style="color:var(--brand)"><?= number_format($lookupResult) ?></span>
-                    </h4>
-                <?php endif; ?>
-
             </div>
-            <?php endif; ?>
 
-    </div>
-</div>
-</div>
-<script>
-    // Lấy tab từ URL
+        </div><!-- /container -->
+
+    <!-- Dữ liệu sản phẩm cho autocomplete -->
+    <script>
+    // Dữ liệu sản phẩm cho autocomplete
+    const invProducts = <?= json_encode(array_map(fn($p) => ['id' => $p['id'], 'name' => $p['name']], $products ?? []), JSON_UNESCAPED_UNICODE) ?>;
+
+    // ── Quản lý dropdown danh sách sản phẩm ──
+    (function() {
+        const input = document.getElementById('inv-product-search');
+        const hiddenId = document.getElementById('inv-product-id');
+        const productListDropdown = document.getElementById('product-list-dropdown');
+        const productSearchInput = document.getElementById('product-search-input');
+        const productSelectBody = document.getElementById('product-select-body');
+
+        if (!input) return;
+
+        // Chọn sản phẩm từ danh sách
+        function selectProduct(id, name) {
+            input.value = name;
+            hiddenId.value = id;
+            productListDropdown.style.display = 'none';
+        }
+
+        // Lọc sản phẩm trong danh sách
+        function filterProductList(searchText) {
+            const items = productSelectBody.querySelectorAll('.product-select-item');
+            const searchLower = searchText.toLowerCase().trim();
+            
+            items.forEach(item => {
+                const name = item.querySelector('.product-name').textContent.toLowerCase();
+                const id = item.getAttribute('data-id');
+                if (searchLower === '' || name.includes(searchLower) || id.includes(searchLower)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Hiển thị dropdown danh sách sản phẩm
+        function showProductList() {
+            productListDropdown.style.display = 'block';
+            // Focus vào ô tìm kiếm trong dropdown
+            setTimeout(() => {
+                if (productSearchInput) {
+                    productSearchInput.focus();
+                }
+            }, 100);
+        }
+
+        // Ẩn dropdown
+        function hideProductList() {
+            productListDropdown.style.display = 'none';
+            // Reset ô tìm kiếm khi đóng
+            if (productSearchInput) {
+                productSearchInput.value = '';
+                filterProductList('');
+            }
+        }
+
+        // Xử lý click chọn sản phẩm từ danh sách
+        if (productSelectBody) {
+            productSelectBody.querySelectorAll('.product-select-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const id = this.getAttribute('data-id');
+                    const name = this.getAttribute('data-name');
+                    selectProduct(id, name);
+                    hideProductList();
+                });
+            });
+        }
+
+        // Lọc sản phẩm khi gõ vào ô tìm kiếm trong dropdown
+        if (productSearchInput) {
+            productSearchInput.addEventListener('input', function(e) {
+                e.stopPropagation();
+                filterProductList(this.value);
+            });
+            
+            // Ngăn sự kiện click lan ra ngoài
+            productSearchInput.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+
+        // KHI CLICK VÀO Ô INPUT - HIỂN THỊ DANH SÁCH
+        input.addEventListener('click', function(e) {
+            e.stopPropagation();
+            showProductList();
+        });
+
+        // Ngăn không cho input mất focus khi click vào dropdown
+        productListDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Đóng dropdown khi click ra ngoài
+        document.addEventListener('click', function(e) {
+            const wrapper = document.querySelector('.product-search-wrapper');
+            if (wrapper && !wrapper.contains(e.target)) {
+                hideProductList();
+            }
+        });
+        
+        // Nếu có sẵn giá trị, hiển thị tên sản phẩm
+        if (input.value.trim() !== '') {
+            // Giữ nguyên giá trị
+        }
+    })();
+
+    // ── Tab logic (giữ nguyên) ──
     const params = new URLSearchParams(window.location.search);
     const currentTab = params.get('tab') || 'inventory';
 
-    // Active tab theo URL
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active');
-        if (btn.dataset.tab === currentTab) {
-            btn.classList.add('active');
-        }
+        if (btn.dataset.tab === currentTab) btn.classList.add('active');
     });
-
-    document.querySelectorAll('.tab-content').forEach(c => {
-        c.classList.remove('active');
-    });
-
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     const activeTab = document.getElementById('tab-' + currentTab);
     if (activeTab) activeTab.classList.add('active');
 
-    // Click tab (giữ nguyên nhưng thêm push URL)
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
             btn.classList.add('active');
             document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-
-            // ✅ cập nhật URL (quan trọng)
             const url = new URL(window.location);
             url.searchParams.set('tab', btn.dataset.tab);
             window.history.replaceState({}, '', url);
         });
     });
-</script>
+    </script>
 
-<style>
+    <style>
+    /* Ẩn / hiện tab */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 
-/* Ẩn / hiện tab */
-.tab-content { display: none; }
-.tab-content.active { display: block; }
+    .ui-tabs {
+        display: flex;
+        gap: 10px;
+    }
 
-/* wrapper */
-.ui-tabs {
-    display: flex;
-    gap: 10px;
-}
+    .tab-btn {
+        border: none;
+        padding: 8px 16px;
+        border-radius: 999px;
+        background: #f1f1f1;
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+    }
+    .tab-btn:hover { background: #e2e2e2; transform: translateY(-1px); }
+    .tab-btn.active {
+        background: linear-gradient(135deg, #4CAF50, #2e7d32);
+        color: #fff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .tab-btn i { font-size: 13px; }
 
-/* nút tab */
-.tab-btn {
-    border: none;
-    padding: 8px 16px;
-    border-radius: 999px; /* 🔥 làm tròn full */
-    background: #f1f1f1;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s ease;
-}
+    /* Autocomplete */
+    .inv-autocomplete-list {
+        position: absolute;
+        top: 100%;
+        left: 0; right: 0;
+        background: #fff;
+        border: 1px solid var(--border, #ddd);
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        z-index: 999;
+        max-height: 220px;
+        overflow-y: auto;
+        display: none;
+    }
+    .inv-autocomplete-item {
+        padding: 8px 14px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.15s;
+    }
+    .inv-autocomplete-item:hover { background: #f0f9f0; color: #2e7d32; }
 
-/* hover */
-.tab-btn:hover {
-    background: #e2e2e2;
-    transform: translateY(-1px);
-}
+    /* Nhóm ngày log */
+    .log-day-group {
+        border: 1px solid var(--border, #e5e7eb);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .log-day-header {
+        background: linear-gradient(90deg, #f0faf0, #e8f5e9);
+        padding: 10px 16px;
+        border-bottom: 1px solid var(--border, #e5e7eb);
+    }
+    .log-day-label {
+        font-weight: 700;
+        font-size: 14px;
+        color: #2e7d32;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .log-day-summary {
+        padding: 10px 16px;
+        background: #fafafa;
+        border-top: 1px solid var(--border, #e5e7eb);
+        display: flex;
+        gap: 24px;
+        font-size: 13px;
+    }
+    .summary-import { color: #2e7d32; }
+    .summary-export { color: #e65100; }
 
-/* active */
-.tab-btn.active {
-    background: linear-gradient(135deg, #4CAF50, #2e7d32);
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
+    /* Pagination */
+    .ui-pagination {
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+    .ui-page-btn {
+        padding: 6px 12px;
+        border-radius: 8px;
+        background: #f1f1f1;
+        color: #333;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
+    .ui-page-btn:hover { background: #e0e0e0; }
+    .ui-page-btn.active {
+        background: linear-gradient(135deg, #4CAF50, #2e7d32);
+        color: #fff;
+        font-weight: 600;
+    }
+    /* Dropdown danh sách sản phẩm */
+    .product-select-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border: 1px solid var(--border, #ddd);
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        z-index: 1000;
+        max-height: 400px;
+        overflow: hidden;
+        margin-top: 4px;
+    }
 
-/* icon */
-.tab-btn i {
-    font-size: 13px;
-}
-.ui-pagination {
-    display: flex;
-    gap: 6px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 10px;
-}
+    .product-select-header {
+        border-bottom: 1px solid #eee;
+        padding: 8px;
+    }
 
-.ui-page-btn {
-    padding: 6px 12px;
-    border-radius: 8px;
-    background: #f1f1f1;
-    color: #333;
-    text-decoration: none;
-    font-size: 14px;
-    transition: all 0.2s ease;
-}
+    .product-select-body {
+        max-height: 340px;
+        overflow-y: auto;
+    }
 
-.ui-page-btn:hover {
-    background: #e0e0e0;
-}
+    .product-select-item {
+        padding: 10px 16px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.2s;
+        border-bottom: 1px solid #f0f0f0;
+    }
 
-.ui-page-btn.active {
-    background: linear-gradient(135deg, #4CAF50, #2e7d32);
-    color: #fff;
-    font-weight: 600;
-}
-</style>
+    .product-select-item:hover {
+        background: #f0f9f0;
+    }
+
+    .product-select-item .product-name {
+        font-weight: 500;
+        color: #333;
+    }
+
+    .product-select-item .product-id {
+        font-size: 12px;
+        color: #999;
+    }
+
+    .dropdown-toggle-btn {
+        cursor: pointer;
+        font-size: 12px;
+        transition: transform 0.2s;
+    }
+
+    .dropdown-toggle-btn.active {
+        transform: translateY(-50%) rotate(180deg);
+    }
+    </style>

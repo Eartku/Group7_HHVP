@@ -4,112 +4,126 @@ class AdminInventoryController extends Controller{
     public function index(): void {
         $this->requireAdmin();
 
-        // Phiếu nhập
-
-        $page       = max(1, (int)($_GET['page'] ?? 1));
-        $limit      = 10;
-        $offset     = ($page - 1) * $limit;
-        $imports    = InventoryModel::getImports($limit, $offset); // giữ nguyên, mặc định rỗng
-        $total      = InventoryModel::countImports();              // giữ nguyên
-        $totalPages = (int)ceil($total / $limit);
         // ===== TỒN KHO =====
-        
-        $invPage  = max(1, (int)($_GET['inv_page'] ?? 1));
-        $categoryId = $_GET['category_id'] ?? '';
-        $status     = $_GET['status'] ?? '';
-        $sort       = $_GET['sort'] ?? '';
-        $invLimit = 10;
-        $invOffset = ($invPage - 1) * $invLimit;
-        $inventory = InventoryModel::getInventoryList(
-            $invLimit,
-            $invOffset,
-            $categoryId,
-            $status,
-            $sort
-        );
-        $invTotal  = InventoryModel::countInventory($categoryId, $status);;
-        $invTotalPages = (int)ceil($invTotal / $invLimit);
+        $invPage      = max(1, (int)($_GET['inv_page'] ?? 1));
+        $invProductId = (int)($_GET['inv_product_id'] ?? 0);
+        $invTime      = $_GET['inv_time'] ?? date('Y-m-d'); // Mặc định là ngày hôm nay
+        $invLimit     = 10;
+        $invOffset    = ($invPage - 1) * $invLimit;
 
-        // ===== HẾT HÀNG =====
-        $outPage  = max(1, (int)($_GET['out_page'] ?? 1));
-        $outLimit = 10;
-        $outOffset = ($outPage - 1) * $outLimit;
-
-            $threshold = (int)($_GET['threshold'] ?? 0); // 👈 THÊM
-
-            $outStock = InventoryModel::getOutOfStock(
-                $outLimit,
-                $outOffset,
-                $categoryId,
-                $status,
-                $threshold
-            );
-
-        $outTotal = InventoryModel::countOutOfStock(
-            $categoryId,
-            $status,
-            $threshold
-        );
-        $outTotalPages = (int)ceil($outTotal / $outLimit);
-
-        // Log xuất/nhập
-        $logFrom  = $_GET['log_from'] ?? '';
-        $logTo    = $_GET['log_to']   ?? '';
-        $logType  = $_GET['log_type'] ?? '';
-        $logPage  = max(1, (int)($_GET['log_page'] ?? 1));
-        $logLimit = 15;
-
-        $logTotal = InventoryModel::countLogs($logFrom, $logTo, $logType);
-        $logTotalPages = max(1, (int)ceil($logTotal / $logLimit));
-        $logPage       = min($logPage, $logTotalPages);
-        $logs = InventoryModel::getLogs($logFrom, $logTo, $logType, $logLimit, ($logPage - 1) * $logLimit);
-        // ===== TRA CỨU =====
-            $productId = (int)($_GET['product_id'] ?? 0);
-            $sizeId    = (int)($_GET['size_id'] ?? 0);
-            $time      = $_GET['time'] ?? '';
-
-        $lookupResult  = null;
-        $lookupDetails = []; // tất cả size
-
-        if (isset($_GET['product_id']) && $productId && $time) {
-            if ($sizeId > 0) {
-                // Tra cứu 1 size cụ thể
-                $lookupResult = InventoryModel::getStockAtTime($productId, $sizeId, $time);
-            } else {
-                // Tất cả size → bảng từng size + tổng
-                $lookupDetails = InventoryModel::getStockAllSizesAtTime($productId, $time);
-                $lookupResult  = array_sum(array_column($lookupDetails, 'quantity'));
+        // Lấy tên sản phẩm để hiển thị lại trong input
+        $invProductName = '';
+        if ($invProductId > 0) {
+            $allProducts = ProductModel::getList(0, 999, 0);
+            foreach ($allProducts as $p) {
+                if ((int)$p['id'] === $invProductId) {
+                    $invProductName = $p['name'];
+                    break;
+                }
             }
         }
 
+        if (!empty($invTime)) {
+            // Tra cứu theo thời điểm: tính tồn kho từ inventory_logs
+            $inventory     = InventoryModel::getInventoryAtTime($invLimit, $invOffset, $invProductId, $invTime);
+            $invTotal      = InventoryModel::countInventoryAtTime($invProductId, $invTime);
+        } else {
+            // Mặc định: lấy từ bảng inventory hiện tại
+            $inventory     = InventoryModel::getInventoryList($invLimit, $invOffset, '', '', '', $invProductId);
+            $invTotal      = InventoryModel::countInventory('', '', $invProductId);
+        }
+        $invTotalPages = (int)ceil($invTotal / $invLimit);
+
+        // ===== HẾT HÀNG =====
+        $outPage   = max(1, (int)($_GET['out_page'] ?? 1));
+        $outLimit  = 10;
+        $outOffset = ($outPage - 1) * $outLimit;
+        $threshold = (int)($_GET['threshold'] ?? 0);
+
+        $outStock      = InventoryModel::getOutOfStock($outLimit, $outOffset, '', '', $threshold);
+        $outTotal      = InventoryModel::countOutOfStock('', '', $threshold);
+        $outTotalPages = (int)ceil($outTotal / $outLimit);
+
+        // ===== LOG XUẤT/NHẬP =====
+        $logFrom = $_GET['log_from'] ?? '';
+        $logTo   = $_GET['log_to']   ?? '';
+        $logPage = max(1, (int)($_GET['log_page'] ?? 1));
+
+        // Nếu có filter ngày thì lấy nhóm theo ngày
+        if (!empty($logFrom) || !empty($logTo)) {
+            // Lấy tất cả logs trong khoảng ngày, không phân trang (nhóm theo ngày)
+            $logs = InventoryModel::getLogs($logFrom, $logTo, '', 5000, 0);
+            
+            // Nhóm logs theo ngày
+            $logsByDate = [];
+            foreach ($logs as $log) {
+                $dateKey = date('Y-m-d', strtotime($log['created_at']));
+                if (!isset($logsByDate[$dateKey])) {
+                    $logsByDate[$dateKey] = [
+                        'rows'         => [],
+                        'total_import' => 0,
+                        'total_export' => 0,
+                    ];
+                }
+                $logsByDate[$dateKey]['rows'][] = $log;
+                if ($log['type'] === 'import') {
+                    $logsByDate[$dateKey]['total_import'] += (int)$log['quantity'];
+                } else {
+                    $logsByDate[$dateKey]['total_export'] += (int)$log['quantity'];
+                }
+            }
+            // Sắp xếp ngày mới nhất trước
+            krsort($logsByDate);
+            
+            // Gán các biến cho view
+            $logTotal = 0;
+            $logTotalPages = 0;
+            $logCurrentPage = 1;
+        } else {
+            // Mặc định: lấy logs có phân trang
+            $logLimit = 15;
+            $logOffset = ($logPage - 1) * $logLimit;
+            $logs = InventoryModel::getLogs('', '', '', $logLimit, $logOffset);
+            $logTotal = InventoryModel::countLogs();
+            $logTotalPages = ceil($logTotal / $logLimit);
+            $logCurrentPage = $logPage;
+            $logsByDate = []; // không dùng nhóm theo ngày
+        }
+
+        // ===== SẢN PHẨM cho autocomplete =====
+        $products = ProductModel::getList(0, 999, 0);
+        $sizes    = SizeModel::getAll();
+
         $this->adminView('admin/inventory/index', [
-            'imports'       => $imports,
-            'page'          => $page,
-            'totalPages'    => $totalPages,
-            'logs'          => $logs,
-            'logFrom'       => $logFrom,
-            'logTo'         => $logTo,
-            'logType'       => $logType,
-            'logPage'       => $logPage,
-            'logTotalPages' => $logTotalPages,
-            'inventory'     => $inventory,
-            'invPage'       => $invPage,
-            'invTotalPages' => $invTotalPages,
-            'categoryId' => $categoryId,
-            'status'     => $status,
-            'sort'       => $sort,
-            'categories' => CategoryModel::getAll(),
-            'outStock'      => $outStock,
-            'outPage'       => $outPage,
-            'outTotalPages' => $outTotalPages,
-            'outTotal'      => $outTotal,  
-            'threshold' => $threshold,
-            'lookupResult' => $lookupResult,
-            'productId' => $productId,
-            'sizeId' => $sizeId,
-            'time' => $time,
-            'products' => ProductModel::getList(0, 999, 0),
-            'sizes' => SizeModel::getAll(),
+            // Tồn kho
+            'inventory'      => $inventory,
+            'invPage'        => $invPage,
+            'invTotalPages'  => $invTotalPages,
+            'invProductId'   => $invProductId,
+            'invProductName' => $invProductName,
+            'invTime'        => $invTime,
+            // Hết hàng
+            'outStock'       => $outStock,
+            'outPage'        => $outPage,
+            'outTotalPages'  => $outTotalPages,
+            'outTotal'       => $outTotal,
+            'threshold'      => $threshold,
+            // Log
+            'logs'           => $logs,        
+            'logsByDate'     => $logsByDate,
+            'logFrom'        => $logFrom,
+            'logTo'          => $logTo,
+            'logTotal'       => $logTotal ?? 0,      
+            'logTotalPages'  => $logTotalPages ?? 0, 
+            'logCurrentPage' => $logCurrentPage ?? 1, 
+            // Chung
+            'products'       => $products,
+            'sizes'          => $sizes,
+            // Legacy (còn dùng ở form khác)
+            'categoryId'     => '',
+            'status'         => '',
+            'sort'           => '',
+            'categories'     => CategoryModel::getAll(),
         ]);
     }
 
@@ -123,15 +137,13 @@ class AdminInventoryController extends Controller{
             return;
         }
         $items = InventoryModel::getImportItems($id);
-        $this->adminView('admin/inventory/detail', [ // ✅ adminView
+        $this->adminView('admin/inventory/detail', [
             'receipt' => $receipt,
             'items'   => $items,
         ]);
     }
 
-    
-
-    public function store(): void { // ✅ tách POST ra riêng
+    public function store(): void {
         $this->requireAdmin();
         $note       = trim($_POST['note'] ?? '');
         $userId     = $_SESSION['user']['id'];
@@ -174,54 +186,46 @@ class AdminInventoryController extends Controller{
         InventoryModel::cancelImport($id);
         $this->redirect(BASE_URL . '/index.php?url=admin-inventory-detail&id=' . $id . '&cancelled=1');
     }
+
     public function edit(): void {
-    $this->requireAdmin();
-
-    $id = (int)($_GET['id'] ?? 0);
-
-    $receipt = InventoryModel::getImportById($id);
-    if (!$receipt) {
-        http_response_code(404);
-        include __DIR__ . '/../views/errors/404.php';
-        return;
+        $this->requireAdmin();
+        $id      = (int)($_GET['id'] ?? 0);
+        $receipt = InventoryModel::getImportById($id);
+        if (!$receipt) {
+            http_response_code(404);
+            include __DIR__ . '/../views/errors/404.php';
+            return;
+        }
+        if ($receipt['status'] !== 'pending') {
+            $_SESSION['error'] = "Phiếu đã xác nhận, không thể chỉnh sửa!";
+            $this->redirect(BASE_URL . '/index.php?url=admin-inventory-detail&id=' . $id);
+            return;
+        }
+        $items    = InventoryModel::getImportItems($id);
+        $products = ProductModel::getList(0, 999, 0);
+        $sizes    = SizeModel::getAll();
+        $this->adminView('admin/inventory/edit', [
+            'receipt'  => $receipt,
+            'items'    => $items,
+            'products' => $products,
+            'sizes'    => $sizes,
+        ]);
     }
 
-    if ($receipt['status'] !== 'pending') {
-        $_SESSION['error'] = "Phiếu đã xác nhận, không thể chỉnh sửa!";
-        $this->redirect(BASE_URL . '/index.php?url=admin-inventory-detail&id=' . $id);
-        return;
-    }
-    $items    = InventoryModel::getImportItems($id);
-    $products = ProductModel::getList(0, 999, 0);
-    $sizes    = SizeModel::getAll();
-
-    $this->adminView('admin/inventory/edit', [
-        'receipt'  => $receipt,
-        'items'    => $items,
-        'products' => $products,
-        'sizes'    => $sizes,
-    ]);
-}
     public function update(): void {
         $this->requireAdmin();
-
-        $id = (int)($_GET['id'] ?? 0);
-
+        $id      = (int)($_GET['id'] ?? 0);
         $receipt = InventoryModel::getImportById($id);
         if (!$receipt || $receipt['status'] !== 'pending') {
             die("Không thể cập nhật phiếu!");
         }
-
         $productIds = $_POST['product_id'] ?? [];
         $sizeIds    = $_POST['size_id'] ?? [];
         $prices     = $_POST['price'] ?? [];
         $qtys       = $_POST['quantity'] ?? [];
-
         $items = [];
-
         foreach ($productIds as $i => $productId) {
             if (empty($productId) || empty($sizeIds[$i])) continue;
-
             $items[] = [
                 'product_id' => (int)$productId,
                 'size_id'    => (int)$sizeIds[$i],
@@ -229,40 +233,37 @@ class AdminInventoryController extends Controller{
                 'quantity'   => (int)$qtys[$i],
             ];
         }
-
         if (!empty($items)) {
             InventoryModel::updateImport($id, $items);
         }
-
         $this->redirect(BASE_URL . '/index.php?url=admin-inventory-detail&id=' . $id . '&updated=1');
     }
+
     public function create(): void {
         $this->requireAdmin();
         $products = ProductModel::getList(0, 999, 0);
         $sizes    = SizeModel::getAll();
 
-        $page          = max(1, (int)($_GET['page']          ?? 1));
-        $filterStatus  = trim($_GET['filter_status']         ?? '');
-        $filterFrom    = trim($_GET['filter_from']           ?? '');
-        $filterTo      = trim($_GET['filter_to']             ?? '');
-        $limit         = 10;
-        $offset        = ($page - 1) * $limit;
+        $page         = max(1, (int)($_GET['page'] ?? 1));
+        $filterStatus = trim($_GET['filter_status'] ?? '');
+        $filterFrom   = trim($_GET['filter_from']   ?? '');
+        $filterTo     = trim($_GET['filter_to']     ?? '');
+        $limit        = 10;
+        $offset       = ($page - 1) * $limit;
 
-        // ✅ Truyền filter vào đây — đây là chỗ bị thiếu
         $imports    = InventoryModel::getImports($limit, $offset, $filterStatus, $filterFrom, $filterTo);
         $total      = InventoryModel::countImports($filterStatus, $filterFrom, $filterTo);
         $totalPages = max(1, (int)ceil($total / $limit));
 
         $this->adminView('admin/inventory/create', [
-            'products'      => $products,
-            'sizes'         => $sizes,
-            'imports'       => $imports,
-            'page'          => $page,
-            'totalPages'    => $totalPages,
-            'filterStatus'  => $filterStatus,
-            'filterFrom'    => $filterFrom,
-            'filterTo'      => $filterTo,
+            'products'     => $products,
+            'sizes'        => $sizes,
+            'imports'      => $imports,
+            'page'         => $page,
+            'totalPages'   => $totalPages,
+            'filterStatus' => $filterStatus,
+            'filterFrom'   => $filterFrom,
+            'filterTo'     => $filterTo,
         ]);
     }
-    
 }

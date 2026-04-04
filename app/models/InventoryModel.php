@@ -10,8 +10,8 @@ class InventoryModel extends Model {
         if ($from   !== '') { $wheres[] = "DATE(ir.created_at) >= ?";   $params[] = $from;   $types .= 's'; }
         if ($to     !== '') { $wheres[] = "DATE(ir.created_at) <= ?";   $params[] = $to;     $types .= 's'; }
 
-        $where     = 'WHERE ' . implode(' AND ', $wheres);
-        $params[]  = $limit; $params[] = $offset; $types .= 'ii';
+        $where    = 'WHERE ' . implode(' AND ', $wheres);
+        $params[] = $limit; $params[] = $offset; $types .= 'ii';
 
         $stmt = $db->prepare("
             SELECT ir.*, u.fullname AS created_by_name
@@ -26,7 +26,7 @@ class InventoryModel extends Model {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-        public static function countImports(string $status = '', string $from = '', string $to = ''): int {
+    public static function countImports(string $status = '', string $from = '', string $to = ''): int {
         $db     = Database::getInstance();
         $wheres = ['1=1'];
         $params = []; $types = '';
@@ -52,17 +52,17 @@ class InventoryModel extends Model {
 
     public static function getImportItems(int $receiptId): array {
         $db   = Database::getInstance();
-            $stmt = $db->prepare("
-                SELECT 
-                    il.*, 
-                    p.name AS product_name, 
-                    s.size_name AS size,
-                    il.order_id
-                FROM inventory_logs il
-                JOIN products p ON p.id = il.product_id
-                JOIN size s     ON s.id = il.size_id
-                WHERE il.receipt_id = ?
-            ");
+        $stmt = $db->prepare("
+            SELECT 
+                il.*, 
+                p.name AS product_name, 
+                s.size_name AS size,
+                il.order_id
+            FROM inventory_logs il
+            JOIN products p ON p.id = il.product_id
+            JOIN size s     ON s.id = il.size_id
+            WHERE il.receipt_id = ?
+        ");
         $stmt->bind_param("i", $receiptId);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -194,6 +194,9 @@ class InventoryModel extends Model {
         $stmt->execute();
         return (int)$stmt->get_result()->fetch_assoc()['total'] > 0;
     }
+
+    // ─── Log ───────────────────────────────────────────────────────────────
+
     public static function countLogs(string $from = '', string $to = '', string $type = ''): int {
         $db     = Database::getInstance();
         $wheres = ['1=1'];
@@ -219,86 +222,78 @@ class InventoryModel extends Model {
         if ($to   !== '') { $wheres[] = "DATE(l.created_at) <= ?"; $params[] = $to;   $types .= 's'; }
         if ($type !== '') { $wheres[] = "l.type = ?"; $params[] = $type; $types .= 's'; }
 
-        $where = 'WHERE ' . implode(' AND ', $wheres);
+        $where    = 'WHERE ' . implode(' AND ', $wheres);
         $params[] = $limit; $params[] = $offset; $types .= 'ii';
 
-            $stmt = $db->prepare("
-                SELECT
-                    l.id,
-                    l.type,
-                    l.quantity,
-                    l.import_price,
-                    l.note,
-                    l.created_at,
-                    l.order_id,
-                    l.receipt_id,
-                    p.name  AS product_name,
-                    s.size_name
-                FROM inventory_logs l
-                LEFT JOIN products p ON p.id = l.product_id
-                LEFT JOIN size s     ON s.id = l.size_id
-                $where
-                ORDER BY l.created_at DESC
-                LIMIT ? OFFSET ?
-            ");
+        $stmt = $db->prepare("
+            SELECT
+                l.id,
+                l.type,
+                l.quantity,
+                l.import_price,
+                l.note,
+                l.created_at,
+                l.order_id,
+                l.receipt_id,
+                p.name  AS product_name,
+                s.size_name
+            FROM inventory_logs l
+            LEFT JOIN products p ON p.id = l.product_id
+            LEFT JOIN size s     ON s.id = l.size_id
+            $where
+            ORDER BY l.created_at DESC
+            LIMIT ? OFFSET ?
+        ");
         $stmt->bind_param($types, ...$params);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+
+    // ─── Cập nhật phiếu nhập ───────────────────────────────────────────────
+
     public static function updateImport(int $receiptId, array $items): bool {
-    $db = Database::getInstance();
-    $db->begin_transaction();
-
-    try {
-        // Xóa item cũ
-        $stmt = $db->prepare("DELETE FROM inventory_logs WHERE receipt_id = ?");
-        $stmt->bind_param("i", $receiptId);
-        $stmt->execute();
-
-        // Insert lại
-        foreach ($items as $item) {
-            $stmt = $db->prepare("
-                INSERT INTO inventory_logs
-                (receipt_id, product_id, size_id, type, quantity, import_price, note)
-                VALUES (?, ?, ?, 'import', ?, ?, ?)
-            ");
-
-            $note = "Cập nhật phiếu #$receiptId";
-
-            $stmt->bind_param(
-                "iiidis",
-                $receiptId,
-                $item['product_id'],
-                $item['size_id'],
-                $item['quantity'],
-                $item['price'],
-                $note
-            );
-
-            $stmt->execute();
-        }
-
-        $db->commit();
-        return true;
-
-    } catch (Exception $e) {
-        $db->rollback();
-        return false;
-    }
-    }
-    public static function createExportLog(array $item, int $orderId): void {
         $db = Database::getInstance();
+        $db->begin_transaction();
+        try {
+            $stmt = $db->prepare("DELETE FROM inventory_logs WHERE receipt_id = ?");
+            $stmt->bind_param("i", $receiptId);
+            $stmt->execute();
 
+            foreach ($items as $item) {
+                $stmt = $db->prepare("
+                    INSERT INTO inventory_logs
+                    (receipt_id, product_id, size_id, type, quantity, import_price, note)
+                    VALUES (?, ?, ?, 'import', ?, ?, ?)
+                ");
+                $note = "Cập nhật phiếu #$receiptId";
+                $stmt->bind_param("iiidis",
+                    $receiptId,
+                    $item['product_id'],
+                    $item['size_id'],
+                    $item['quantity'],
+                    $item['price'],
+                    $note
+                );
+                $stmt->execute();
+            }
+
+            $db->commit();
+            return true;
+        } catch (Exception $e) {
+            $db->rollback();
+            return false;
+        }
+    }
+
+    public static function createExportLog(array $item, int $orderId): void {
+        $db   = Database::getInstance();
         $stmt = $db->prepare("
             INSERT INTO inventory_logs
             (order_id, product_id, size_id, type, quantity, import_price, note)
             VALUES (?, ?, ?, 'export', ?, ?, ?)
         ");
-
         $note = "Xuất kho cho đơn hàng #$orderId";
-
-        $stmt->bind_param(
-            "iiidis",
+        $stmt->bind_param("iiidis",
             $orderId,
             $item['product_id'],
             $item['size_id'],
@@ -306,55 +301,63 @@ class InventoryModel extends Model {
             $item['price'],
             $note
         );
-
         $stmt->execute();
     }
-    public static function getInventoryList(
-        int $limit = 10,
-        int $offset = 0,
-        string $categoryId = '',
-        string $status = '',
-        string $sort = ''
-    ): array {
 
+    // ─── Tồn kho hiện tại (có filter sản phẩm) ────────────────────────────
+
+    /**
+     * Lấy danh sách tồn kho từ bảng inventory (hiện tại).
+     * Thêm filter invProductId so với bản cũ.
+     */
+    public static function getInventoryList(
+        int    $limit      = 10,
+        int    $offset     = 0,
+        string $categoryId = '',
+        string $status     = '',
+        string $sort       = '',
+        int    $productId  = 0
+    ): array {
         $db = Database::getInstance();
 
         $wheres = ['i.quantity > 0'];
         $params = [];
         $types  = '';
 
+        if ($productId > 0) {
+            $wheres[] = "i.product_id = ?";
+            $params[] = $productId;
+            $types   .= 'i';
+        }
+
         if ($categoryId !== '') {
             $wheres[] = "p.category_id = ?";
             $params[] = $categoryId;
-            $types .= 'i';
+            $types   .= 'i';
         }
 
         if ($status !== '') {
             $wheres[] = "p.status = ?";
             $params[] = $status;
-            $types .= 's';
+            $types   .= 's';
         }
 
-        $order = "ORDER BY i.id DESC";
+        $order = "ORDER BY i.quantity DESC"; // mặc định: số lượng cao → thấp
 
-        if ($sort === 'asc') {
-            $order = "ORDER BY i.quantity ASC";
-        } elseif ($sort === 'desc') {
-            $order = "ORDER BY i.quantity DESC";
-        }
+        if ($sort === 'asc')  $order = "ORDER BY i.quantity ASC";
+        if ($sort === 'desc') $order = "ORDER BY i.quantity DESC";
 
-        $where = 'WHERE ' . implode(' AND ', $wheres);
-
+        $where    = 'WHERE ' . implode(' AND ', $wheres);
         $params[] = $limit;
         $params[] = $offset;
-        $types .= 'ii';
+        $types   .= 'ii';
 
         $stmt = $db->prepare("
             SELECT i.*, p.name AS product_name, p.status,
-                c.name AS category_name, s.size_name
+                   c.name AS category_name, s.size_name
             FROM inventory i
             LEFT JOIN products p ON p.id = i.product_id
-            LEFT JOIN size s ON s.id = i.size_id
+            LEFT JOIN size s     ON s.id = i.size_id
             LEFT JOIN categories c ON c.id = p.category_id
             $where
             $order
@@ -363,31 +366,36 @@ class InventoryModel extends Model {
 
         $stmt->bind_param($types, ...$params);
         $stmt->execute();
-
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
     public static function countInventory(
         string $categoryId = '',
-        string $status = ''
+        string $status     = '',
+        int    $productId  = 0
     ): int {
-
         $db = Database::getInstance();
 
         $wheres = ['i.quantity > 0'];
         $params = [];
         $types  = '';
 
+        if ($productId > 0) {
+            $wheres[] = "i.product_id = ?";
+            $params[] = $productId;
+            $types   .= 'i';
+        }
+
         if ($categoryId !== '') {
             $wheres[] = "p.category_id = ?";
             $params[] = $categoryId;
-            $types .= 'i';
+            $types   .= 'i';
         }
 
         if ($status !== '') {
             $wheres[] = "p.status = ?";
             $params[] = $status;
-            $types .= 's';
+            $types   .= 's';
         }
 
         $where = 'WHERE ' . implode(' AND ', $wheres);
@@ -399,93 +407,225 @@ class InventoryModel extends Model {
             $where
         ");
 
-        if ($types) {
-            $stmt->bind_param($types, ...$params);
-        }
-
+        if ($types) $stmt->bind_param($types, ...$params);
         $stmt->execute();
-
         return (int)$stmt->get_result()->fetch_assoc()['total'];
     }
-        public static function getOutOfStock(
-            int $limit = 10,
-            int $offset = 0,
-            string $categoryId = '',
-            string $status = '',
-            int $threshold = 0 // 👈 THÊM
-        ): array {
 
-            $db = Database::getInstance();
+    // ─── Tồn kho TẠI MỘT THỜI ĐIỂM (tính từ inventory_logs) ─────────────
 
-            $wheres = ['(i.quantity <= ? OR i.quantity IS NULL)']; // 👈 sửa
-            $params = [$threshold]; // 👈 thêm
-            $types  = 'i';          // 👈 thêm
+    /**
+     * Tính tồn kho tại thời điểm $date dựa vào inventory_logs.
+     * Trả về từng dòng (product_id, size_id, quantity tại thời điểm đó).
+     * Nếu $productId > 0 thì chỉ lấy 1 sản phẩm.
+     */
+   // ─── Tồn kho TẠI MỘT THỜI ĐIỂM (tính từ inventory_logs) ─────────────
 
-            if ($categoryId !== '') {
-                $wheres[] = "p.category_id = ?";
-                $params[] = $categoryId;
-                $types .= 'i';
+    /**
+     * Tính tồn kho tại thời điểm $date dựa vào inventory_logs.
+     * Trả về từng dòng (product_id, size_id, quantity tại thời điểm đó).
+     * Nếu $productId > 0 thì chỉ lấy 1 sản phẩm.
+     */
+    public static function getInventoryAtTime(
+        int    $limit     = 10,
+        int    $offset    = 0,
+        int    $productId = 0,
+        string $date      = ''
+    ): array {
+        $db = Database::getInstance();
+
+        // Nếu không có ngày, lấy ngày hiện tại
+        if (empty($date)) {
+            $date = date('Y-m-d');
+        }
+
+        // Nếu có filter product_id
+        if ($productId > 0) {
+            // Query cho trường hợp có product_id
+            $sql = "
+                SELECT 
+                    p.id AS product_id,
+                    p.name AS product_name,
+                    c.name AS category_name,
+                    COALESCE(s.size_name, '—') AS size_name,
+                    COALESCE(
+                        (SELECT SUM(
+                            CASE 
+                                WHEN l.type = 'import' AND (l.receipt_id IS NULL OR EXISTS(
+                                    SELECT 1 FROM import_receipts ir 
+                                    WHERE ir.id = l.receipt_id AND ir.status = 'confirmed'
+                                )) THEN l.quantity
+                                WHEN l.type = 'export' THEN -l.quantity
+                                ELSE 0
+                            END
+                        ) FROM inventory_logs l 
+                        WHERE l.product_id = p.id 
+                        AND l.size_id = s.id 
+                        AND DATE(l.created_at) <= ?
+                        ), 0
+                    ) AS quantity,
+                    COALESCE(i.avg_import_price, 0) AS avg_import_price,
+                    ? AS inventory_date
+                FROM products p
+                LEFT JOIN categories c ON c.id = p.category_id
+                LEFT JOIN size s ON 1=1
+                LEFT JOIN inventory i ON i.product_id = p.id AND i.size_id = s.id
+                WHERE p.id = ?
+                HAVING quantity >= 0
+                ORDER BY quantity DESC
+                LIMIT ? OFFSET ?
+            ";
+            
+            $stmt = $db->prepare($sql);
+            $stmt->bind_param("ssiii", $date, $date, $productId, $limit, $offset);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+        
+        // Query cho trường hợp không có product_id (lấy tất cả)
+        $sql = "
+            SELECT 
+                l.product_id,
+                p.name AS product_name,
+                c.name AS category_name,
+                s.size_name,
+                SUM(CASE 
+                    WHEN l.type = 'import' AND (l.receipt_id IS NULL OR EXISTS(
+                        SELECT 1 FROM import_receipts ir 
+                        WHERE ir.id = l.receipt_id AND ir.status = 'confirmed'
+                    )) THEN l.quantity
+                    WHEN l.type = 'export' THEN -l.quantity
+                    ELSE 0
+                END) AS quantity,
+                COALESCE(i.avg_import_price, 0) AS avg_import_price,
+                ? AS inventory_date
+            FROM inventory_logs l
+            LEFT JOIN products p ON p.id = l.product_id
+            LEFT JOIN categories c ON c.id = p.category_id
+            LEFT JOIN size s ON s.id = l.size_id
+            LEFT JOIN inventory i ON i.product_id = l.product_id AND i.size_id = l.size_id
+            WHERE DATE(l.created_at) <= ?
+            GROUP BY l.product_id, l.size_id
+            HAVING quantity > 0
+            ORDER BY quantity DESC
+            LIMIT ? OFFSET ?
+        ";
+        
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("ssii", $date, $date, $limit, $offset);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public static function countInventoryAtTime(int $productId = 0, string $date = ''): int {
+        $db = Database::getInstance();
+        
+        if (empty($date)) {
+            $date = date('Y-m-d');
+        }
+        
+        if ($productId > 0) {
+            // Kiểm tra sản phẩm có tồn tại không
+            $checkStmt = $db->prepare("SELECT COUNT(*) as total FROM products WHERE id = ?");
+            $checkStmt->bind_param("i", $productId);
+            $checkStmt->execute();
+            $productExists = $checkStmt->get_result()->fetch_assoc()['total'] > 0;
+            
+            if (!$productExists) {
+                return 0;
             }
+            
+            // Đếm số lượng size có tồn kho (kể cả = 0) cho sản phẩm cụ thể
+            $stmt = $db->prepare("
+                SELECT COUNT(*) AS total FROM (
+                    SELECT s.id
+                    FROM products p
+                    LEFT JOIN size s ON 1=1
+                    WHERE p.id = ?
+                    GROUP BY s.id
+                ) AS sub
+            ");
+            $stmt->bind_param("i", $productId);
+            $stmt->execute();
+            return (int)$stmt->get_result()->fetch_assoc()['total'];
+        }
+        
+        // Đếm tất cả các dòng có tồn kho > 0
+        $stmt = $db->prepare("
+            SELECT COUNT(*) AS total FROM (
+                SELECT 
+                    l.product_id,
+                    l.size_id
+                FROM inventory_logs l
+                WHERE DATE(l.created_at) <= ?
+                GROUP BY l.product_id, l.size_id
+                HAVING SUM(CASE 
+                    WHEN l.type = 'import' AND (l.receipt_id IS NULL OR EXISTS(
+                        SELECT 1 FROM import_receipts ir 
+                        WHERE ir.id = l.receipt_id AND ir.status = 'confirmed'
+                    )) THEN l.quantity
+                    WHEN l.type = 'export' THEN -l.quantity
+                    ELSE 0
+                END) > 0
+            ) AS sub
+        ");
+        $stmt->bind_param("s", $date);
+        $stmt->execute();
+        return (int)$stmt->get_result()->fetch_assoc()['total'];
+    }
+    // ─── Hết hàng (sắp xếp số lượng cao → thấp, bỏ filter danh mục/trạng thái) ──
 
-            if ($status !== '') {
-                $wheres[] = "p.status = ?";
-                $params[] = $status;
-                $types .= 's';
-            }
+    public static function getOutOfStock(
+        int    $limit     = 10,
+        int    $offset    = 0,
+        string $categoryId = '',
+        string $status     = '',
+        int    $threshold  = 0
+    ): array {
+        $db = Database::getInstance();
 
-        $where = 'WHERE ' . implode(' AND ', $wheres);
+        $wheres = ['(i.quantity <= ? OR i.quantity IS NULL)'];
+        $params = [$threshold];
+        $types  = 'i';
 
+        $where    = 'WHERE ' . implode(' AND ', $wheres);
         $params[] = $limit;
         $params[] = $offset;
-        $types .= 'ii';
+        $types   .= 'ii';
 
         $stmt = $db->prepare("
             SELECT 
-                IFNULL(i.id, 0) AS id,
-                p.id AS product_id,
-                p.name AS product_name,
+                IFNULL(i.id, 0)         AS id,
+                p.id                    AS product_id,
+                p.name                  AS product_name,
                 p.status,
-                c.name AS category_name,
-                IFNULL(s.size_name, '—') AS size_name,
-                IFNULL(i.quantity, 0) AS quantity
+                c.name                  AS category_name,
+                IFNULL(s.size_name,'—') AS size_name,
+                IFNULL(i.quantity, 0)   AS quantity
             FROM products p
-            LEFT JOIN inventory i ON i.product_id = p.id
-            LEFT JOIN size s ON s.id = i.size_id
-            LEFT JOIN categories c ON c.id = p.category_id
+            LEFT JOIN inventory i   ON i.product_id = p.id
+            LEFT JOIN size s        ON s.id = i.size_id
+            LEFT JOIN categories c  ON c.id = p.category_id
             $where
-            ORDER BY p.id DESC
+            ORDER BY IFNULL(i.quantity, 0) DESC
             LIMIT ? OFFSET ?
         ");
 
         $stmt->bind_param($types, ...$params);
         $stmt->execute();
-
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-        public static function countOutOfStock(
-            string $categoryId = '',
-            string $status = '',
-            int $threshold = 0 // 👈 THÊM
-        ): int {
-
+    public static function countOutOfStock(
+        string $categoryId = '',
+        string $status     = '',
+        int    $threshold  = 0
+    ): int {
         $db = Database::getInstance();
-        
+
         $wheres = ['(i.quantity <= ? OR i.quantity IS NULL)'];
         $params = [$threshold];
         $types  = 'i';
-
-        if ($categoryId !== '') {
-            $wheres[] = "p.category_id = ?";
-            $params[] = $categoryId;
-            $types .= 'i';
-        }
-
-        if ($status !== '') {
-            $wheres[] = "p.status = ?";
-            $params[] = $status;
-            $types .= 's';
-        }
 
         $where = 'WHERE ' . implode(' AND ', $wheres);
 
@@ -496,52 +636,46 @@ class InventoryModel extends Model {
             $where
         ");
 
-        if ($types) {
-            $stmt->bind_param($types, ...$params);
-        }
-
+        $stmt->bind_param($types, ...$params);
         $stmt->execute();
-
         return (int)$stmt->get_result()->fetch_assoc()['total'];
     }
 
-    public static function getStockAtTime(
-    int $productId,
-    int $sizeId,
-    string $date
-): int {
-    $db = Database::getInstance();
-    $stmt = $db->prepare("
-        SELECT 
-            COALESCE(SUM(
-                CASE 
-                    WHEN l.type = 'import' THEN l.quantity
-                    WHEN l.type = 'export' THEN -l.quantity
-                END
-            ), 0) AS stock
-        FROM inventory_logs l
-        LEFT JOIN import_receipts ir ON ir.id = l.receipt_id
-        WHERE l.product_id = ?
-          AND l.size_id    = ?
-          AND DATE(l.created_at) <= ?
-          AND (
-              l.type = 'export'                          -- xuất kho luôn tính
-              OR (l.type = 'import' AND ir.status = 'confirmed')  -- nhập chỉ tính khi đã xác nhận
-          )
-    ");
-    $stmt->bind_param("iis", $productId, $sizeId, $date);
-    $stmt->execute();
-    return (int)$stmt->get_result()->fetch_assoc()['stock'];
-}
-// Thêm vào cuối class, trước dấu }
-   public static function getStockAllSizesAtTime(int $productId, string $date): array {
+    // ─── Tra cứu tại thời điểm (giữ lại cho tương thích) ─────────────────
+
+    public static function getStockAtTime(int $productId, int $sizeId, string $date): int {
+        $db   = Database::getInstance();
+        $stmt = $db->prepare("
+            SELECT 
+                COALESCE(SUM(
+                    CASE 
+                        WHEN l.type = 'import' THEN  l.quantity
+                        WHEN l.type = 'export' THEN -l.quantity
+                    END
+                ), 0) AS stock
+            FROM inventory_logs l
+            LEFT JOIN import_receipts ir ON ir.id = l.receipt_id
+            WHERE l.product_id = ?
+              AND l.size_id    = ?
+              AND DATE(l.created_at) <= ?
+              AND (
+                  l.type = 'export'
+                  OR (l.type = 'import' AND ir.status = 'confirmed')
+              )
+        ");
+        $stmt->bind_param("iis", $productId, $sizeId, $date);
+        $stmt->execute();
+        return (int)$stmt->get_result()->fetch_assoc()['stock'];
+    }
+
+    public static function getStockAllSizesAtTime(int $productId, string $date): array {
         $db   = Database::getInstance();
         $stmt = $db->prepare("
             SELECT
                 s.size_name AS size,
                 COALESCE(SUM(
                     CASE
-                        WHEN l.type = 'import' THEN l.quantity
+                        WHEN l.type = 'import' THEN  l.quantity
                         WHEN l.type = 'export' THEN -l.quantity
                     END
                 ), 0) AS quantity
