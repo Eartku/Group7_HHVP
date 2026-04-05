@@ -10,8 +10,8 @@
     --brand-start : #4fbd2e;   /* lime   */
     --brand-end   : #347c2e;   /* olive  */
     --brand-mid   : #48a830;   /* giữa   */
-    --brand-grad  : linear-gradient(135deg, #1c7946 0%, #105321 100%);
-    --brand-grad-h: linear-gradient(135deg, #21862e 0%, #1f7c3e 100%); /* hover  */
+    --brand-grad  : linear-gradient(135deg, #7ac653 0%, #69c480 100%);
+    --brand-grad-h: linear-gradient(135deg, #46d259 0%, #8bb465 100%); /* hover  */
     --brand-text  : #fff;
 }
 /* ═══════════════════════════════════════════════

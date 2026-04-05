@@ -263,7 +263,7 @@ $nolayout = true;
                        placeholder="Nhập mật khẩu"
                        autocomplete="current-password">
                 <button type="button" class="toggle-pwd"
-                        onclick="togglePwd('login-password', this)">
+                        onclick="togglePwd('login-password', this)" style="background-color: #4a6030;">
                     <img src="../app/images/hide.svg" id="ico-login">
                 </button>
             </div>

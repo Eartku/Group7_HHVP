@@ -333,5 +333,25 @@ class ProductModel extends Model {
         return $stmt->execute();
     }
     // Dùng cho shop/public — chỉ lấy active
-    
+    public static function suggest(string $q, int $limit = 8): array {
+        $db   = Database::getInstance();
+        $like = '%' . $q . '%';
+        $stmt = $db->prepare("
+            SELECT p.id, p.name,
+                " . PriceHelper::sqlSalePrice('sale_price') . "
+            FROM products p
+            WHERE p.status = 'active' AND p.name LIKE ?
+            GROUP BY p.id, p.profit_rate, p.name
+            ORDER BY p.name ASC
+            LIMIT ?
+        ");
+        $stmt->bind_param('si', $like, $limit);
+        $stmt->execute();
+        $rows = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return array_map(fn($r) => [
+            'id'    => $r['id'],
+            'name'  => $r['name'],
+            'price' => $r['sale_price'] > 0 ? number_format($r['sale_price'], 0, ',', '.') : '',
+        ], $rows);
+    }
 }

@@ -44,4 +44,11 @@ class ShopController extends Controller {
     public function search(): void {
         $this->index();
     }
+    public function suggest(): void {
+        header('Content-Type: application/json');
+        $q = trim($_GET['q'] ?? '');
+        if (strlen($q) < 1) { echo '[]'; return; }
+        $products = ProductModel::suggest($q, 8);
+        echo json_encode($products);
+    }
 }

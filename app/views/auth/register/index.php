@@ -115,7 +115,7 @@ $nolayout = true;
             background: rgba(255,255,255,0.06);
             border: 1.5px solid rgba(163,198,57,0.2);
             border-radius: 9px;
-            color: #e2ebd0;
+            color: #56731e;
             font-family: Arial, sans-serif;
             font-size: 14px;
             outline: none;
@@ -331,7 +331,7 @@ $nolayout = true;
                        class="<?= !empty($errors['password']) ? 'has-error' : '' ?>"
                        required oninput="checkStrength(this.value)">
                 <button type="button" class="toggle-pwd"
-                        onclick="togglePwd('reg-password','ico-pwd1')">
+                        onclick="togglePwd('reg-password','ico-pwd1')" style="background-color: #4a6030;">
                     <img src="../app/images/hide.svg" id="ico-pwd1">
                 </button>
             </div>
@@ -355,14 +355,15 @@ $nolayout = true;
         <div class="field">
             <label>Xác nhận mật khẩu <span class="required">*</span></label>
             <div class="pwd-wrap">
+                <button type="button" class="toggle-pwd"
+                        onclick="togglePwd('reg-confirm','ico-pwd2')" style="background-color: #4a6030;">
+                    <img src="../app/images/hide.svg" id="ico-pwd2">
+                </button>
                 <input type="password" name="confirm_password" id="reg-confirm"
                        placeholder="Nhập lại mật khẩu"
                        class="<?= !empty($errors['confirm']) ? 'has-error' : '' ?>"
                        required>
-                <button type="button" class="toggle-pwd"
-                        onclick="togglePwd('reg-confirm','ico-pwd2')">
-                    <img src="../app/images/hide.svg" id="ico-pwd2">
-                </button>
+                
             </div>
             <?php if (!empty($errors['confirm'])): ?>
                 <span class="field-error"><?= htmlspecialchars($errors['confirm']) ?></span>
