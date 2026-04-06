@@ -68,6 +68,10 @@ switch ($url) {
         $c = new ShopController();
         $c->search();
         break;
+    case '/shop-suggest':
+        $c = new ShopController();
+        $c->suggest();
+        break;
 
     case '/product-detail':
         $c = new ProductController();

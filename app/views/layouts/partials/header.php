@@ -16,53 +16,40 @@
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
 
 
-                <li>
-                    <input type="checkbox" id="cart-toggle" hidden />
-                    <label for="cart-toggle" class="hover-box-2">
-                        <div class="front"><img src="<?= BASE_URL ?>/images/cart.png" /></div>
-                 
-                        <a href="<?= BASE_URL ?>/index.php?url=cart" class="back">Giỏ hàng</a>
-                    </label>
+               <li>
+                    <a href="<?= BASE_URL ?>/index.php?url=cart" style="width: 80px">
+                        <span style= "font-size:20px; color: white; font-family: 'Times New Roman', Times, serif;" class="hover-text-glow">Giỏ hàng</span>
+                    </a>
                 </li>
 
                 <li>
-                    <input type="checkbox" id="search-toggle" hidden />
-                    <label for="search-toggle" class="hover-box-2">
-                        <div class="front"><img src="<?= BASE_URL ?>/images/bag.png" /></div>
-                        <!-- ✅ link tìm kiếm -->
-                        <a href="<?= BASE_URL ?>/index.php?url=shop" class="back">Mua sắm</a>
-                    </label>
+                    <a href="<?= BASE_URL ?>/index.php?url=shop" style="width: 80px; margin-left: 20px;">
+                        <span style= "font-size:20px; color: white; font-family: 'Times New Roman', Times, serif;" class="hover-text-glow">Mua sắm</span>
+                    </a>
                 </li>
 
-                <li class="nav-item" style="margin-left:20px">
+                <li class="nav-item">
                     <input type="checkbox" id="user-toggle" hidden />
-                    <label for="user-toggle" class="hover-box-2">
-                        <div class="front">
-                            <?php
-                            $avatarSrc = BASE_URL . '../images/user.png'; // mặc định chưa login
 
-                            if (isset($_SESSION['user'])) {
-                                $raw = UserModel::getAvatar($_SESSION['user']['id']);
-                                // getAvatar trả về "uploads/avatars/xxx.png" hoặc "images/user.png"
-                                // → chỉ cần thêm BASE_URL ở đầu
-                                $avatarSrc = BASE_URL . '../' . $raw;
-                            }
-                            ?>
-                            <img src="<?= htmlspecialchars($avatarSrc) ?>"
-                                 style="width:30px;height:30px;border-radius:50%;object-fit:cover;" />
-                        </div>
-                        <div class="back"><span>Người dùng</span></div>
+                    <label for="user-toggle" class="hover-box-2 hover-text-glow" style="width:30px; height: 30px; border-radius: 50%; position:relative;">
+        
+                        <?php
+                        $avatarSrc = BASE_URL . '../images/user.png';
+
+                        if (isset($_SESSION['user'])) {
+                            $raw = UserModel::getAvatar($_SESSION['user']['id']);
+                            $avatarSrc = BASE_URL . '../' . $raw;
+                        }
+                        ?>
+                        <img src="<?= htmlspecialchars($avatarSrc) ?>"
+                            style="width:30px;height:30px;border-radius:50%;object-fit:cover;" />
                     </label>
 
-                    <ul class="dropdown" style="background-color:black;">
+                    <ul class="dropdown">
                         <?php if (isset($_SESSION['user'])): ?>
                             <li><a href="<?= BASE_URL ?>/index.php?url=profile">Hồ sơ cá nhân</a></li>
                             <li><a href="<?= BASE_URL ?>/index.php?url=orders-history">Lịch sử đơn hàng</a></li>
-                            <li>
-                                <a href="<?= BASE_URL ?>/index.php?url=logout">
-                                    <img src="<?= BASE_URL ?>/images/exit.svg"> Đăng xuất
-                                </a>
-                            </li>
+                            <li><a href="<?= BASE_URL ?>/index.php?url=logout">Đăng xuất</a></li>
                         <?php else: ?>
                             <li><a href="<?= BASE_URL ?>/index.php?url=login">Đăng nhập</a></li>
                             <li><a href="<?= BASE_URL ?>/index.php?url=register">Đăng ký</a></li>
