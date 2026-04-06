@@ -17,16 +17,16 @@
 body, input, button, select, textarea,
 h1, h2, h3, h4, h5, h6,
 p, span, a, td, th, li, label, div {
-    font-family: Arial, sans-serif !important;
+    font-family: 'Times New Roman', Times, serif
 }
 
 /* ═══════════════════════════════════════════════════
    1. TOKENS
 ═══════════════════════════════════════════════════ */
 :root {
-    --g:          linear-gradient(135deg, #8ece28 0%, #2cc165 100%);
-    --g-hover:    linear-gradient(135deg, #2fb394 0%, #0f4720 100%);
-    --brand:      #85c35c;
+    --g:          linear-gradient(135deg, #6d952e 0%, #267e48 100%);
+    --g-hover:    linear-gradient(135deg, #28816c 0%, #0f4720 100%);
+    --brand:      #648c4a;
     --brand-lt:   #15441d;
     --border:     #e8f0c8;
     --bg-soft:    #fafef4;

@@ -1,5 +1,6 @@
-<?php 
-$noLayout = true;
+<?php
+require_once '../app/models/CategoryModel.php';
+require_once '../app/models/UserModel.php';
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -8,80 +9,25 @@ $noLayout = true;
   <title>BonSai | Guest</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
-  <link href="css/hover.css" rel="stylesheet">
-  <link href="css/tiny-slider.css" rel="stylesheet" />
-  <link href="css/animation.css" rel="stylesheet" />
-  <link href="<?= BASE_URL ?>/css/theme-gradient.css" rel="stylesheet" />
+<link href="<?= BASE_URL ?>/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+<link href="<?= BASE_URL ?>/css/tiny-slider.css" rel="stylesheet" />
+<link href="<?= BASE_URL ?>/css/style.css" rel="stylesheet" />
+<link href="<?= BASE_URL ?>/css/hover.css" rel="stylesheet" />
+<link href="<?= BASE_URL ?>/css/animation.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+<link rel="stylesheet" href="<?= BASE_URL ?>/css/cartMessage.css" />
+<link href="<?= BASE_URL ?>/css/page2.css" rel="stylesheet" />
+<link href="<?= BASE_URL ?>/css/search.css" rel="stylesheet" />
+<link href="<?= BASE_URL ?>/css/theme-gradient.css" rel="stylesheet" />
+<link href="<?= BASE_URL ?>/css/ultil.css" rel="stylesheet" />
+<link href="<?= BASE_URL ?>/css/bonsai-ui.css" rel="stylesheet" />
 </head>
 
 <body>
 
 <!-- ================= HEADER ================= -->
-<!-- ================= HEADER ================= -->
-<nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Bonsai navigation bar">
-  <div class="container">
-    <a class="navbar-brand" href="../app/index.php">BonSai<span>🌱</span></a>
-
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarsFurni"
-      aria-controls="navbarsFurni"
-      aria-expanded="false"
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarsFurni">
-      <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-              <a href="#" class="nav-link d-flex align-items-center gap-2"
-                onclick="showLoginAlert(event)">
-                  <img src="images/cart.png" style="width:25px; height:25px;"/> Giỏ hàng
-              </a>
-          </li>
-          <li class="nav-item">
-              <a href="../app/index.php?url=login" class="nav-link d-flex align-items-center gap-2">
-                  <img src="images/login.svg" style="width:30px; height:30px;"/> Đăng nhập
-              </a>
-          </li>
-          <li class="nav-item">
-              <a href="../app/index.php?url=register" class="nav-link d-flex align-items-center gap-2">
-                  <img src="images/register.svg" style="width:25px; height:25px;"/> Đăng ký
-              </a>
-          </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<script>
-const toggles = document.querySelectorAll('input[type="checkbox"]');
-
-toggles.forEach(cb => {
-  const parentLi = cb.closest('li');
-  let timer;
-
-  function startCloseTimer(ms = 1000) {
-    clearTimeout(timer);
-    timer = setTimeout(() => cb.checked = false, ms);
-  }
-
-  cb.addEventListener('change', () => {
-    if (cb.checked && !parentLi.matches(':hover')) {
-      startCloseTimer();
-    }
-  });
-
-  parentLi.addEventListener('mouseenter', () => clearTimeout(timer));
-  parentLi.addEventListener('mouseleave', () => {
-    if (cb.checked) startCloseTimer();
-  });
-});
-</script>
+<?php include __DIR__ . '/../layouts/partials/header.php'; ?>
 
 <!-- ================= HERO ================= -->
 <div class="hero">
@@ -90,8 +36,7 @@ toggles.forEach(cb => {
       <div class="col-lg-5">
         <h1>BonSai – Không gian xanh cho bạn</h1>
         <p>Đăng nhập để mua sắm và trải nghiệm đầy đủ tính năng.</p>
-        <a href="../app/index.php?url=login" class="btn btn-success me-2">Đăng nhập</a>
-        <a href="../app/index.php?url=register" class="btn btn-outline-light">Đăng ký</a>
+
       </div>
       <div class="col-lg-7">
         <img src="images/bluesucc.gif" class="img-fluid">

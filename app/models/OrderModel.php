@@ -89,16 +89,82 @@ class OrderModel extends Model {
     /**
      * Huỷ đơn hàng — chỉ cho phép khi status = 'processing'.
      */
+
+    
     public static function cancel(int $orderId, int $userId): bool {
-        $db   = Database::getInstance();
-        $stmt = $db->prepare(
-            "UPDATE orders SET status = 'cancelled'
-             WHERE id = ? AND user_id = ? AND status = 'processing'"
-        );
+    $db = Database::getInstance();
+    $db->begin_transaction();
+    try {
+        // Kiểm tra đơn hợp lệ + lock
+        $stmt = $db->prepare("
+            SELECT id, status FROM orders
+            WHERE id = ? AND user_id = ? AND status = 'processing'
+            FOR UPDATE
+        ");
         $stmt->bind_param("ii", $orderId, $userId);
         $stmt->execute();
-        return $stmt->affected_rows > 0;
+        $order = $stmt->get_result()->fetch_assoc();
+
+        if (!$order) {
+            throw new Exception("Đơn không hợp lệ hoặc không thể hủy");
+        }
+
+        // Cập nhật trạng thái
+        $stmt2 = $db->prepare("UPDATE orders SET status = 'cancelled' WHERE id = ?");
+        $stmt2->bind_param("i", $orderId);
+        $stmt2->execute();
+
+        // Lấy items để hoàn kho
+        $stmt3 = $db->prepare("
+            SELECT product_id, size_id, quantity, price
+            FROM order_items WHERE order_id = ?
+        ");
+        $stmt3->bind_param("i", $orderId);
+        $stmt3->execute();
+        $items = $stmt3->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        if (empty($items)) {
+            throw new Exception("Không tìm thấy sản phẩm trong đơn");
+        }
+
+        foreach ($items as $item) {
+            // Hoàn kho
+            $stmt4 = $db->prepare("
+                UPDATE inventory SET quantity = quantity + ?
+                WHERE product_id = ? AND size_id = ?
+            ");
+            $stmt4->bind_param("iii",
+                $item['quantity'], $item['product_id'], $item['size_id']
+            );
+            $stmt4->execute();
+
+            // Ghi log trả hàng
+            $note  = "Trả hàng về kho do hủy đơn #$orderId";
+            $stmt5 = $db->prepare("
+                INSERT INTO inventory_logs
+                    (order_id, product_id, size_id, type, quantity, import_price, note)
+                VALUES (?, ?, ?, 'return', ?, ?, ?)
+            ");
+            $stmt5->bind_param("iiidds",
+                $orderId,
+                $item['product_id'],
+                $item['size_id'],
+                $item['quantity'],
+                $item['price'],
+                $note
+            );
+            $stmt5->execute();
+        }
+
+        $db->commit();
+        return true;
+
+    } catch (Exception $e) {
+        $db->rollback();
+        error_log("OrderModel::cancel failed: " . $e->getMessage());
+        return false;
     }
+}
 
     /**
      * Trả về badge CSS class và label theo status.

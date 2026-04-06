@@ -106,6 +106,9 @@
             <div class="action-row">
                 <button id="addCartBtn"
                         class="btn-add-cart"
+                        <?php if (!isset($_SESSION['user'])): ?>
+                            onclick="showLoginAlert(event); return false;"
+                        <?php endif; ?>
                         <?= $totalStock <= 0 ? 'disabled' : '' ?>
                         data-product-id="<?= (int)$product['id'] ?>">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -159,6 +162,29 @@
 
 <div id="toast"></div>
 
+<script>
+function showLoginAlert(e) {
+    if (e) e.preventDefault();
+    document.getElementById('loginModal').style.display = 'flex';
+}
+function closeLoginModal() {
+    document.getElementById('loginModal').style.display = 'none';
+}
+document.getElementById('loginModal').addEventListener('click', function(e) {
+    if (e.target === this) closeLoginModal();
+});
+
+<?php if (!isset($_SESSION['user'])): ?>
+// Chặn tất cả nút giỏ hàng nếu chưa login
+document.querySelectorAll('[data-product-id]').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        showLoginAlert(e);
+    });
+});
+<?php endif; ?>
+</script>
 <script>
 (function () {
     /* ── Thumbnails ── */

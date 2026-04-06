@@ -1,7 +1,7 @@
 <?php
 class CheckoutModel {
 
-    public static function placeOrder(int $userId, array $info, array $items, float $shippingFee): int {
+    public static function placeOrder(int $userId, int $cartId, array $info, array $items, float $shippingFee): int {
         $db = Database::getInstance();
         $db->begin_transaction();
 
@@ -62,14 +62,15 @@ class CheckoutModel {
                 );
                 $stmt->execute();
 
-                // Lấy avg_import_price để ghi log
+                // Lấy avg_import_price
                 $stmt2 = $db->prepare("
-                    SELECT quantity, avg_import_price FROM inventory
+                    SELECT avg_import_price FROM inventory
                     WHERE product_id = ? AND size_id = ? FOR UPDATE
                 ");
                 $stmt2->bind_param("ii", $item['product_id'], $item['size_id']);
                 $stmt2->execute();
-                $inv = $stmt2->get_result()->fetch_assoc();
+                $inv      = $stmt2->get_result()->fetch_assoc();
+                $avgPrice = (float)($inv['avg_import_price'] ?? 0);
 
                 // Trừ kho
                 $stmt3 = $db->prepare("
@@ -79,23 +80,30 @@ class CheckoutModel {
                 $stmt3->bind_param("iii", $item['quantity'], $item['product_id'], $item['size_id']);
                 $stmt3->execute();
 
-                // Log xuất kho
-                // $note = "Xuất kho cho đơn hàng #$orderId";
-                // $stmt4 = $db->prepare("
-                //     INSERT INTO inventory_logs
-                //         (product_id, size_id, type, quantity, import_price, note)
-                //     VALUES (?, ?, 'export', ?, ?, ?)
-                // ");
-                // $stmt4->bind_param("iiids",
-                //     $item['product_id'], $item['size_id'],
-                //     $item['quantity'], $inv['avg_import_price'], $note
-                // );
-                // $stmt4->execute();
+                // Ghi log xuất kho
+                $noteLog = "Xuất kho cho đơn hàng #$orderId";
+                $stmt4   = $db->prepare("
+                    INSERT INTO inventory_logs
+                        (order_id, product_id, size_id, type, quantity, import_price, note)
+                    VALUES (?, ?, ?, 'export', ?, ?, ?)
+                ");
+                $stmt4->bind_param("iiiids",   // ✅ i=order_id, i=product_id, i=size_id, i=quantity, d=avgPrice, s=note
+                    $orderId,
+                    $item['product_id'],
+                    $item['size_id'],
+                    $item['quantity'],
+                    $avgPrice,
+                    $noteLog
+                );
+                $stmt4->execute();
+                if ($stmt4->error) {  // ← sau execute, không phải trước
+                    throw new Exception("Log lỗi: " . $stmt4->error);
+                }
             }
 
-            // 4. Xóa cart
+            // 4. Xóa cart dùng $cartId truyền vào — không dùng $items[0]['cart_id']
             $stmt = $db->prepare("DELETE FROM cart_items WHERE cart_id = ?");
-            $stmt->bind_param("i", $items[0]['cart_id']);
+            $stmt->bind_param("i", $cartId);
             $stmt->execute();
 
             $db->commit();

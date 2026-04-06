@@ -697,4 +697,59 @@ class InventoryModel extends Model {
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+    public static function returnToStock(int $orderId): bool {
+        $db = Database::getInstance();
+        $db->begin_transaction();
+        try {
+            // Lấy các items của đơn hàng
+            $stmt = $db->prepare("
+                SELECT product_id, size_id, quantity, price
+                FROM order_items
+                WHERE order_id = ?
+            ");
+            $stmt->bind_param("i", $orderId);
+            $stmt->execute();
+            $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+            if (empty($items)) {
+                throw new Exception("Không tìm thấy sản phẩm trong đơn #$orderId");
+            }
+
+            foreach ($items as $item) {
+                // Cộng lại tồn kho
+                $stmt2 = $db->prepare("
+                    UPDATE inventory
+                    SET quantity = quantity + ?
+                    WHERE product_id = ? AND size_id = ?
+                ");
+                $stmt2->bind_param("iii", $item['quantity'], $item['product_id'], $item['size_id']);
+                $stmt2->execute();
+
+                // Ghi log trả hàng
+                $note = "Trả hàng về kho do hủy đơn #$orderId";
+                $stmt3 = $db->prepare("
+                    INSERT INTO inventory_logs
+                        (order_id, product_id, size_id, type, quantity, import_price, note)
+                    VALUES (?, ?, ?, 'return', ?, ?, ?)
+                ");
+                $stmt3->bind_param(
+                    "iiidds",
+                    $orderId,
+                    $item['product_id'],
+                    $item['size_id'],
+                    $item['quantity'],
+                    $item['price'],
+                    $note
+                );
+                $stmt3->execute();
+            }
+
+            $db->commit();
+            return true;
+        } catch (Exception $e) {
+            $db->rollback();
+            error_log("returnToStock failed: " . $e->getMessage());
+            return false;
+        }
+    }
 }

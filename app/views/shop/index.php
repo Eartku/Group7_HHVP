@@ -473,7 +473,10 @@ document.getElementById('sppClear').addEventListener('click', () => {
                     <div class="d-flex justify-content-center gap-2">
                         <button class="btn btn-sm <?= $isOutOfStock ? 'btn-secondary' : 'btn-dark' ?>"
                                 <?= $isOutOfStock ? 'disabled' : '' ?>
-                                data-product-id="<?= $id ?>">
+                                data-product-id="<?= $id ?>"
+                                <?php if (!isset($_SESSION['user'])): ?>
+                                    onclick="showLoginAlert(event)"
+                                <?php endif; ?>>
                             <img src="<?= BASE_URL ?>/images/cart.svg" width="18" alt="cart">
                         </button>
                         <a href="<?= BASE_URL ?>/index.php?url=product-detail&id=<?= $id ?>"
@@ -507,25 +510,188 @@ document.getElementById('sppClear').addEventListener('click', () => {
 
     </div>
 </div>
+<div id="sizeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:var(--color-background-primary,#fff);border-radius:12px;padding:1.5rem;width:320px;max-width:90vw;position:relative;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+      <span style="font-size:15px;font-weight:500;">Chọn size</span>
+      <button id="modalClose" style="border:none;background:none;font-size:20px;cursor:pointer;line-height:1;color:#888;">✕</button>
+    </div>
+    <p id="modalProductName" style="font-size:13px;color:#888;margin:0 0 1rem;"></p>
+
+    <div id="modalSizes" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.25rem;"></div>
+
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:1.25rem;">
+      <span style="font-size:13px;color:#888;">Số lượng:</span>
+      <button id="modalQtyMinus" style="border:1px solid #ddd;background:transparent;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:16px;">−</button>
+      <span id="modalQtyVal" style="font-size:14px;font-weight:500;min-width:20px;text-align:center;">1</span>
+      <button id="modalQtyPlus" style="border:1px solid #ddd;background:transparent;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:16px;">+</button>
+    </div>
+
+    <button id="modalConfirm" style="width:100%;background:#111;color:#fff;border:none;border-radius:8px;padding:10px;font-size:14px;cursor:pointer;">Thêm vào giỏ hàng</button>
+  </div>
+</div>
 
 <div id="toast"></div>
+<script>
+function showLoginAlert(e) {
+    if (e) e.preventDefault();
+    document.getElementById('loginModal').style.display = 'flex';
+}
+function closeLoginModal() {
+    document.getElementById('loginModal').style.display = 'none';
+}
+document.getElementById('loginModal').addEventListener('click', function(e) {
+    if (e.target === this) closeLoginModal();
+});
+
+<?php if (!isset($_SESSION['user'])): ?>
+// Chặn tất cả nút giỏ hàng nếu chưa login
+document.querySelectorAll('[data-product-id]').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        showLoginAlert(e);
+    });
+});
+<?php endif; ?>
+</script>
 
 <script>
-document.querySelectorAll('[data-product-id]').forEach(btn => {
-    btn.addEventListener('click', function () {
+(function () {
+    const modal       = document.getElementById('sizeModal');
+    const modalClose  = document.getElementById('modalClose');
+    const modalName   = document.getElementById('modalProductName');
+    const modalSizes  = document.getElementById('modalSizes');
+    const modalQtyVal = document.getElementById('modalQtyVal');
+    const modalMinus  = document.getElementById('modalQtyMinus');
+    const modalPlus   = document.getElementById('modalQtyPlus');
+    const modalBtn    = document.getElementById('modalConfirm');
+
+    let currentProductId = 0;
+    let currentSizeId    = 0;
+    let currentStock     = 0;
+    let qty              = 1;
+
+    // Mở modal khi ấn nút thêm giỏ
+    document.querySelectorAll('[data-product-id]').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const pid  = this.dataset.productId;
+            const name = this.dataset.productName ?? '';
+            openModal(pid, name);
+        });
+    });
+
+    function openModal(pid, name) {
+        currentProductId = pid;
+        currentSizeId    = 0;
+        qty              = 1;
+        modalQtyVal.textContent = 1;
+        modalName.textContent   = name;
+        modalSizes.innerHTML    = '<span style="font-size:13px;color:#888;">Đang tải...</span>';
+        modalBtn.disabled       = true;
+        modal.style.display     = 'flex';
+
+        // Fetch sizes từ API
+        fetch(`<?= BASE_URL ?>/index.php?url=product-sizes&id=${pid}`)
+            .then(r => r.json())
+            .then(sizes => renderSizes(sizes))
+            .catch(() => {
+                modalSizes.innerHTML = '<span style="font-size:13px;color:red;">Không tải được size</span>';
+            });
+    }
+
+    function renderSizes(sizes) {
+        if (!sizes.length) {
+            modalSizes.innerHTML = '<span style="font-size:13px;color:#888;">Không có size</span>';
+            return;
+        }
+        modalSizes.innerHTML = '';
+        sizes.forEach(s => {
+            const inStock = s.stock > 0;
+            const btn = document.createElement('button');
+            btn.textContent       = s.size;
+            btn.dataset.sizeId    = s.size_id;
+            btn.dataset.stock     = s.stock;
+            btn.disabled          = !inStock;
+            btn.style.cssText     = `
+                border: 1px solid ${inStock ? '#ddd' : '#eee'};
+                background: transparent;
+                color: ${inStock ? '#111' : '#bbb'};
+                border-radius: 8px;
+                padding: 6px 16px;
+                font-size: 13px;
+                cursor: ${inStock ? 'pointer' : 'not-allowed'};
+                ${!inStock ? 'text-decoration:line-through;opacity:0.5;' : ''}
+            `;
+            if (inStock) {
+                btn.addEventListener('click', function () {
+                    // Reset all
+                    modalSizes.querySelectorAll('button').forEach(b => {
+                        b.style.background  = 'transparent';
+                        b.style.color       = '#111';
+                        b.style.borderColor = '#ddd';
+                    });
+                    this.style.background  = '#111';
+                    this.style.color       = '#fff';
+                    this.style.borderColor = '#111';
+                    currentSizeId  = +this.dataset.sizeId;
+                    currentStock   = +this.dataset.stock;
+                    qty            = 1;
+                    modalQtyVal.textContent = 1;
+                    modalBtn.disabled = false;
+                });
+            }
+            modalSizes.appendChild(btn);
+        });
+    }
+
+    // Điều chỉnh số lượng
+    modalMinus.addEventListener('click', () => {
+        if (qty > 1) { qty--; modalQtyVal.textContent = qty; }
+    });
+    modalPlus.addEventListener('click', () => {
+        if (currentStock > 0 && qty < currentStock) { qty++; modalQtyVal.textContent = qty; }
+    });
+
+    // Xác nhận thêm giỏ
+    modalBtn.addEventListener('click', () => {
+        if (!currentSizeId) return;
+        modalBtn.disabled = true;
+        modalBtn.textContent = 'Đang thêm...';
+
         fetch('<?= BASE_URL ?>/index.php?url=cart-add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `product_id=${this.dataset.productId}&size_id=0&qty=1`
+            body: `product_id=${currentProductId}&size_id=${currentSizeId}&qty=${qty}`
         })
         .then(r => r.json())
         .then(data => {
-            const toast = document.getElementById('toast');
-            if (!toast) return;
-            toast.innerText = data.message ?? (data.ok ? 'Đã thêm vào giỏ!' : 'Thêm thất bại');
-            toast.className = 'show ' + (data.ok ? 'success' : 'error');
-            setTimeout(() => toast.className = '', 2500);
+            closeModal();
+            showToast(data.message ?? (data.ok ? 'Đã thêm vào giỏ!' : 'Thêm thất bại'), data.ok);
+        })
+        .catch(() => {
+            closeModal();
+            showToast('Có lỗi xảy ra', false);
         });
     });
-});
+
+    // Đóng modal
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    function closeModal() {
+        modal.style.display = 'none';
+        modalBtn.disabled   = false;
+        modalBtn.textContent = 'Thêm vào giỏ hàng';
+    }
+
+    function showToast(msg, ok) {
+        const toast = document.getElementById('toast');
+        if (!toast) return;
+        toast.innerText   = msg;
+        toast.className   = 'show ' + (ok ? 'success' : 'error');
+        setTimeout(() => toast.className = '', 2500);
+    }
+})();
 </script>

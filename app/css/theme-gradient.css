@@ -7,11 +7,11 @@
 
 /* ── Custom properties ── */
 :root {
-    --brand-start : #4fbd2e;   /* lime   */
-    --brand-end   : #347c2e;   /* olive  */
-    --brand-mid   : #48a830;   /* giữa   */
-    --brand-grad  : linear-gradient(135deg, #7ac653 0%, #69c480 100%);
-    --brand-grad-h: linear-gradient(135deg, #46d259 0%, #8bb465 100%); /* hover  */
+    --brand-start : #175e4c;   /* lime   */
+    --brand-end   : #1c6715;   /* olive  */
+    --brand-mid   : #294622;   /* giữa   */
+    --brand-grad  : linear-gradient(135deg, #40692c 0%, #317041 100%);
+    --brand-grad-h: linear-gradient(135deg, #337f3d 0%, #4f6b35 100%); /* hover  */
     --brand-text  : #fff;
 }
 /* ═══════════════════════════════════════════════

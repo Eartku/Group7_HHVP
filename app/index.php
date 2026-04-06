@@ -76,7 +76,10 @@ switch ($url) {
         $c = new ProductController();
         $c->detail();
         break;
-
+    case  '/product-sizes':
+        $c = new ProductController();
+        $c->sizes();
+        break;
     // ── Cart ──
     case '/cart':
         $c = new CartController();

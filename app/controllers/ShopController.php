@@ -2,7 +2,7 @@
 class ShopController extends Controller {
 
     public function index(): void {
-        $this->requireLogin();
+        
 
         $search     = trim($_GET['search']    ?? '');
         $categoryId = (int)($_GET['category'] ?? 0);

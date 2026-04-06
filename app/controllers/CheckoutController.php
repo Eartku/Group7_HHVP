@@ -33,56 +33,53 @@ class CheckoutController extends Controller {
             if (!$fullname || !$email || !$phone || !$address) {
                 $error = "Vui lòng nhập đầy đủ thông tin bắt buộc.";
             } else {
-               try {
+                try {
+                    $validatedItems = [];
 
-                $validatedItems = [];
+                    foreach ($items as $item) {
+                        $productId = $item['product_id'] ?? $item['id'] ?? 0;
+                        $sizeId    = $item['size_id'];
+                        $qty       = $item['quantity'];
 
-                foreach ($items as $item) {
+                        $product = ProductModel::findById($productId);
+                        if (!$product) {
+                            throw new Exception("Sản phẩm '{$item['name']}' không còn tồn tại.");
+                        }
 
-                    $productId = $item['product_id'] ?? $item['id'] ?? 0;
-                    $sizeId    = $item['size_id'];
-                    $qty       = $item['quantity'];
+                        $stock = ProductModel::getStock($productId, $sizeId);
+                        if ($stock <= 0) {
+                            throw new Exception("Sản phẩm '{$item['name']}' đã hết hàng.");
+                        }
+                        if ($stock < $qty) {
+                            throw new Exception("Sản phẩm '{$item['name']}' chỉ còn {$stock} sản phẩm.");
+                        }
 
-                    $product = ProductModel::findById($productId);
-                    if (!$product) {
-                        throw new Exception("Sản phẩm '{$item['name']}' không còn tồn tại.");
-                    }
-                    $stock = ProductModel::getStock($productId, $sizeId);
-
-                    if ($stock <= 0) {
-                        throw new Exception("Sản phẩm '{$item['name']}' đã hết hàng.");
-                    }
-                    if ($stock < $qty) {
-                        throw new Exception("Sản phẩm '{$item['name']}' chỉ còn {$stock} sản phẩm.");
-                    }
-                    $validatedItems[] = [
-                        'product_id' => $productId,
-                        'size_id'    => $sizeId,
-                        'name'       => $item['name'],
-                        'quantity'   => $qty,
-                        'price'      => $item['price'],
-                        'subtotal'   => $item['price'] * $qty,
+                        $validatedItems[] = [
+                            'product_id' => $productId,
+                            'size_id'    => $sizeId,
+                            'name'       => $item['name'],
+                            'quantity'   => $qty,
+                            'price'      => $item['price'],
+                            'subtotal'   => $item['price'] * $qty,
                         ];
                     }
 
-                $orderId = CheckoutModel::placeOrder(
-                    $userId,
-                    compact('fullname', 'email', 'phone', 'address', 'note', 'payment'),
-                    $validatedItems,
-                    $shippingFee
-                );
+                    // placeOrder đã xử lý: trừ kho + ghi log xuất + xóa cart trong 1 transaction
+                    $orderId = CheckoutModel::placeOrder(
+                        $userId,
+                        $cartId,   // ← thêm vào đây
+                        compact('fullname', 'email', 'phone', 'address', 'note', 'payment'),
+                        $validatedItems,
+                        $shippingFee
+                    );
 
-                // CHỈ TẠO EXPORT KHI ORDER_ID HỢP LỆ
-                if ($orderId && $orderId > 0) {
-                    foreach ($validatedItems as $item) {
-                        InventoryModel::createExportLog($item, $orderId);
+                    if ($orderId > 0) {
+                        $this->redirect(BASE_URL . "/index.php?url=checkout-thankyou&id={$orderId}");
+                        return;
                     }
-                    CartModel::clear($cartId);
 
-                    $this->redirect(BASE_URL . "/index.php?url=checkout-thankyou&id={$orderId}");
-                } else {
                     throw new Exception("Đặt hàng thất bại. Vui lòng thử lại.");
-                }
+
                 } catch (Exception $e) {
                     $error = $e->getMessage();
                 }
@@ -98,27 +95,26 @@ class CheckoutController extends Controller {
             'error'       => $error,
         ]);
     }
+
     public function process(): void {
-        // Chuyển hướng POST về index() để xử lý
         $this->index();
     }
+
     public function thankyou(): void {
         $this->requireLogin();
-        
-        $orderId = isset($_GET['id']) ? (int)$_GET['id'] : null;
-        
+
+        $orderId = (int)($_GET['id'] ?? 0);
         if (!$orderId) {
             $this->redirect(BASE_URL . '/index.php?url=shop');
             return;
         }
-        
-        // Kiểm tra order thuộc về user đang đăng nhập
+
         $order = OrderModel::getById($orderId);
-        if (!$order || $order['user_id'] !== (int)$_SESSION['user']['id']) {
+        if (!$order || (int)$order['user_id'] !== (int)$_SESSION['user']['id']) {
             $this->redirect(BASE_URL . '/index.php?url=shop');
             return;
         }
-        
+
         $this->view('checkout/thankyou', [
             'orderId' => $orderId,
             'order'   => $order,

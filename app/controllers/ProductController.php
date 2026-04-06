@@ -33,7 +33,7 @@ class ProductController extends Controller {
     }
 
     public function detail(): void {
-        $this->requireLogin();
+
 
         $id = (int)($_GET['id'] ?? 0);
         if ($id <= 0) {
@@ -63,5 +63,11 @@ class ProductController extends Controller {
             'related'    => $related,
             'totalStock' => $totalStock,
         ]);
+    }
+    public function sizes(): void {
+        header('Content-Type: application/json');
+        $id = (int)($_GET['id'] ?? 0);
+        if ($id <= 0) { echo '[]'; return; }
+        echo json_encode(ProductModel::getSizes($id));
     }
 }
