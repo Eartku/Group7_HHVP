@@ -68,13 +68,13 @@ class InventoryModel extends Model {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    public static function createImport(int $userId, string $note, array $items): int {
+    public static function createImport(int $userId, string $note, array $items, string $importDate): int {
         $db   = Database::getInstance();
         $stmt = $db->prepare("
-            INSERT INTO import_receipts (note, status, created_by)
-            VALUES (?, 'pending', ?)
+            INSERT INTO import_receipts (note, status, created_by, created_at)
+            VALUES (?, 'pending', ?, ?)
         ");
-        $stmt->bind_param("si", $note, $userId);
+        $stmt->bind_param("sis", $note, $userId, $importDate);
         $stmt->execute();
         $receiptId = $db->insert_id;
 
@@ -86,11 +86,11 @@ class InventoryModel extends Model {
             $note2     = "Nhập kho phiếu #$receiptId";
 
             $stmt = $db->prepare("
-                INSERT INTO inventory_logs
-                    (receipt_id, product_id, size_id, type, quantity, import_price, note)
-                VALUES (?, ?, ?, 'import', ?, ?, ?)
+                    INSERT INTO inventory_logs
+                    (receipt_id, product_id, size_id, type, quantity, import_price, note, created_at)
+                    VALUES (?, ?, ?, 'import', ?, ?, ?, ?)
             ");
-            $stmt->bind_param("iiidis", $receiptId, $productId, $sizeId, $qty, $price, $note2);
+            $stmt->bind_param("iiidiss", $receiptId, $productId, $sizeId, $qty, $price, $note2, $importDate);
             $stmt->execute();
         }
 
@@ -251,39 +251,50 @@ class InventoryModel extends Model {
 
     // ─── Cập nhật phiếu nhập ───────────────────────────────────────────────
 
-    public static function updateImport(int $receiptId, array $items): bool {
-        $db = Database::getInstance();
-        $db->begin_transaction();
-        try {
-            $stmt = $db->prepare("DELETE FROM inventory_logs WHERE receipt_id = ?");
-            $stmt->bind_param("i", $receiptId);
-            $stmt->execute();
+        public static function updateImport(int $receiptId, array $items, string $importDate): bool {
 
-            foreach ($items as $item) {
-                $stmt = $db->prepare("
-                    INSERT INTO inventory_logs
-                    (receipt_id, product_id, size_id, type, quantity, import_price, note)
-                    VALUES (?, ?, ?, 'import', ?, ?, ?)
-                ");
-                $note = "Cập nhật phiếu #$receiptId";
-                $stmt->bind_param("iiidis",
-                    $receiptId,
-                    $item['product_id'],
-                    $item['size_id'],
-                    $item['quantity'],
-                    $item['price'],
-                    $note
-                );
+            $db = Database::getInstance();
+            $db->begin_transaction();
+
+            try {
+                $stmt = $db->prepare("DELETE FROM inventory_logs WHERE receipt_id = ?");
+                $stmt->bind_param("i", $receiptId);
                 $stmt->execute();
-            }
 
-            $db->commit();
-            return true;
-        } catch (Exception $e) {
-            $db->rollback();
-            return false;
+                foreach ($items as $item) {
+
+                    $stmt = $db->prepare("
+                        INSERT INTO inventory_logs
+                        (receipt_id, product_id, size_id, type, quantity, import_price, note, created_at)
+                        VALUES (?, ?, ?, 'import', ?, ?, ?, ?)
+                    ");
+
+                    $note = "Cập nhật phiếu #$receiptId";
+
+                    $stmt->bind_param(
+                        "iiidiss",
+                        $receiptId,
+                        $item['product_id'],
+                        $item['size_id'],
+                        $item['quantity'],
+                        $item['price'],
+                        $note,
+                        $importDate
+                    );
+
+                    $stmt->execute();
+                }
+
+                $db->commit();
+                return true;
+
+            } catch (Exception $e) {
+
+                $db->rollback();
+                return false;
+
+            }
         }
-    }
 
     public static function createExportLog(array $item, int $orderId): void {
         $db   = Database::getInstance();

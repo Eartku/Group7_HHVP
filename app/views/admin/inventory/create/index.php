@@ -4,16 +4,68 @@
         <div>
             <h3 class="mb-0" style="color:#3b5d50;font-weight:700">Tạo phiếu nhập kho</h3>
             <small class="text-muted">Nhập thông tin hàng hoá cần nhập</small>
-        </div>
-        <a href="<?= BASE_URL ?>/index.php?url=admin-inventory" class="btn btn-secondary btn-sm">
-            ← Quay lại
-        </a>
+        </div>    
+     <div class="d-flex gap-2">
+
+            <button type="button"
+                    id="btnShowForm"
+                    class="btn"
+                    style="
+                    
+                    color:white;
+                    border:none;
+                    border-radius:25px;
+                    padding:8px 18px;
+                    font-weight:700;
+                    letter-spacing:0.3px;
+                    box-shadow:0 3px 8px rgba(0,0,0,0.15);
+                    transition:0.2s;">
+                + Tạo phiếu nhập
+            </button>
+            <a href="<?= BASE_URL ?>/index.php?url=admin-inventory"
+            class="btn btn-sm"
+            style="
+                
+                color:#fff;
+                border:none;
+                border-radius:25px;
+                padding:8px 18px;
+                font-weight:600;
+                box-shadow:0 3px 8px rgba(0,0,0,0.12);
+                transition:0.2s;">
+                ← Quay lại
+            </a>
+
     </div>
+    </div>
+    <div id="createFormBox" style="display:none;">
     <form method="POST" action="<?= BASE_URL ?>/index.php?url=admin-inventory-create" id="importForm">
 
+    <div class="card border-0 shadow-sm mb-4 p-3"
+    style="background:#eef6f3;border-radius:14px">
         <!-- Ghi chú -->
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-body">
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Ngày nhập phiếu</label>
+                                    <input type="datetime-local"
+                                        name="import_date"
+                                        class="form-control"
+                                        value="<?= date('Y-m-d\TH:i') ?>">
+                                    <small class="text-muted">
+                                        Nếu không thay đổi, hệ thống sẽ dùng thời gian hiện tại
+                                    </small>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
                 <label class="form-label fw-bold">Ghi chú phiếu nhập</label>
                 <input type="text" name="note" class="form-control"
                        placeholder="VD: Nhập hàng tháng 3, nhà cung cấp ABC...">
@@ -111,8 +163,8 @@
 
             <div class="card-footer border-0 bg-white px-3 pb-3">
                 <button type="button" id="btnAddRow"
-                        class="btn btn-sm btn-outline-success"
-                        style="border-radius:20px">
+                       
+                        style="border-radius:25px">
                     + Thêm dòng
                 </button>
             </div>
@@ -144,15 +196,19 @@
                     style="background:#3b5d50;border-color:#3b5d50;border-radius:20px;font-weight:600">
                 Tạo phiếu nhập
             </button>
-            <a href="<?= BASE_URL ?>/index.php?url=admin-inventory"
-               class="btn btn-secondary" style="border-radius:20px">
+            <button type="button"
+                    id="btnCancelForm"
+                    class="btn btn-secondary"
+                    style="border-radius:20px">
                 Hủy
-            </a>
+            </button>
         </div>
                                             </br>
                                             </br>
+                                            </div>
 
     </form>
+    </div>
     <!-- Bộ lọc phiếu nhập -->
     <div class="ui-card mb-3">
         <div class="ui-card-head">
@@ -514,4 +570,22 @@ document.querySelectorAll('.item-row').forEach(row => {
 });
 
 calcTotal();
+document.getElementById("btnShowForm").addEventListener("click", function(){
+    const formBox = document.getElementById("createFormBox");
+
+    if(formBox.style.display === "none"){
+        formBox.style.display = "block";
+        this.innerText = "Ẩn tạo phiếu";
+    }else{
+        formBox.style.display = "none";
+        this.innerText = "+ Tạo phiếu nhập";
+    }
+});
+document.getElementById("btnCancelForm").addEventListener("click", function(){
+    const formBox = document.getElementById("createFormBox");
+    const btnShow = document.getElementById("btnShowForm");
+
+    formBox.style.display = "none";
+    btnShow.innerText = "+ Tạo phiếu nhập";
+});
 </script>

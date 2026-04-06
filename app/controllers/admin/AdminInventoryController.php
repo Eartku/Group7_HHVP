@@ -147,6 +147,13 @@ class AdminInventoryController extends Controller{
         $this->requireAdmin();
         $note       = trim($_POST['note'] ?? '');
         $userId     = $_SESSION['user']['id'];
+        $importDate = $_POST['import_date'] ?? date('Y-m-d H:i:s');
+
+        if(!empty($importDate)){
+            $importDate = date('Y-m-d H:i:s', strtotime($importDate));
+        }else{
+            $importDate = date('Y-m-d H:i:s');
+        }
         $productIds = $_POST['product_id'] ?? [];
         $sizeIds    = $_POST['size_id']    ?? [];
         $prices     = $_POST['price']      ?? [];
@@ -164,7 +171,13 @@ class AdminInventoryController extends Controller{
         }
 
         if (!empty($items)) {
-            $receiptId = InventoryModel::createImport($userId, $note, $items);
+
+            $receiptId = InventoryModel::createImport(
+                $userId,
+                $note,
+                $items,
+                $importDate
+            );
             $this->redirect(BASE_URL . '/index.php?url=admin-inventory-detail&id=' . $receiptId);
             return;
         }
@@ -216,6 +229,13 @@ class AdminInventoryController extends Controller{
         $this->requireAdmin();
         $id      = (int)($_GET['id'] ?? 0);
         $receipt = InventoryModel::getImportById($id);
+        $importDate = $_POST['import_date'] ?? $receipt['created_at'];
+
+        if(!empty($importDate)){
+            $importDate = date('Y-m-d H:i:s', strtotime($importDate));
+        }else{
+            $importDate = $receipt['created_at'];
+        }
         if (!$receipt || $receipt['status'] !== 'pending') {
             die("Không thể cập nhật phiếu!");
         }
@@ -234,7 +254,7 @@ class AdminInventoryController extends Controller{
             ];
         }
         if (!empty($items)) {
-            InventoryModel::updateImport($id, $items);
+            InventoryModel::updateImport($id, $items, $importDate);
         }
         $this->redirect(BASE_URL . '/index.php?url=admin-inventory-detail&id=' . $id . '&updated=1');
     }
