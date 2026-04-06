@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                             
-                            <button type="button" id="btnAddRow" class="btn btn-sm btn-outline-primary"
+                            <button type="button" id="btnAddRow" class=""
                                     style="border-radius:25px">
                                 + Thêm dòng
                             </button>
