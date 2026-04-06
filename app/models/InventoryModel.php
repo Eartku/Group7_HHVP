@@ -68,13 +68,13 @@ class InventoryModel extends Model {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    public static function createImport(int $userId, string $note, array $items): int {
+    public static function createImport(int $userId, string $note, array $items, string $importDate): int {
         $db   = Database::getInstance();
         $stmt = $db->prepare("
-            INSERT INTO import_receipts (note, status, created_by)
-            VALUES (?, 'pending', ?)
+            INSERT INTO import_receipts (note, status, created_by, created_at)
+            VALUES (?, 'pending', ?, ?)
         ");
-        $stmt->bind_param("si", $note, $userId);
+        $stmt->bind_param("sis", $note, $userId, $importDate);
         $stmt->execute();
         $receiptId = $db->insert_id;
 
@@ -86,11 +86,11 @@ class InventoryModel extends Model {
             $note2     = "Nhập kho phiếu #$receiptId";
 
             $stmt = $db->prepare("
-                INSERT INTO inventory_logs
-                    (receipt_id, product_id, size_id, type, quantity, import_price, note)
-                VALUES (?, ?, ?, 'import', ?, ?, ?)
+                    INSERT INTO inventory_logs
+                    (receipt_id, product_id, size_id, type, quantity, import_price, note, created_at)
+                    VALUES (?, ?, ?, 'import', ?, ?, ?, ?)
             ");
-            $stmt->bind_param("iiidis", $receiptId, $productId, $sizeId, $qty, $price, $note2);
+            $stmt->bind_param("iiidiss", $receiptId, $productId, $sizeId, $qty, $price, $note2, $importDate);
             $stmt->execute();
         }
 
@@ -251,36 +251,53 @@ class InventoryModel extends Model {
 
     // ─── Cập nhật phiếu nhập ───────────────────────────────────────────────
 
-    public static function updateImport(int $receiptId, array $items): bool {
+// Trong InventoryModel.php - sửa method updateImport
+// Trong InventoryModel.php - sửa method updateImport
+    public static function updateImport(int $receiptId, array $items, string $importDate): bool {
         $db = Database::getInstance();
         $db->begin_transaction();
+        
         try {
+            // Cập nhật ngày tạo của phiếu nhập
+            $stmt = $db->prepare("UPDATE import_receipts SET created_at = ? WHERE id = ?");
+            $stmt->bind_param("si", $importDate, $receiptId);
+            $stmt->execute();
+            
+            // Xóa logs cũ
             $stmt = $db->prepare("DELETE FROM inventory_logs WHERE receipt_id = ?");
             $stmt->bind_param("i", $receiptId);
             $stmt->execute();
-
+            
+            // Thêm logs mới
             foreach ($items as $item) {
                 $stmt = $db->prepare("
                     INSERT INTO inventory_logs
-                    (receipt_id, product_id, size_id, type, quantity, import_price, note)
-                    VALUES (?, ?, ?, 'import', ?, ?, ?)
+                    (receipt_id, product_id, size_id, type, quantity, import_price, note, created_at)
+                    VALUES (?, ?, ?, 'import', ?, ?, ?, ?)
                 ");
+                
                 $note = "Cập nhật phiếu #$receiptId";
-                $stmt->bind_param("iiidis",
+                
+                $stmt->bind_param(
+                    "iiidiss",
                     $receiptId,
                     $item['product_id'],
                     $item['size_id'],
                     $item['quantity'],
                     $item['price'],
-                    $note
+                    $note,
+                    $importDate
                 );
+                
                 $stmt->execute();
             }
-
+            
             $db->commit();
             return true;
+            
         } catch (Exception $e) {
             $db->rollback();
+            error_log("Update import failed: " . $e->getMessage());
             return false;
         }
     }
@@ -584,14 +601,29 @@ class InventoryModel extends Model {
     ): array {
         $db = Database::getInstance();
 
-        $wheres = ['(i.quantity <= ? OR i.quantity IS NULL)'];
-        $params = [$threshold];
-        $types  = 'i';
+        // Nếu threshold = 0: lấy sản phẩm hết hàng (quantity = 0)
+        // Nếu threshold > 0: lấy sản phẩm có quantity >= 0 và quantity < threshold
+        if ($threshold > 0) {
+            $wheres = ['(i.quantity >= 0 AND i.quantity < ?)'];
+            $params = [$threshold];
+            $types  = 'i';
+        } else {
+            $wheres = ['(i.quantity = 0 OR i.quantity IS NULL)'];
+            $params = [];
+            $types  = '';
+        }
 
-        $where    = 'WHERE ' . implode(' AND ', $wheres);
-        $params[] = $limit;
-        $params[] = $offset;
-        $types   .= 'ii';
+        $where = 'WHERE ' . implode(' AND ', $wheres);
+        
+        if ($threshold > 0) {
+            $params[] = $limit;
+            $params[] = $offset;
+            $types .= 'ii';
+        } else {
+            $params[] = $limit;
+            $params[] = $offset;
+            $types = 'ii';
+        }
 
         $stmt = $db->prepare("
             SELECT 
@@ -611,11 +643,22 @@ class InventoryModel extends Model {
             LIMIT ? OFFSET ?
         ");
 
-        $stmt->bind_param($types, ...$params);
+        if ($threshold > 0) {
+            $stmt->bind_param($types, ...$params);
+        } else {
+            $stmt->bind_param($types, $params[0], $params[1]);
+        }
+        
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
-
+    // Trong InventoryModel.php
+    public static function updateImportNote(int $receiptId, string $note): bool {
+        $db = Database::getInstance();
+        $stmt = $db->prepare("UPDATE import_receipts SET note = ? WHERE id = ?");
+        $stmt->bind_param("si", $note, $receiptId);
+        return $stmt->execute();
+    }
     public static function countOutOfStock(
         string $categoryId = '',
         string $status     = '',
@@ -623,9 +666,15 @@ class InventoryModel extends Model {
     ): int {
         $db = Database::getInstance();
 
-        $wheres = ['(i.quantity <= ? OR i.quantity IS NULL)'];
-        $params = [$threshold];
-        $types  = 'i';
+        if ($threshold > 0) {
+            $wheres = ['(i.quantity >= 0 AND i.quantity < ?)'];
+            $params = [$threshold];
+            $types  = 'i';
+        } else {
+            $wheres = ['(i.quantity = 0 OR i.quantity IS NULL)'];
+            $params = [];
+            $types  = '';
+        }
 
         $where = 'WHERE ' . implode(' AND ', $wheres);
 
@@ -636,7 +685,10 @@ class InventoryModel extends Model {
             $where
         ");
 
-        $stmt->bind_param($types, ...$params);
+        if ($threshold > 0) {
+            $stmt->bind_param($types, ...$params);
+        }
+        
         $stmt->execute();
         return (int)$stmt->get_result()->fetch_assoc()['total'];
     }

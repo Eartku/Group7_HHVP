@@ -219,10 +219,11 @@
 
                     <div class="ui-card-head" style="display:flex;justify-content:space-between;align-items:center">
                         <h5>Sản phẩm hết hàng / sắp hết</h5>
-                        <span style="font-size:13px;color:var(--text-muted)">
-                            Tổng <strong style="color:red"><?= $outTotal ?></strong> sản phẩm hết / sắp hết hàng
+                        <span style="font-size:13px;color: #000000">
+                            Tổng <strong style="color: #bd0024"><?= $outTotal ?></strong> sản phẩm hết / sắp hết hàng
                         </span>
                     </div>
+                    <!-- Filter chỉ còn threshold -->
                     <!-- Filter chỉ còn threshold -->
                     <div class="ui-card-body" style="border-bottom:1px solid var(--border)">
                         <form method="GET" action="<?= BASE_URL ?>/index.php" id="out-filter-form">
@@ -230,16 +231,17 @@
                             <input type="hidden" name="tab" value="out">
 
                             <div class="row g-3 align-items-end">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label class="ui-label">Cảnh báo dưới (số lượng)</label>
                                     <input type="number"
                                         name="threshold"
                                         class="ui-input"
                                         min="0"
-                                        value="<?= htmlspecialchars($threshold ?? 0) ?>">
+                                        value="<?= htmlspecialchars($threshold ?? 0) ?>"
+                                        placeholder="Nhập ngưỡng cảnh báo">
                                 </div>
 
-                                <div class="col-md-3 d-flex gap-2 align-items-end">
+                                <div class="col-md-2 d-flex gap-2 align-items-end">
                                     <button class="ui-btn sm flex-grow-1">
                                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
                                             style="width:14px;height:14px;stroke:#fff">

@@ -147,6 +147,13 @@ class AdminInventoryController extends Controller{
         $this->requireAdmin();
         $note       = trim($_POST['note'] ?? '');
         $userId     = $_SESSION['user']['id'];
+        $importDate = $_POST['import_date'] ?? date('Y-m-d H:i:s');
+
+        if(!empty($importDate)){
+            $importDate = date('Y-m-d H:i:s', strtotime($importDate));
+        }else{
+            $importDate = date('Y-m-d H:i:s');
+        }
         $productIds = $_POST['product_id'] ?? [];
         $sizeIds    = $_POST['size_id']    ?? [];
         $prices     = $_POST['price']      ?? [];
@@ -164,7 +171,13 @@ class AdminInventoryController extends Controller{
         }
 
         if (!empty($items)) {
-            $receiptId = InventoryModel::createImport($userId, $note, $items);
+
+            $receiptId = InventoryModel::createImport(
+                $userId,
+                $note,
+                $items,
+                $importDate
+            );
             $this->redirect(BASE_URL . '/index.php?url=admin-inventory-detail&id=' . $receiptId);
             return;
         }
@@ -212,17 +225,35 @@ class AdminInventoryController extends Controller{
         ]);
     }
 
+// Trong AdminInventoryController.php - method update()
     public function update(): void {
         $this->requireAdmin();
         $id      = (int)($_GET['id'] ?? 0);
         $receipt = InventoryModel::getImportById($id);
+        
+        // Lấy ngày từ form, nếu không có thì giữ nguyên
+        $importDate = $_POST['import_date'] ?? $receipt['created_at'];
+        
+        // Nếu có ngày, chuyển đổi định dạng
+        if(!empty($importDate)){
+            // Nếu chỉ có ngày (Y-m-d) thì thêm giờ mặc định 00:00:00
+            if(strlen($importDate) == 10) {
+                $importDate = $importDate . ' 00:00:00';
+            }
+            $importDate = date('Y-m-d H:i:s', strtotime($importDate));
+        } else {
+            $importDate = $receipt['created_at'];
+        }
+        
         if (!$receipt || $receipt['status'] !== 'pending') {
             die("Không thể cập nhật phiếu!");
         }
+        
         $productIds = $_POST['product_id'] ?? [];
         $sizeIds    = $_POST['size_id'] ?? [];
         $prices     = $_POST['price'] ?? [];
         $qtys       = $_POST['quantity'] ?? [];
+        
         $items = [];
         foreach ($productIds as $i => $productId) {
             if (empty($productId) || empty($sizeIds[$i])) continue;
@@ -233,9 +264,16 @@ class AdminInventoryController extends Controller{
                 'quantity'   => (int)$qtys[$i],
             ];
         }
+        
         if (!empty($items)) {
-            InventoryModel::updateImport($id, $items);
+            // Cập nhật cả ngày nhập
+            InventoryModel::updateImport($id, $items, $importDate);
+            
+            // Cập nhật cả ghi chú
+            $note = $_POST['note'] ?? '';
+            InventoryModel::updateImportNote($id, $note);
         }
+        
         $this->redirect(BASE_URL . '/index.php?url=admin-inventory-detail&id=' . $id . '&updated=1');
     }
 
