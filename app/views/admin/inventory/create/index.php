@@ -71,9 +71,6 @@
                                                 <?php foreach ($sizes as $s): ?>
                                                     <option value="<?= $s['size_id'] ?>">
                                                         <?= htmlspecialchars($s['size']) ?>
-                                                        <?php if ($s['price_adjust'] > 0): ?>
-                                                            (+<?= number_format($s['price_adjust'], 0, ',', '.') ?>đ)
-                                                        <?php endif; ?>
                                                     </option>
                                                 <?php endforeach; ?>
                                             </select>
@@ -137,7 +134,7 @@
                                 </div>
                             </div>
                             
-                            <button type="button" id="btnAddRow" class=""
+                            <button type="button" id="btnAddRow" class="btn btn-sm btn-outline-primary"
                                     style="border-radius:25px">
                                 + Thêm dòng
                             </button>
@@ -427,12 +424,7 @@ async function loadSizes(productId, row) {
         const opt   = document.createElement('option');
         opt.value   = s.size_id;
         opt.dataset.stock = s.stock ?? 0;
-        let label   = s.size;
-        if (s.price_adjust > 0) {
-            label += ` (+${Number(s.price_adjust).toLocaleString('vi-VN')}đ)`;
-        }
-        label += ` [Tồn: ${s.stock ?? 0}]`;
-        opt.textContent = label;
+        opt.textContent = s.size;
         if (!s.stock || s.stock <= 0) opt.style.color = '#aaa';
         sizeSelect.appendChild(opt);
     });
@@ -646,7 +638,7 @@ function addNewRow() {
         (function(){
             const opt = document.createElement('option');
             opt.value = <?= $s['size_id'] ?>;
-            opt.textContent = <?= json_encode($s['size'] . ($s['price_adjust'] > 0 ? ' (+' . number_format($s['price_adjust'], 0, ',', '.') . 'đ)' : '')) ?>;
+            opt.textContent = <?= json_encode($s['size']) ?>;
             sizeSelect.appendChild(opt);
         })();
         <?php endforeach; ?>
@@ -769,7 +761,7 @@ function openModal() {
                     (function(){
                         const opt = document.createElement('option');
                         opt.value = <?= $s['size_id'] ?>;
-                        opt.textContent = <?= json_encode($s['size'] . ($s['price_adjust'] > 0 ? ' (+' . number_format($s['price_adjust'], 0, ',', '.') . 'đ)' : '')) ?>;
+                        opt.textContent = <?= json_encode($s['size']) ?>;
                         sizeSelect.appendChild(opt);
                     })();
                     <?php endforeach; ?>

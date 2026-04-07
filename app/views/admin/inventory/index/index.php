@@ -424,10 +424,10 @@
                                                 <?= !empty($log['created_at']) ? date('d/m/Y H:i', strtotime($log['created_at'])) : '—' ?>
                                             </td>
                                             <td class="center">
-                                                <?php if ($log['type'] === 'export' && !empty($log['order_id'])): ?>
+                                                <?php if (!empty($log['order_id'])): ?>
                                                     <a href="<?= BASE_URL ?>/index.php?url=admin-orders-detail&id=<?= (int)$log['order_id'] ?>"
                                                         class="ui-btn-outline sm">📦 Đơn hàng</a>
-                                                <?php elseif ($log['type'] === 'import' && !empty($log['receipt_id'])): ?>
+                                                <?php elseif (!empty($log['receipt_id'])): ?>   
                                                     <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-detail&id=<?= (int)$log['receipt_id'] ?>"
                                                         class="ui-btn sm">📥 Phiếu nhập</a>
                                                 <?php else: ?>
@@ -487,10 +487,10 @@
                                                 <?= !empty($log['created_at']) ? date('d/m/Y H:i', strtotime($log['created_at'])) : '—' ?>
                                             </td>
                                             <td class="center">
-                                                <?php if ($log['type'] === 'export' && !empty($log['order_id'])): ?>
+                                                <?php if (!empty($log['order_id'])): ?>
                                                     <a href="<?= BASE_URL ?>/index.php?url=admin-orders-detail&id=<?= (int)$log['order_id'] ?>"
                                                         class="ui-btn-outline sm">📦 Đơn</a>
-                                                <?php elseif ($log['type'] === 'import' && !empty($log['receipt_id'])): ?>
+                                                <?php elseif (!empty($log['receipt_id'])): ?>
                                                     <a href="<?= BASE_URL ?>/index.php?url=admin-inventory-detail&id=<?= (int)$log['receipt_id'] ?>"
                                                         class="ui-btn sm">📥 Phiếu</a>
                                                 <?php else: ?>

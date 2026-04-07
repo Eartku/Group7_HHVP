@@ -309,7 +309,7 @@ class InventoryModel extends Model {
             (order_id, product_id, size_id, type, quantity, import_price, note)
             VALUES (?, ?, ?, 'export', ?, ?, ?)
         ");
-        $note = "Xuất kho cho đơn hàng #$orderId";
+        $note = "Xuất kho cho đơn hàng #P" . str_pad($orderId, 3, '0', STR_PAD_LEFT);
         $stmt->bind_param("iiidis",
             $orderId,
             $item['product_id'],
@@ -604,7 +604,7 @@ class InventoryModel extends Model {
         // Nếu threshold = 0: lấy sản phẩm hết hàng (quantity = 0)
         // Nếu threshold > 0: lấy sản phẩm có quantity >= 0 và quantity < threshold
         if ($threshold > 0) {
-            $wheres = ['(i.quantity >= 0 AND i.quantity < ?)'];
+             $wheres = ['(IFNULL(i.quantity, 0) < ?)'];
             $params = [$threshold];
             $types  = 'i';
         } else {
@@ -667,7 +667,7 @@ class InventoryModel extends Model {
         $db = Database::getInstance();
 
         if ($threshold > 0) {
-            $wheres = ['(i.quantity >= 0 AND i.quantity < ?)'];
+            $wheres = ['(IFNULL(i.quantity, 0) < ?)'];
             $params = [$threshold];
             $types  = 'i';
         } else {
@@ -778,7 +778,7 @@ class InventoryModel extends Model {
                 $stmt2->execute();
 
                 // Ghi log trả hàng
-                $note = "Trả hàng về kho do hủy đơn #$orderId";
+               $note = 'Trả hàng về kho do hủy đơn #P' . str_pad($orderId, 3, '0', STR_PAD_LEFT);
                 $stmt3 = $db->prepare("
                     INSERT INTO inventory_logs
                         (order_id, product_id, size_id, type, quantity, import_price, note)
