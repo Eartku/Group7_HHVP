@@ -29,7 +29,6 @@ if ($noLayout) {
     <?= $content ?? '' ?>
     <?php if ($appendix): ?>
         <?php include 'partials/section.php'; ?>
-        <?php include 'partials/popular.php'; ?>
         <?php include 'partials/news.php'; ?>
     <?php endif; ?>
     <?php if (!$noHeader): ?>

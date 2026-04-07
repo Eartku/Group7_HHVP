@@ -187,4 +187,42 @@ class OrderModel extends Model {
         $stmt->bind_param("si", $status, $orderId);
         return $stmt->execute();
     }
+    /**
+ * Lấy danh sách unique của 1 phần trong địa chỉ (ngăn cách bởi dấu phẩy).
+ * $part: 0 = số nhà/đường, 1 = phường/xã, 2 = quận/huyện, 3 = tỉnh/thành
+ */
+    public static function getDistinctAddressParts(int $part): array {
+        $db     = Database::getInstance();
+        // TRIM + SUBSTRING_INDEX lấy phần thứ $part (đếm từ 0)
+        // VD: address = "12 Lê Lợi, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh"
+        //   part=1 → "Phường Bến Nghé"
+        $offset = $part + 1;          // SUBSTRING_INDEX dùng số dương đếm từ đầu
+        $result = $db->query("
+            SELECT DISTINCT
+                TRIM(
+                    SUBSTRING_INDEX(
+                        SUBSTRING_INDEX(address, ',', $offset),
+                        ',', -1
+                    )
+                ) AS part
+            FROM orders
+            WHERE address IS NOT NULL
+            AND address != ''
+            AND LENGTH(address) - LENGTH(REPLACE(address, ',', '')) >= " . ($offset - 1) . "
+            ORDER BY part ASC
+        ");
+        if (!$result) return [];
+        return array_column($result->fetch_all(MYSQLI_ASSOC), 'part');
+    }
+
+    /**
+     * Trả về 3 mảng options cho dropdowns: phường, quận, tỉnh.
+     */
+    public static function getAddressFilterOptions(): array {
+        return [
+            'wards'     => self::getDistinctAddressParts(1),
+            'districts' => self::getDistinctAddressParts(2),
+            'provinces' => self::getDistinctAddressParts(3),
+        ];
+    }
 }

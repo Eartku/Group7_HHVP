@@ -1,6 +1,13 @@
 <?php
 $appendix = false;
 $pageTitle = 'Hồ sơ cá nhân';
+
+// Tách địa chỉ đã lưu thành các phần để pre-fill dropdown
+// Format: "số nhà/đường, phường, quận, tỉnh"
+$addrRaw   = $user['address'] ?? '';
+$addrParts = array_map('trim', explode(',', $addrRaw));
+// Đảm bảo luôn có đủ 4 phần (tránh undefined index)
+while (count($addrParts) < 4) $addrParts[] = '';
 ?>
 <div class="profile-page">
     <div style="max-width:900px;margin:0 auto;padding:0 20px">
@@ -95,7 +102,9 @@ $pageTitle = 'Hồ sơ cá nhân';
                     </div>
                     <div class="info-text">
                         <div class="lbl">Địa chỉ</div>
-                        <div class="val"><?= htmlspecialchars($user['address'] ?? '—') ?></div>
+                        <div class="val" id="sidebarAddress">
+                            <?= htmlspecialchars($addrRaw ?: '—') ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -171,11 +180,53 @@ $pageTitle = 'Hồ sơ cá nhân';
                                    placeholder="Nhập số điện thoại">
                         </div>
 
+                        <!-- ── ĐỊA CHỈ — 4 phần tách biệt ── -->
                         <div class="field-group">
-                            <label class="ui-label">Địa chỉ</label>
-                            <textarea name="address" class="ui-input textarea-field"
-                                      placeholder="Nhập địa chỉ"><?= htmlspecialchars($user['address'] ?? '') ?></textarea>
+                            <label class="ui-label">Số nhà / Tên đường</label>
+                            <input type="text" id="addr-street" class="ui-input"
+                                   placeholder="VD: 12 Lê Lợi"
+                                   oninput="joinAddress()"
+                                   value="<?= htmlspecialchars($addrParts[0]) ?>">
                         </div>
+
+                        <div class="field-group">
+                            <label class="ui-label">Tỉnh / Thành phố</label>
+                            <div class="addr-select-wrap">
+                                <select id="addr-province" class="ui-input addr-select"
+                                        onchange="loadDistricts()">
+                                    <option value="">— Đang tải... —</option>
+                                </select>
+                                <span class="addr-spinner" id="spin-province"></span>
+                            </div>
+                        </div>
+
+                        <div class="addr-two-col">
+                            <div class="field-group">
+                                <label class="ui-label">Quận / Huyện</label>
+                                <div class="addr-select-wrap">
+                                    <select id="addr-district" class="ui-input addr-select"
+                                            onchange="loadWards()" disabled>
+                                        <option value="">— Chọn quận / huyện —</option>
+                                    </select>
+                                    <span class="addr-spinner" id="spin-district"></span>
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <label class="ui-label">Phường / Xã</label>
+                                <div class="addr-select-wrap">
+                                    <select id="addr-ward" class="ui-input addr-select"
+                                            onchange="joinAddress()" disabled>
+                                        <option value="">— Chọn phường / xã —</option>
+                                    </select>
+                                    <span class="addr-spinner" id="spin-ward"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hidden field gửi server — giữ nguyên name="address" -->
+                        <input type="hidden" name="address" id="addr-full"
+                               value="<?= htmlspecialchars($addrRaw) ?>">
+                        <!-- ── /ĐỊA CHỈ ── -->
 
                         <button type="submit" name="update_profile" class="ui-btn">
                             Lưu thay đổi
@@ -225,9 +276,9 @@ $pageTitle = 'Hồ sơ cá nhân';
                 </div>
             </div>
 
-        </div>
-    </div>
-</div>
+        </div><!-- /profile-right -->
+    </div><!-- /profile-grid -->
+</div><!-- /profile-page -->
 
 <!-- ── Modal xác nhận xóa ảnh ── -->
 <div class="modal-overlay" id="delModal">
@@ -241,8 +292,200 @@ $pageTitle = 'Hồ sơ cá nhân';
     </div>
 </div>
 
+<style>
+/* ── Địa chỉ dropdown ── */
+.addr-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+@media (max-width: 480px) {
+    .addr-two-col { grid-template-columns: 1fr; }
+}
+.addr-select-wrap {
+    position: relative;
+}
+.addr-select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 32px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7c8a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    cursor: pointer;
+}
+.addr-select:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+.addr-spinner {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(128,128,128,.2);
+    border-top-color: #6b7c8a;
+    border-radius: 50%;
+    animation: addrSpin .6s linear infinite;
+    display: none;
+    pointer-events: none;
+}
+@keyframes addrSpin { to { transform: translateY(-50%) rotate(360deg); } }
+</style>
+
 <script>
-/* ── Toggle password visibility ── */
+/* ═══════════════════════════════════════════════
+   Địa chỉ đã lưu — truyền từ PHP sang JS
+   ═══════════════════════════════════════════════ */
+const SAVED = {
+    street:   <?= json_encode($addrParts[0]) ?>,
+    ward:     <?= json_encode($addrParts[1]) ?>,
+    district: <?= json_encode($addrParts[2]) ?>,
+    province: <?= json_encode($addrParts[3]) ?>,
+};
+
+const PROV_API = 'https://provinces.open-api.vn/api';
+
+/* ── Helpers ── */
+function addrSpinner(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = show ? 'inline-block' : 'none';
+}
+
+function resetSelect(id, label) {
+    const el = document.getElementById(id);
+    el.innerHTML = `<option value="">${label}</option>`;
+    el.disabled  = true;
+}
+
+function getSelText(id) {
+    const el  = document.getElementById(id);
+    const txt = el.options[el.selectedIndex]?.text || '';
+    return txt.startsWith('—') ? '' : txt;
+}
+
+/* Ghép 4 phần → hidden field + cập nhật sidebar */
+function joinAddress() {
+    const parts = [
+        document.getElementById('addr-street').value.trim(),
+        getSelText('addr-ward'),
+        getSelText('addr-district'),
+        getSelText('addr-province'),
+    ].filter(Boolean);
+    const full = parts.join(', ');
+    document.getElementById('addr-full').value = full;
+
+    // Đồng bộ text hiển thị ở left panel
+    const sidebar = document.getElementById('sidebarAddress');
+    if (sidebar) sidebar.textContent = full || '—';
+}
+
+/* So khớp tên tỉnh/quận/phường (bỏ qua khoảng trắng thừa, không phân biệt hoa/thường) */
+function namMatch(a, b) {
+    return a.trim().toLowerCase() === b.trim().toLowerCase();
+}
+
+/* ── Load tỉnh/thành, tự restore giá trị đã lưu ── */
+async function loadProvinces() {
+    addrSpinner('spin-province', true);
+    try {
+        const data = await fetch(`${PROV_API}/p/`).then(r => r.json());
+        const sel  = document.getElementById('addr-province');
+        sel.innerHTML = '<option value="">— Chọn tỉnh / thành phố —</option>';
+        let savedCode = null;
+
+        data.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value       = p.code;
+            opt.textContent = p.name;
+            if (SAVED.province && namMatch(p.name, SAVED.province)) {
+                opt.selected = true;
+                savedCode    = p.code;
+            }
+            sel.appendChild(opt);
+        });
+        sel.disabled = false;
+
+        // Cascade: nếu có tỉnh đã lưu → load quận
+        if (savedCode) await loadDistricts(true);
+
+    } catch (e) {
+        document.getElementById('addr-province').innerHTML =
+            '<option value="">Lỗi tải dữ liệu — thử lại</option>';
+    } finally {
+        addrSpinner('spin-province', false);
+    }
+}
+
+/* ── Load quận/huyện ── */
+async function loadDistricts(isRestore = false) {
+    const code = document.getElementById('addr-province').value;
+    resetSelect('addr-district', '— Chọn quận / huyện —');
+    resetSelect('addr-ward',     '— Chọn phường / xã —');
+    joinAddress();
+    if (!code) return;
+
+    addrSpinner('spin-district', true);
+    try {
+        const data = await fetch(`${PROV_API}/p/${code}?depth=2`).then(r => r.json());
+        const sel  = document.getElementById('addr-district');
+        sel.innerHTML = '<option value="">— Chọn quận / huyện —</option>';
+        let savedCode = null;
+
+        (data.districts || []).forEach(d => {
+            const opt = document.createElement('option');
+            opt.value       = d.code;
+            opt.textContent = d.name;
+            if (isRestore && SAVED.district && namMatch(d.name, SAVED.district)) {
+                opt.selected = true;
+                savedCode    = d.code;
+            }
+            sel.appendChild(opt);
+        });
+        sel.disabled = false;
+
+        if (savedCode) await loadWards(true);
+
+    } catch (e) { /* giữ disabled */ }
+    finally { addrSpinner('spin-district', false); }
+}
+
+/* ── Load phường/xã ── */
+async function loadWards(isRestore = false) {
+    const code = document.getElementById('addr-district').value;
+    resetSelect('addr-ward', '— Chọn phường / xã —');
+    joinAddress();
+    if (!code) return;
+
+    addrSpinner('spin-ward', true);
+    try {
+        const data = await fetch(`${PROV_API}/d/${code}?depth=2`).then(r => r.json());
+        const sel  = document.getElementById('addr-ward');
+        sel.innerHTML = '<option value="">— Chọn phường / xã —</option>';
+
+        (data.wards || []).forEach(w => {
+            const opt = document.createElement('option');
+            opt.value       = w.code;
+            opt.textContent = w.name;
+            if (isRestore && SAVED.ward && namMatch(w.name, SAVED.ward)) {
+                opt.selected = true;
+            }
+            sel.appendChild(opt);
+        });
+        sel.disabled = false;
+
+        // Sau khi restore xong phường → cập nhật hidden + sidebar
+        if (isRestore) joinAddress();
+
+    } catch (e) { /* giữ disabled */ }
+    finally { addrSpinner('spin-ward', false); }
+}
+
+/* ═══════════════════════════════════════════════
+   Toggle password visibility
+   ═══════════════════════════════════════════════ */
 document.querySelectorAll('.toggle-pwd').forEach(btn => {
     btn.addEventListener('click', () => {
         const id    = btn.dataset.target;
@@ -250,57 +493,49 @@ document.querySelectorAll('.toggle-pwd').forEach(btn => {
         const ico   = document.getElementById('ico-' + id);
         const isHidden = input.type === 'password';
         input.type = isHidden ? 'text' : 'password';
-        ico.src = isHidden
+        ico.src    = isHidden
             ? '<?= BASE_URL ?>/images/show.svg'
             : '<?= BASE_URL ?>/images/hide.svg';
     });
 });
 
-/* ── Preview ảnh khi chọn file mới ── */
+/* ═══════════════════════════════════════════════
+   Preview avatar khi chọn file mới
+   ═══════════════════════════════════════════════ */
 document.getElementById('avatarFileInput').addEventListener('change', function () {
     if (!this.files || !this.files[0]) return;
     const reader = new FileReader();
     reader.onload = e => {
         document.getElementById('avatarPreview').src = e.target.result;
-        // Có ảnh mới → bật nút xóa, tắt cờ delete
         document.getElementById('avatarWrap').classList.remove('is-default');
         document.getElementById('deleteAvatarField').value = '0';
     };
     reader.readAsDataURL(this.files[0]);
 });
 
-/* ── Nút xóa ảnh → mở modal ── */
+/* ═══════════════════════════════════════════════
+   Modal xóa avatar
+   ═══════════════════════════════════════════════ */
 document.getElementById('btnDelAvatar').addEventListener('click', () => {
     document.getElementById('delModal').classList.add('active');
 });
-
 document.getElementById('modalCancel').addEventListener('click', () => {
     document.getElementById('delModal').classList.remove('active');
 });
-
 document.getElementById('modalConfirm').addEventListener('click', () => {
-    // Đặt flag xóa
     document.getElementById('deleteAvatarField').value = '1';
-
-    // Xóa file đã chọn (nếu có)
-    const fileInput = document.getElementById('avatarFileInput');
-    fileInput.value = '';
-
-    // Đổi preview về avatar mặc định
+    document.getElementById('avatarFileInput').value   = '';
     document.getElementById('avatarPreview').src = '<?= BASE_URL ?>/images/avatar.svg';
-
-    // Ẩn nút xóa
     document.getElementById('avatarWrap').classList.add('is-default');
-
-    // Đóng modal
     document.getElementById('delModal').classList.remove('active');
-
-    // Submit form luôn
     document.getElementById('profileForm').submit();
 });
-
-/* ── Click overlay ngoài modal để đóng ── */
 document.getElementById('delModal').addEventListener('click', function (e) {
     if (e.target === this) this.classList.remove('active');
 });
+
+/* ═══════════════════════════════════════════════
+   Khởi động
+   ═══════════════════════════════════════════════ */
+loadProvinces();
 </script>

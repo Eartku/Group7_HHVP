@@ -22,7 +22,7 @@
         <div class="ui-card-body">
             <form method="GET" action="<?= BASE_URL ?>/index.php">
                 <input type="hidden" name="url" value="admin-orders">
-                <div class="d-flex gap-2 flex-wrap">
+                <disv class="d-flex gap-2 flex-wrap">
                     <div class="ui-input-group flex-grow-1">
                         <input type="text" name="search"
                                value="<?= htmlspecialchars($search ?? '') ?>"
@@ -35,6 +35,16 @@
                             </svg>
                         </button>
                     </div>
+                    <!-- Lọc theo phường / xã -->
+                <select name="ward" class="ui-input" style="width:auto;min-width:160px">
+                    <option value="">Tất cả phường/xã</option>
+                    <?php foreach ($address_options['wards'] as $w): ?>
+                    <option value="<?= htmlspecialchars($w) ?>"
+                            <?= ($ward_filter ?? '') === $w ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($w) ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
                     <select name="status" class="ui-input" style="width:auto;min-width:150px">
                         <option value="">Tất cả trạng thái</option>
                         <?php

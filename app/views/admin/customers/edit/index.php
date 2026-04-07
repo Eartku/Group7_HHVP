@@ -48,12 +48,9 @@
         <div class="d-flex justify-content-center gap-2 mt-3">
             <?php
             $statuses = [
-                'active'   => ['label' => 'Hoạt động', 'cls' => 'ui-btn sm',
-                               'style' => ''],
-                'warning'  => ['label' => 'Cảnh báo',  'cls' => 'ui-btn sm',
-                               'style' => 'background:linear-gradient(135deg,#f7c948,#d97706)'],
-                'inactive' => ['label' => 'Bị khóa',   'cls' => 'ui-btn sm',
-                               'style' => 'background:linear-gradient(135deg,#f76f8e,#db2777)'],
+                'active'   => ['label' => 'Hoạt động', 'cls' => 'ui-btn sm', 'style' => ''],
+                'warning'  => ['label' => 'Cảnh báo',  'cls' => 'ui-btn sm', 'style' => 'background:linear-gradient(135deg,#f7c948,#d97706)'],
+                'inactive' => ['label' => 'Bị khóa',   'cls' => 'ui-btn sm', 'style' => 'background:linear-gradient(135deg,#f76f8e,#db2777)'],
             ];
             foreach ($statuses as $val => $cfg):
                 $isActive = ($user['status'] === $val);
@@ -112,7 +109,7 @@
                             <img id="eyeIcon"
                                  src="<?= BASE_URL ?>/images/show.svg"
                                  alt="toggle"
-                                 style ='background-color:green;width:25px;height:25px'>
+                                 style='background-color:green;width:25px;height:25px'>
                         </button>
                     </div>
                 </div>
@@ -131,12 +128,55 @@
                            placeholder="Nhập số điện thoại">
                 </div>
 
+                <!-- ── Địa chỉ: 4 phần tách riêng, join qua JS ── -->
                 <div class="ui-field">
-                    <label class="ui-label">Địa chỉ</label>
-                    <input type="text" name="address" class="ui-input"
-                           value="<?= htmlspecialchars($user['address'] ?? '') ?>"
-                           placeholder="Nhập địa chỉ">
+                    <label class="ui-label">Số nhà / Tên đường</label>
+                    <input type="text" id="addr-street" class="ui-input"
+                           placeholder="VD: 12 Lê Lợi"
+                           oninput="joinAddress()">
                 </div>
+
+                <div class="ui-field">
+                    <label class="ui-label">Tỉnh / Thành phố</label>
+                    <div style="position:relative">
+                        <select id="addr-province" class="ui-input"
+                                onchange="loadDistricts()"
+                                style="appearance:none;-webkit-appearance:none;padding-right:32px;cursor:pointer">
+                            <option value="">— Đang tải... —</option>
+                        </select>
+                        <span id="spin-province" class="addr-spinner"></span>
+                    </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                    <div class="ui-field">
+                        <label class="ui-label">Quận / Huyện</label>
+                        <div style="position:relative">
+                            <select id="addr-district" class="ui-input"
+                                    onchange="loadWards()" disabled
+                                    style="appearance:none;-webkit-appearance:none;padding-right:32px;cursor:pointer">
+                                <option value="">— Chọn quận / huyện —</option>
+                            </select>
+                            <span id="spin-district" class="addr-spinner"></span>
+                        </div>
+                    </div>
+                    <div class="ui-field">
+                        <label class="ui-label">Phường / Xã</label>
+                        <div style="position:relative">
+                            <select id="addr-ward" class="ui-input"
+                                    onchange="joinAddress()" disabled
+                                    style="appearance:none;-webkit-appearance:none;padding-right:32px;cursor:pointer">
+                                <option value="">— Chọn phường / xã —</option>
+                            </select>
+                            <span id="spin-ward" class="addr-spinner"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hidden field thực sự submit lên server -->
+                <input type="hidden" name="address" id="addr-full"
+                       value="<?= htmlspecialchars($user['address'] ?? '') ?>">
+                <!-- ── end địa chỉ ── -->
 
                 <div class="ui-field">
                     <label class="ui-label">Ngày tham gia</label>
@@ -160,9 +200,139 @@
     </div>
 </div>
 
+<style>
+.addr-spinner {
+    display: none;
+    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+    width: 14px; height: 14px;
+    border: 2px solid #ddd; border-top-color: #3b82f6;
+    border-radius: 50%; animation: addrSpin .6s linear infinite;
+}
+@keyframes addrSpin { to { transform: translateY(-50%) rotate(360deg); } }
+</style>
+
 <script>
+const ADDR_API = 'https://provinces.open-api.vn/api';
+
+/* ── Helpers ── */
+function addrSpinner(id, show) {
+    document.getElementById(id).style.display = show ? 'block' : 'none';
+}
+function resetSelect(id, label) {
+    const el = document.getElementById(id);
+    el.innerHTML = `<option value="">${label}</option>`;
+    el.disabled = true;
+}
+function getText(id) {
+    const el  = document.getElementById(id);
+    const txt = el.options[el.selectedIndex]?.text || '';
+    return txt.startsWith('—') ? '' : txt;
+}
+
+/* ── Join → hidden field ── */
+function joinAddress() {
+    const parts = [
+        document.getElementById('addr-street').value.trim(),
+        getText('addr-ward'),
+        getText('addr-district'),
+        getText('addr-province'),
+    ].filter(Boolean);
+    document.getElementById('addr-full').value = parts.join(', ');
+}
+
+/* ── Load tỉnh ── */
+async function loadProvinces() {
+    addrSpinner('spin-province', true);
+    try {
+        const data = await fetch(`${ADDR_API}/p/`).then(r => r.json());
+        const sel  = document.getElementById('addr-province');
+        sel.innerHTML = '<option value="">— Chọn tỉnh / thành phố —</option>';
+        data.forEach(p => sel.insertAdjacentHTML('beforeend',
+            `<option value="${p.code}">${p.name}</option>`));
+        sel.disabled = false;
+
+        // Nếu đã có địa chỉ cũ → parse và pre-fill
+        prefillAddress();
+    } catch(e) { console.error(e); }
+    finally { addrSpinner('spin-province', false); }
+}
+
+/* ── Chọn tỉnh → load quận ── */
+async function loadDistricts() {
+    const code = document.getElementById('addr-province').value;
+    resetSelect('addr-district', '— Chọn quận / huyện —');
+    resetSelect('addr-ward',     '— Chọn phường / xã —');
+    joinAddress();
+    if (!code) return;
+
+    addrSpinner('spin-district', true);
+    try {
+        const data = await fetch(`${ADDR_API}/p/${code}?depth=2`).then(r => r.json());
+        const sel  = document.getElementById('addr-district');
+        sel.innerHTML = '<option value="">— Chọn quận / huyện —</option>';
+        (data.districts || []).forEach(d => sel.insertAdjacentHTML('beforeend',
+            `<option value="${d.code}">${d.name}</option>`));
+        sel.disabled = false;
+    } catch(e) { console.error(e); }
+    finally { addrSpinner('spin-district', false); }
+}
+
+/* ── Chọn quận → load phường ── */
+async function loadWards() {
+    const code = document.getElementById('addr-district').value;
+    resetSelect('addr-ward', '— Chọn phường / xã —');
+    joinAddress();
+    if (!code) return;
+
+    addrSpinner('spin-ward', true);
+    try {
+        const data = await fetch(`${ADDR_API}/d/${code}?depth=2`).then(r => r.json());
+        const sel  = document.getElementById('addr-ward');
+        sel.innerHTML = '<option value="">— Chọn phường / xã —</option>';
+        (data.wards || []).forEach(w => sel.insertAdjacentHTML('beforeend',
+            `<option value="${w.code}">${w.name}</option>`));
+        sel.disabled = false;
+    } catch(e) { console.error(e); }
+    finally { addrSpinner('spin-ward', false); }
+}
+
+/* ── Pre-fill từ địa chỉ cũ (format: "đường, phường, quận, tỉnh") ── */
+async function prefillAddress() {
+    const existing = document.getElementById('addr-full').value.trim();
+    if (!existing) return;
+
+    const parts = existing.split(',').map(s => s.trim());
+    // parts[0]=đường, parts[1]=phường, parts[2]=quận, parts[3]=tỉnh
+    if (parts[0]) document.getElementById('addr-street').value = parts[0];
+
+    if (!parts[3] && !parts[2]) return; // không đủ thông tin để match
+
+    // Match tỉnh
+    const provSel = document.getElementById('addr-province');
+    const provOpt = Array.from(provSel.options).find(o => parts[3] && o.text === parts[3]);
+    if (provOpt) {
+        provSel.value = provOpt.value;
+        // Load quận rồi match
+        await loadDistricts();
+        const distSel = document.getElementById('addr-district');
+        const distOpt = Array.from(distSel.options).find(o => parts[2] && o.text === parts[2]);
+        if (distOpt) {
+            distSel.value = distOpt.value;
+            // Load phường rồi match
+            await loadWards();
+            const wardSel = document.getElementById('addr-ward');
+            const wardOpt = Array.from(wardSel.options).find(o => parts[1] && o.text === parts[1]);
+            if (wardOpt) wardSel.value = wardOpt.value;
+        }
+    }
+    joinAddress();
+}
+
+/* ── Toggle password ── */
 function togglePwd() {
     const input = document.getElementById('pwdInput');
-    input.type = input.type === 'password' ? 'text' : 'password';
+    input.type  = input.type === 'password' ? 'text' : 'password';
 }
+
+loadProvinces();
 </script>

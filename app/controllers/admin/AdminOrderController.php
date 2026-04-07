@@ -4,29 +4,38 @@ class AdminOrderController extends Controller {
     public function index(): void {
         $this->requireAdmin();
 
-        $search       = trim($_GET['search']      ?? '');
-        $status_filter = trim($_GET['status']     ?? '');
-        $start_date   = trim($_GET['start_date']  ?? '');
-        $end_date     = trim($_GET['end_date']    ?? '');
-        $current_page = max(1, (int)($_GET['page'] ?? 1));
-        $per_page     = 10;
+        $search          = trim($_GET['search']        ?? '');
+        $status_filter   = trim($_GET['status']        ?? '');
+        $start_date      = trim($_GET['start_date']    ?? '');
+        $end_date        = trim($_GET['end_date']       ?? '');
+        $ward_filter     = trim($_GET['ward']           ?? '');   // ← MỚI
+        $district_filter = trim($_GET['district']       ?? '');   // ← MỚI
+        $province_filter = trim($_GET['province']       ?? '');   // ← MỚI
+        $current_page    = max(1, (int)($_GET['page']   ?? 1));
+        $per_page        = 10;
 
         [$orders, $total] = $this->fetchOrders(
             $search, $status_filter, $start_date, $end_date,
+            $ward_filter, $district_filter, $province_filter,   // ← MỚI
             $per_page, ($current_page - 1) * $per_page
         );
 
-        $total_pages = max(1, (int)ceil($total / $per_page));
+        $total_pages     = max(1, (int)ceil($total / $per_page));
+        $address_options = OrderModel::getAddressFilterOptions(); // ← MỚI
 
         $this->adminView('admin/orders/index', [
-            'orders'        => $orders,
-            'total'         => $total,
-            'total_pages'   => $total_pages,
-            'current_page'  => $current_page,
-            'search'        => $search,
-            'status_filter' => $status_filter,
-            'start_date'    => $start_date,
-            'end_date'      => $end_date,
+            'orders'          => $orders,
+            'total'           => $total,
+            'total_pages'     => $total_pages,
+            'current_page'    => $current_page,
+            'search'          => $search,
+            'status_filter'   => $status_filter,
+            'start_date'      => $start_date,
+            'end_date'        => $end_date,
+            'ward_filter'     => $ward_filter,       // ← MỚI
+            'district_filter' => $district_filter,   // ← MỚI
+            'province_filter' => $province_filter,   // ← MỚI
+            'address_options' => $address_options,   // ← MỚI
         ]);
     }
 
@@ -76,6 +85,9 @@ class AdminOrderController extends Controller {
         string $status,
         string $start_date,
         string $end_date,
+        string $ward,        // ← MỚI
+        string $district,    // ← MỚI
+        string $province,    // ← MỚI
         int    $limit,
         int    $offset
     ): array {
@@ -85,7 +97,7 @@ class AdminOrderController extends Controller {
         $types  = '';
 
         if ($search !== '') {
-            $like    = '%' . $search . '%';
+            $like     = '%' . $search . '%';
             $wheres[] = '(o.id LIKE ? OR o.fullname LIKE ? OR o.email LIKE ?)';
             array_push($params, $like, $like, $like);
             $types   .= 'sss';
@@ -106,6 +118,25 @@ class AdminOrderController extends Controller {
             $types   .= 's';
         }
 
+        // ── Filter địa chỉ: so sánh TRIM(SUBSTRING_INDEX(...)) ──────────────
+        // address = "số nhà/đường, phường, quận, tỉnh"  (index 1, 2, 3)
+        if ($ward !== '') {
+            $wheres[] = "TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(o.address,',',2),',',-1)) = ?";
+            $params[] = $ward;
+            $types   .= 's';
+        }
+        if ($district !== '') {
+            $wheres[] = "TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(o.address,',',3),',',-1)) = ?";
+            $params[] = $district;
+            $types   .= 's';
+        }
+        if ($province !== '') {
+            $wheres[] = "TRIM(SUBSTRING_INDEX(o.address,',',-1)) = ?";
+            $params[] = $province;
+            $types   .= 's';
+        }
+        // ────────────────────────────────────────────────────────────────────
+
         $where_sql = $wheres ? 'WHERE ' . implode(' AND ', $wheres) : '';
 
         // Count
@@ -114,7 +145,7 @@ class AdminOrderController extends Controller {
         $stmt->execute();
         $total = (int)$stmt->get_result()->fetch_assoc()['total'];
 
-        // Data
+        // Data  (phần SELECT giữ nguyên)
         $sql = "
             SELECT
                 o.id, o.fullname, o.email, o.phone,
