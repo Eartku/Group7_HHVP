@@ -455,7 +455,6 @@
                                             <th>Size</th>
                                             <th class="center">Loại</th>
                                             <th class="right">Số lượng</th>
-                                            <th>Giá nhập</th>
                                             <th>Ghi chú</th>
                                             <th>Thời gian</th>
                                             <th class="center">Chi tiết</th>
@@ -482,7 +481,7 @@
                                                 <?= $log['type'] === 'import' ? '+' : '-' ?>
                                                 <?= number_format((int)$log['quantity'], 0, ',', '.') ?>
                                             </td>
-                                            <td class="right"><?= number_format($log['import_price'] ?? 0) ?>đ</td>
+                                            
                                             <td class="muted" style="font-size:13px"><?= htmlspecialchars($log['note'] ?? '—') ?></td>
                                             <td class="muted" style="font-size:13px">
                                                 <?= !empty($log['created_at']) ? date('d/m/Y H:i', strtotime($log['created_at'])) : '—' ?>

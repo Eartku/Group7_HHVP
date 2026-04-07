@@ -782,7 +782,7 @@ class InventoryModel extends Model {
                 $stmt3 = $db->prepare("
                     INSERT INTO inventory_logs
                         (order_id, product_id, size_id, type, quantity, import_price, note)
-                    VALUES (?, ?, ?, 'return', ?, ?, ?)
+                    VALUES (?, ?, ?, 'import', ?, ?, ?)
                 ");
                 $stmt3->bind_param(
                     "iiidds",

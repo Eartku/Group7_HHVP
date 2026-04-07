@@ -98,7 +98,7 @@ class OrderModel extends Model {
         // Kiểm tra đơn hợp lệ + lock
         $stmt = $db->prepare("
             SELECT id, status FROM orders
-            WHERE id = ? AND user_id = ? AND status = 'processing'
+            WHERE id = ? AND user_id = ? AND (status = 'processing' OR status = 'processed')
             FOR UPDATE
         ");
         $stmt->bind_param("ii", $orderId, $userId);
@@ -143,7 +143,7 @@ class OrderModel extends Model {
             $stmt5 = $db->prepare("
                 INSERT INTO inventory_logs
                     (order_id, product_id, size_id, type, quantity, import_price, note)
-                VALUES (?, ?, ?, 'return', ?, ?, ?)
+                VALUES (?, ?, ?, 'import', ?, ?, ?)
             ");
             $stmt5->bind_param("iiidds",
                 $orderId,
@@ -165,7 +165,6 @@ class OrderModel extends Model {
         return false;
     }
 }
-
     /**
      * Trả về badge CSS class và label theo status.
      */

@@ -133,7 +133,7 @@
                         </span>
                     </div>
 
-                    <?php if ($order['status'] === 'processing'): ?>
+                    <?php if ($order['status'] === 'processing' || $order['status'] === 'processed'): ?>
                     <form method="POST"
                           action="<?= BASE_URL ?>/index.php?url=orders-detail&id=<?= (int)$order['id'] ?>"
                           onsubmit="return confirm('Bạn có chắc muốn hủy đơn hàng này?')">

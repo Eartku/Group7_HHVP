@@ -87,6 +87,7 @@ class CheckoutModel {
                         (order_id, product_id, size_id, type, quantity, import_price, note)
                     VALUES (?, ?, ?, 'export', ?, ?, ?)
                 ");
+                
                 $stmt4->bind_param("iiiids",   // ✅ i=order_id, i=product_id, i=size_id, i=quantity, d=avgPrice, s=note
                     $orderId,
                     $item['product_id'],
