@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 06, 2026 lúc 01:29 PM
+-- Thời gian đã tạo: Th4 08, 2026 lúc 04:23 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -39,9 +39,10 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 3, '2026-03-20 10:28:37', '2026-03-20 10:28:37'),
 (2, 9, '2026-03-20 15:53:47', '2026-03-20 15:53:47'),
-(3, 12, '2026-03-27 19:35:57', '2026-03-27 19:35:57');
+(4, 14, '2026-04-08 09:05:38', '2026-04-08 09:05:38'),
+(5, 17, '2026-04-05 09:10:48', '2026-04-05 09:10:48'),
+(6, 18, '2026-04-04 09:17:51', '2026-04-04 09:17:51');
 
 -- --------------------------------------------------------
 
@@ -57,6 +58,13 @@ CREATE TABLE `cart_items` (
   `quantity` int(11) NOT NULL DEFAULT 1,
   `price` decimal(12,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `cart_items`
+--
+
+INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `size_id`, `quantity`, `price`) VALUES
+(91, 2, 76, 3, 10, 14000.00);
 
 -- --------------------------------------------------------
 
@@ -101,28 +109,17 @@ CREATE TABLE `import_receipts` (
 --
 
 INSERT INTO `import_receipts` (`id`, `note`, `status`, `created_by`, `created_at`) VALUES
-(4, '', 'confirmed', 9, '2026-03-21 11:33:30'),
-(5, '', 'confirmed', 9, '2026-03-22 08:58:10'),
-(6, '', 'confirmed', 9, '2026-03-22 09:17:40'),
-(7, '', 'confirmed', 9, '2026-03-27 15:36:41'),
-(8, '', 'confirmed', 9, '2026-03-27 19:34:24'),
-(9, '', 'confirmed', 9, '2026-03-27 19:43:20'),
-(10, '', 'confirmed', 9, '2026-03-28 11:37:10'),
-(11, '', 'cancelled', 9, '2026-03-28 19:22:28'),
-(12, '', 'confirmed', 9, '2026-03-28 19:29:07'),
-(13, '', 'cancelled', 9, '2026-03-28 19:42:26'),
-(14, '', 'cancelled', 9, '2026-03-28 19:46:04'),
-(15, '', 'cancelled', 9, '2026-03-28 19:46:14'),
-(16, '', 'confirmed', 9, '2026-03-28 20:09:50'),
-(17, '', 'confirmed', 9, '2026-03-28 20:12:01'),
-(18, '', 'confirmed', 9, '2026-03-28 20:15:47'),
-(19, '', 'confirmed', 9, '2026-04-03 14:33:29'),
-(20, 'qqq', 'confirmed', 9, '2026-04-03 15:01:58'),
-(21, '', 'confirmed', 9, '2026-04-03 15:13:58'),
-(22, '', 'pending', 9, '2026-04-06 17:37:46'),
-(24, '', 'confirmed', 9, '2026-04-06 18:11:00'),
-(25, '', 'cancelled', 9, '2026-04-07 18:12:00'),
-(26, '', 'pending', 9, '2026-04-06 18:24:00');
+(32, 'nhập vào ngày 28/03/2026', 'confirmed', 9, '2026-03-28 00:00:00'),
+(33, 'nhập ngày 29/03/2026', 'confirmed', 9, '2026-03-29 00:00:00'),
+(34, 'nhập vào ngày 30/03/2026', 'confirmed', 9, '2026-03-30 00:00:00'),
+(35, 'nhập vào ngày  31/03/2026', 'confirmed', 9, '2026-03-31 00:00:00'),
+(36, 'nhập vào ngày  01/04/2026', 'confirmed', 9, '2026-04-01 00:00:00'),
+(37, 'nhập vào ngày  02/04/2026', 'confirmed', 9, '2026-04-02 00:00:00'),
+(38, 'nhập vào ngày 03/04/2026', 'pending', 9, '2026-04-03 00:00:00'),
+(39, 'nhập vào ngày 03/04/2026', 'confirmed', 9, '2026-04-03 00:00:00'),
+(40, 'nhập vào ngày 04/04/2026', 'confirmed', 9, '2026-04-04 00:00:00'),
+(41, 'nhập vào ngày 05/04/2026', 'confirmed', 9, '2026-04-05 00:00:00'),
+(42, 'nhập vào ngày 06/04/2026', 'confirmed', 9, '2026-04-06 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -143,22 +140,27 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`id`, `product_id`, `size_id`, `quantity`, `avg_import_price`) VALUES
-(4, 73, 6, 0, 180714.29),
-(5, 76, 4, 226, 219874.30),
-(6, 62, 4, 1, 25000.00),
-(7, 60, 6, 24, 25000.00),
-(8, 60, 4, 123, 0.00),
-(9, 59, 4, 112, 12005.00),
-(10, 57, 6, 15, 123213.00),
-(11, 3, 5, 31, 123123.00),
-(12, 70, 4, 11, 12332.00),
-(13, 32, 6, 133, 12322.00),
-(14, 58, 4, 15, 24000.00),
-(15, 72, 5, 1, 68889887.00),
-(16, 69, 3, 10, 1000.00),
-(17, 57, 4, 1, 45646.00),
-(18, 62, 5, 1, 45456.00),
-(19, 61, 5, 1, 123000.00);
+(25, 76, 3, 140, 10333.33),
+(26, 75, 4, 30, 12000.00),
+(27, 74, 4, 20, 15000.00),
+(28, 72, 5, 10, 30000.00),
+(29, 73, 6, 80, 50000.00),
+(30, 71, 7, 200, 60000.00),
+(31, 23, 5, 35, 100000.00),
+(32, 24, 4, 25, 80000.00),
+(33, 22, 4, 60, 100000.00),
+(34, 21, 4, 20, 40000.00),
+(35, 20, 5, 200, 150000.00),
+(36, 19, 7, 150, 55000.00),
+(37, 18, 5, 130, 60000.00),
+(38, 47, 6, 25, 30000.00),
+(39, 46, 5, 50, 50000.00),
+(40, 48, 4, 5, 250000.00),
+(41, 45, 4, 15, 50000.00),
+(42, 44, 3, 45, 120000.00),
+(43, 43, 4, 30, 100000.00),
+(44, 42, 5, 250, 250000.00),
+(45, 41, 4, 150, 300000.00);
 
 -- --------------------------------------------------------
 
@@ -185,43 +187,38 @@ CREATE TABLE `inventory_logs` (
 --
 
 INSERT INTO `inventory_logs` (`id`, `receipt_id`, `order_id`, `product_id`, `size_id`, `type`, `quantity`, `import_price`, `note`, `created_at`, `updated_at`) VALUES
-(6, 4, NULL, 73, 6, 'import', 30, 100000.00, 'Nhập kho phiếu #4', '2026-03-21 11:33:30', '2026-03-21 11:33:30'),
-(7, NULL, 1, 73, 6, 'export', 2, 100000.00, 'Xuất kho cho đơn hàng #1', '2026-03-21 13:47:47', '2026-03-27 16:15:51'),
-(8, NULL, 2, 73, 6, 'export', 3, 100000.00, 'Xuất kho cho đơn hàng #2', '2026-03-21 13:48:27', '2026-03-27 16:18:11'),
-(9, NULL, 3, 73, 6, 'export', 3, 100000.00, 'Xuất kho cho đơn hàng #3', '2026-03-21 13:59:26', '2026-03-27 16:19:33'),
-(10, NULL, 4, 73, 6, 'export', 2, 100000.00, 'Xuất kho cho đơn hàng #4', '2026-03-21 16:54:54', '2026-03-27 16:19:57'),
-(11, NULL, 5, 73, 6, 'export', 2, 100000.00, 'Xuất kho cho đơn hàng #5', '2026-03-21 17:00:18', '2026-03-27 19:15:42'),
-(12, 5, NULL, 73, 6, 'import', 10, 300000.00, 'Nhập kho phiếu #5', '2026-03-22 08:58:10', '2026-03-22 08:58:10'),
-(13, NULL, 6, 73, 6, 'export', 18, 171428.57, 'Xuất kho cho đơn hàng #6', '2026-03-22 08:59:08', '2026-03-27 19:15:28'),
-(14, 6, NULL, 73, 6, 'import', 10, 190000.00, 'Nhập kho phiếu #6', '2026-03-22 09:17:40', '2026-03-22 09:17:40'),
-(15, NULL, 7, 73, 6, 'export', 20, 180714.29, 'Xuất kho cho đơn hàng #7', '2026-03-22 12:34:19', '2026-03-27 19:15:13'),
-(16, 7, NULL, 76, 4, 'import', 245, 230000.00, 'Nhập kho phiếu #7', '2026-03-27 15:36:41', '2026-03-27 15:36:41'),
-(17, NULL, 8, 76, 4, 'export', 6, 230000.00, 'Xuất kho cho đơn hàng #8', '2026-03-27 15:37:17', '2026-03-27 19:14:59'),
-(18, 8, NULL, 62, 4, 'import', 1, 25000.00, 'Nhập kho phiếu #8', '2026-03-27 19:34:24', '2026-03-27 19:34:24'),
-(20, NULL, 9, 76, 4, 'export', 4, 349000.00, 'Xuất kho cho đơn hàng #9', '2026-03-27 19:36:04', '2026-03-27 19:36:04'),
-(22, 9, NULL, 76, 4, 'import', 12, 23267.00, 'Nhập kho phiếu #9', '2026-03-27 19:43:20', '2026-03-27 19:43:20'),
-(24, NULL, 11, 76, 4, 'export', 5, 336000.00, 'Xuất kho cho đơn hàng #11', '2026-03-27 19:43:47', '2026-03-27 19:43:47'),
-(26, NULL, 12, 76, 4, 'export', 3, 336000.00, 'Xuất kho cho đơn hàng #12', '2026-03-27 19:51:14', '2026-03-27 19:51:14'),
-(28, NULL, 13, 76, 4, 'export', 4, 336000.00, 'Xuất kho cho đơn hàng #13', '2026-03-27 19:58:28', '2026-03-27 19:58:28'),
-(29, NULL, 14, 76, 4, 'export', 3, 336000.00, 'Xuất kho cho đơn hàng #14', '2026-03-28 10:43:50', '2026-03-28 10:43:50'),
-(30, 10, NULL, 60, 6, 'import', 24, 25000.00, 'Nhập kho phiếu #10', '2026-03-28 11:37:10', '2026-03-28 11:37:10'),
-(33, NULL, 15, 76, 4, 'export', 4, 336000.00, 'Xuất kho cho đơn hàng #15', '2026-03-28 19:32:06', '2026-03-28 19:32:06'),
-(38, 16, NULL, 59, 4, 'import', 112, 12005.00, 'Cập nhật phiếu #16', '2026-03-28 20:10:38', '2026-03-28 20:10:38'),
-(39, 17, NULL, 57, 6, 'import', 15, 123213.00, 'Nhập kho phiếu #17', '2026-03-28 20:12:01', '2026-03-28 20:12:01'),
-(40, 18, NULL, 3, 5, 'import', 31, 123123.00, 'Nhập kho phiếu #18', '2026-03-28 20:15:47', '2026-03-28 20:15:47'),
-(41, 18, NULL, 70, 4, 'import', 11, 12332.00, 'Nhập kho phiếu #18', '2026-03-28 20:15:47', '2026-03-28 20:15:47'),
-(42, 18, NULL, 32, 6, 'import', 133, 12322.00, 'Nhập kho phiếu #18', '2026-03-28 20:15:47', '2026-03-28 20:15:47'),
-(43, 18, NULL, 58, 4, 'import', 15, 24000.00, 'Nhập kho phiếu #18', '2026-03-28 20:15:47', '2026-03-28 20:15:47'),
-(44, 19, NULL, 72, 5, 'import', 1, 68889887.00, 'Nhập kho phiếu #19', '2026-04-03 14:33:29', '2026-04-03 14:33:29'),
-(45, 20, NULL, 69, 3, 'import', 10, 1000.00, 'Nhập kho phiếu #20', '2026-04-03 15:01:58', '2026-04-03 15:01:58'),
-(46, 21, NULL, 57, 4, 'import', 1, 45646.00, 'Nhập kho phiếu #21', '2026-04-03 15:13:58', '2026-04-03 15:13:58'),
-(47, 21, NULL, 62, 5, 'import', 1, 45456.00, 'Nhập kho phiếu #21', '2026-04-03 15:13:58', '2026-04-03 15:13:58'),
-(48, 22, NULL, 69, 5, 'import', 1, 123000.00, 'Nhập kho phiếu #22', '2026-04-06 17:37:46', '2026-04-06 17:37:46'),
-(49, 22, NULL, 63, 4, 'import', 1, 23000.00, 'Nhập kho phiếu #22', '2026-04-06 17:37:46', '2026-04-06 17:37:46'),
-(50, NULL, NULL, 63, 3, 'import', 1, 12300.00, 'Nhập kho phiếu #23', '2026-04-06 13:05:00', '2026-04-06 18:05:58'),
-(51, 24, NULL, 61, 5, 'import', 1, 123000.00, 'Nhập kho phiếu #24', '2026-04-06 18:11:00', '2026-04-06 18:11:44'),
-(52, 25, NULL, 75, 6, 'import', 1, 12300.00, 'Nhập kho phiếu #25', '2026-04-07 18:12:00', '2026-04-06 18:12:27'),
-(55, 26, NULL, 75, 4, 'import', 1, 12300.00, 'Cập nhật phiếu #26', '2026-04-06 14:24:00', '2026-04-06 18:25:33');
+(87, 32, NULL, 76, 3, 'import', 100, 10000.00, 'Nhập kho phiếu #32', '2026-03-28 00:00:00', '2026-04-08 07:56:42'),
+(88, 32, NULL, 75, 4, 'import', 30, 12000.00, 'Nhập kho phiếu #32', '2026-03-28 00:00:00', '2026-04-08 07:56:42'),
+(89, 32, NULL, 74, 4, 'import', 20, 15000.00, 'Nhập kho phiếu #32', '2026-03-28 00:00:00', '2026-04-08 07:56:42'),
+(90, 33, NULL, 72, 5, 'import', 15, 30000.00, 'Nhập kho phiếu #33', '2026-03-29 00:00:00', '2026-04-08 08:00:25'),
+(91, 33, NULL, 73, 6, 'import', 80, 50000.00, 'Nhập kho phiếu #33', '2026-03-29 00:00:00', '2026-04-08 08:00:25'),
+(92, 33, NULL, 76, 3, 'import', 50, 11000.00, 'Nhập kho phiếu #33', '2026-03-29 00:00:00', '2026-04-08 08:00:25'),
+(93, 33, NULL, 71, 7, 'import', 200, 60000.00, 'Nhập kho phiếu #33', '2026-03-29 00:00:00', '2026-04-08 08:00:25'),
+(94, 34, NULL, 23, 5, 'import', 35, 100000.00, 'Nhập kho phiếu #34', '2026-03-30 00:00:00', '2026-04-08 08:05:07'),
+(95, 34, NULL, 24, 4, 'import', 25, 80000.00, 'Nhập kho phiếu #34', '2026-03-30 00:00:00', '2026-04-08 08:05:07'),
+(96, 35, NULL, 22, 4, 'import', 60, 100000.00, 'Nhập kho phiếu #35', '2026-03-31 00:00:00', '2026-04-08 08:10:32'),
+(97, 35, NULL, 21, 4, 'import', 20, 40000.00, 'Nhập kho phiếu #35', '2026-03-31 00:00:00', '2026-04-08 08:10:32'),
+(98, 36, NULL, 20, 5, 'import', 200, 150000.00, 'Nhập kho phiếu #36', '2026-04-01 00:00:00', '2026-04-08 08:12:30'),
+(99, 37, NULL, 19, 7, 'import', 150, 55000.00, 'Nhập kho phiếu #37', '2026-04-02 00:00:00', '2026-04-08 08:14:31'),
+(100, 37, NULL, 18, 5, 'import', 130, 60000.00, 'Nhập kho phiếu #37', '2026-04-02 00:00:00', '2026-04-08 08:14:31'),
+(101, 38, NULL, 17, 5, 'import', 70, 100000.00, 'Nhập kho phiếu #38', '2026-04-03 00:00:00', '2026-04-08 08:17:49'),
+(102, 39, NULL, 47, 6, 'import', 25, 30000.00, 'Nhập kho phiếu #39', '2026-04-03 00:00:00', '2026-04-08 08:20:23'),
+(103, 39, NULL, 46, 5, 'import', 50, 50000.00, 'Nhập kho phiếu #39', '2026-04-03 00:00:00', '2026-04-08 08:20:23'),
+(104, 40, NULL, 48, 4, 'import', 10, 250000.00, 'Nhập kho phiếu #40', '2026-04-04 00:00:00', '2026-04-08 08:25:46'),
+(105, 40, NULL, 45, 4, 'import', 15, 50000.00, 'Nhập kho phiếu #40', '2026-04-04 00:00:00', '2026-04-08 08:25:46'),
+(107, 41, NULL, 44, 3, 'import', 45, 120000.00, 'Cập nhật phiếu #41', '2026-04-05 00:00:00', '2026-04-08 08:28:33'),
+(108, 42, NULL, 43, 4, 'import', 30, 100000.00, 'Nhập kho phiếu #42', '2026-04-06 00:00:00', '2026-04-08 08:30:54'),
+(109, 42, NULL, 42, 5, 'import', 250, 250000.00, 'Nhập kho phiếu #42', '2026-04-06 00:00:00', '2026-04-08 08:30:54'),
+(110, 42, NULL, 41, 4, 'import', 150, 300000.00, 'Nhập kho phiếu #42', '2026-04-06 00:00:00', '2026-04-08 08:30:54'),
+(111, NULL, 21, 76, 3, 'export', 10, 10333.33, 'Xuất kho cho đơn hàng #21', '2026-04-08 09:06:14', '2026-04-08 09:06:14'),
+(112, NULL, 22, 48, 4, 'export', 5, 250000.00, 'Xuất kho cho đơn hàng #22', '2026-04-05 09:11:37', '2026-04-05 09:11:37'),
+(113, NULL, 22, 72, 5, 'export', 5, 30000.00, 'Xuất kho cho đơn hàng #22', '2026-04-05 09:11:37', '2026-04-05 09:11:37'),
+(114, NULL, 23, 46, 5, 'export', 10, 50000.00, 'Xuất kho cho đơn hàng #23', '2026-04-04 09:18:50', '2026-04-04 09:18:50'),
+(115, NULL, 23, 47, 6, 'export', 5, 30000.00, 'Xuất kho cho đơn hàng #23', '2026-04-04 09:18:50', '2026-04-04 09:18:50'),
+(116, NULL, 23, 73, 6, 'export', 25, 50000.00, 'Xuất kho cho đơn hàng #23', '2026-04-04 09:18:50', '2026-04-04 09:18:50'),
+(117, NULL, 23, 46, 5, 'import', 10, 165000.00, 'Trả hàng về kho do hủy đơn #23', '2026-04-04 09:18:56', '2026-04-04 09:18:56'),
+(118, NULL, 23, 47, 6, 'import', 5, 189000.00, 'Trả hàng về kho do hủy đơn #23', '2026-04-04 09:18:56', '2026-04-04 09:18:56'),
+(119, NULL, 23, 73, 6, 'import', 25, 215000.00, 'Trả hàng về kho do hủy đơn #23', '2026-04-04 09:18:56', '2026-04-04 09:18:56');
 
 -- --------------------------------------------------------
 
@@ -250,18 +247,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `fullname`, `email`, `phone`, `address`, `note`, `payment_method`, `shipping_fee`, `total_price`, `status`, `created_at`, `updated_at`) VALUES
-(1, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 610000.00, 'processing', '2026-03-21 13:47:47', '2026-03-21 13:47:47'),
-(2, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 890000.00, 'processing', '2026-03-21 13:48:27', '2026-03-21 13:48:27'),
-(4, 3, 'Trần Nhựt Huy', 'trannhuthuy897@gmail.com', '0962713941', '320/30 Trần Bình Trọng', '', 'cod', 50000.00, 610000.00, 'cancelled', '2026-03-21 16:54:54', '2026-03-22 13:35:46'),
-(5, 3, 'Trần Nhựt Huy', 'trannhuthuy897@gmail.com', '0962713941', '320/30 Trần Bình Trọng', '', 'cod', 50000.00, 610000.00, 'cancelled', '2026-03-21 17:00:18', '2026-03-21 17:35:59'),
-(6, 3, 'Trần Nhựt Huy', 'trannhuthuy897@gmail.com', '0962713941', '320/30 Trần Bình Trọng', '', 'cod', 50000.00, 6764000.00, 'processed', '2026-03-22 08:59:08', '2026-03-22 13:05:01'),
-(7, 3, 'Trần Nhựt Huy', 'trannhuthuy897@gmail.com', '0962713941', '320/30 Trần Bình Trọng', '', 'cod', 50000.00, 7750000.00, 'cancelled', '2026-03-22 12:34:19', '2026-03-22 12:56:42'),
-(8, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 2144000.00, 'shipped', '2026-03-27 15:37:17', '2026-03-27 15:38:07'),
-(10, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 748000.00, 'shipped', '2026-03-27 19:40:33', '2026-03-27 19:41:05'),
-(11, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 1730000.00, 'processing', '2026-03-27 19:43:47', '2026-03-27 19:43:47'),
-(12, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 1058000.00, 'processing', '2026-03-27 19:51:14', '2026-03-27 19:51:14'),
-(13, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 1394000.00, 'processing', '2026-03-27 19:58:28', '2026-03-27 19:58:28'),
-(14, 9, 'Trần Nhựt Huy', 'trannhuthuy999@gmail.com', '0962713941', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '', 'cod', 50000.00, 1058000.00, 'processing', '2026-03-28 10:43:50', '2026-03-28 10:43:50');
+(21, 14, 'Vũ', 'vumao@gmail.com', '0999999990', 'Phạm Thế Hiển, Phường Xóm Củi, Quận 8, Thành phố Hồ Chí Minh', '', 'bank', 50000.00, 190000.00, 'processing', '2026-04-08 09:06:14', '2026-04-08 09:06:14'),
+(22, 17, 'Hao Bui', 'Bui@gmail.com', '0919123456', '240 Nguyễn Văn Luông, Phường 10, Quận 6, Thành phố Hồ Chí Minh', 'giao nhanh lên', 'bank', 50000.00, 2620000.00, 'shipping', '2026-04-05 09:11:37', '2026-04-05 09:12:15'),
+(23, 18, 'j97', 'jack@gmail.com', '0911349199', 'xóm 5 củ, Xã Hương Mỹ, Huyện Mỏ Cày Nam, Tỉnh Bến Tre', '', 'bank', 50000.00, 8020000.00, 'cancelled', '2026-04-04 09:18:50', '2026-04-04 09:18:56');
 
 -- --------------------------------------------------------
 
@@ -284,18 +272,12 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `size_id`, `quantity`, `price`, `updated_at`) VALUES
-(1, 1, 73, 6, 2, 280000.00, '2026-03-21 13:47:47'),
-(2, 2, 73, 6, 3, 280000.00, '2026-03-21 13:48:27'),
-(4, 4, 73, 6, 2, 280000.00, '2026-03-21 16:54:54'),
-(5, 5, 73, 6, 2, 280000.00, '2026-03-21 17:00:18'),
-(6, 6, 73, 6, 18, 373000.00, '2026-03-22 08:59:08'),
-(7, 7, 73, 6, 20, 385000.00, '2026-03-22 12:34:19'),
-(8, 8, 76, 4, 6, 349000.00, '2026-03-27 15:37:17'),
-(10, 10, 76, 4, 2, 349000.00, '2026-03-27 19:40:33'),
-(11, 11, 76, 4, 5, 336000.00, '2026-03-27 19:43:47'),
-(12, 12, 76, 4, 3, 336000.00, '2026-03-27 19:51:14'),
-(13, 13, 76, 4, 4, 336000.00, '2026-03-27 19:58:28'),
-(14, 14, 76, 4, 3, 336000.00, '2026-03-28 10:43:50');
+(21, 21, 76, 3, 10, 14000.00, '2026-04-08 09:06:14'),
+(22, 22, 48, 4, 5, 375000.00, '2026-04-05 09:11:37'),
+(23, 22, 72, 5, 5, 139000.00, '2026-04-05 09:11:37'),
+(24, 23, 46, 5, 10, 165000.00, '2026-04-04 09:18:50'),
+(25, 23, 47, 6, 5, 189000.00, '2026-04-04 09:18:50'),
+(26, 23, 73, 6, 25, 215000.00, '2026-04-04 09:18:50');
 
 -- --------------------------------------------------------
 
@@ -460,10 +442,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `fullname`, `address`, `phone`, `email`, `status`, `role`, `avatar`, `reset_token`, `reset_expires`, `created_at`, `updated_at`) VALUES
-(3, 'Huy', '$2y$10$GdhRzu1ninJkZt9EH3nu4eXycNn21lKUG3HkMliaQTL5B.8xeIG.G', 'Trần Nhựt Huy', '320/30 Trần Bình Trọng', '0962713941', 'trannhuthuy897@gmail.com', 'active', 'customer', '1774062730_thumb-1920-1011626.png', NULL, NULL, '2026-03-19 21:00:43', '2026-03-22 13:13:08'),
 (9, 'Huyz', '$2y$10$m6IUEwTMNtQ0FMKsRgR8X.AeI2sZTJ5WRS8VcgTTEe86BGaKhj1Yy', 'Trần Nhựt Huy', '320/30 Trần Bình Trọng, p. Chợ Quán, 70000, Việt Nam', '0962713941', 'trannhuthuy999@gmail.com', 'active', 'admin', '1774027661_sú.jpg', NULL, NULL, '2026-03-19 21:00:43', '2026-03-21 00:27:42'),
-(11, 'Huydâsd', '$2y$10$lj/bfhdHjeCy9MBBKhMt8eNG.dViq/fqkZCNS9427J.BmoHP3SzR6', 'Trần Nhựt Huy', '232', '0962713941', 'trannhuthuy666@gmail.com', 'active', 'customer', NULL, NULL, NULL, '2026-03-21 10:10:38', '2026-03-28 19:31:23'),
-(12, 'Hảoo', '$2y$10$p4mZyAm11hYLF8YynEzobOGUvS.22z9XYn80MNHU29pVKK9ffvDWq', 'Hảo', 'dasdasdasdasdasd', '0393067863', 'imobile.stg@gmail.com', 'active', 'customer', NULL, NULL, NULL, '2026-03-27 15:35:16', '2026-03-28 19:31:25');
+(13, 'Hoàng Phúc', '$2y$10$a1370OoicocE.gRcbNo39OXJLYPXmk4h6Y8OCoU3BywLmHZMab4xi', 'Nguyễn Hoàng Phúc', '240/63 Nguyễn Văn Luông, Phường 10, Quận 6, Thành phố Hồ Chí Minh', '0839444302', 'hoangphuc20092020@gmail.com', 'active', 'customer', NULL, NULL, NULL, '2026-04-08 07:50:41', '2026-04-08 07:50:41'),
+(14, 'Vũ', '$2y$10$grEUsrUbWcARxcIa.g5k2.zlgsL6/oQimaooMqIV21r6JavJxd0oi', 'Vũ', 'Phạm Thế Hiển, Phường Xóm Củi, Quận 8, Thành phố Hồ Chí Minh', '0999999990', 'vumao@gmail.com', 'active', 'customer', NULL, NULL, NULL, '2026-04-08 08:51:20', '2026-04-08 08:51:20'),
+(15, 'Trung Hiếu', '$2y$10$Z8Me3puUoAj8wmiT1XGoT.eSnt8WpUI1.tZgZu6Aq//50lAvpnOlC', 'Trung Hiếu', '18 Bùi Văn Ba, Phường Tân Thuận Đông, Quận 7, Thành phố Hồ Chí Minh', '0393067863', 'hiu@gmail.com', 'active', 'customer', NULL, NULL, NULL, '2026-04-08 08:53:05', '2026-04-08 08:53:05'),
+(16, 'Huy', '$2y$10$ypnh28ug2bvbzKXRMJwXIOXCjk1fc0Bu6fk..h6bhmOMtnd8B.IxO', 'Huy', '160 Trần Bình Trọng, Phường 4, Quận 5, Thành phố Hồ Chí Minh', '0962713941', 'HuyZ@gmail.com', 'active', 'customer', NULL, NULL, NULL, '2026-04-08 08:54:32', '2026-04-08 08:54:32'),
+(17, 'Hao Bui', '$2y$10$Aqz3dlNqWQsCd2QlFu2kLey546ihxC60fMSoRGgyiDi5J3b1Aw7OO', 'Hao Bui', '240 Nguyễn Văn Luông, Phường 10, Quận 6, Thành phố Hồ Chí Minh', '0919123456', 'Bui@gmail.com', 'active', 'customer', NULL, NULL, NULL, '2026-04-08 08:56:12', '2026-04-05 09:10:00'),
+(18, 'j95', '$2y$10$ge0jFFV4sryGBvIVZCVPUeEYdjiVBPWg5PTrZh/WB/DdoNXhidka.', 'j97', 'xóm 5 củ, Xã Hương Mỹ, Huyện Mỏ Cày Nam, Tỉnh Bến Tre', '0911349199', 'jack@gmail.com', 'active', 'customer', NULL, NULL, NULL, '2026-04-08 08:58:07', '2026-04-04 09:13:42');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -568,13 +553,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -586,31 +571,31 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `import_receipts`
 --
 ALTER TABLE `import_receipts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT cho bảng `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT cho bảng `inventory_logs`
 --
 ALTER TABLE `inventory_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT cho bảng `products`
@@ -634,7 +619,7 @@ ALTER TABLE `size`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
