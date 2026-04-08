@@ -242,6 +242,10 @@ switch ($url) {
         $c = new AdminSellController();
         $method === 'POST' ? $c->update() : $c->index();
         break;
+    case '/admin-sell-update':
+        $c = new AdminSellController();
+        $c->update();
+        break;
     case '/admin-products/restore':
         $c = new AdminProductController();
         $c->restore();
